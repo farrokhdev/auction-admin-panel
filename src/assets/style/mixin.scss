@@ -1,0 +1,10 @@
+@mixin FlexContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin BoxShadow {
+    box-shadow: 0 1px 6px #00000029 !important;
+    // border-radius: 10px !important;
+}

@@ -1,0 +1,383 @@
+@import './mixin.scss';
+@import './variables.scss';
+
+
+@font-face {
+    font-family: IRANSans_light;
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/IRANSansWeb.eot');
+    src: url('../fonts/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/IRANSansWeb_Light.woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/IRANSansWeb_Light.woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/IRANSansWeb_Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: IRANSans_light;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/IRANSansWeb(FaNum).eot');
+    src: url('../fonts/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/IRANSansWeb(FaNum).woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/IRANSansWeb(FaNum).woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/IRANSansWeb(FaNum).ttf') format('truetype');
+}
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/IRANSansWeb.eot');
+    src: url('../fonts/IRANSansWeb.eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/IRANSansWeb.woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/IRANSansWeb.woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/IRANSansWeb.ttf') format('truetype');
+}
+
+* {
+    font-family: IRANSans_light !important;
+
+}
+
+html{
+    direction: rtl !important;
+    font-size: 16px !important;
+}
+
+body{
+    background-color: rgb(241, 241, 241) !important;
+    font-size: 16px !important;
+    font-family: IRANSans !important;
+}
+
+
+
+// ---- Layout -------
+
+.ant-layout-sider-children{
+    // background-color: $tertiary-color !important;
+    background-color: $quaternary-color !important;
+}
+
+.ant-layout-sider-trigger{
+    background-color: $quaternary-color !important;
+}
+
+.ant-layout-header{
+    background-color: $white-color !important;
+}
+
+.ant-layout-sider-children .logo{
+    height: 32px;
+    margin: 16px;
+    color: black;
+    background: rgba(255, 255, 255, 0.3);
+}
+.ant-menu-item-selected{
+    background-color: #d1b6fd31 !important;
+}
+
+
+
+
+
+
+
+
+
+
+// *{
+//     background-color: rgb(243, 243, 243) !important;
+// }
+.content-panel-pages{
+    width: calc(100vw - 285px) !important;
+    z-index: 0;
+    // margin: 0px 20px !important;
+}
+
+.content-page{
+    @include BoxShadow;
+    background-color: $white-color !important;
+    padding-bottom: 50px !important;
+}
+
+
+
+.box-header-panel{
+    margin-bottom: 20px !important;
+    background-color: $white-color !important;
+    @include BoxShadow;
+    width: 100% !important;
+    
+}
+
+.box-drawer-panel{
+    max-width: 256px !important;
+    background-color: $secondary-color !important;
+    @include BoxShadow;
+    // position: fixed !important;
+    height: 100vh !important;
+    z-index: 9999999;
+}
+
+.drawer-menu{
+    width: 256px !important;
+}
+
+.ant-menu-item li{
+    
+
+        direction: rtl !important;
+        text-align: right !important;
+
+}
+
+
+
+.ant-menu{
+    background: none !important;
+    direction: rtl !important;
+        text-align: right !important;
+}
+
+
+.userInfoSection .ant-input {
+    background-color: rgb(230, 244, 255) !important;
+    border: none !important;
+}
+
+.box-main-image-artwork{
+    background-color: red !important;
+    height: 400px ;
+    width: 400px;
+}
+
+.ant-upload-picture-card-wrapper{
+    width: auto !important;
+}
+
+.anticon-left{
+    transform: rotate(180deg) !important;
+}
+
+.anticon-right{
+    transform: rotate(180deg) !important;
+}
+
+.navbar-panel-drawer{
+    list-style: none !important;
+    .nav-item{
+        min-height: 30px !important;
+    }
+    .nav-item a{
+        color: $white-color !important;
+    }
+}
+
+td.ant-table-cell{
+    // padding :10px 0px !important;
+    text-align: center !important;
+}
+
+table td{
+    padding: 0px !important;
+}
+
+th.ant-table-cell{
+    text-align: center !important;
+}
+
+table thead {
+background-color: $tertiary-color !important;
+}
+
+.table thead th{
+    border: none !important;
+
+}
+
+table tbody  {
+    border: none !important;
+}
+
+.table thead tr th:first-child{
+    border-radius:0px  5px 0px 0px !important;
+}
+
+.table thead tr th:last-child{
+    border-radius:5px  0px 0px 0px !important;
+}
+
+table  tbody tr td {
+    border: none !important;
+}
+
+.content-td{
+    height: 40px !important;
+    background-color: rgba(229, 222, 255, 0.274) !important;
+    @include FlexContent;
+}
+
+//---------- Home -------------
+.ant-result-info .ant-result-icon > .anticon{
+    color: hotpink !important;
+}
+
+
+// --------- Login Page -----------
+
+.enterToAccountBox {
+    width: 90vw !important;
+    max-width: 517px;
+    // height: 676px;
+    display: flex !important;
+    justify-content: center !important;
+    position: relative;
+    @include BoxShadow;
+    border-radius: 10px !important;
+}
+
+.containerLoginPage {
+    display: flex;
+    justify-content: center;
+    // margin-top: 171px;
+}
+
+.containerLoginPage p {
+    color: $primary-TextColor !important;
+}
+
+
+.headerLogin {
+    height: 48px !important;
+    background-color: $quaternary-color !important;
+    @include FlexContent;
+    /* width: 100% !important; */
+    color: #FFFFFF;
+    border-radius: 10px 10px 0 0;
+    font-size: 20px;
+}
+
+.boxImageLoginPage {
+    margin-top: 27px !important;
+    @include FlexContent;
+}
+
+.imageEnterToAccaount {
+    width: 174px;
+    height: 169px;
+    background-image: url("../../images/svg/Group\ 1713.svg");
+}
+
+.boxInfoLogin {
+    padding: 0 20px !important;
+    margin-top: 25px;
+}
+
+
+
+// #basic_mobile.ant-input {
+//     padding-right: 30px !important;
+// }
+
+// .mobileField #basic_mobile {
+//     padding-right: 15px !important;
+// }
+
+@media (max-width : 575px) {
+    #basic_mobile.ant-input {
+        // width: 100% !important;
+        // height: 39px !important;
+        padding-right: 30px !important;
+        // background-color: transparent !important;
+    }
+
+    .mobileAndImailField #basic_mobile {
+        padding-right: 30px !important;
+    }
+}
+
+// .iconMobile {
+//     position: absolute;
+//     right: 27px !important;
+//     top: 10px;
+//     width: 13px !important;
+//     height: 22px !important;
+// }
+
+.ant-input{
+    border-radius: 20px !important;
+    padding-right: 20px !important;
+    height: 38px !important;
+}
+
+.ant-input-affix-wrapper{
+    border-radius: 20px !important;
+    padding: 0px !important;
+    padding-left: 10px !important;
+    margin-top: 0px !important;
+}
+
+
+
+.iconLock {
+    position: absolute;
+    right: 30px !important;
+    top: 9px;
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url('../../images/svg/lock_open-24px.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.rememberTextPassword {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center !important;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.enter-to-panel-btn {
+    width: 100%;
+    height: 48px;
+    margin-top: 17px;
+    border-radius: 24px;
+    outline: none !important;
+    border: none !important;
+    background-color: $primary-color !important;
+    margin-bottom: 11px;
+    font-size: 1rem !important;
+    // margin-top: 58px !important;
+}
+
+// #basic_mobile.ant-input::placeholder {
+//     margin-right: 15px !important;
+// }
+
+#basic_id.ant-input{
+    padding-right: 20px !important
+}
+
+
+// -------- Register Page ----------
+
+.registerBox{
+    @extend .enterToAccountBox;
+}
+
+.get-confirm-code-btn{
+    @extend .enter-to-panel-btn;
+}
