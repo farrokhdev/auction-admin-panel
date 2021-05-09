@@ -2,12 +2,14 @@ import React, {useEffect , useState} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
 import TableBankInfo from './TableBankInfo';
-import { Form, Input, Breadcrumb, Button , Upload} from 'antd';
+import { Form, Input, Breadcrumb, Button , Upload , Image} from 'antd';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import  {fetcher} from '../../utils/common';
 import { BASE_URL } from '../../utils';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import {Link} from 'react-router-dom';
+
+
 
 const layout = {
     labelCol: {
@@ -39,6 +41,8 @@ function SingleMemberInfoPage(props) {
 
     const onFinish = (values) => {
         console.log(values);
+
+
       };
 
       const onFinishFailed = (error) => {
@@ -139,28 +143,26 @@ function SingleMemberInfoPage(props) {
                         </div>
 
 
-                       <div className="d-flex align-items-center">
+                       <div className="d-block d-md-flex align-items-center">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">نام</p>
                             </div>
                             <div className="col">
 
-                            <Form.Item
-                                className="w-100"
-                                name="first_name"
-                                rules={[{ required: true, message: 'Please input your firstname!' }]}
-                            >
-                                <Input 
-                                    // defaultValue = {member?.first_name}
-                                    size="large"
-                                />
-                            </Form.Item>
+                                <Form.Item
+                                    className="w-100"
+                                    name="first_name"
+                                    rules={[{ required: true, message: 'Please input your firstname!' }]}
+                                >
+                                    <Input 
+                                        // defaultValue = {member?.first_name}
+                                        size="large"
+                                    />
+                                </Form.Item>
 
-                                
-                                
                             </div>
                        </div>
-                       <div className="d-flex align-items-center my-1">
+                       <div className="d-block d-md-flex align-items-center my-1">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">نام خانوادگی</p>
                             </div>
@@ -177,7 +179,7 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-flex align-items-center">
+                       <div className="d-block d-md-flex align-items-center">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">شماره تماس</p>
                             </div>
@@ -195,7 +197,7 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-flex align-items-center my-1">
+                       <div className="d-block d-md-flex align-items-center my-1">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">ایمیل</p>
                             </div>
@@ -212,7 +214,7 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-flex align-items-center">
+                       <div className="d-block d-md-flex align-items-center">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">کد ملی</p>
                             </div>
@@ -229,7 +231,7 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-flex align-items-center my-1">
+                       <div className="d-block d-md-flex align-items-center my-1">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">آدرس</p>
                             </div>
@@ -247,7 +249,7 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-flex align-items-center">
+                       <div className="d-block d-md-flex align-items-center">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">کد پستی</p>
                             </div>
@@ -427,7 +429,12 @@ function SingleMemberInfoPage(props) {
                             </div>
                             <div className="col">
 
-                            <Form.Item
+                            <Image
+                                width={200}
+                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                            />
+
+                            {/* <Form.Item
                                 name="upload"
                                 valuePropName="fileList"
                                 getValueFromEvent={normFile}
@@ -436,14 +443,14 @@ function SingleMemberInfoPage(props) {
                                 <Upload name="logo" action="/upload.do" listType="picture">
                                 <Button icon={<UploadOutlined />}>Click to upload</Button>
                                 </Upload>
-                            </Form.Item>
+                            </Form.Item> */}
                             </div>
                             
                         </div>
 
-                        <Button type="primary" htmlType="submit">
+                        {/* <Button type="primary" htmlType="submit">
                             Submit
-                        </Button>
+                        </Button> */}
                         </Form>
                     </div>
             </div>
