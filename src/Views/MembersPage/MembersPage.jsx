@@ -59,8 +59,8 @@ function MembersPage() {
                                             </div>
                                         </div>
                                             </div>
-                                    <div className="row px-0 mx-0">
-                                        <div className="col content-page p-4 mx-3">
+                                    <div className="row  mx-0">
+                                        <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
                                                 <TableMemberList  memberList={memberList} countMember={countMember}/>

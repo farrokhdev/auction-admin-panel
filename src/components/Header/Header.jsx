@@ -6,6 +6,7 @@ import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {clearStorage} from '../../redux/reducers/auth/auth.actions';
 import {clearActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import DrawerResponsive from '../DrawerResponsive/DrawerResponsive';
 
 function Header(props) {
 
@@ -39,18 +40,22 @@ function Header(props) {
         </Menu>
       );
 
-      console.log("UserName =>>>>" , props.auth?.username);
-      console.log("Status_login =>>>>" , props.auth?.is_logged_in);
+ 
 
 
     return (
         <div style={{height : '60px'}} className="row justify-content-center align-items-center box-header-panel pr-0 mr-0">
             
             <div className="row justify-content-between align-items-center w-100">
-                <div className="col">
-                <h3 className="text-right mb-0">Auction Panel Admin</h3>
+                <div className="d-none d-lg-block">
+                    <h3 className="text-right mb-0 mr-3">Auction Panel Admin</h3>
                 </div>
-                <div className="col-3">
+                <div className=" col-3 col-sm-7  d-lg-none ">
+                    <div className="d-flex">
+                        {/* <DrawerResponsive/> */}
+                    </div>
+                </div>
+                <div className="col-9 col-sm-5 col-lg-3">
                     <div  className="d-flex justify-content-end">
                         <div className="col">
                             <div className="d-flex justify-content-start align-items-center">

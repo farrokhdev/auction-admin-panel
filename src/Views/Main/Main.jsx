@@ -38,8 +38,20 @@ function Main(props) {
 
     return (
         <React.Fragment>
-            <Layout style={{ minHeight: '100vh' }}>
-              <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+            <Layout style={{ minHeight: '100vh' }} >
+              <Sider 
+  
+              breakpoint="lg"
+              collapsedWidth="0"
+              onBreakpoint={broken => {
+                console.log(broken);
+              }}
+              onCollapse={(collapsed, type) => {
+                console.log(collapsed, type);
+              }}
+                // collapsible 
+                // collapsed={collapsed} onCollapse={onCollapse}
+                >
                 <div className="logo" />
                 <Menu theme="dark" 
                   defaultSelectedKeys={[props.panel?.activeNavDrawer]} 

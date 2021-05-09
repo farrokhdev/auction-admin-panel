@@ -50,7 +50,7 @@ function SingleMemberInfoPage(props) {
             
         // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             
-        fetcher(`${BASE_URL}/panel/users/3`,{method:"GET",data:"",header:{}}).then(res => {
+        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             setMember(res.data.result)
             // setCountMember(res.data.count)
             setBankAccountInfo(res.data.result.bankaccount)
@@ -102,7 +102,7 @@ function SingleMemberInfoPage(props) {
 
                 <div className="row content-page">
                
-                    <div style={{margin : '0px 80px'}} className="col  userInfoSection">
+                    <div  className="col  userInfoSection">
 
                     <Form 
                         {...layout} 
@@ -139,27 +139,28 @@ function SingleMemberInfoPage(props) {
                         </div>
 
 
-                       <div className="d-flex align-items-center">
-                            <div className="col-2 h-100">
-                                <p className="text-right mb-0 h-100">نام</p>
+                       <div style={{height : '50px'}} className="d-block d-md-flex align-items-center ">
+                            <div  className="col-12 col-md-2 bg-warning">
+                                <div className="d-flex align-items-center align-items-md-start h-100 bg-danger">
+                                    <p className="  mb-1 mb-md-0 h-100 mr-2 mr-md-0">نام</p>
+                                </div>
                             </div>
-                            <div className="col">
-
-                            <Form.Item
-                                className="w-100"
-                                name="first_name"
-                                rules={[{ required: true, message: 'Please input your firstname!' }]}
-                            >
-                                <Input 
-                                    // defaultValue = {member?.first_name}
-                                    size="large"
-                                />
-                            </Form.Item>
-
-                                
-                                
+                            <div style={{height : '60px'}} className="col my-md-3">
+                                <div style={{verticalAlign : 'middle'}} className="d-flex h-100 align-items-center">
+                                    <Form.Item
+                                        className="w-100 h-100"
+                                        name="first_name"
+                                        rules={[{ required: true, message: 'Please input your firstname!' }]}
+                                    >
+                                        <Input 
+                                            // defaultValue = {member?.first_name}
+                                            size="large"
+                                        />
+                                    </Form.Item>
+                                </div>
                             </div>
                        </div>
+
                        <div className="d-flex align-items-center my-1">
                             <div className="col-2 h-100">
                                 <p className="text-right mb-0 h-100">نام خانوادگی</p>
@@ -270,7 +271,7 @@ function SingleMemberInfoPage(props) {
                             <h3>اطلاعات حساب بانکی</h3>
                         </div>
 
-                        <TableBankInfo  member={member} bankAccountInfo={bankAccountInfo}/>
+                        {/* <TableBankInfo  member={member} bankAccountInfo={bankAccountInfo}/> */}
 
 
                         <div className="d-flex my-4">

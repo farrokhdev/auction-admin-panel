@@ -88,7 +88,9 @@ body{
 }
 
 
-
+.ant-btn{
+    border: none !important;
+}
 
 
 
@@ -380,4 +382,39 @@ table  tbody tr td {
 
 .get-confirm-code-btn{
     @extend .enter-to-panel-btn;
+}
+
+
+
+// --- members page ----
+.minWidth-row{
+    max-width: 1rem !important;
+}
+
+.minWidth-name{
+    min-width: 10rem !important;
+}
+
+.minWidth-email{
+    min-width: 10rem !important;
+}
+
+.minWidth-mobile{
+    min-width: 7rem !important;
+}
+
+.minWidth-date{
+    min-width: 10rem !important;
+}
+
+.minWidth-typeRegister{
+    min-width: 10rem !important;
+}
+
+.minWidth-typeUser{
+    min-width: 10rem !important;
+}
+
+.minWidth-action{
+    min-width: 7rem !important;
 }
