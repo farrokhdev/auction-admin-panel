@@ -44,7 +44,7 @@ function Header(props) {
 
 
     return (
-        <div style={{height : '60px'}} className="row justify-content-center align-items-center box-header-panel pr-0 mr-0">
+        <div  className="row justify-content-center align-items-center box-header-panel pr-0 mr-0">
             
             <div className="row justify-content-between align-items-center w-100">
                 <div className="d-none d-lg-block">
@@ -52,7 +52,7 @@ function Header(props) {
                 </div>
                 <div className=" col-3 col-sm-7  d-lg-none ">
                     <div className="d-flex">
-                        {/* <DrawerResponsive/> */}
+                        <DrawerResponsive/>
                     </div>
                 </div>
                 <div className="col-9 col-sm-5 col-lg-3">

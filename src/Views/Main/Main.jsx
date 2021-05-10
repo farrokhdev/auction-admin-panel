@@ -19,7 +19,7 @@ import {toggleDrawer , toggleClickNavDrawer , toggleActiveNavDrawer} from '../..
 import {Link, NavLink} from 'react-router-dom';
 import Header from '../../components/Header';
 import {connect} from 'react-redux';
-
+import classnames from 'classnames';
 
 
 const {  Content, Footer, Sider } = Layout;
@@ -28,29 +28,48 @@ const { SubMenu } = Menu;
 function Main(props) {
 
     const [collapsed, setCollapsed] = useState(false);
-
+    // const [marginRightSider, setMarginRightSider] = useState(0);
 
     const onCollapse = (collapsed) => {
         console.log(collapsed);
         setCollapsed(collapsed );
+        // if(collapsed){
+        //   setTimeout(() => {
+        //     setMarginRightSider(75)
+        //   }, 100);
+        // }else{
+        //   setTimeout(() => {
+        //     setMarginRightSider(200)
+        //   }, 100);
+        // }
       };
+
+      
 
 
     return (
         <React.Fragment>
             <Layout style={{ minHeight: '100vh' }} >
-              <Sider 
-  
-              breakpoint="lg"
-              collapsedWidth="0"
-              onBreakpoint={broken => {
-                console.log(broken);
-              }}
+
+              <Sider className="d-none d-lg-block"
+
+                  style={{
+                    overflow: 'auto',
+                    height: '100vh',
+                    position: 'fixed',
+                    right: 0,
+                  }}
+
+              // breakpoint="lg"
+              // collapsedWidth="0"
+              // onBreakpoint={broken => {
+              //   console.log(broken);
+              // }}
               onCollapse={(collapsed, type) => {
                 console.log(collapsed, type);
               }}
-                // collapsible 
-                // collapsed={collapsed} onCollapse={onCollapse}
+                collapsible 
+                collapsed={collapsed} onCollapse={onCollapse}
                 >
                 <div className="logo" />
                 <Menu theme="dark" 
@@ -103,14 +122,21 @@ function Main(props) {
                   </Menu.Item>
                 </Menu>
               </Sider>
-              <Layout className="site-layout">
 
 
                 <Header className="site-layout-background" />
+
+
+              <Layout className="site-layout" className={classnames("site-layout", {
+                            "site-layout-expanded": collapsed,
+                            "site-layout-minus": !collapsed
+                        })} >
+
+
                 {/* <Header className="site-layout-background"  /> */}
 
 
-                    <Content style={{ margin: '0 16px' }}>
+                    <Content className="mt-5" style={{ margin: '0 16px' }}>
                         {props.children}
 
                       {/* <div className="row  px-4">

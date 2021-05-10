@@ -44,10 +44,14 @@ function TableBankInfo({member , bankAccountInfo}) {
           id: ` ${i}`,
         //   bank_name: convertTypePersian(bankAccountInfo[i]?.bank_name),
           bank_name: convertTypePersian("melli"),
-          card_number: bankAccountInfo[i].card_number,
-          account_number: bankAccountInfo[i]?.account_number,
+
+          // card_number: bankAccountInfo[i].card_number,
+          card_number: '111222333444555666777888',
+
+          // account_number: bankAccountInfo[i]?.account_number,
+          account_number: '111222333444555666777888',
        
-          sheba_number: bankAccountInfo[i]?.sheba_number,
+          // sheba_number: bankAccountInfo[i]?.sheba_number,
           sheba_number: '111222333444555666777888',
         //   address: `London Park no. ${i}`,
         });
@@ -131,30 +135,35 @@ function TableBankInfo({member , bankAccountInfo}) {
           dataIndex: 'id',
           width: '3%',
           editable: true,
+          // responsive: ['sm'],
         },
         {
           title: 'نام بانک',
           dataIndex: 'bank_name',
           width: '15%',
           editable: true,
+          // responsive: ['sm'],
         },
         {
           title: 'شماره کارت',
           dataIndex: 'card_number',
-          width: '30%',
+          width: '50%',
           editable: true,
+          // responsive: ['sm'],
         },
         {
             title: 'شماره حساب',
             dataIndex: 'account_number',
-            width: '30%',
+            width: '50%',
             editable: true,
+            // responsive: ['sm'],
           },
           {
             title: 'شبا',
             dataIndex: 'sheba_number',
-            width: '50%',
+            width: '60%',
             editable: true,
+            // responsive: ['sm'],
           },
         {
           title: 'ویرایش',
@@ -178,7 +187,7 @@ function TableBankInfo({member , bankAccountInfo}) {
               </span>
             ) : (
               <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                Edit
+                ویرایش
               </Typography.Link>
             );
           },
@@ -208,22 +217,26 @@ function TableBankInfo({member , bankAccountInfo}) {
 
     return (
         <React.Fragment>
-           <Form form={form} component={false}>
-                <Table
-                    components={{
-                    body: {
-                        cell: EditableCell,
-                    },
-                    }}
-                    bordered
-                    dataSource={data}
-                    columns={mergedColumns}
-                    rowClassName="editable-row"
-                    pagination={{
-                    onChange: cancel,
-                    }}
-                />
+           <div  className="row">
+              <div style={{overflow : 'auto'}} className="col w-100">
+                <Form  form={form} component={false}>
+                      <Table
+                          components={{
+                          body: {
+                              cell: EditableCell,
+                          },
+                          }}
+                          bordered
+                          dataSource={data}
+                          columns={mergedColumns}
+                          rowClassName="editable-row"
+                          pagination={{
+                          onChange: cancel,
+                          }}
+                      />
                 </Form>
+              </div>
+           </div>
         </React.Fragment>
         
     )
