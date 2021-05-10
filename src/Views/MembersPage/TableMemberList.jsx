@@ -10,10 +10,10 @@ import {convertTypePersian} from '../../utils/converTypePersion';
 function TableMemberList({memberList , countMember}) {
 
 
-    const menu = (
+    const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to="/members/${}" >
+                <Link to={`/members/${id}`} >
                     مشاهده
                 </Link>
             </Menu.Item >
@@ -46,33 +46,33 @@ function TableMemberList({memberList , countMember}) {
             <table className="table ">
                 <thead >
                     <tr className="meassage-header-table-title">
-                        <th className=" px-0 minWidth-titleMessage">
+                        <th className=" px-0 minWidth-row">
                             <div className=" px-3 text-center">ردیف</div>
                         </th>
-                        <th className="  px-0 minWidth-DateMessage">
+                        <th className="  px-0 minWidth-name">
                             <div className=" px-3 text-center">نام</div>
                         </th>
 
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-email">
                             <div className=" px-3 text-center">ایمیل</div>
                         </th>
 
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-mobile">
                             <div className=" px-3 text-center">شماره تماس</div>
                         </th>
 
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-date">
                             <div className=" px-3 text-center">تاریخ عضویت</div>
                         </th>
 
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-typeRegister">
                             <div className=" px-3 text-center">نوع عضویت</div>
                         </th>
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-typeUser">
                             <div className=" px-3 text-center">نوع کاربر</div>
                         </th>
 
-                        <th className="  px-0 minWidth-status-messageRead">
+                        <th className="  px-0 minWidth-action">
                             <div className="px-3 text-center">عملیات</div>
                         </th>
                     </tr>
@@ -130,7 +130,7 @@ function TableMemberList({memberList , countMember}) {
                             </td>
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu}>
+                                    <Dropdown overlay={menu(member?.id)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                             {/* <DownOutlined/> */}

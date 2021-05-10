@@ -36,7 +36,7 @@ function MembersPage() {
 
     return (
         <React.Fragment>
-            <div className="container-fluid px-0">
+            <div  className="container-fluid px-0 container-pages">
 
                 
 
@@ -44,9 +44,6 @@ function MembersPage() {
                     <div className="col">
                         <div className="row ">
                             <div className="col content-panel-pages px-0 mx-0">
-                                    <div className="row px-0 mx-0">
-                                        {/* <Header/> */}
-                                    </div>
                                     <div className="row justify-content-start pb-3 mx-0">
                                         <div className="col">
                                             <div className="d-flex">
@@ -58,14 +55,14 @@ function MembersPage() {
                                                 </Breadcrumb>
                                             </div>
                                         </div>
-                                            </div>
-                                    <div className="row px-0 mx-0">
-                                        <div className="col content-page p-4 mx-3">
+                                    </div>
+                                    <div className="row  mx-0">
+                                        <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
                                                 <TableMemberList  memberList={memberList} countMember={countMember}/>
                                             </div>
-                                            <div className="row justify-content-center">
+                                            <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
@@ -74,6 +71,15 @@ function MembersPage() {
                                                     defaultPageSize={10}
                                                 />
                                             </div>
+                                            <div className="d-flex d-sm-none justify-content-center ">
+                                                        <Pagination 
+                                                            onChange={(e)=>handeSelectPage(e)}
+                                                            defaultCurrent={1} 
+                                                            total={countMember} 
+                                                            defaultPageSize={5}
+                                                            size="small"
+                                                        />
+                                                    </div>
                                         </div>
                                     </div>
                             </div>

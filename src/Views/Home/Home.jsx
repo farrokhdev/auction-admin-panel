@@ -21,7 +21,7 @@ function Home(props) {
                     <div className="col">
                         <div className="row ">
                             <div className="col content-panel-pages px-0 mx-0">
-                                    <div className="row px-0 mx-0">
+                                    <div className="row px-0 mx-0 ">
                                         {/* <Header/> */}
                                     </div>
                                     <div className="row justify-content-start pb-3 mx-0">
@@ -33,8 +33,8 @@ function Home(props) {
                                             </div>
                                         </div>
                                             </div>
-                                    <div className="row px-0 mx-0">
-                                        <div className="col content-page p-4 mx-3">
+                                    <div className="row px-0  ">
+                                        <div className="col content-page p-4 mx-2 mx-lg-3">
                                             
                                         {props.auth.is_logged_in ? 
                                         

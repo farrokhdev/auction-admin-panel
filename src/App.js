@@ -32,7 +32,7 @@ function App(props) {
                         {/* <Route exact path="/" render={props=><Main {...props} />}/> */}
                         <Route exact path="/" render={props=><Main {...props}><Home {...props} /></Main>}/>
 
-                        {props.auth.is_logged_in ? 
+                        {/* {props.auth.is_logged_in ?  */}
                         
                         <>
                             <Route exact path="/house-auctions" render={props=><Main {...props}><HouseAuctionsPage {...props} /></Main>}/>
@@ -47,7 +47,7 @@ function App(props) {
                             {/* <Route exact path="/register" render={props=><RegisterPage {...props} />}/> */}
                             {/* <Route exact path="/login" render={props=><LoginPage {...props} />}/> */}
                         </>
-                        : <Redirect to = {{pathname : "/login"}} />}
+                        {/* : <Redirect to = {{pathname : "/login"}} />} */}
 
                         
 

@@ -2,14 +2,12 @@ import React, {useEffect , useState} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
 import TableBankInfo from './TableBankInfo';
-import { Form, Input, Breadcrumb, Button , Upload , Image} from 'antd';
+import { Form, Input, Breadcrumb, Button , Upload} from 'antd';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import  {fetcher} from '../../utils/common';
 import { BASE_URL } from '../../utils';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import {Link} from 'react-router-dom';
-
-
 
 const layout = {
     labelCol: {
@@ -41,8 +39,6 @@ function SingleMemberInfoPage(props) {
 
     const onFinish = (values) => {
         console.log(values);
-
-
       };
 
       const onFinishFailed = (error) => {
@@ -54,7 +50,7 @@ function SingleMemberInfoPage(props) {
             
         // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             
-        fetcher(`${BASE_URL}/panel/users/3`,{method:"GET",data:"",header:{}}).then(res => {
+        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             setMember(res.data.result)
             // setCountMember(res.data.count)
             setBankAccountInfo(res.data.result.bankaccount)
@@ -86,10 +82,13 @@ function SingleMemberInfoPage(props) {
 
     return (
         <React.Fragment>
-            <div className="container-fluid ">
 
-                <div className="row justify-content-start pb-3 mx-0">
+            <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages">
+
+                <div  className="row m-0">
                     <div className="col">
+                        <div   className="row justify-content-start pb-3 mx-0">
+                    <div className="col px-0">
                         <div className="d-flex">
                             <Breadcrumb>
                                 <Breadcrumb.Item>خانه</Breadcrumb.Item>
@@ -104,9 +103,9 @@ function SingleMemberInfoPage(props) {
                     </div>
                 </div>
 
-                <div className="row content-page">
+                <div  className="row content-page">
                
-                    <div style={{margin : '0px 80px'}} className="col  userInfoSection">
+                    <div  className="col  userInfoSection ">
 
                     <Form 
                         {...layout} 
@@ -143,34 +142,35 @@ function SingleMemberInfoPage(props) {
                         </div>
 
 
-                       <div className="d-block d-md-flex align-items-center">
-                            <div className="col-2 h-100">
-                                <p className="text-right mb-0 h-100">نام</p>
+                       <div  className="d-block d-md-flex align-items-center ">
+                            <div  className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                                <p className="text-right mb-0 h-100">نام </p>
                             </div>
-                            <div className="col">
-
-                                <Form.Item
-                                    className="w-100"
-                                    name="first_name"
-                                    rules={[{ required: true, message: 'Please input your firstname!' }]}
-                                >
-                                    <Input 
-                                        // defaultValue = {member?.first_name}
-                                        size="large"
-                                    />
-                                </Form.Item>
-
+                            <div  className="col ">
+                                <div style={{verticalAlign : 'middle'}} className="d-flex h-100 align-items-center">
+                                    <Form.Item
+                                        className="w-100  h-100"
+                                        name="first_name"
+                                        rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
+                                    >
+                                        <Input 
+                                            // defaultValue = {member?.first_name}
+                                            size="large"
+                                        />
+                                    </Form.Item>
+                                </div>
                             </div>
                        </div>
-                       <div className="d-block d-md-flex align-items-center my-1">
-                            <div className="col-2 h-100">
+
+                       <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">نام خانوادگی</p>
                             </div>
-                            <div className="col">
+                            <div className="col ">
                                 <Form.Item
-                                    className="w-100"
+                                    className="w-100  h-100"
                                     name="last_name"
-                                    rules={[{ required: true, message: 'Please input your lastname!' }]}
+                                    rules={[{ required: true, message: 'ورودی نام خانوادگی خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -180,15 +180,15 @@ function SingleMemberInfoPage(props) {
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-2 h-100">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">شماره تماس</p>
                             </div>
-                            <div className="col">
+                            <div className="col ">
                                 
                                 <Form.Item
-                                    className="w-100"
+                                    className="w-100  h-100"
                                     name="mobile"
-                                    rules={[{ required: true, message: 'Please input your mobile!' }]}
+                                    rules={[{ required: true, message: 'ورودی موبایل خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -197,15 +197,15 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-block d-md-flex align-items-center my-1">
-                            <div className="col-2 h-100">
+                       <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">ایمیل</p>
                             </div>
                             <div className="col">
                                 <Form.Item
-                                    className="w-100"
+                                    className="w-100  h-100"
                                     name="email"
-                                    rules={[{ required: true, message: 'Please input your email!' }]}
+                                    rules={[{ required: true, message: 'ورودی ایمیل خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -215,14 +215,14 @@ function SingleMemberInfoPage(props) {
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-2 h-100">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">کد ملی</p>
                             </div>
                             <div className="col">
                                 <Form.Item
                                     className="w-100"
                                     name="national_code"
-                                    rules={[{ required: true, message: 'Please input your national code!' }]}
+                                    rules={[{ required: true, message: 'ورودی کد ملی خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -231,8 +231,8 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
-                       <div className="d-block d-md-flex align-items-center my-1">
-                            <div className="col-2 h-100">
+                       <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">آدرس</p>
                             </div>
                             <div className="col">
@@ -240,7 +240,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100"
                                     name="address"
-                                    rules={[{ required: true, message: 'Please input your address!' }]}
+                                    rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -250,7 +250,7 @@ function SingleMemberInfoPage(props) {
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-2 h-100">
+                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
                                 <p className="text-right mb-0 h-100">کد پستی</p>
                             </div>
                             <div className="col">
@@ -258,7 +258,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100"
                                     name="postal_code"
-                                    rules={[{ required: true, message: 'Please input your postal_code!' }]}
+                                    rules={[{ required: true, message: 'ورودی کد پستی خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -279,10 +279,10 @@ function SingleMemberInfoPage(props) {
                             <h3>اطلاعات خانه حراج</h3>
                         </div>
 
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>نام خانه حراج</p>
+                                    <p className="mb-0">نام خانه حراج</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -304,10 +304,10 @@ function SingleMemberInfoPage(props) {
                             
                         </div>
 
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>حوزه‌های فعالیت</p>
+                                    <p className="mb-0 text-right">حوزه‌های فعالیت</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -328,10 +328,10 @@ function SingleMemberInfoPage(props) {
                         </div>
 
                            
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>تعداد محصولات جهت فروش</p>
+                                    <p className="mb-0 text-right">تعداد محصولات جهت فروش</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -352,10 +352,10 @@ function SingleMemberInfoPage(props) {
                         </div>
 
 
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>آدرس</p>
+                                    <p className="mb-0">آدرس</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -375,10 +375,10 @@ function SingleMemberInfoPage(props) {
                             
                         </div>
                  
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>لوکیشن</p>
+                                    <p className="mb-0">لوکیشن</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -398,10 +398,10 @@ function SingleMemberInfoPage(props) {
                             
                         </div>
                       
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>شماره تماس خانه حراج</p>
+                                    <p className="mb-0">شماره تماس خانه حراج</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -421,20 +421,15 @@ function SingleMemberInfoPage(props) {
                             
                         </div>
 
-                        <div className="d-flex">
-                            <div className="col-3">
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
-                                    <p>فایل قرارداد</p>
+                                    <p className="mb-0">فایل قرارداد</p>
                                 </div>
                             </div>
                             <div className="col">
 
-                            <Image
-                                width={200}
-                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                            />
-
-                            {/* <Form.Item
+                            <Form.Item
                                 name="upload"
                                 valuePropName="fileList"
                                 getValueFromEvent={normFile}
@@ -443,20 +438,28 @@ function SingleMemberInfoPage(props) {
                                 <Upload name="logo" action="/upload.do" listType="picture">
                                 <Button icon={<UploadOutlined />}>Click to upload</Button>
                                 </Upload>
-                            </Form.Item> */}
+                            </Form.Item>
                             </div>
                             
                         </div>
 
-                        {/* <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit">
                             Submit
-                        </Button> */}
+                        </Button>
                         </Form>
                     </div>
+                    <div className="col-0 col-xl-1">
+
+                    </div>
             </div>
-        </div>
+
+                        </div>
+                </div>
+            </div>
+
     </React.Fragment>
     )
 }
 
 export default SingleMemberInfoPage;
+

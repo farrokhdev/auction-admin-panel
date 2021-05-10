@@ -63,7 +63,11 @@ body{
 
 
 // ---- Layout -------
-
+.ant-layout-sider{
+    position: fixed !important;
+    height: 100vw !important;
+    top: 60px !important;
+}
 .ant-layout-sider-children{
     // background-color: $tertiary-color !important;
     background-color: $quaternary-color !important;
@@ -88,14 +92,27 @@ body{
 }
 
 
+.ant-btn{
+    border: none !important;
+}
+
+
+
+
+.container-pages{
+    // width: 80% !important;
+}
+
 
 
 // *{
 //     background-color: rgb(243, 243, 243) !important;
 // }
 .content-panel-pages{
-    width: calc(100vw - 285px) !important;
+    // width: calc(90% - 200px) !important;
     z-index: 0;
+    top: 30px !important;
+    right: 0px !important
     // margin: 0px 20px !important;
 }
 
@@ -103,15 +120,45 @@ body{
     @include BoxShadow;
     background-color: $white-color !important;
     padding-bottom: 50px !important;
+    
+}
+
+// .site-layout{
+//     margin-right: 200px;
+// }
+
+@keyframes siderExpanded {
+    from {margin-right: 200px;}
+    to {margin-right: 75px;}
+  }
+
+.site-layout-expanded {
+    margin-right: 75px;
+    animation-name: siderExpanded;
+    animation-duration: 0.6s;
+}
+
+.site-layout-minus {
+    margin-right: 200px;
 }
 
 
+
+
+@media (max-width : '992px'){
+    .site-layout{
+        margin-right: 0px;
+    }
+}
 
 .box-header-panel{
     margin-bottom: 20px !important;
     background-color: $white-color !important;
     @include BoxShadow;
-    width: 100% !important;
+    width: 100%  !important;
+    position: fixed;
+    height: 60px !important;
+    z-index: 100000 !important;
     
 }
 
@@ -179,16 +226,45 @@ body{
 }
 
 td.ant-table-cell{
-    // padding :10px 0px !important;
+    padding : 0px 10px !important;
     text-align: center !important;
+    height: 40px !important;
 }
+
+.ant-table-content{
+    border: 1px solid rgb(255, 255, 255) !important;
+    width: 100% !important;
+}
+
+
+
+.ant-pagination {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: 'tnum', "tnum";
+    display: flex;
+    display: flex !important;
+    justify-content: center !important;
+    /* left: 50% !important; */
+}
+
+
 
 table td{
     padding: 0px !important;
+    
 }
 
 th.ant-table-cell{
     text-align: center !important;
+    min-width: 100px !important;
+    border: none !important;
 }
 
 table thead {
@@ -374,4 +450,39 @@ table  tbody tr td {
 
 .get-confirm-code-btn{
     @extend .enter-to-panel-btn;
+}
+
+
+
+// --- members page ----
+.minWidth-row{
+    max-width: 1rem !important;
+}
+
+.minWidth-name{
+    min-width: 10rem !important;
+}
+
+.minWidth-email{
+    min-width: 10rem !important;
+}
+
+.minWidth-mobile{
+    min-width: 7rem !important;
+}
+
+.minWidth-date{
+    min-width: 10rem !important;
+}
+
+.minWidth-typeRegister{
+    min-width: 10rem !important;
+}
+
+.minWidth-typeUser{
+    min-width: 10rem !important;
+}
+
+.minWidth-action{
+    min-width: 7rem !important;
 }
