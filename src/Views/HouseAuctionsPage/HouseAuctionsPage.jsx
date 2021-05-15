@@ -2,13 +2,17 @@ import React, {useState, useEffect} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
 import {Menu, Dropdown, Breadcrumb} from 'antd';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg';
 import TableHouseAuctionList from './TableHouseAuctionList';
 import {BASE_URL} from '../../utils';
 import {fetcher} from '../../utils/common';
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {connect} from 'react-redux';
 
-function HouseAuctionsPage() {
+
+
+function HouseAuctionsPage(props) {
 
     const [houseAuctions,
         setHouseAuctions] = useState([]);
@@ -36,9 +40,16 @@ function HouseAuctionsPage() {
                     <div className="col">
                         <div className="d-flex">
                             <Breadcrumb>
-                                <Breadcrumb.Item>خانه</Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                    <Link to="/members">خانه‌های حراج</Link>
+                                    <NavLink 
+                                        key="1"
+                                        onClick={ e => props.toggleActiveNavDrawer("1")}
+                                        to="/">
+                                        خانه
+                                    </NavLink>
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>
+                                    خانه‌های حراج
                                 </Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
@@ -56,4 +67,18 @@ function HouseAuctionsPage() {
     )
 }
 
-export default HouseAuctionsPage;
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+    }
+  }
+  
+  const mapStateToProps = (store) => {
+    return {
+        panel: store.panelReducer
+    }
+  }
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(HouseAuctionsPage)

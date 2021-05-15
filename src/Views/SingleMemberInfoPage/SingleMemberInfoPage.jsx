@@ -7,7 +7,9 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import  {fetcher} from '../../utils/common';
 import { BASE_URL } from '../../utils';
 import {convertTypePersian} from '../../utils/converTypePersion';
-import {Link} from 'react-router-dom';
+import {Link , NavLink} from 'react-router-dom';
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {connect} from 'react-redux';
 
 const layout = {
     labelCol: {
@@ -91,7 +93,14 @@ function SingleMemberInfoPage(props) {
                     <div className="col px-0">
                         <div className="d-flex">
                             <Breadcrumb>
-                                <Breadcrumb.Item>خانه</Breadcrumb.Item>
+                                <Breadcrumb.Item>
+                                    <NavLink 
+                                        key="1"
+                                        onClick={ e => props.toggleActiveNavDrawer("1")}
+                                        to="/">
+                                        خانه
+                                    </NavLink>
+                                </Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     <Link to="/members">لیست اعضا</Link>
                                 </Breadcrumb.Item>
@@ -105,7 +114,7 @@ function SingleMemberInfoPage(props) {
 
                 <div  className="row content-page">
                
-                    <div  className="col  userInfoSection ">
+                    <div  className="col  userInfoSection  px-lg-5 ">
 
                     <Form 
                         {...layout} 
@@ -429,7 +438,7 @@ function SingleMemberInfoPage(props) {
                             </div>
                             <div className="col">
 
-                            <Form.Item
+                            {/* <Form.Item
                                 name="upload"
                                 valuePropName="fileList"
                                 getValueFromEvent={normFile}
@@ -438,14 +447,15 @@ function SingleMemberInfoPage(props) {
                                 <Upload name="logo" action="/upload.do" listType="picture">
                                 <Button icon={<UploadOutlined />}>Click to upload</Button>
                                 </Upload>
-                            </Form.Item>
+                            </Form.Item> */}
                             </div>
                             
                         </div>
 
-                        <Button type="primary" htmlType="submit">
+                        {/* <Button type="primary" htmlType="submit">
                             Submit
-                        </Button>
+                        </Button> */}
+
                         </Form>
                     </div>
                     <div className="col-0 col-xl-1">
@@ -461,5 +471,17 @@ function SingleMemberInfoPage(props) {
     )
 }
 
-export default SingleMemberInfoPage;
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+    }
+  }
+  
+  const mapStateToProps = (store) => {
+    return {
+        panel: store.panelReducer
+    }
+  }
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(SingleMemberInfoPage)

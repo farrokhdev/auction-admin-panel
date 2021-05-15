@@ -1,31 +1,34 @@
 import React, {useState, useEffect} from 'react';
-import TableMemberList from './TableMemberList';
+import TableMemberList from './TableArtworkList';
 import {BASE_URL} from '../../utils';
 import {fetcher} from '../../utils/common';
 import {Pagination , Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
+import TableProductList from './TableArtworkList';
+import TableArtworkList from './TableArtworkList';
 
 
-function MembersPage(props) {
+function ArtWorkListPage(props) {
 
-    const [memberList,setMemberList] = useState([]);
-    const [countMember,setCountMember] = useState();
-    const [currentPage,setcurrentPage] = useState(1);
+    const [artworkList , setArtworkList] = useState([]);
+    const [countArtwork , setCountArtwork] = useState();
+    const [currentPage , setcurrentPage] = useState(1);
 
-    console.log("memberList =>>>", memberList);
-    console.log("countMember =>>>", countMember);
+    console.log("artworkList =>>>" , artworkList);
+
+ const [filterArtwork, setFilterArtwork] = useState();
 
     useEffect(() => {
 
-        fetcher(`${BASE_URL}/panel/users/?page=${currentPage}&page_size=10`, {
+        fetcher(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=10`, {
             method: "GET",
             data: "",
             header: {}
         }).then(res => {
-            setMemberList(res.data.result.results)
-            setCountMember(res.data.result.count)
+            setArtworkList(res.data.result.results)
+            setCountArtwork(res.data.result.count)
         }).catch(err => {
             console.log(err);
         })
@@ -59,24 +62,24 @@ function MembersPage(props) {
                                                         </NavLink>
                                                     </Breadcrumb.Item>
                                                     <Breadcrumb.Item>
-                                                       لیست اعضا
+                                                       آثار هنری
                                                     </Breadcrumb.Item>
                                                 </Breadcrumb>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="row  mx-0">
-                                        <div className="col content-page p-4  ">
-                                            
+                                        <div className="col content-page px-2  px-md-4 py-4 ">
+                                         
                                             <div className="row px-0 mx-0">
-                                                <TableMemberList  memberList={memberList} countMember={countMember}/>
+                                                <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} setFilterArtwork={setFilterArtwork}/>
                                             </div>
                                             <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1}
-                                                    total={countMember}
+                                                    total={countArtwork}
                                                     defaultPageSize={10}
                                                 />
                                             </div>
@@ -84,7 +87,7 @@ function MembersPage(props) {
                                                         <Pagination 
                                                             onChange={(e)=>handeSelectPage(e)}
                                                             defaultCurrent={1} 
-                                                            total={countMember} 
+                                                            total={countArtwork} 
                                                             defaultPageSize={5}
                                                             size="small"
                                                         />
@@ -131,4 +134,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-  export default connect(mapStateToProps , mapDispatchToProps)(MembersPage)
+  export default connect(mapStateToProps , mapDispatchToProps)(ArtWorkListPage)

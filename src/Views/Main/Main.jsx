@@ -3,7 +3,8 @@ import { Layout, Menu, Breadcrumb  } from 'antd';
 import {
   DesktopOutlined,
   HomeOutlined,
-  AppstoreOutlined,
+  PictureOutlined,
+  MessageOutlined,
   PieChartOutlined,
   activeOpenKeys,
   FileOutlined,
@@ -15,8 +16,8 @@ import {
 // import iconUsers from '../../images/svg/icon-more.svg'
 
 // import MembersList from '../../components/MembersList';
-import {toggleDrawer , toggleClickNavDrawer , toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
-import {Link, NavLink} from 'react-router-dom';
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {NavLink} from 'react-router-dom';
 import Header from '../../components/Header';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
@@ -66,7 +67,7 @@ function Main(props) {
               //   console.log(broken);
               // }}
               onCollapse={(collapsed, type) => {
-                console.log(collapsed, type);
+                
               }}
                 collapsible 
                 collapsed={collapsed} onCollapse={onCollapse}
@@ -110,16 +111,30 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
-                  <Menu.Item className="d-flex align-items-center" key="3" icon={<AppstoreOutlined />}>
+                  <Menu.Item className="d-flex align-items-center" key="3" icon={<PictureOutlined />}>
                     <NavLink 
-                      to="/house-auctions"
+                      to="/artworks"
                       id="3" 
                       className="mr-2" 
                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
                     >
-                      خانه های حراچ
+                       آثار هنری
                     </NavLink>
                   </Menu.Item>
+
+                  <Menu.Item key="4" className="d-flex align-items-center" icon={<MessageOutlined />}>
+                    <NavLink 
+                       id="4" 
+                       to="/send-message" 
+                       className="mr-2" 
+                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
+                    >
+                        ارسال پیام
+                    </NavLink>
+                  </Menu.Item>
+
+        
+
                 </Menu>
               </Sider>
 
@@ -136,7 +151,7 @@ function Main(props) {
                 {/* <Header className="site-layout-background"  /> */}
 
 
-                    <Content className="mt-5" style={{ margin: '0 16px' }}>
+                    <Content className="mt-5 mb-3" style={{ margin: '0 16px' }}>
                         {props.children}
 
                       {/* <div className="row  px-4">

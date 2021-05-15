@@ -158,7 +158,7 @@ body{
     width: 100%  !important;
     position: fixed;
     height: 60px !important;
-    z-index: 100000 !important;
+    z-index: 500 !important;
     
 }
 
@@ -169,6 +169,14 @@ body{
     // position: fixed !important;
     height: 100vh !important;
     z-index: 9999999;
+}
+
+.nav-item-drawer-responsive{
+    color: $secondary-color !important;
+}
+
+.nav-item-drawer-responsive:hover{
+    color: $quaternary-color !important;
 }
 
 .drawer-menu{
@@ -193,14 +201,20 @@ body{
 
 
 .userInfoSection .ant-input {
-    background-color: rgb(230, 244, 255) !important;
+    background-color: $gray-color !important;
     border: none !important;
 }
 
 .box-main-image-artwork{
     background-color: red !important;
-    height: 400px ;
-    width: 400px;
+    max-height: auto  !important;
+    width: 80% !important;
+}
+
+@media(max-width : '575px'){
+    .box-main-image-artwork{
+        width: 100% !important;
+    }
 }
 
 .ant-upload-picture-card-wrapper{
@@ -229,6 +243,7 @@ td.ant-table-cell{
     padding : 0px 10px !important;
     text-align: center !important;
     height: 40px !important;
+    background-color: white !important;
 }
 
 .ant-table-content{
@@ -302,7 +317,23 @@ table  tbody tr td {
 .ant-result-info .ant-result-icon > .anticon{
     color: hotpink !important;
 }
+.btn-view-artworks-home{
+    @include pinkBtn ;
+}
 
+.btn-view-artworks-home:hover{
+    background-color: hotpink !important;
+    color: $white-color !important;
+}
+
+.btn-enter-login-home{
+   @include grayBtn; 
+}
+
+.btn-enter-login-home:hover{ 
+    background-color: $darkGray-color !important;
+    color: $white-color !important;
+ }
 
 // --------- Login Page -----------
 
@@ -456,7 +487,7 @@ table  tbody tr td {
 
 // --- members page ----
 .minWidth-row{
-    max-width: 1rem !important;
+    max-width: 3rem !important;
 }
 
 .minWidth-name{
@@ -484,5 +515,230 @@ table  tbody tr td {
 }
 
 .minWidth-action{
-    min-width: 7rem !important;
+    min-width: 9rem !important;
+}
+
+.btn-save-bankInfo , .btn-edit-backInfo{
+    color: $quaternary-color !important;
+}
+
+// .anticon-close{
+.btn-cancel-edit-bankInfo{
+    color: rgba(255, 0, 0, 0.486) !important;
+}
+
+.ant-spin-container{
+    border: 1px solid white !important;
+}
+
+.btn-confirm-product{
+    width: 90px !important;
+    @include greenBtn;
+}
+
+
+.btn-confirm-product:hover{
+    background-color:  $primary-color !important;
+    color: $white-color !important;
+    animation-duration: 1s;
+    animation-delay: -1s;
+}
+
+.btn-reject-product{
+    width: 70px !important;
+     @include warningBtn;
+}
+
+.btn-reject-product:hover{
+    background-color: $warning-color;
+    color: $white-color  ;
+}
+
+.btn-add-new-artwork{
+    background-color: $primary-color !important;
+    @include greenBtn;
+    width: 120px !important;
+    color: $white-color;
+}
+
+.btn-add-new-artwork:hover{
+    background-color: $white-color !important;
+    color: $primary-color !important;
+}
+
+.ant-image-mask{
+    display: none !important;
+    // display: none !important;
+    cursor: pointer !important;
+}
+
+.ant-image-preview-root{
+    z-index: 999999 !important;
+}
+
+.box-image-product-list:hover{
+    transform: scale(1.05);
+}
+
+.icon-filter{
+    width: 10px !important;
+    color: $quaternary-color !important;
+}
+
+.ant-input-search-button{
+    background-color: $tertiary-color !important;
+    color: $quaternary-color  !important;
+    border-radius: 100% !important;
+    margin-right: 10px !important;
+}
+
+.ant-input-group-addon{
+    background-color: white !important;
+}
+
+.ant-input-search-button:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
+.date-field-filter-box{
+    max-width: 75px !important;
+}
+
+.date-field-filter-box{
+    border: 0.5px solid rgb(230, 230, 230) !important;
+    border-radius: 4px !important;
+    overflow: none !important;
+    box-shadow: none !important;
+}
+
+.btn-status-product-filter{
+    @include purpelBtn;
+    min-width: 70px !important;
+    border-radius: 4px !important;
+}
+
+.btn-status-product-filter:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
+
+
+.ant-btn.ant-dropdown-trigger{
+    background-color: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    max-width: 110px !important;
+    padding: 0px 5px !important
+}
+
+.text-filter , .text-filter p{
+    font-size: 0.8rem !important;
+}
+
+.btn-add-new-link-artwork{
+    @include greenBtn;
+    min-width: 150px !important;
+}
+
+.btn-add-new-link-artwork:hover{
+    background-color: $primary-color !important;
+    color: $white-color;
+}
+
+.btn-edit-link{
+    width: 150px !important;
+    @include purpelBtn;
+    height: 40px !important;
+}
+
+.btn-edit-link:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
+.ant-modal-title{
+    text-align: right !important;
+    margin-right: 20px !important;
+}
+
+.ant-modal-confirm-title{
+    text-align: right !important;
+}
+
+.ant-modal-confirm-content{
+    text-align: right !important;
+}
+
+.ant-notification-notice-message{
+text-align: right !important;
+
+font-size: 0.8rem !important;
+}
+
+.ant-notification-notice-icon-success{
+    position: absolute !important;
+    left: 10px !important;
+    
+}
+
+.ant-notification-notice-description{
+    text-align: right !important
+}
+
+.modal-confirm-artwork .ant-modal-footer{
+    display: none !important;
+}
+
+.btn-confirm-artwork{
+    @include purpelBtn;
+}
+
+.btn-reject-artwork{
+    @include warningBtn ;
+}
+
+.btn-reject-artwork:hover{
+background-color:$warning-color !important ;
+color: $white-color;
+}
+
+.btn-confirm-artwork:hover{
+    background-color:$quaternary-color !important;
+    color: $white-color ;
+}
+
+// ------- Message page -------
+
+.btn-send-message{
+
+    @include purpelBtn;
+    // background-color: $quaternary-color !important;
+    // border-radius: 5px !important;
+    // color: $white-color !important;
+}
+
+.btn-send-message:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
+.btn-reset-message{
+
+    @include grayBtn;
+    
+}
+
+.btn-reset-message:hover{
+    background-color: $darkGray-color !important;
+    color: $white-color !important;
+}
+
+.ant-mentions{
+    border-radius: 3px !important;
+}
+
+.ant-form-item-label{
+    text-align: right !important;
 }
