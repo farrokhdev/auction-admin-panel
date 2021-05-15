@@ -44,11 +44,11 @@ function Home(props) {
                                                 title="به پنل حراجی آنلاین خوش آمدید"
                                                 extra={[
                                                     
-                                                    <Link to="/members">
-                                                        <Button  type="primary" 
+                                                    <Link to="/artworks">
+                                                        <Button className="btn-view-artworks-home"
                                                         // key="console"
                                                         >
-                                                        لیست اعضا
+                                                        آثار هنری
                                                         </Button>
                                                     </Link>
                                                 ]}
@@ -60,7 +60,7 @@ function Home(props) {
                                             extra={[
                                                 
                                                 <Link to="/login">
-                                                    <Button  type="primary" 
+                                                    <Button  className="btn-enter-login-home"
                                                     // key="console"
                                                     >
                                                     ورود به پنل

@@ -1,7 +1,7 @@
 import React , {useState ,useEffect} from 'react';
 import {  Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import {convertTypePersian} from '../../utils/converTypePersion';
-
+import { EditFilled , SaveFilled  , CloseOutlined} from '@ant-design/icons';
 const layout = {
     labelCol: {
       span: 16,
@@ -21,6 +21,8 @@ function TableBankInfo({member , bankAccountInfo}) {
     const [form] = Form.useForm();
     const [data, setData] = useState(originData);
     const [editingKey, setEditingKey] = useState('');
+
+
     const onFinish = (values) => {
         console.log(values);
     };
@@ -79,8 +81,8 @@ function TableBankInfo({member , bankAccountInfo}) {
                 }}
                 rules={[
                   {
-                    required: true,
-                    message: `Please Input ${title}!`,
+                    required: false,
+                    message: `ورودی ${title} خالی است!`,
                   },
                 ]}
               >
@@ -140,14 +142,15 @@ function TableBankInfo({member , bankAccountInfo}) {
         {
           title: 'نام بانک',
           dataIndex: 'bank_name',
-          width: '15%',
+          // width: '30%',
+          width: '300px',
           editable: true,
           // responsive: ['sm'],
         },
         {
           title: 'شماره کارت',
           dataIndex: 'card_number',
-          width: '50%',
+          width: '40%',
           editable: true,
           // responsive: ['sm'],
         },
@@ -166,7 +169,7 @@ function TableBankInfo({member , bankAccountInfo}) {
             // responsive: ['sm'],
           },
         {
-          title: 'ویرایش',
+          title: 'عملیات',
           dataIndex: 'operation',
           render: (_, record) => {
             const editable = isEditing(record);
@@ -175,19 +178,21 @@ function TableBankInfo({member , bankAccountInfo}) {
                 <a
                   href="javascript:;"
                   onClick={() => save(record.key)}
-                  style={{
-                    marginRight: 8,
-                  }}
+                  // style={{
+                  //   marginRight: 8,
+                  // }}
                 >
-                  Save
+                  <SaveFilled className="btn-save-bankInfo"/>
                 </a>
-                <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                  <a>Cancel</a>
+                <Popconfirm title="از انصراف مطمئن هستید؟" onConfirm={cancel}>
+                  <a className="mr-1">
+                  <CloseOutlined className="btn-cancel-edit-bankInfo"/>
+                  </a>
                 </Popconfirm>
               </span>
             ) : (
               <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                ویرایش
+                <EditFilled className="btn-edit-backInfo"/>
               </Typography.Link>
             );
           },

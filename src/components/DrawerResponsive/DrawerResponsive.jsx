@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 
 function DrawerResponsive() {
@@ -29,24 +29,58 @@ function DrawerResponsive() {
                 visible={visible}>
                 
                
-       
-                    <div>
+                    <div style={{height : '30px'}}> 
                         <NavLink 
-                         to="/home" 
-                      className="mr-2" 
-                      onClick={(e)=>setVisible(false)}
-                    >
-                    خانه
-                    </NavLink>
+                            to="/home" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                            <div className="d-flex align-items-center">
+                                <HomeFilled />
+                                <p  className="mb-0 mr-2">خانه</p>
+                            </div>
+                        </NavLink>
+                    </div>
+                
+
+                    <div style ={{height : '30px'}}>
+                        <NavLink 
+                            to="/members" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                            <div className="d-flex align-items-center">
+                            <TeamOutlined />
+                                <p  className="mb-0 mr-2">اعضا</p>
+                            </div>
+                        </NavLink>
                     </div>
 
-                    <NavLink 
-                      to="/members" 
-                      className="mr-2" 
-                      onClick={(e)=>setVisible(false)}
-                    >
-                    اعضا
-                    </NavLink>
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/artworks" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <PictureFilled />
+                             <p className="mb-0 mr-2">آثار هنری</p>
+                        </div>
+                        </NavLink>
+                    </div>
+                    
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/send-message" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                            <MessageFilled />
+                             <p className="mb-0 mr-2">ارسال پیام</p>
+                        </div>
+                        </NavLink>
+                    </div>
         
                     
             </Drawer>

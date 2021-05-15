@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 @mixin FlexContent {
     display: flex;
     justify-content: center;
@@ -7,4 +9,79 @@
 @mixin BoxShadow {
     box-shadow: 0 1px 6px #00000029 !important;
     // border-radius: 10px !important;
+}
+
+@mixin greenBtn {
+    min-width: 100px !important;
+    height: 30px !important;
+    font-size: 0.8rem ;
+    border: none !important;
+    background-color:  $white-color;
+    color: $primary-color;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: 0 1px 6px #00000029 !important;
+    transition: 0.7s;
+}
+
+@mixin warningBtn {
+    min-width: 100px !important;
+    height: 30px !important;
+    background-color: $warning2-color;
+    color: $warning-color ;
+    font-size: 0.8rem ;
+    border: none !important;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: 0.7s;
+    box-shadow: 0 1px 6px #00000029 !important;
+}
+
+
+@mixin purpelBtn {
+    min-width: 100px !important;
+    height: 30px !important;
+    background-color: $tertiary-color !important;
+    color: $quaternary-color;
+    font-size: 0.8rem ;
+    border: none !important;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: 0.7s;
+    box-shadow: 0 1px 6px #00000029 !important;
+}
+
+@mixin grayBtn {
+    height: 30px !important;
+    background-color: $gray2-color !important;
+    color: $quaternary-color;
+    font-size: 0.8rem ;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: 0.7s;
+    box-shadow: 0 1px 6px #00000029 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin pinkBtn {
+    
+
+
+    height: 30px !important;
+    background-color: rgb(255, 190, 223) !important;
+    color: $white-color !important;
+    font-size: 0.8rem ;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: 0.7s;
+    box-shadow: 0 1px 6px #00000029 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

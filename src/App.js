@@ -15,6 +15,10 @@ import LoginPage from "./Views/LoginPage";
 // import RegisterPage from "./Views/RegisterPage";
 import Main from "./Views/Main";
 import Home from "./Views/Home";
+import SendMessagePage from "./Views/SendMessagePage/SendMessagePage";
+import ArtworkListPage from "./Views/ArtworkListPage";
+import SingleViewArtworkPage from "./Views/SingleViewArtworkPage/SingleViewArtworkPage";
+import AddNewArtwork from "./Views/AddNewArtwork/AddNewArtwork";
 
 
 // import Main from './public/main'
@@ -36,6 +40,7 @@ function App(props) {
                         
                         <>
                             <Route exact path="/house-auctions" render={props=><Main {...props}><HouseAuctionsPage {...props} /></Main>}/>
+                            <Route exact path="/send-message" render={props=><Main {...props}><SendMessagePage {...props} /></Main>}/>
                             {/* <Route exact path="/auctions/:id" render={props=><Main {...props} ><SingleAuctionPage {...props}/></Main>}/> */}
                             {/* <Route exact path="/auctions-members/:id" component={MemberAuctionInfo}/>
                             <Route exact path="/auctions-members" component={MembersAuction}/>
@@ -44,6 +49,9 @@ function App(props) {
                             <Route exact path="/artworks" component={ArtworksPage}/> */}
                             <Route exact path="/members/:id" render={props=><Main {...props} ><SingleMemberInfoPage {...props}/></Main>}/>
                             <Route exact path="/members" render={props=><Main {...props}><MembersPage {...props} /></Main>}/>
+                            <Route exact path="/artworks" render={props=><Main {...props}><ArtworkListPage {...props} /></Main>}/>
+                            <Route exact path="/artworks/:id" render={props=><Main {...props}><SingleViewArtworkPage {...props} /></Main>}/>
+                            <Route exact path="/add-artwork" render={props=><Main {...props}><AddNewArtwork {...props} /></Main>}/>
                             {/* <Route exact path="/register" render={props=><RegisterPage {...props} />}/> */}
                             {/* <Route exact path="/login" render={props=><LoginPage {...props} />}/> */}
                         </>
