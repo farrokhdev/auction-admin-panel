@@ -38,6 +38,20 @@
     box-shadow: 0 1px 6px #00000029 !important;
 }
 
+@mixin cancelBtn {
+    min-width: 100px !important;
+    height: 30px !important;
+    background-color: $white-color;
+    color: $warning-color ;
+    font-size: 0.8rem ;
+    border: 1px solid $warning-color !important;
+    border-radius: 30px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: 0.7s;
+    box-shadow: 0 1px 6px #00000029 !important;
+}
+
 
 @mixin purpelBtn {
     min-width: 100px !important;
@@ -60,6 +74,7 @@
     font-size: 0.8rem ;
     border-radius: 30px !important;
     outline: none !important;
+    border : none !important;
     box-shadow: none !important;
     transition: 0.7s;
     box-shadow: 0 1px 6px #00000029 !important;
@@ -69,15 +84,13 @@
 }
 
 @mixin pinkBtn {
-    
-
-
     height: 30px !important;
     background-color: rgb(255, 190, 223) !important;
     color: $white-color !important;
     font-size: 0.8rem ;
     border-radius: 30px !important;
     outline: none !important;
+    border : none !important;
     box-shadow: none !important;
     transition: 0.7s;
     box-shadow: 0 1px 6px #00000029 !important;
@@ -85,3 +98,4 @@
     justify-content: center;
     align-items: center;
 }
+

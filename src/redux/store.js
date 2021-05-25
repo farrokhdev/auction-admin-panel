@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import  authReducer from '../redux/reducers/auth/auth.reducer';
 import  panelReducer from '../redux/reducers/panel/panel.reducer';
+import  userReducer from '../redux/reducers/user/user.reducer';
 import thunk from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -12,9 +13,11 @@ const persistConfig = {
     key: 'root',
     storage,
 };
+
 const persistedReducer = persistReducer(persistConfig, combineReducers({
     authReducer,
-    panelReducer
+    panelReducer, 
+    userReducer
 
 }));
 let store = createStore(

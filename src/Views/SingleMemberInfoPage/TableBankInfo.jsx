@@ -33,10 +33,10 @@ function TableBankInfo({member , bankAccountInfo}) {
     
     for (let i = 0; i < bankAccountInfo.length; i++) {
 
-        console.log("bankAccountInfo__bank_name =>>>>", bankAccountInfo[i]?.bank_name);
-        console.log("bankAccountInfo__card_number =>>>>", bankAccountInfo[i].card_number);
-        console.log("bankAccountInfo__account_number =>>>>", bankAccountInfo[i]?.account_number);
-        console.log("bankAccountInfo__sheba_number =>>>>", bankAccountInfo[i]?.sheba_number);
+        console.log("bankAccountInfo__bank_name =>>>>", bankAccountInfo?.bank_name);
+        console.log("bankAccountInfo__card_number =>>>>", bankAccountInfo.card_number);
+        console.log("bankAccountInfo__account_number =>>>>", bankAccountInfo?.account_number);
+        console.log("bankAccountInfo__sheba_number =>>>>", bankAccountInfo?.sheba_number);
         
 
         originData.push({
@@ -44,17 +44,17 @@ function TableBankInfo({member , bankAccountInfo}) {
           key: i.toString(),
           
           id: ` ${i}`,
-        //   bank_name: convertTypePersian(bankAccountInfo[i]?.bank_name),
-          bank_name: convertTypePersian("melli"),
+          bank_name: convertTypePersian(bankAccountInfo[0]?.bank_name),
+          // bank_name: convertTypePersian("melli"),
 
-          // card_number: bankAccountInfo[i].card_number,
-          card_number: '111222333444555666777888',
+          card_number: bankAccountInfo[0].card_number,
+          // card_number: '111222333444555666777888',
 
-          // account_number: bankAccountInfo[i]?.account_number,
-          account_number: '111222333444555666777888',
+          account_number: bankAccountInfo[0]?.account_number,
+          // account_number: '111222333444555666777888',
        
-          // sheba_number: bankAccountInfo[i]?.sheba_number,
-          sheba_number: '111222333444555666777888',
+          sheba_number: bankAccountInfo[0]?.sheba_number,
+          // sheba_number: '111222333444555666777888',
         //   address: `London Park no. ${i}`,
         });
       }
@@ -101,10 +101,10 @@ function TableBankInfo({member , bankAccountInfo}) {
 
       const edit = (record) => {
         form.setFieldsValue({
-          id: '',
-          bank_name: '',
-          account_number: '',
-          sheba_number: '',
+          id: '1',
+          bank_name: '1',
+          account_number: '1',
+          sheba_number: '1',
           ...record,
         });
         setEditingKey(record.key);

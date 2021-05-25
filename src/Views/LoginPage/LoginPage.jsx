@@ -7,7 +7,10 @@ import { BASE_URL } from '../../utils';
 import { message, Button } from 'antd';
 import axios from "../../utils/request";
 import {connect} from 'react-redux';
-import { setProfile , loginSuccess} from '../../redux/reducers/auth/auth.actions';
+import { setProfile , loginSuccess , setPhoneNumber} from '../../redux/reducers/auth/auth.actions';
+import GoogleLogin from 'react-google-login';
+import Loading from '../../components/Loading';
+
 
 const layout = {
     labelCol: {
@@ -17,54 +20,55 @@ const layout = {
         span: 24
     }
 };
+const tailLayout = {
+    wrapperCol: {
+        offset: 16,
+        span: 24
+    }
+};
+
+
 
 const LoginPage=(props)=> {
 
+
+
     const [form] = Form.useForm();
     const inputRef = useRef(null);
+    const [loading, setLoading] = useState(false);
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [url, setUrl] = useState("");
+
 
     const onFinish = (values) => {
         console.log('Success:', values);
-
+        setLoading(true)
         let payload = {
 
             "id": values.id,
             "password": values.password
-        
+            
         }
     
-
             axios.post(`${BASE_URL}/account/login/`, payload).then(res => {
                 // console.log(res.data.data.result.access);
                 // console.log(res.data.data.result);
      
                 if(res.data.code === 200){
-                   
+                    setLoading(false)
                     setToken(res.data.data.result)
                     props.setProfile( {...props.state , username : payload.id} )
-                    props.loginSuccess({})
+                    props.loginSuccess({username : payload.id})
+                    props.setPhoneNumber({mobile : payload.id})
                     window.location.href = "#/home"
                 }
                
-                // if(res.data.data.code === 401){
-                        
-                //     form.setFields([
-                //         {
-                //             name: 'id',
-                //             errors: ['کاربری با این مشخصات پیدا نشد!'],
-                //           },
-                //         ])   
-                // }
 
-                // if (res.data && res.data.data.result.access){
-                //     setToken(res.data.result)
-
-                 
-                //     window.location.href = "#/members"
-                // }
             })
             .catch(err => {
-     
+                setLoading(false)
                     if(err.response && err?.response?.data?.message !== undefined ){
                         message.error({content: `${' '}${err?.response?.data?.message}`,
                         className: 'text-danger',
@@ -82,19 +86,36 @@ const LoginPage=(props)=> {
         console.log('Failed:', errorInfo);
     };
 
+
+    
+
+    const responseGoogle = (response) => {
+
+        console.log(response);
+
+        
+        setUsername(response.profileObj.username);
+        setEmail(response.profileObj.email);
+        // setUrl(response.profileObj.url);
+
+        axios.post(`${BASE_URL}/rest-auth/google/`).then(res => {
+            console.log(res.data);
+        
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    }
+
     return (
         <React.Fragment>
+                <Loading loading={loading}/>
             <div className="containerLoginPage">
-
-                
-
-
-<div className="row">
-    <div className="col">
-                <div className="d-flex justify-content-center p-4">
-                        {/* <Link to="/"><img src={logoEn}/></Link> */}
-                    </div>
-        <div className="row enterToAccountBox bg-white">
+                <div className="row">
+                    <div className="col">
+                    
+                    <div className="row enterToAccountBox bg-white mt-4">
                 <div className="col m-0 p-0">
 
                         <Form
@@ -111,10 +132,10 @@ const LoginPage=(props)=> {
                     <div className="headerLogin">
                         ورود به حساب کاربری
                     </div>
-                    <div className="d-none d-md-flex boxImageLoginPage">
+                    <div className="d-none d-xl-flex boxImageLoginPage">
                         <div className="imageEnterToAccaount"></div>
                     </div>
-                    <div className="boxInfoLogin">
+                    <div className="boxInfoLogin mx-sm-4">
                         <div className="col p-0">
                             <div>
                                 <p className="text-right mb-1"> ایمیل / شماره تلفن</p>
@@ -130,7 +151,6 @@ const LoginPage=(props)=> {
                                                 message: 'ورودی تلفن همراه یا ایمیل خالی است!'
                                             },
                                   
-
                                         ]}>
                                             <Input
                                                 
@@ -179,41 +199,53 @@ const LoginPage=(props)=> {
 
                                         {/* <span className="iconLock"></span> */}
                                     </div>
-                                    <div className="rememberTextPassword p-0 mt-5">
+                                    <div className="rememberTextPassword p-0 ">
                                         <p>
                                             گذرواژه خود را فراموش کرده اید؟
                                             <span className="mr-2">
-                                                <Link to="/register-recovery-password">کلیک کنید</Link>
+                                                <Link to="/recovery-password">کلیک کنید</Link>
                                             </span>
                                         </p>
                                     </div>
+
+                                    <div className="d-flex justify-content-center enter-whith-google">
+
+                                        <GoogleLogin
+                                            // clientId="12365462243-gua1d2f4uldno7v4t2n61hq8pju041qi.apps.googleusercontent.com"
+                                            clientId="12365462243-gua1d2f4uldno7v4t2n61hq8pju041qi.apps.googleusercontent.com"
+                                            buttonText="ورود با اکانت گوگل"
+                                            // onClick={responseGoogle}
+                                            onSuccess={responseGoogle}
+                                            onFailure={responseGoogle}
+                                            cookiePolicy={'single_host_origin'}
+                                        />
+                                    </div>
                                    
-                                        <button 
-                                            htmlType="submit" 
-                                            className="enter-to-panel-btn text-white">
-                                            ورود
-                                        </button>
-                                        {/* <ToastContainer  position="bottom-right" closeOnClick draggable  /> */}
+                                        <div className="d-flex mb-4">
+                                            <button  
+                                                htmlType="submit" 
+                                                className="enter-to-panel-btn text-white"
+                                            >
+                                                ورود 
+                                            </button> 
+                              
+                                            
+                                        </div>
                                     
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <div className="rememberTextPassword">
-                        <p>قبلا ثبت نام نکرده‌اید؟
-                            <span className="mr-2">
-
-                                {/* { params.referral_code ? <Link to={`/register?referral_code=${params.referral_code}`}>ثبت نام کنید</Link> : <Link to={'/register'}>ثبت نام کنید</Link>} */}
-
-                            </span>
-                        </p>
-                    </div>
-                    
+                 
+                    {/* <BounceLoader/> */}
                     </Form>
                 </div>
+                
             </div>
+            
     </div>
+    
 </div>
 
         </div>
@@ -225,7 +257,7 @@ const LoginPage=(props)=> {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // setPhoneNumber : (data) => dispatch(setPhoneNumber(data)),
+        setPhoneNumber : (data) => dispatch(setPhoneNumber(data)),
         setProfile : (data) => dispatch(setProfile(data)),
         loginSuccess : (data) => dispatch(loginSuccess(data)),
     }
@@ -233,7 +265,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (store) => {
     return {
-        authReducer : store.authReducer,
+        auth : store.authReducer,
         panelReducer : store.panelReducer
     }
 }

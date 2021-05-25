@@ -1,19 +1,24 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import {connect} from 'react-redux';
 import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined , BellFilled} from '@ant-design/icons';
 import {clearStorage} from '../../redux/reducers/auth/auth.actions';
-import {clearActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {clearActiveNavDrawer , toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import DrawerResponsive from '../DrawerResponsive/DrawerResponsive';
+import ModalChangePassword from './ModalChangePassword';
+import classnames from 'classnames';
+
 
 function Header(props) {
 
 
+    const [visibleChangePasswordModal, setVisibleChangePasswordModal] = useState(false);
+
     const handleLogOut = ()=>{
         props.clearStorage()
-    props.clearActiveNavDrawer()
+        props.clearActiveNavDrawer()
         setTimeout(() => {
             window.location.href = "#/login"
         }, 700);
@@ -23,24 +28,28 @@ function Header(props) {
         window.location.href = "#/login"
     }
 
+    const handleShowModalChangePassword = () => {
+        setTimeout(() => {
+            setVisibleChangePasswordModal(true)
+        }, 500);
+    }
+
     const menu = (
         <Menu>
+          <Menu.Item key="1"> 
+            <div style={{width :'100px'}} className="text-center" onClick={handleShowModalChangePassword} >تغییر گذرواژه</div>
+          </Menu.Item>
           <Menu.Item key="0"> 
             <div style={{width :'100px'}} className="text-center" onClick={handleLogOut}>خروج</div>
           </Menu.Item>
-          {/* <Menu.Item key="1">
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-              2nd menu item
-            </a>
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="3" disabled>
-            3rd menu item（disabled）
-          </Menu.Item> */}
+          
+          <ModalChangePassword   
+                visibleChangePasswordModal = {visibleChangePasswordModal}
+                setVisibleChangePasswordModal={setVisibleChangePasswordModal}
+          />
         </Menu>
       );
 
- 
 
 
     return (
@@ -48,7 +57,7 @@ function Header(props) {
             
             <div className="row justify-content-between align-items-center w-100">
                 <div className="d-none d-lg-block">
-                    <h3 className="text-right mb-0 mr-3">Auction Panel Admin</h3>
+                    <h5 className="text-right mb-0 mr-3">حراجی آنلاین</h5>
                 </div>
                 <div className=" col-3 col-sm-7  d-lg-none ">
                     <div className="d-flex">
@@ -59,13 +68,22 @@ function Header(props) {
                     <div  className="d-flex justify-content-end">
                         <div className="col">
                             <div className="d-flex justify-content-start align-items-center">
-                                
-                                <Avatar size={32} icon={<UserOutlined />} />
-                                
-                                {props.auth?.username ? 
+
+                            {/* <Badge size="small" count={countUnreadMessages} className="ml-4">
+                                <NavLink onClick={ e => props.toggleActiveNavDrawer("4")} to="/inbox-messages">
+                                    <BellFilled className="icon-bell-header"/>
+                                </NavLink>
+                            </Badge> */}
+
+                                <Avatar  className={classnames("", {
+                                        "avatar-disable": !props.auth.is_logged_in,
+                                        "avatar-logged-in": props.auth.is_logged_in
+                                        })} size={32} icon={<UserOutlined />} />
+                                    
+                                {props.auth.is_logged_in ? 
                                     <Dropdown className="mr-2" overlay={menu}>
                                         <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                            {props.auth?.username} 
+                                            {props.auth?.mobile ? props.auth?.mobile : props.auth?.username } 
                                             <DownOutlined  className="mr-3"/>
                                         </a>
                                 </Dropdown>
@@ -82,12 +100,11 @@ function Header(props) {
     )
 }
 
-// export default Header;
 
 const mapDispatchToProps = (dispatch) => {
     return {
         // setPhoneNumber : (data) => dispatch(setPhoneNumber(data)),
-        // setProfile : (data) => dispatch(setProfile(data)),
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
         clearActiveNavDrawer : () => dispatch(clearActiveNavDrawer()),
         clearStorage : () => dispatch(clearStorage()),
     }

@@ -30,13 +30,13 @@ export const clearStorage = () => (
 
 
 
-// export const setPhoneNumber = (data) => (
-//     {
-//         type : types.SET_PHONENUMBER,
-//         payload : data
+export const setPhoneNumber = (data) => (
+    {
+        type : types.SET_PHONENUMBER,
+        payload : data
        
-//     }
-// )
+    }
+)
 
 export const setProfile = (data) => (
     {
@@ -51,6 +51,13 @@ export const setProfile = (data) => (
 export const loginSuccess = (data) => (
     {
         type : types.LOGIN_SUCCESS,
+        payload : data
+    }
+)
+
+export const getOtp = (data) => (
+    {
+        type : types.GET_OTP,
         payload : data
     }
 )

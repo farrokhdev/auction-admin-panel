@@ -8,29 +8,31 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableProductList from './TableArtworkList';
 import TableArtworkList from './TableArtworkList';
-
+import Loading from '../../components/Loading';
 
 function ArtWorkListPage(props) {
 
     const [artworkList , setArtworkList] = useState([]);
     const [countArtwork , setCountArtwork] = useState();
     const [currentPage , setcurrentPage] = useState(1);
-
-    console.log("artworkList =>>>" , artworkList);
-
+    const [loading, setLoading] = useState(false);
+   
+console.log(artworkList);
  const [filterArtwork, setFilterArtwork] = useState();
 
     useEffect(() => {
-
+        setLoading(true)
         fetcher(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=10`, {
             method: "GET",
             data: "",
             header: {}
         }).then(res => {
+            setLoading(false)
             setArtworkList(res.data.result.results)
             setCountArtwork(res.data.result.count)
         }).catch(err => {
             console.log(err);
+            setLoading(false)
         })
 
     }, [currentPage]);
@@ -42,10 +44,8 @@ function ArtWorkListPage(props) {
 
     return (
         <React.Fragment>
+            <Loading loading={loading}/>
             <div  className="container-fluid px-0 container-pages">
-
-                
-
                 <div className="row m-0">
                     <div className="col">
                         <div className="row ">
@@ -91,7 +91,7 @@ function ArtWorkListPage(props) {
                                                             defaultPageSize={5}
                                                             size="small"
                                                         />
-                                                    </div>
+                                            </div>
                                         </div>
                                     </div>
                             </div>

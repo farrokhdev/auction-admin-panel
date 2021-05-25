@@ -65,9 +65,9 @@ function TableMemberList({memberList , countMember}) {
                             <div className=" px-3 text-center">تاریخ عضویت</div>
                         </th>
 
-                        <th className="  px-0 minWidth-typeRegister">
+                        {/* <th className="  px-0 minWidth-typeRegister">
                             <div className=" px-3 text-center">نوع عضویت</div>
-                        </th>
+                        </th> */}
                         <th className="  px-0 minWidth-typeUser">
                             <div className=" px-3 text-center">نوع کاربر</div>
                         </th>
@@ -114,13 +114,13 @@ function TableMemberList({memberList , countMember}) {
                                     <div className=" w-100 text-center"> {momentJalaali(member?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
                                 </div>
                             </td>
-                            <td className="">
+                            {/* <td className="">
                                 <div
                             
                                     className=" my-2 content-td">
 
                                 </div>
-                            </td>
+                            </td> */}
                             <td className="">
                                 <div
                               

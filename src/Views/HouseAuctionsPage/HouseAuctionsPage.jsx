@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
-import {Menu, Dropdown, Breadcrumb} from 'antd';
+import {Menu, Dropdown, Breadcrumb , Pagination} from 'antd';
 import {NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg';
 import TableHouseAuctionList from './TableHouseAuctionList';
@@ -9,59 +9,113 @@ import {BASE_URL} from '../../utils';
 import {fetcher} from '../../utils/common';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-
-
+import axios from "../../utils/request";
+import Loading from '../../components/Loading';
 
 function HouseAuctionsPage(props) {
 
-    const [houseAuctions,
-        setHouseAuctions] = useState([]);
-    console.log("houseAuctions =>>>> ", houseAuctions);
+    const [houseAuctionsList , setHouseAuctionsList] = useState([]);
+    const [countHouseAuction, setCountHouseAuction] = useState();
+    const [currentPage,setcurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+        useEffect(() => {
+            setLoading(true)
+            axios.get(`${BASE_URL}/account/home-auction/`).then(res => {
+                setLoading(false)
+                console.log(res.data.data.result.count);
+                setHouseAuctionsList(res.data.data.result.results)
+                setCountHouseAuction(res.data.data.result.count)
+            }).catch(err => {
+                console.log(err);
+                setLoading(false)
+            })
+        }, []);
 
-        fetcher(`${BASE_URL}/panel/request/`, {
-            method: "GET",
-            data: "",
-            header: {}
-        }).then(res => {
-            setHouseAuctions(res.data.result.results)
-        }).catch(err => {
-            console.log(err);
-        })
 
-    }, []);
+        const handeSelectPage = (e) => {
+            console.log("Log Of Pagination", e);
+            setcurrentPage(e)
+        }
+
 
     return (
-        <React.Fragment>
-            <div className="container-fluid ">
 
-                <div className="row justify-content-start pb-3 mx-0">
+
+        <React.Fragment>
+            <Loading loading={loading}/>
+            <div  className="container-fluid px-0 container-pages">
+                <div className="row m-0">
                     <div className="col">
-                        <div className="d-flex">
-                            <Breadcrumb>
-                                <Breadcrumb.Item>
-                                    <NavLink 
-                                        key="1"
-                                        onClick={ e => props.toggleActiveNavDrawer("1")}
-                                        to="/">
-                                        خانه
-                                    </NavLink>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item>
-                                    خانه‌های حراج
-                                </Breadcrumb.Item>
-                            </Breadcrumb>
+                        <div className="row ">
+                            <div className="col content-panel-pages px-0 mx-0">
+                                    <div className="row justify-content-start pb-3 mx-0">
+                                        <div className="col">
+                                            <div className="d-flex">
+                                                <Breadcrumb>
+                                                    <Breadcrumb.Item><NavLink 
+                                                            key="1"
+                                                            onClick={ e => props.toggleActiveNavDrawer("1")}
+                                                            to="/">
+                                                            خانه
+                                                        </NavLink>
+                                                    </Breadcrumb.Item>
+                                                    <Breadcrumb.Item>
+                                                       لیست خانه‌های حراجی
+                                                    </Breadcrumb.Item>
+                                                </Breadcrumb>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row  mx-0">
+                                        <div className="col content-page p-4  ">
+                                            
+                                            <div className="row px-0 mx-0">
+                                            <TableHouseAuctionList 
+                                                houseAuctionsList={houseAuctionsList}
+                                            />
+                                            </div>
+                                            <div className="d-none d-sm-flex justify-content-center">
+                                                <Pagination
+                                                    showSizeChanger={false}
+                                                    onChange={(e)=>handeSelectPage(e)}
+                                                    defaultCurrent={1}
+                                                    total={countHouseAuction}
+                                                    defaultPageSize={5}
+                                                />
+                                            </div>
+                                            <div className="d-flex d-sm-none justify-content-center ">
+                                                        <Pagination 
+                                                            onChange={(e)=>handeSelectPage(e)}
+                                                            defaultCurrent={1} 
+                                                            total={countHouseAuction} 
+                                                            defaultPageSize={5}
+                                                            size="small"
+                                                        />
+                                                    </div>
+                                        </div>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div className="row">
-
-                    <div className="col">
-                        <TableHouseAuctionList/>
+                {/* <div className="row">
+                    <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
+                        <DrawerMenu/>
                     </div>
-                </div>
+                    <div className="col p-4 contentPage">
+                        <TableMemberList memberList={memberList}/>
+                        <div className="d-none  d-sm-flex justify-content-center mt-5">
+                            <Pagination
+                            onChange={(e)=>handeSelectPage(e)}
+                            defaultCurrent={1}
+                            total={countMember}
+                            defaultPageSize={5}
+                            />
+                     </div>
+                    </div>
+                </div> */}
+
             </div>
         </React.Fragment>
     )
