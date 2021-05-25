@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Layout, Menu, Breadcrumb  } from 'antd';
 import {
-  DesktopOutlined,
+  BankOutlined,
   HomeOutlined,
   PictureOutlined,
-  MessageOutlined,
+  CommentOutlined,
   PieChartOutlined,
   activeOpenKeys,
   FileOutlined,
@@ -122,14 +122,48 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
-                  <Menu.Item key="4" className="d-flex align-items-center" icon={<MessageOutlined />}>
+                  {/* <Menu.Item key="4" className="d-flex align-items-center" icon={<CommentOutlined />}>
                     <NavLink 
                        id="4" 
-                       to="/send-message" 
+                       to="/inbox-messages" 
                        className="mr-2" 
                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
                     >
-                        ارسال پیام
+                        پیام‌ها
+                    </NavLink>
+                  </Menu.Item> */}
+
+                  <SubMenu  key="4" icon={<CommentOutlined />} title="پیام‌ها">
+                    <Menu.Item  key="4_1">
+                      <NavLink
+                          id="4_1" 
+                          to="/inbox-messages" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                          لیست پیام‌ها
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item  key="4_2">
+                      <NavLink
+                        id="4_2" 
+                        to="/send-message" 
+                        className="mr-4" 
+                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                       >
+                        ارسال پیام‌ها
+                      </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
+                  <Menu.Item key="5" className="d-flex align-items-center" icon={<BankOutlined />}>
+                    <NavLink 
+                       id="5" 
+                       to="/house-auctions" 
+                       className="mr-2" 
+                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
+                    >
+                        خانه‌های حراجی
                     </NavLink>
                   </Menu.Item>
 

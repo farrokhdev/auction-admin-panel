@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 
 function DrawerResponsive() {
@@ -71,13 +71,26 @@ function DrawerResponsive() {
                     
                     <div style={{height : '30px'}}>
                         <NavLink 
-                            to="/send-message" 
+                            to="/inbox-messages" 
                             className="mr-2 nav-item-drawer-responsive" 
                             onClick={(e)=>setVisible(false)}
                         >
                          <div className="d-flex align-items-center">
                             <MessageFilled />
-                             <p className="mb-0 mr-2">ارسال پیام</p>
+                             <p className="mb-0 mr-2">پیام‌ها</p>
+                        </div>
+                        </NavLink>
+                    </div>
+                    
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/house-auctions" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <BankFilled />
+                             <p className="mb-0 mr-2">خانه‌های حراجی</p>
                         </div>
                         </NavLink>
                     </div>

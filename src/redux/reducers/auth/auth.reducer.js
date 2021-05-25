@@ -10,6 +10,8 @@ const initial_state ={
     // first_name : "",
     // last_name : "",
     username : null,
+    mobile : null ,
+    otp : null,
     is_logged_in : Boolean(Token())
 }
 
@@ -35,12 +37,12 @@ const authReducer = (state = initial_state , {type , payload})=> {
         //         error: null
         //     }
 
-        // case types.SET_PHONENUMBER :
-        //     console.log('SET_PHONENUMBER')
-        //     return {
-        //             ...state, 
-        //             data : payload
-        //         }
+        case types.SET_PHONENUMBER :
+            console.log('SET_PHONENUMBER')
+            return {
+                    ...state, 
+                    mobile : payload.mobile
+                }
 
 
         case types.LOGIN_SUCCESS:
@@ -98,6 +100,14 @@ const authReducer = (state = initial_state , {type , payload})=> {
                     username : payload.username,
                     
                 }
+
+        case types.GET_OTP : 
+        console.log('Get Otp Code Done', payload)
+            return {
+                ...state,
+                otp : payload.otp,
+                            
+        }
             
         default :
         return state;

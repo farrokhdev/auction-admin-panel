@@ -70,11 +70,11 @@ body{
 }
 .ant-layout-sider-children{
     // background-color: $tertiary-color !important;
-    background-color: $quaternary-color !important;
+    background-color: $dark-color !important;
 }
 
 .ant-layout-sider-trigger{
-    background-color: $quaternary-color !important;
+    background-color: $dark-color !important;
 }
 
 .ant-layout-header{
@@ -88,7 +88,12 @@ body{
     background: rgba(255, 255, 255, 0.3);
 }
 .ant-menu-item-selected{
-    background-color: #d1b6fd31 !important;
+    // background-color: #d1b6fd31 !important;
+    background-color: #ffffff1f !important;
+}
+
+.ant-menu-submenu-title span{
+    margin-right: 10px !important;
 }
 
 
@@ -97,7 +102,17 @@ body{
 }
 
 
+// .ant-avatar{
+//     background: #009688 !important;
+// }
 
+.avatar-disable{
+    background: $darkGray-color !important;
+}
+
+.avatar-logged-in{
+    background: #009688 !important;
+}
 
 .container-pages{
     // width: 80% !important;
@@ -191,13 +206,71 @@ body{
 
 }
 
+.ant-badge-count{
+    background-color: $pink-color !important;
+}
 
+.icon-bell-header{
+    color: $dark-color !important;
+    font-size: 1.25rem !important;
+}
+
+.ant-scroll-number-only-unit{
+    font-size: 0.75rem !important;
+}
+
+.ant-scroll-number-only-unit{
+    background-color: $pink-color !important;
+}
 
 .ant-menu{
     background: none !important;
     direction: rtl !important;
-        text-align: right !important;
+    text-align: right !important;
 }
+
+.ant-modal-content{
+    border-radius: 5px   !important;
+    // background-color: $quinary-color !important;
+}
+
+.modal-change-password p{
+    color: $quaternary-color !important;
+}
+
+.modal-change-password  .ant-modal-header{
+    // background-color: blueviolet !important;
+    background-color: $dark-color !important;
+    border-radius: 5px 5px 0px 0px !important;
+    
+}
+.modal-change-password .ant-modal-title{
+    color: $white-color !important;
+}
+
+.modal-change-password .ant-modal-footer{
+    display: none !important;
+}
+
+.submitNewPass{
+    @include purpelBtn;
+    width: 130px !important;
+}
+
+.submitNewPass:hover{
+background-color: $quaternary-color !important;
+color: $white-color;
+}
+
+.cancelSetPassBtn{
+    @include cancelBtn;
+}
+
+.cancelSetPassBtn:hover{
+    background-color: $warning-color !important;
+    color: $white-color ;
+}
+
 
 
 .userInfoSection .ant-input {
@@ -283,12 +356,13 @@ th.ant-table-cell{
 }
 
 table thead {
-background-color: $tertiary-color !important;
+// background-color: $tertiary-color !important;
+background-color: $pink-color !important;
 }
 
 .table thead th{
     border: none !important;
-
+    color: $dark-color;
 }
 
 table tbody  {
@@ -361,7 +435,8 @@ table  tbody tr td {
 
 .headerLogin {
     height: 48px !important;
-    background-color: $quaternary-color !important;
+    // background-color: $quaternary-color !important;
+    background-color: $dark-color  !important;
     @include FlexContent;
     /* width: 100% !important; */
     color: #FFFFFF;
@@ -452,17 +527,16 @@ table  tbody tr td {
 }
 
 .enter-to-panel-btn {
+    @include greenBtn;
     width: 100%;
-    height: 48px;
+    height: 45px !important;
     margin-top: 17px;
-    border-radius: 24px;
-    outline: none !important;
-    border: none !important;
-    background-color: $primary-color !important;
-    margin-bottom: 11px;
+    // background-color: $primary-color !important;
+    background-color: $pink-color !important;
     font-size: 1rem !important;
-    // margin-top: 58px !important;
 }
+
+
 
 // #basic_mobile.ant-input::placeholder {
 //     margin-right: 15px !important;
@@ -472,6 +546,187 @@ table  tbody tr td {
     padding-right: 20px !important
 }
 
+.enter-whith-google button{
+    @include FlexContent;
+    @include greenBtn;
+    width: 100% !important;
+    height: 45px !important;
+    // padding-left: 20px !important;
+    // box-shadow: 0px 1px 6px #00000029 !important;
+    // border-radius: 38px !important;
+    // outline: none !important;
+}
+
+.enter-whith-google div{
+    background-color: $white-color !important;
+    margin: 0px !important;
+}
+
+.enter-whith-google div{
+    background-color: transparent !important;
+}
+
+.enter-whith-google button:hover{
+    background-color: $gray2-color !important;
+}
+
+//---------- Recovery Password -----------
+
+.recoveryPasswordPage {
+    width: 90vw !important;
+    height: 261px !important;
+    max-width: 517px;
+    max-height: 420px;
+    display: flex !important;
+    justify-content: center !important;
+    position: relative;
+    box-shadow: 0px 1px 6px #00000029;
+    border-radius: 10px;
+}
+
+.btn-get-confirm-code {
+    @extend .enter-to-panel-btn;
+    margin-top: 20px;
+
+}
+
+
+//---------- Confirm Code ----------
+
+.changeNumberText {
+    display: flex;
+    justify-content: center;
+}
+
+.sendConfirmCode {
+    width: 100%;
+    height: 48px;
+    margin-top: 0px;
+    border-radius: 24px;
+    outline: none !important;
+    border: none !important;
+    // background-color: $quinary-TextColor!important;
+    background-color: $primary-color;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.timerConfirmPhoneNumber {
+    position: absolute !important;
+    width: 43px;
+    height: 31px;
+    color: #FF6D85 !important;
+    top: 8px !important;
+    left: 14px !important;
+    font-size: 18px;
+    z-index: 100000 !important;
+}
+
+.boxNumberPhone {
+    padding: 0 20px !important;
+    margin-top: 25px;
+}
+
+.imageConfirmPhone {
+    width: 177px;
+    height: 157px;
+    background-image: url('../../images/svg/sendConfirmCode.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.boxImageLoginPage {
+    margin-top: 27px !important;
+    @include FlexContent;
+}
+.loginPage {
+    width: 90vw !important;
+    // height: 561px !important;
+    max-width: 517px;
+    // max-height: 561px;
+    display: flex !important;
+    justify-content: center !important;
+    position: relative;
+    border-radius: 10px !important;
+    @include BoxShadow;
+}
+
+.againSendCodeBtn {
+    @include warningBtn;
+    position: absolute !important;
+    z-index: 100000 !important;
+    left: 6px !important;
+    top: 4px !important;
+
+}
+
+.againSendCodeBtn:hover{
+    background-color: $warning-color !important;
+    color: $white-color;
+}
+
+// --------- Set Password Page --------
+
+.setPasswordBox {
+    width: 90vw !important;
+    max-width: 517px;
+     max-height: 476px; 
+    display: flex !important;
+    justify-content: center !important;
+    position: relative;
+    box-shadow: 0 1px 6px #00000029 !important;
+    border-radius: 10px;
+    // padding-bottom: 38px !important;
+    // background-color: red;
+}
+
+.rememberTextPassword {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center !important;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+@media(max-width : '575px') {
+    .rememberTextPassword{
+        font-size: 0.8rem !important;
+    }
+}
+
+.rememberTextPassword a{
+    color: hotpink !important;
+}
+
+.textAllow {
+    color: $primary-TextColor !important;
+    font-size: 0.8rem !important;
+}
+
+.enterToCompany {
+    width: 100%;
+    height: 45px;
+    margin-top: 10px !important;
+    border-radius: 24px;
+    outline: none !important;
+    border: none !important;
+    background-color: $pink-color !important;
+    // margin-bottom: 11px;
+    font-size: 1rem !important;
+    // margin-top: 58px !important;
+}
+
+@media(max-width : '575px'){
+    .enterToCompany{
+        margin-top: 22px !important;
+    }
+}
+
+.term-and-conditions{
+    color: hotpink ;
+}
 
 // -------- Register Page ----------
 
@@ -586,8 +841,8 @@ table  tbody tr td {
 }
 
 .ant-input-search-button{
-    background-color: $tertiary-color !important;
-    color: $quaternary-color  !important;
+    background-color: $pink-color !important;
+    color: $white-color  !important;
     border-radius: 100% !important;
     margin-right: 10px !important;
 }
@@ -677,11 +932,11 @@ text-align: right !important;
 font-size: 0.8rem !important;
 }
 
-.ant-notification-notice-icon-success{
+.ant-notification-notice-icon-success , .ant-notification-notice-icon-error{
     position: absolute !important;
-    left: 10px !important;
-    
+    left: 10px !important;  
 }
+
 
 .ant-notification-notice-description{
     text-align: right !important
@@ -724,6 +979,10 @@ color: $white-color;
     color: $white-color !important;
 }
 
+.btn-send-message > span:active{
+    color: $white-color !important;
+}
+
 .btn-reset-message{
 
     @include grayBtn;
@@ -742,3 +1001,185 @@ color: $white-color;
 .ant-form-item-label{
     text-align: right !important;
 }
+
+.input-message-send-to{
+    padding-left: 8.5% !important;
+}
+
+@media(max-width : '575px'){
+    .input-message-send-to{
+        padding-left: 0% !important;
+    } 
+}
+
+.input-message-send-to .ant-form-item-label{
+    // max-width: 765px !important;
+    // right: 200px !important;
+
+    // margin-left: 90px;
+    // margin-left: 20% !important;
+}
+
+.row-messages .contentTd {
+    border-top: 1px solid $gray2-color !important;
+    border-bottom: 1px solid $gray2-color !important;
+
+}
+
+.row-messages td:first-child .border-row-message-right{
+    border-right: 1px solid $gray2-color;
+}
+
+.row-messages td:last-child .border-row-left {
+    border-left: 1px solid $gray2-color;
+}
+
+.contentTd {
+    position: relative;
+    // height: '80px' !important;
+    @include FlexContent;
+    margin: '12px 0 12px';
+    // background-color: #F9F9F9 !important;
+    min-width: 100px !important;
+
+}
+
+.minWidth-titleMessage{
+    min-width: 12rem !important;
+}
+
+.minWidth-titleMessage{
+    min-width: 12rem !important;
+}
+
+.minWidth-DateMessage{
+    min-width: 10rem !important;
+}
+
+.minWidth-DateMessage{
+    min-width: 10rem !important;
+}
+
+.minWidth-status{
+    min-width: 10rem !important;
+}
+
+.minWidth-type{
+    min-width: 10rem !important;
+}
+
+.minWidth-details{
+    min-width: 10rem !important;
+}
+
+.btn-scroll-to-send-message{
+    @include grayBtn;
+    min-width: 100px !important;
+}
+
+.btn-scroll-to-send-message:hover{
+    
+    background-color: $darkGray-color !important;
+    color: $white-color;
+}
+
+.date-message-details {
+    font-size: 0.7rem !important;
+    color: #8B8B8B !important;
+}
+
+.titleBox-message-details {
+    font-weight: bold !important;
+    font-size: 0.9rem !important;
+    color: $primary-TextColor !important;
+
+}
+
+.text-details-message {
+    font-size: 0.9rem !important;
+}
+
+.modal-detail-message .ant-modal-footer {
+    display: none !important;
+}
+
+.modal-detail-message .ant-modal-header{
+    background-color: $tertiary-color !important;
+    .ant-modal-title{
+        color : $white-color !important;
+
+    }
+}
+
+.btn-close-detail-message{
+    @include grayBtn;
+    width: 150px !important;
+}
+
+.btn-close-detail-message:hover{
+    background-color: $darkGray-color !important;
+    color : $white-color;
+}
+
+.btn-show-detail-message{
+    @include pinkBtn;
+    background-color: $primary-TextColor !important;
+    width: 100px !important
+}
+
+.btn-show-detail-message:hover{
+    background-color : $dark-color !important;
+}
+
+
+
+// --------- Check Membership ---------
+
+.btn-accept-membership-auction{
+    @include purpelBtn;
+}
+
+.btn-accept-membership-auction:hover{
+    background-color: $quaternary-color  !important;
+    color : $white-color;
+}
+
+.btn-eject-membership-auction{
+    @include cancelBtn;
+}
+
+.btn-eject-membership-auction:hover{
+    background-color: $warning-color  !important;
+    color : $white-color;
+}
+
+.confirm-accept-membership .ant-btn:first-child{
+    @include cancelBtn;
+    margin-left: 10px !important;
+}
+
+.confirm-accept-membership .ant-btn:first-child:hover{
+    background-color: $warning-color;
+    color: $white-color;
+}
+
+.confirm-accept-membership .ant-btn:nth-child(2){
+    @include greenBtn;
+}
+
+.confirm-accept-membership .ant-btn:nth-child(2):hover{
+    background-color: $primary-color !important;
+    color: $white-color;
+}
+
+.ant-modal-close-x{
+    display: none !important;
+}
+
+.modal-eject-membership .ant-modal-footer{
+    display: none !important;
+}
+.modal-accept-membership .ant-modal-footer{
+    display: none !important;
+}
+

@@ -1,14 +1,17 @@
-import React from 'react';
-import {Breadcrumb , Mentions, Form, Button} from 'antd';
-import { NavLink} from 'react-router-dom';
-import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
-import {connect} from 'react-redux';
-
+import React , {useState , useEffect , useRef} from 'react'
+import {Mentions, Form, Button , Select , Breadcrumb , message} from 'antd';
+import {NavLink} from 'react-router-dom';
+import axios from '../../utils/request';
+import {BASE_URL} from '../../utils';
 
 const { Option, getMentions } = Mentions;
-
+const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 
 function SendMessagePage(props) {
+
+    const myRef1 = useRef(null)
+
+    const executeScroll = (e) => scrollToRef(e)
 
 
     const [form] = Form.useForm();
@@ -16,26 +19,56 @@ function SendMessagePage(props) {
     const onReset = () => {
       form.resetFields();
     };
-  
-    const onFinish = async () => {
-      try {
-        const values = await form.validateFields();
-        console.log('Submit:', values);
-      } catch (errInfo) {
-        console.log('Error:', errInfo);
-      }
-    };
-  
-    // const checkMention = async (_, value) => {
-    //   const mentions = getMentions(value);
-  
-    //   if (mentions.length < 2) {
-    //     throw new Error('More than one must be selected!');
-    //   }
-    // };
 
+    const [memberList, setMemberList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
 
+        axios(`${BASE_URL}/panel/users/`).then(res => {
+            setMemberList(res.data.data.result.results)
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }, []);
+
+    const onFinish = (values) => {
+        console.log(values);
+        setLoading(true)
+        let payload = {
+            "users": values.users,
+            "message": {
+                "title": values.title,
+                "body": values.body
+            }
+        }
+
+        axios.post(`${BASE_URL}/panel/message/`, payload).then(res => {
+            setLoading(false)
+            message.success({content: `${' '}ارسال پیام با موفقیت انجام شد`,
+                className: 'text-success',
+                style: {
+                marginTop: '10vh',
+            },})
+
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+            if(err.response && err?.response?.data?.message !== undefined ){
+                message.error({content: `${' '}${err?.response?.data?.message}`,
+                className: 'text-danger',
+                style: {
+                marginTop: '10vh',
+            },})
+            }
+        })
+           
+        
+    }    
 
     return (
         <React.Fragment>
@@ -64,11 +97,35 @@ function SendMessagePage(props) {
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
+                                   
 
-                                        <Form form={form} layout="horizontal" onFinish={onFinish}>
+                                        <Form  className="pt-5" form={form} layout="horizontal" onFinish={onFinish}>
+                                            <div ref={myRef1}></div>
+                                        <Form.Item
+                                            className="text-right input-message-send-to"
+                                            name="users"
+                                            label="ارسال به"
+                                            rules={[
+                                            {
+                                                required: true,
+                                                message: 'مخاطب را انتخاب نکرده‌اید!',
+                                                type: 'array',
+                                            },
+                                            ]}
+                                        >
+                                            <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                {memberList.length >= 1 ? memberList.map(member => (
 
+                                                    <React.Fragment key={member?.id}>
+                                                        <Option value={`${member?.id}`}>{member?.first_name}</Option>
+                                                    </React.Fragment>
+                                                )) : <Option value=""></Option>}
+                                            
+                                            </Select>
+                                        </Form.Item>
 
                                             <Form.Item
                                                 name="title"
@@ -87,7 +144,7 @@ function SendMessagePage(props) {
                                                 rules={[{ required: true, message: 'ورودی عنوان خالی است!' }]}
                                             
                                                 >
-                                                <Mentions placeholder="عنوان پیام" rows={1} className="text-right">
+                                                <Mentions placeholder="عنوان پیام را وارد کنید" rows={1} className="text-right">
                                                     
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
@@ -96,7 +153,7 @@ function SendMessagePage(props) {
                                             </Form.Item>
 
                                             <Form.Item
-                                                name="text"
+                                                name="body"
                                                 label="متن پیام"
                                                 labelCol={{
                                                     span: 6
@@ -127,10 +184,6 @@ function SendMessagePage(props) {
                                                     پاک کردن
                                                 </Button>
                                             </Form.Item>
-
-
-
-
                                         </Form>
                                     </div>
                                 </div>
@@ -144,17 +197,4 @@ function SendMessagePage(props) {
     )
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
-    }
-  }
-  
-  const mapStateToProps = (store) => {
-    return {
-        panel: store.panelReducer
-    }
-  }
-  
-  export default connect(mapStateToProps , mapDispatchToProps)(SendMessagePage)
+export default SendMessagePage;

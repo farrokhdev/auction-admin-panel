@@ -6,28 +6,29 @@ import {Pagination , Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-
+import Loading from '../../components/Loading';
 
 function MembersPage(props) {
 
     const [memberList,setMemberList] = useState([]);
     const [countMember,setCountMember] = useState();
     const [currentPage,setcurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
-    console.log("memberList =>>>", memberList);
-    console.log("countMember =>>>", countMember);
 
     useEffect(() => {
-
+        setLoading(true)
         fetcher(`${BASE_URL}/panel/users/?page=${currentPage}&page_size=10`, {
             method: "GET",
             data: "",
             header: {}
         }).then(res => {
+            setLoading(false)
             setMemberList(res.data.result.results)
             setCountMember(res.data.result.count)
         }).catch(err => {
             console.log(err);
+            setLoading(false)
         })
 
     }, [currentPage]);
@@ -39,10 +40,8 @@ function MembersPage(props) {
 
     return (
         <React.Fragment>
+            <Loading loading={loading} />
             <div  className="container-fluid px-0 container-pages">
-
-                
-
                 <div className="row m-0">
                     <div className="col">
                         <div className="row ">
