@@ -84,7 +84,7 @@ function MembersPage(props) {
                                                             onChange={(e)=>handeSelectPage(e)}
                                                             defaultCurrent={1} 
                                                             total={countMember} 
-                                                            defaultPageSize={5}
+                                                            defaultPageSize={10}
                                                             size="small"
                                                         />
                                                     </div>

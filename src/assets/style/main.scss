@@ -1131,6 +1131,132 @@ color: $white-color;
     background-color : $dark-color !important;
 }
 
+// ---------- Ticketing -----------
+// .btn-cancel-ticket{
+//    @include cancelBtn 
+// }
+
+// .btn-cancel-ticket:hover{
+//     background-color: $warning-color !important;
+//     color: $white-color;
+// }
+
+.btn-submit-new-ticket{
+    @include purpelBtn;
+}
+
+.btn-submit-new-ticket:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+.input-item-send-ticket{
+    width: 80% !important;
+}
+
+@media(max-width : '575px'){
+    .input-item-send-ticket{
+        width: 100% !important;
+    }
+}
+
+.box-content-ticket-user{
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+.box-header-ticket-admin-details{
+    @extend .box-header-ticket-user-details;
+    
+}
+
+@media (min-width : '575px'){
+    .box-header-ticket-user-details{
+        max-width: 100% !important;
+    }
+}
+
+.box-text-ticket-user-details{
+    padding: 16px 10px 29px 10px!important;
+    border: 1px solid #DBD8D8;
+    border-radius: 10px;
+    background-color: #F5F5F5 !important;
+}
+
+.box-content-ticket-user{
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+.box-text-ticket-admin-details{
+    @extend .box-text-ticket-user-details;
+    background-color: $primary-TextColor !important;
+}
+
+.box-text-ticket-user-details{
+    padding: 16px 10px 29px 10px!important;
+    border: 1px solid #DBD8D8;
+    border-radius: 10px;
+    background-color: #F5F5F5 !important;
+}
+@media (min-width : '575px'){
+    .box-text-ticket-user-details{
+        margin-right : 100px !important;
+        max-width: 100% !important;
+        min-width: 350px;
+        padding: 16px 21px 29px !important;
+    }
+}
+
+.box-text-ticket-admin-details{
+    @extend .box-text-ticket-user-details;
+    background-color: $tertiary-color !important;
+}
+
+.btn-send-new-ticket{
+    @include purpelBtn;
+}
+
+.btn-send-new-ticket:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+.btn-close-ticket{
+    @include cancelBtn;
+}
+
+.btn-close-ticket:hover{
+    background-color: $warning-color !important;
+    color: $white-color;
+}
+
+.btn-cancel-send-ticket{
+    @include grayBtn;
+    width: 100px !important;
+}
+
+.btn-cancel-send-ticket:hover{
+    background-color: $darkGray-color !important;
+    color: $white-color;
+}
+
+.text-state-pending{
+    color: $darkGray-color;
+}
+
+.text-state-fail{
+    color: $pink-color;
+}
+
+.text-state-read{
+    color: $primary-color;
+}
+
+.text-state-submit{
+    color: $primary-color;
+}
+
 
 
 // --------- Check Membership ---------
@@ -1181,5 +1307,40 @@ color: $white-color;
 }
 .modal-accept-membership .ant-modal-footer{
     display: none !important;
+}
+
+
+// ----------- Auctions ------------
+
+.ant-picker{
+    height: 38px !important;
+    border-radius: 20px !important;
+}
+
+.ant-select-selector{
+    min-width: 200px !important;
+}
+
+.ant-select-item-option-content{
+    width: 200px !important;
+}
+
+.tabs-link-add-auction{
+    font-size: 12px !important;
+}
+
+.tabs-link-add-auction p{
+    cursor: pointer !important;
+}
+
+.btn-redirect-to-add-auction{
+    @include greenBtn;
+    background-color : $primary-color !important;
+    color : $white-color;
+    width: 150px !important;
+}
+
+.text-box-aria-add-auction.ant-input{
+    min-height: 100px !important;
 }
 

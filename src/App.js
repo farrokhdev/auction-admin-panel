@@ -23,10 +23,16 @@ import RecoveryPasswordPage from './Views/RecoveryPasswordPage/RecoveryPasswordP
 import ConfirmCodeOtpPage from "./Views/ConfirmCodeOtpPage/ConfirmCodeOtpPage";
 import SetpasswordPage from "./Views/SetpasswordPage/SetpasswordPage";
 import AuctionsOfHouseAuctionPage from "./Views/AuctionsOfHouseAuctionPage/AuctionsOfHouseAuctionPage";
-import SingleHouseAuctionDetails from "./Views/SingleHouseAuctionDetails/SingleHouseAuctionDetails";
+// import SingleHouseAuctionDetails from "./Views/SingleHouseAuctionDetails/SingleHouseAuctionDetails";
+import ShowDetailHouseAuctionPage from "./Views/ShowDetailHouseAuctionPage";
 import ParticipantsInAuctionList from "./Views/ParticipantsInAuctionList";
 import CheckMembershipAuctionPage from "./Views/CheckMembershipAuctionPage";
 import MessagesList from "./Views/MessagesList/MessagesList";
+import TicketPage from "./Views/TicketPage/TicketPage";
+import SendNewTicket from './Views/SendNewTicketPage';
+import ApplicantsMembershipInAuctionList from './Views/ApplicantsMembershipInAuctionList';
+import AuctionsPage from "./Views/AuctionsPage";
+import AddNewAuctionPage from "./Views/AddNewAucitonPage/AddNewAuctionPage";
 
 // import Main from './public/main'
           
@@ -49,13 +55,18 @@ function App(props) {
                         {/* {props.auth.is_logged_in ?  */}
                         
                         <>
-                            <Route exact path="/house-auctions/auctions/:id" render={props=><Main {...props}><AuctionsOfHouseAuctionPage {...props} /></Main>}/>
+                            <Route exact path="/house-auctions/auctions/:id/:name" render={props=><Main {...props}><AuctionsOfHouseAuctionPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions-participants/:id" render={props=><Main {...props}><ParticipantsInAuctionList {...props} /></Main>}/>
+                            <Route exact path="/house-auctions-applicants/:id" render={props=><Main {...props}><ApplicantsMembershipInAuctionList {...props} /></Main>}/>
                             <Route exact path="/check-membership-auctions/:id" render={props=><Main {...props}><CheckMembershipAuctionPage {...props} /></Main>}/>
-                            <Route exact path="/house-auctions/:id" render={props=><Main {...props}><SingleHouseAuctionDetails {...props} /></Main>}/>
+                            <Route exact path="/house-auctions/:id" render={props=><Main {...props}><ShowDetailHouseAuctionPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions" render={props=><Main {...props}><HouseAuctionsPage {...props} /></Main>}/>
+                            <Route exact path="/add-new-auction" render={props=><Main {...props}><AddNewAuctionPage {...props} /></Main>}/>
+                            <Route exact path="/auctions" render={props=><Main {...props}><AuctionsPage {...props} /></Main>}/>
                             <Route exact path="/inbox-messages" render={props=><Main {...props}><MessagesList {...props} /></Main>}/>
                             <Route exact path="/send-message" render={props=><Main {...props}><SendMessagePage {...props} /></Main>}/>
+                            <Route exact path="/tickets" render={props=><Main {...props}><TicketPage {...props} /></Main>}/>
+                            {/* <Route exact path="/send-ticket" render={props=><Main {...props}><SendNewTicket {...props} /></Main>}/> */}
                             {/* <Route exact path="/auctions/:id" render={props=><Main {...props} ><SingleAuctionPage {...props}/></Main>}/> */}
                             {/* <Route exact path="/auctions-members/:id" component={MemberAuctionInfo}/>
                             <Route exact path="/auctions-members" component={MembersAuction}/>

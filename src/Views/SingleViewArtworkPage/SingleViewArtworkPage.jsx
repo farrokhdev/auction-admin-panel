@@ -4,7 +4,8 @@ import ImgCrop from 'antd-img-crop';
 import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
+// import {fetcher} from '../../utils/common';
+import axios from "../../utils/request";
 
 
 
@@ -20,21 +21,45 @@ function SingleViewArtworkPage(props) {
       };
     const [artwork, setArtwork] = useState();
 
-    console.log("artwork =>>>",artwork);
+    console.log("artwork =>>>",artwork?.artwork_height);
 
       useEffect(() => {
 
-        fetcher(`${BASE_URL}/sale/product/${props.match.params.id}`, {
-            method: "GET",
-            data: "",
-            header: {}
-        }).then(res => {
-            setArtwork(res.data.result.results)
+        axios.get(`${BASE_URL}/sale/product/${props.match.params.id}/`).then(res => {
+            setArtwork(res.data.data.result)
         }).catch(err => {
             console.log(err);
         })
 
     }, []);
+
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        if(artwork){
+
+            form.setFieldsValue({
+
+                artwork_height : artwork?.artwork_height,
+                artwork_length : artwork?.artwork_length,
+                artwork_link : artwork?.artwork_link,
+                artwork_title : artwork?.artwork_title,
+                artwork_num : artwork?.artwork_num,
+                artwork_width : artwork?.artwork_width,
+                email : artwork?.credentials?.email,
+                english_artist_name : artwork?.english_artist_name,
+                persian_artist_name : artwork?.persian_artist_name,
+                english_description : artwork?.english_description,
+                persian_description : artwork?.persian_description,
+                price : artwork?.price,
+                technique : artwork?.technique,
+                artwork_owner_name : artwork?.owner?.first_name,
+                artwork_category : artwork?.category?.title,
+
+            })
+        }
+
+    }, [artwork]);
 
     //  const [mainPic, setMainPic] = useState(); 
 
@@ -111,7 +136,27 @@ function SingleViewArtworkPage(props) {
         
                     <div className="col pt-5">
 
-                    <Form {...layout} name="nest-messages" onFinish={onFinish} >
+                    <Form 
+                        {...layout} name="nest-messages" 
+                        initialValues={{ 
+
+                            artwork_height : artwork?.artwork_height,
+                            // artwork_length : artwork?.artwork_length,
+                            // artwork_link : artwork?.artwork_link,
+                            // artwork_title : artwork?.artwork_title,
+                            // artwork_num : artwork?.artwork_num,
+                            // artwork_width : artwork?.artwork_width,
+                            // email : artwork?.credentials?.email,
+                            // english_artist_name : artwork?.english_artist_name,
+                            // persian_artist_name : artwork?.persian_artist_name,
+                            // english_description : artwork?.english_description,
+                            // persian_description : artwork?.persian_description,
+                            // price : artwork?.price,
+                            // technique : artwork?.technique,
+                            // artwork_owner_name : artwork?.owner?.first_name,
+                            // artwork_category : artwork?.category?.title, 
+                         }} 
+                        onFinish={onFinish} >
 
 
                         <div className="d-block d-lg-flex ">
@@ -212,7 +257,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_category"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -260,7 +305,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="persian_artist_name"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -284,16 +329,17 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="english_artist_name"
                                             className="w-100 "
                                             // label="حراج دار"
+                                            // value={artwork?.english_artist_name}
                                             rules={[
                                                 {
                                                     required: true,
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <Input  inintialValue={artwork?.english_artist_name}/>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -356,7 +402,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_owner_name"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -404,7 +450,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_length"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -428,7 +474,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_width"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -452,16 +498,17 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
-                                            className="w-100 "
+                                            name="artwork_height"
+                                            className="w-100"
                                             // label="حراج دار"
+                                            initialValues={artwork?.artwork_height}
                                             rules={[
                                                 {
                                                     required: true,
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <Input  />
                                     </Form.Item>
                                 </div>
                             </div>
@@ -476,7 +523,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="technique"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -594,7 +641,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="price"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -618,7 +665,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="persian_description"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -641,7 +688,7 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="english_description"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[

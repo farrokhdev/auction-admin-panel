@@ -1,29 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import DrawerMenu from '../../components/DrawerMenu';
-import Header from '../../components/Header';
-import {Menu, Dropdown, Breadcrumb , Pagination} from 'antd';
-import {NavLink} from 'react-router-dom';
-import icon_more from '../../images/svg/icon-more.svg';
-import TableAuctionOfHouseAuctionsPage from './TableAuctionOfHouseAuctionsPage';
+import React , {useState , useEffect} from 'react'
+import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
+import Loading from '../../components/Loading';
+import {Pagination , Breadcrumb} from 'antd';
+import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-import axios from "../../utils/request";
-import Loading from '../../components/Loading'
+import TableAuctonsList from './TableAuctonsList';
 
-function AuctionsOfHouseAuctionPage(props) {
 
-    const [auctionsInHouseAuction , setAuctionsInHouseAuction] = useState([]);
-    const [countAuctionsInHouseAuction, setCountAuctionsInHouseAuction] = useState();
+function AuctionsPage(props) {
+    
+    const [auctionsList , setAuctionsList] = useState([]);
+    const [countAuction, setCountAuction] = useState();
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            axios.get(`${BASE_URL}/sale/join-auction/?sale__house__id=${props.match.params.id}`).then(res => {
+            axios.get(`${BASE_URL}/auctions/?page=${currentPage}&page_size=10`).then(res => {
                 setLoading(false)
-                setAuctionsInHouseAuction(res.data.data.result.results)
-                setCountAuctionsInHouseAuction(res.data.data.result.count)
+                setAuctionsList(res.data.data.result.results)
+                setCountAuction(res.data.data.result.count)
             }).catch(err => {
                 console.log(err);
                 setLoading(false)
@@ -37,9 +34,11 @@ function AuctionsOfHouseAuctionPage(props) {
         }
 
 
+        const handleRedirect = () => {
+            window.location.href = "/#add-new-auction";
+        }
+
     return (
-
-
         <React.Fragment>
             <Loading loading={loading}/>
             <div  className="container-fluid px-0 container-pages">
@@ -64,19 +63,8 @@ function AuctionsOfHouseAuctionPage(props) {
                                                             key="5"
                                                             onClick={ e => props.toggleActiveNavDrawer("1")}
                                                             to="/house-auctions">
-                                                           خانه‌های حراج
+                                                           حراج‌ها
                                                         </NavLink>
-                                                    </Breadcrumb.Item>
-                                                    <Breadcrumb.Item>
-                                                        <NavLink 
-                                                            key="5"
-                                                            onClick={ e => props.toggleActiveNavDrawer("1")}
-                                                            to="/house-auctions">
-                                                           {props.match.params.name}
-                                                        </NavLink>
-                                                    </Breadcrumb.Item>
-                                                    <Breadcrumb.Item>
-                                                     حراج‌های فعال
                                                     </Breadcrumb.Item>
                                                 </Breadcrumb>
                                             </div>
@@ -84,11 +72,12 @@ function AuctionsOfHouseAuctionPage(props) {
                                     </div>
                                     <div className="row  mx-0">
                                         <div className="col content-page p-4  ">
+
+                                            <button className="btn-redirect-to-add-auction" onClick={handleRedirect}>افزودن حراج جدید</button>
                                             
-                                            <div className="row px-0 mx-0">
-                                                <TableAuctionOfHouseAuctionsPage 
-                                                    auctionsInHouseAuction={auctionsInHouseAuction}
-                                                    houseAuciton={props.match.params.name}
+                                            <div className="row px-0 mx-0 mt-3">
+                                                <TableAuctonsList 
+                                                    auctionsList={auctionsList}
                                                 />
                                             </div>
                                             <div className="d-none d-sm-flex justify-content-center">
@@ -96,7 +85,7 @@ function AuctionsOfHouseAuctionPage(props) {
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1}
-                                                    total={countAuctionsInHouseAuction}
+                                                    total={countAuction}
                                                     defaultPageSize={5}
                                                 />
                                             </div>
@@ -104,7 +93,7 @@ function AuctionsOfHouseAuctionPage(props) {
                                                 <Pagination 
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1} 
-                                                    total={countAuctionsInHouseAuction} 
+                                                    total={countAuction} 
                                                     defaultPageSize={5}
                                                     size="small"
                                                 />
@@ -115,28 +104,11 @@ function AuctionsOfHouseAuctionPage(props) {
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
-                        <DrawerMenu/>
-                    </div>
-                    <div className="col p-4 contentPage">
-                        <TableMemberList memberList={memberList}/>
-                        <div className="d-none  d-sm-flex justify-content-center mt-5">
-                            <Pagination
-                            onChange={(e)=>handeSelectPage(e)}
-                            defaultCurrent={1}
-                            total={countMember}
-                            defaultPageSize={5}
-                            />
-                     </div>
-                    </div>
-                </div> */}
 
             </div>
         </React.Fragment>
     )
 }
-
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -151,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-  export default connect(mapStateToProps , mapDispatchToProps)(AuctionsOfHouseAuctionPage)
+  export default connect(mapStateToProps , mapDispatchToProps)(AuctionsPage)

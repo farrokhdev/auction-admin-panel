@@ -7,12 +7,12 @@ import {BASE_URL} from '../../utils';
 import {fetcher} from '../../utils/common';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';
-import TableInboxMessage from './TableInboxMessage';
+import TableTickets from './TableTickets';
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 
-function MessagesList(props) {
+function TicketPage(props) {
 
     const myRef1 = useRef(null)
 
@@ -44,21 +44,23 @@ function MessagesList(props) {
 
     const [loading, setLoading] = useState(false);
 
-    const [messageList, setMessageList] = useState([]);
-    const [countMessages , setCountMessages] = useState(0);
+    const [ticketList, setTicketList] = useState([]);
+    const [countTickets , setCountTickets] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
+
+    console.log("currentPage",currentPage);
 
     useEffect(() => {
 
-        axios.get(`${BASE_URL}/panel/message/`).then(res => {
-            setMessageList(res.data.result.items)
-            setCountMessages(res.data.count)
+        axios.get(`${BASE_URL}/panel/ticket/?page=${currentPage}&page_size=5`).then(res => {
+            setTicketList(res.data.data.result.results)
+            setCountTickets(res.data.count)
         }).catch(err => {
             console.log(err);
         })
 
 
-    }, []);
+    }, [currentPage]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
@@ -98,8 +100,8 @@ function MessagesList(props) {
                                 
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
-                                        <div className="row px-3 mb-5">
-                                            <TableInboxMessage messageList={messageList}/>
+                                        <div className="row px-3 ">
+                                            <TableTickets ticketList={ticketList}/>
                                          </div>
                                          <div className="row  mx-0">
                                         <div className="col  px-2  px-md-4  ">
@@ -110,7 +112,7 @@ function MessagesList(props) {
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1}
-                                                    total={countMessages}
+                                                    total={countTickets}
                                                     defaultPageSize={5}
                                                 />
                                             </div>
@@ -118,7 +120,7 @@ function MessagesList(props) {
                                                 <Pagination 
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1} 
-                                                    total={countMessages} 
+                                                    total={countTickets} 
                                                     defaultPageSize={5}
                                                     size="small"
                                                 />
@@ -129,9 +131,9 @@ function MessagesList(props) {
 
 
                                         <div className="d-flex d-lg-none justify-content-end mb-3 ml-3">
-                                            <NavLink to= "/send-message">
+                                            {/* <NavLink to= "/send-message">
                                                 <button className="btn-scroll-to-send-message" >ارسال پیام</button>
-                                            </NavLink>
+                                            </NavLink> */}
                                         </div>
                                     </div>
                                 </div>
@@ -158,4 +160,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-  export default connect(mapStateToProps , mapDispatchToProps)(MessagesList)
+  export default connect(mapStateToProps , mapDispatchToProps)(TicketPage)
