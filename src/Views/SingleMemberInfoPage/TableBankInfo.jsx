@@ -15,7 +15,7 @@ const layout = {
 
 function TableBankInfo({member , bankAccountInfo}) {
 
-    console.log("**bankAccountInfo**" , bankAccountInfo.length);
+   
 
     const originData = [];
     const [form] = Form.useForm();
@@ -30,34 +30,26 @@ function TableBankInfo({member , bankAccountInfo}) {
     const onFinishFailed = (error) => {
         console.log(error);
     };
-    
-    for (let i = 0; i < bankAccountInfo.length; i++) {
 
-        console.log("bankAccountInfo__bank_name =>>>>", bankAccountInfo?.bank_name);
-        console.log("bankAccountInfo__card_number =>>>>", bankAccountInfo.card_number);
-        console.log("bankAccountInfo__account_number =>>>>", bankAccountInfo?.account_number);
-        console.log("bankAccountInfo__sheba_number =>>>>", bankAccountInfo?.sheba_number);
-        
-
-        originData.push({
+    useEffect(() => {
+      console.log("**bankAccountInfo**" ,bankAccountInfo, bankAccountInfo.length,originData);
+      if(bankAccountInfo.length)
+        for (let i = 0; i < bankAccountInfo.length; i++) {
+          originData.push({
+              
+            key: i.toString(),
             
-          key: i.toString(),
-          
-          id: ` ${i}`,
-          bank_name: convertTypePersian(bankAccountInfo[0]?.bank_name),
-          // bank_name: convertTypePersian("melli"),
-
-          card_number: bankAccountInfo[0].card_number,
-          // card_number: '111222333444555666777888',
-
-          account_number: bankAccountInfo[0]?.account_number,
-          // account_number: '111222333444555666777888',
-       
-          sheba_number: bankAccountInfo[0]?.sheba_number,
-          // sheba_number: '111222333444555666777888',
-        //   address: `London Park no. ${i}`,
-        });
-      }
+            id: ` ${i}`,
+            bank_name: bankAccountInfo[i]?.bank_name,
+            card_number: bankAccountInfo[i].card_number,
+            account_number: bankAccountInfo[i]?.account_number,        
+            sheba_number: bankAccountInfo[i]?.sheba_number,
+          });
+        }
+        setData(originData)
+    }, [bankAccountInfo]);
+    
+   
       const isEditing = (record) => record.key === editingKey;
 
       const EditableCell = ({

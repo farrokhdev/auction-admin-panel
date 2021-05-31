@@ -5,7 +5,7 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import { Menu, Dropdown } from 'antd';
 
-function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
+function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton}) {
 
 
     const menu = (
@@ -34,13 +34,33 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
     );
 
 
+    
+    function messageStatusTypePersian(value) {
+
+        switch(value){
+            case 'LIVE':
+                return 'زنده'
+            case 'ONLINE':
+                return 'آنلاین'
+            case 'PERIODIC':
+                return 'PERIODIC'
+            case 'HIDDEN':
+                return 'HIDDEN'
+            case 'SECOND_HIDDEN':
+                return 'SECOND_HIDDEN'
+            default:
+                return ''
+        }
+    }
+
+
     return (
         <React.Fragment>
             <div collapse className="table-responsive ">
             <table className="table ">
                 <thead >
                     <tr className="meassage-header-table-title">
-                        <th style={{minWidth : '3rem'}} className=" px-0 minWidth-titleMessage">
+                        <th style={{minWidth : '3rem'}} className=" px-0 ">
                             <div className="  text-center">ردیف</div>
                         </th>
                         <th style={{minWidth : '10rem'}} className="  px-0 minWidth-DateMessage">
@@ -59,9 +79,9 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                             <div className="  text-center">تاریخ برگزاری</div>
                         </th>
 
-                        <th  style={{minWidth : '5rem'}}className="  px-0 minWidth-status-messageRead">
+                        {/* <th  style={{minWidth : '5rem'}}className="  px-0 minWidth-status-messageRead">
                             <div className="  text-center">وضعیت</div>
-                        </th>
+                        </th> */}
       
 
                         <th  style={{minWidth : '5rem'}}className="  px-0 minWidth-status-messageRead">
@@ -71,7 +91,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                 </thead>
 
                 <tbody>
-                    {/* {auctionsInHouseAuction ? auctionsInHouseAuction.map((auction, index) => */}
+                    {auctionsInHouseAuction ? auctionsInHouseAuction.map((auction, index) =>
                         <> 
                             <tr
                             //  key={index} 
@@ -80,8 +100,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                             <td   className="">
                                 <div  className="my-2 content-td" >
                                     <div className="text-center">
-                                        {/* {++index} */}
-                                        1
+                                        {++index}
                                     </div>
                                 </div>
                             </td>
@@ -89,8 +108,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                             <td   className="">
                                 <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                    {/* {auction?.home_auction_name} */}
-                                    .........
+                                        {auction?.sale?.title}
                                     </div>
 
                                 </div>
@@ -100,10 +118,15 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {/* {auction?.email} */}
-                                        .........
+                                            {houseAuciton ? houseAuciton : ''}
                                         </div>
                                     </div>
+                                </div>
+                            </td>
+
+                            <td className="">
+                                <div className=" my-2 content-td">
+                                    {auction?.sale?.type ? messageStatusTypePersian(auction?.sale?.type) : ''}
                                 </div>
                             </td>
                        
@@ -111,27 +134,11 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                                 <div
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center">
-                                         {/* {momentJalaali(member?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
-                                         .........
-                                         </div>
-                                </div>
-                            </td>
-
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {/* {auction?.mobile} */}
-                                        ........
+                                        {momentJalaali(auction?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                     </div>
                                 </div>
                             </td>
 
-                            <td className="">
-                                <div className=" my-2 content-td">
-                                        ............
-                                </div>
-                            </td>
-                       
                             <td className=" text-center">
                                 <div className="my-2 content-td">
                                     <Dropdown overlay={menu}>
@@ -147,7 +154,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction}) {
                             </tr>
 
                             </>
-                         {/* ) : <div className="d-flex text-center w-100">لیست خالی</div>} */}
+                     ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
 
                    
 

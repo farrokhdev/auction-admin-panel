@@ -15,15 +15,14 @@ import Loading from '../../components/Loading';
 function HouseAuctionsPage(props) {
 
     const [houseAuctionsList , setHouseAuctionsList] = useState([]);
-    const [countHouseAuction, setCountHouseAuction] = useState();
-    const [currentPage,setcurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+    const [countHouseAuction , setCountHouseAuction] = useState();
+    const [currentPage , setcurrentPage] = useState(1);
+    const [loading , setLoading] = useState(false);
 
         useEffect(() => {
             setLoading(true)
             axios.get(`${BASE_URL}/account/home-auction/`).then(res => {
                 setLoading(false)
-                console.log(res.data.data.result.count);
                 setHouseAuctionsList(res.data.data.result.results)
                 setCountHouseAuction(res.data.data.result.count)
             }).catch(err => {

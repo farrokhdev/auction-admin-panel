@@ -3,6 +3,9 @@ import {Mentions, Form, Button , Select , Breadcrumb , message} from 'antd';
 import {NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {connect} from 'react-redux';
+
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
@@ -25,7 +28,7 @@ function SendMessagePage(props) {
 
     useEffect(() => {
 
-        axios(`${BASE_URL}/panel/users/`).then(res => {
+        axios.get(`${BASE_URL}/panel/users/`).then(res => {
             setMemberList(res.data.data.result.results)
         }).catch(err => {
             console.log(err);
@@ -197,4 +200,17 @@ function SendMessagePage(props) {
     )
 }
 
-export default SendMessagePage;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+    }
+  }
+  
+  const mapStateToProps = (store) => {
+    return {
+        panel: store.panelReducer
+    }
+  }
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(SendMessagePage)

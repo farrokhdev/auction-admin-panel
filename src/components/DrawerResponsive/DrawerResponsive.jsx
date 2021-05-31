@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 
 function DrawerResponsive() {
@@ -69,18 +69,6 @@ function DrawerResponsive() {
                         </NavLink>
                     </div>
                     
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/inbox-messages" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                            <MessageFilled />
-                             <p className="mb-0 mr-2">پیام‌ها</p>
-                        </div>
-                        </NavLink>
-                    </div>
                     
                     <div style={{height : '30px'}}>
                         <NavLink 
@@ -95,6 +83,31 @@ function DrawerResponsive() {
                         </NavLink>
                     </div>
         
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/inbox-messages" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                            <MessageFilled />
+                             <p className="mb-0 mr-2">پیام‌ها</p>
+                        </div>
+                        </NavLink>
+                    </div>
+
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/tickets" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <WechatFilled />
+                             <p className="mb-0 mr-2">تیکت‌ها</p>
+                        </div>
+                        </NavLink>
+                    </div>
                     
             </Drawer>
         </React.Fragment>

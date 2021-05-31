@@ -1,20 +1,33 @@
-import React , {useState} from 'react';
+import React , {useState , useEffect} from 'react';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import {connect} from 'react-redux';
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined , BellFilled} from '@ant-design/icons';
+import { Menu, Dropdown , Badge} from 'antd';
+import { DownOutlined , WechatOutlined} from '@ant-design/icons';
 import {clearStorage} from '../../redux/reducers/auth/auth.actions';
 import {clearActiveNavDrawer , toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import DrawerResponsive from '../DrawerResponsive/DrawerResponsive';
 import ModalChangePassword from './ModalChangePassword';
 import classnames from 'classnames';
-
+import {NavLink} from 'react-router-dom';
+import axios from '../../utils/request';
+import {BASE_URL} from '../../utils';
 
 function Header(props) {
 
 
     const [visibleChangePasswordModal, setVisibleChangePasswordModal] = useState(false);
+    const [countUnReadTickets, setCountUnReadTickets] = useState(0);
+
+    useEffect(() => {
+
+        axios.get(`${BASE_URL}/ticketing/unread_count/`).then(res => {
+            setCountUnReadTickets(res.data.data.result.count)
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }, []);
 
     const handleLogOut = ()=>{
         props.clearStorage()
@@ -69,11 +82,11 @@ function Header(props) {
                         <div className="col">
                             <div className="d-flex justify-content-start align-items-center">
 
-                            {/* <Badge size="small" count={countUnreadMessages} className="ml-4">
+                            <Badge size="small" count={countUnReadTickets} className="ml-4">
                                 <NavLink onClick={ e => props.toggleActiveNavDrawer("4")} to="/inbox-messages">
-                                    <BellFilled className="icon-bell-header"/>
+                                <WechatOutlined  className="icon-bell-header"/>
                                 </NavLink>
-                            </Badge> */}
+                            </Badge>
 
                                 <Avatar  className={classnames("", {
                                         "avatar-disable": !props.auth.is_logged_in,

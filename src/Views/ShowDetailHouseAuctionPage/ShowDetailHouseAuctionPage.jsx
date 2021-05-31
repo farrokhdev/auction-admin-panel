@@ -20,14 +20,14 @@ const layout = {
     },
   };
 
-function SingleMemberInfoPage(props) {
+function ShowDetailHouseAuctionPage(props) {
 
     const [form] = Form.useForm();
 
     const [member, setMember] = useState();
     const [bankAccountInfo, setBankAccountInfo] = useState([{}]);
-    const [role, setRole] = useState();
-
+    console.log("member",member);
+    console.log("bankAccountInfo",bankAccountInfo);
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -55,7 +55,6 @@ function SingleMemberInfoPage(props) {
         fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             setMember(res.data.result)
             // setCountMember(res.data.count)
-            setRole(res.data.result.role)
             setBankAccountInfo(res.data.result.bankaccount)
         }).catch(err => {
             console.log(err);
@@ -282,178 +281,176 @@ function SingleMemberInfoPage(props) {
                             <h3>اطلاعات حساب بانکی</h3>
                         </div>
 
-                        <TableBankInfo  member={member} bankAccountInfo={bankAccountInfo} />
+                        <TableBankInfo  member={member} bankAccountInfo={bankAccountInfo}/>
 
 
-              { role === 'home_auction' ? <>
-                <div className="d-flex my-4">
-                                <h3>اطلاعات خانه حراج</h3>
+                        <div className="d-flex my-4">
+                            <h3>اطلاعات خانه حراج</h3>
+                        </div>
+
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0">نام خانه حراج</p>
+                                </div>
                             </div>
+                            <div className="col">
 
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">نام خانه حراج</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                            name="home_auction_name"
-                                            // label="نام خانه حراج"
-                                            rules={[
-                                            {
-                                                required: false,
-                                            },
-                                            ]}
-                                        >
-                                            <Input 
-                                                // defaultValue={member?.home_auction_name}
-                                            />
-                                        </Form.Item> 
-                                </div>
-                                
-                            </div>
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0 text-right">حوزه‌های فعالیت</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="home_auction_type"
-                                        // label="حوزه‌های فعالیت"
+                                <Form.Item
+                                        name="home_auction_name"
+                                        // label="نام خانه حراج"
                                         rules={[
                                         {
-                                            // type: 'email',
+                                            required: false,
                                         },
                                         ]}
                                     >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
+                                        <Input 
+                                            // defaultValue={member?.home_auction_name}
+                                        />
+                                    </Form.Item> 
                             </div>
-
                             
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0 text-right">تعداد محصولات جهت فروش</p>
-                                    </div>
-                                </div>
-                                <div className="col">
+                        </div>
 
-                                    <Form.Item
-                                        name="3"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0 text-right">حوزه‌های فعالیت</p>
                                 </div>
-                                
                             </div>
+                            <div className="col">
 
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">آدرس</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="4"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-                    
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">لوکیشن</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="5"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-                        
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">شماره تماس خانه حراج</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="6"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">فایل قرارداد</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                {/* <Form.Item
-                                    name="upload"
-                                    valuePropName="fileList"
-                                    getValueFromEvent={normFile}
-                                    // extra="longgggggggggggggggggggggggggggggggggg"
+                                <Form.Item
+                                    name="home_auction_type"
+                                    // label="حوزه‌های فعالیت"
+                                    rules={[
+                                    {
+                                        // type: 'email',
+                                    },
+                                    ]}
                                 >
-                                    <Upload name="logo" action="/upload.do" listType="picture">
-                                    <Button icon={<UploadOutlined />}>Click to upload</Button>
-                                    </Upload>
-                                </Form.Item> */}
-                                </div>
-                                
+                                    <Input />
+                                </Form.Item>
                             </div>
-              </> :  ''}
+                            
+                        </div>
+
+                           
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0 text-right">تعداد محصولات جهت فروش</p>
+                                </div>
+                            </div>
+                            <div className="col">
+
+                                <Form.Item
+                                    name="3"
+                                    // label="حوزه‌های فعالیت"
+                                    rules={[
+                                    {
+                                        // type: 'email',
+                                    },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </div>
+                            
+                        </div>
+
+
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0">آدرس</p>
+                                </div>
+                            </div>
+                            <div className="col">
+
+                                <Form.Item
+                                    name="4"
+                                    // label="حوزه‌های فعالیت"
+                                    rules={[
+                                    {
+                                        // type: 'email',
+                                    },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </div>
+                            
+                        </div>
+                 
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0">لوکیشن</p>
+                                </div>
+                            </div>
+                            <div className="col">
+
+                                <Form.Item
+                                    name="5"
+                                    // label="حوزه‌های فعالیت"
+                                    rules={[
+                                    {
+                                        // type: 'email',
+                                    },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </div>
+                            
+                        </div>
+                      
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0">شماره تماس خانه حراج</p>
+                                </div>
+                            </div>
+                            <div className="col">
+
+                                <Form.Item
+                                    name="6"
+                                    // label="حوزه‌های فعالیت"
+                                    rules={[
+                                    {
+                                        // type: 'email',
+                                    },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </div>
+                            
+                        </div>
+
+                        <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                                <div className="d-flex">
+                                    <p className="mb-0">فایل قرارداد</p>
+                                </div>
+                            </div>
+                            <div className="col">
+
+                            {/* <Form.Item
+                                name="upload"
+                                valuePropName="fileList"
+                                getValueFromEvent={normFile}
+                                // extra="longgggggggggggggggggggggggggggggggggg"
+                            >
+                                <Upload name="logo" action="/upload.do" listType="picture">
+                                <Button icon={<UploadOutlined />}>Click to upload</Button>
+                                </Upload>
+                            </Form.Item> */}
+                            </div>
+                            
+                        </div>
 
                         {/* <Button type="primary" htmlType="submit">
                             Submit
@@ -487,4 +484,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-  export default connect(mapStateToProps , mapDispatchToProps)(SingleMemberInfoPage)
+  export default connect(mapStateToProps , mapDispatchToProps)(ShowDetailHouseAuctionPage)

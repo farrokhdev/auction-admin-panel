@@ -94,8 +94,8 @@ const LoginPage=(props)=> {
         console.log(response);
 
         
-        setUsername(response.profileObj.username);
-        setEmail(response.profileObj.email);
+        // setUsername(response.profileObj.username);
+        // setEmail(response.profileObj.email);
         // setUrl(response.profileObj.url);
 
         axios.post(`${BASE_URL}/rest-auth/google/`).then(res => {

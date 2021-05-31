@@ -21,7 +21,7 @@ const handleCloseDetailMessage = () => {
         onCancel={() => setVisibleDetailsMessage(false)}
         width={1000}
       >
-        <div className="d-flex  ">
+        <div className="d-flex">
             <div className="col p-3">
                 <div className="d-block d-md-flex mb-3">
                     <div className="col-md-5 px-0">
