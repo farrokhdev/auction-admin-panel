@@ -87,6 +87,10 @@ body{
     color: black;
     background: rgba(255, 255, 255, 0.3);
 }
+
+.ant-menu .ant-menu-sub{
+ background-color: $dark-color !important;
+}
 .ant-menu-item-selected{
     // background-color: #d1b6fd31 !important;
     background-color: #ffffff1f !important;
@@ -1013,8 +1017,9 @@ color: $white-color;
     color: $white-color !important;
 }
 
-.ant-mentions{
-    border-radius: 3px !important;
+.ant-mentions .input-title-message-send-to {
+    border-radius: 38px !important;
+    min-height: 38px !important;
 }
 
 .ant-form-item-label{
@@ -1342,6 +1347,8 @@ color: $white-color;
 
 .ant-select-selector{
     min-width: 200px !important;
+    height: 38px !important;
+    border-radius: 30px !important;
 }
 
 .ant-select-item-option-content{

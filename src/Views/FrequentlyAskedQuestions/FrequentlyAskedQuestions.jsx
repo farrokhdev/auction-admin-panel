@@ -2,6 +2,9 @@ import React , {useState} from 'react'
 import TableFrequentlyAskedQuestions from './TableFrequentlyAskedQuestions';
 import {NavLink} from 'react-router-dom';
 import {Breadcrumb} from 'antd';
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {connect} from 'react-redux';
+
 
 function FrequentlyAskedQuestions(props) {
 
@@ -52,4 +55,17 @@ function FrequentlyAskedQuestions(props) {
     )
 }
 
-export default FrequentlyAskedQuestions
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+    }
+  }
+  
+  const mapStateToProps = (store) => {
+    return {
+        panel: store.panelReducer
+    }
+  }
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(FrequentlyAskedQuestions)
