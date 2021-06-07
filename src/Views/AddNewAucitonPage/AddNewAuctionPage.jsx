@@ -14,7 +14,8 @@ function AddNewAuctionPage(props) {
     const myRef2 = useRef(null)
     const myRef3 = useRef(null)
     const myRef4 = useRef(null)
-    const refArray = [myRef1, myRef2, myRef3, myRef4]
+    const myRef5 = useRef(null)
+    const refArray = [myRef1, myRef2, myRef3, myRef4 , myRef5]
     const executeScroll = (e) => scrollToRef(e)
 
     const { Option } = Select;
@@ -31,7 +32,7 @@ function AddNewAuctionPage(props) {
           {
             type: 'array',
             required: true,
-            message: 'Please select time!',
+            message: 'زمان انتخاب نشده است!',
           },
         ],
       };
@@ -41,7 +42,7 @@ function AddNewAuctionPage(props) {
           {
             type: 'object',
             required: true,
-            message: 'Please select time!',
+            message: 'زمان انتخاب نشده است!',
           },
         ],
       };
@@ -78,22 +79,32 @@ function AddNewAuctionPage(props) {
       };
 
 
-      const propsFile = {
-        name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        headers: {
-          authorization: 'authorization-text',
-        },
-        onChange(info) {
-          if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
-          } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
+    //   const propsFile = {
+    //     name: 'file',
+    //     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    //     headers: {
+    //       authorization: 'authorization-text',
+    //     },
+    //     onChange(info) {
+    //       if (info.file.status !== 'uploading') {
+    //         console.log(info.file, info.fileList);
+    //       }
+    //       if (info.file.status === 'done') {
+    //         message.success(`${info.file.name} file uploaded successfully`);
+    //       } else if (info.file.status === 'error') {
+    //         message.error(`${info.file.name} file upload failed.`);
+    //       }
+    //     },
+    //   };
+
+    const normFile = (e) => {
+        console.log('Upload event:', e);
+      
+        if (Array.isArray(e)) {
+          return e;
+        }
+      
+        return e && e.fileList;
       };
 
 
@@ -121,7 +132,7 @@ function AddNewAuctionPage(props) {
                                                         key="5"
                                                         onClick={ e => props.toggleActiveNavDrawer("1")}
                                                         to="/house-auctions">
-                                                       حراج‌ها
+                                                       ایجاد حراج
                                                     </NavLink>
                                                 </Breadcrumb.Item>
                                             </Breadcrumb>
@@ -131,33 +142,34 @@ function AddNewAuctionPage(props) {
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
 
-                                        <div className="d-block d-xl-flex my-4 justify-content-start tabs-link-add-auction">
+                                        <div className="d-block d-xl-flex my-4 justify-content-start tabs-link-add-auction p-3">
 
-                                            <div className="col px-0">
-                                                <div onClick={() => executeScroll(refArray[0])} className="d-flex justify-content-start text-center">
-                                                    <p className="mb-0">اطلاعات عمومی</p>
+                                            
+                                                <div onClick={() => executeScroll(refArray[0])} 
+                                                    className="d-flex justify-content-start text-center tab-item-add-auction">
+                                                    <p className="mb-0 mr-3">اطلاعات عمومی</p>
                                                 </div>
-                                            </div>
-                                            <div className="col px-0">
-                                                <div onClick={() => executeScroll(refArray[1])} className="d-flex justify-content-start text-center">
-                                                    <p className="mb-0">تاریخ برگزاری حراج</p>  
+                                         
+                                            
+                                                <div onClick={() => executeScroll(refArray[1])} className="d-flex justify-content-start text-center tab-item-add-auction">
+                                                    <p className="mb-0 mx-3">تاریخ برگزاری حراج</p>  
                                                 </div>
-                                            </div>
-                                            <div className="col px-0">
-                                                <div onClick={() => executeScroll(refArray[2])} className="d-flex justify-content-start text-center">
-                                                    <p className="mb-0">بازه بید‌ها</p>    
+                                       
+                                            
+                                                <div onClick={() => executeScroll(refArray[2])} className="d-flex justify-content-start text-center tab-item-add-auction">
+                                                    <p className="mb-0 mx-3">بازه بید‌ها</p>    
                                                 </div>
-                                            </div>
-                                            <div className="col px-0">
-                                                <div onClick={() => executeScroll(refArray[3])} className="d-flex justify-content-start text-center">
-                                                    <p className="mb-0">ارزیابی شرکت کنندگان</p>      
+                                           
+                                            
+                                                <div onClick={() => executeScroll(refArray[3])} className="d-flex justify-content-start text-center tab-item-add-auction">
+                                                    <p className="mb-0 mx-3">ارزیابی شرکت کنندگان</p>      
                                                 </div>
-                                            </div>
-                                            <div className="col px-0">
-                                                <div onClick={() => executeScroll(refArray[4])} className="d-flex justify-content-start text-center">
-                                                    <p className="mb-0">قوانین</p>  
+                                            
+                                            
+                                                <div onClick={() => executeScroll(refArray[4])} className="d-flex justify-content-start text-center tab-item-add-auction">
+                                                    <p className="mb-0 mr-3">قوانین</p>  
                                                 </div>
-                                            </div>
+                                           
                                             
                                         </div>
                                             <div ref={refArray[0]}></div>
@@ -223,7 +235,8 @@ function AddNewAuctionPage(props) {
                                                            </div>
                                                             <div className="col col-lg-6">
                                                                 <Form.Item name="range-time-picker_insite"  {...rangeConfig}>
-                                                                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                                                    {/* <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
+                                                                    <RangePicker showTime format="YYYY-MM-DD" />
                                                                 </Form.Item>
                                                             </div>
                                                             <div className="col col-lg-3"></div>
@@ -237,7 +250,8 @@ function AddNewAuctionPage(props) {
                                                            </div>
                                                             <div className="col col-lg-6">
                                                                 <Form.Item name="range-time-picker"  {...rangeConfig}>
-                                                                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                                                    {/* <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
+                                                                    <RangePicker showTime format="YYYY-MM-DD" />
                                                                 </Form.Item>
                                                             </div>
                                                             <div className="col col-lg-3"></div>
@@ -266,7 +280,7 @@ function AddNewAuctionPage(props) {
                                                             <Form.Item  
                                                                 name="private_auction" 
                                                                 valuePropName="checked" 
-                                                                rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}>
+                                                                rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                 <Checkbox>حراج خصوصی</Checkbox>
                                                             </Form.Item>
                                                         </div>
@@ -366,13 +380,13 @@ function AddNewAuctionPage(props) {
                                                                     <Form.Item  
                                                                         name="private_auction" 
                                                                         valuePropName="checked" 
-                                                                        rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}>
+                                                                        rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                         <Checkbox>تبدیل نرخ ارز </Checkbox>
                                                                     </Form.Item>
                                                                 </div>
 
                                                                 <div className="d-flex">
-                                                                    <div className="col">
+                                                                    <div className="col px-0">
                                                                         <div className="d-flex">
                                                                             <p>تبدیل نرخ تومان به دلار</p>
                                                                         </div>
@@ -393,7 +407,7 @@ function AddNewAuctionPage(props) {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div ref={refArray[1]}></div>
+                                                                <div ref={refArray[3]}></div>
                                                                 <div  className="d-flex border-bottom mb-3">
                                                                     <h4>اعتبارسنجی</h4>
                                                                 </div>
@@ -402,7 +416,7 @@ function AddNewAuctionPage(props) {
                                                                         <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
-                                                                            rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}>
+                                                                            rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>تبدیل آرتیبیشن</Checkbox>
                                                                         </Form.Item>
                                                                     </div>
@@ -411,7 +425,7 @@ function AddNewAuctionPage(props) {
                                                                         <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
-                                                                            rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}>
+                                                                            rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>شارژ مورد نیاز کیف پول</Checkbox>
                                                                         </Form.Item>
                                                                     </div>
@@ -458,9 +472,22 @@ function AddNewAuctionPage(props) {
                                                                     </div>     
 
                                                                     <div className="d-flex">
-                                                                        <Upload {...propsFile}>
+                                                                        {/* <Upload {...propsFile}>
                                                                             <Button icon={<UploadOutlined />}>بارگزاری لیست دعوت شدگان</Button>
-                                                                        </Upload>    
+                                                                        </Upload>  */}
+
+
+                                                                              <Form.Item
+                                                                                    name="upload"
+                                                                                    // label="Upload"
+                                                                                    valuePropName="fileList"
+                                                                                    getValueFromEvent={normFile}
+                                                                                    // extra="longgggggggggggggggggggggggggggggggggg"
+                                                                                >
+                                                                                    <Upload name="logo" action="/upload.do" listType="picture">
+                                                                                    <Button icon={<UploadOutlined />}>بارگزاری لیست دعوت شدگان</Button>
+                                                                                    </Upload>
+                                                                                </Form.Item>   
                                                                     </div>    
 
                                                                     <div className="d-block d-lg-flex">
@@ -473,8 +500,8 @@ function AddNewAuctionPage(props) {
                                                                             <Form.Item
                                                                                 name={['body']}
                                                                                 rules={[{
-                                                                                required: true,
-                                                                                message: 'تیکتی وارد نکرده‌اید!'
+                                                                                required: false,
+                                                                                message: 'فیلد سایر مدارک خالی است!'
                                                                                 }
                                                                                 ]}>
                                                                                 <Input.TextArea className="text-box-aria-add-auction" rows={10}/>
@@ -491,7 +518,7 @@ function AddNewAuctionPage(props) {
                                                                         <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
-                                                                            rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}>
+                                                                            rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>پرداخت آنلاین دارد </Checkbox>
                                                                         </Form.Item>
                                                                     </div>
@@ -508,7 +535,7 @@ function AddNewAuctionPage(props) {
                                                                                 name={['body']}
                                                                                 rules={[{
                                                                                 required: true,
-                                                                                message: 'تیکتی وارد نکرده‌اید!'
+                                                                                message: 'فیلد شرایک پرداخت خالی است!'
                                                                                 }
                                                                                 ]}>
                                                                                 <Input.TextArea className="text-box-aria-add-auction" rows={10}/>
@@ -529,7 +556,7 @@ function AddNewAuctionPage(props) {
                                                                                 name={['body']}
                                                                                 rules={[{
                                                                                 required: true,
-                                                                                message: 'تیکتی وارد نکرده‌اید!'
+                                                                                message: 'فیلد شرایط مرجوعی خالی است!'
                                                                                 }
                                                                                 ]}>
                                                                                 <Input.TextArea className="text-box-aria-add-auction" rows={10}/>
@@ -550,13 +577,18 @@ function AddNewAuctionPage(props) {
                                                                                 name={['body']}
                                                                                 rules={[{
                                                                                 required: true,
-                                                                                message: 'تیکتی وارد نکرده‌اید!'
+                                                                                message: 'فیلد حمل و نقل خالی است!'
                                                                                 }
                                                                                 ]}>
                                                                                 <Input.TextArea  className="text-box-aria-add-auction" rows={10}/>
                                                                             </Form.Item>
                                                                         </div>
                                                                         <div className="col-3"></div>
+                                                                    </div>
+
+
+                                                                    <div className="d-flex justify-content-end">
+                                                                        <button className="btn-submit-auction" htmlType="submit">ثبت حراجی</button>
                                                                     </div>
                                                                 </Form>
 

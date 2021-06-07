@@ -33,6 +33,16 @@ import SendNewTicket from './Views/SendNewTicketPage';
 import ApplicantsMembershipInAuctionList from './Views/ApplicantsMembershipInAuctionList';
 import AuctionsPage from "./Views/AuctionsPage";
 import AddNewAuctionPage from "./Views/AddNewAucitonPage/AddNewAuctionPage";
+import SalesConsulerPage from "./Views/SalesConsulerPage";
+import SingleSaleConsulerPage from "./Views/SingleSaleConsulerPage";
+import HouseAuctionOffers from "./Views/HouseAuctionOffers";
+import WalletPage from "./Views/WalletPage";
+import WalletDeposit from "./Views/WalletDeposit";
+import WalletWithdrawal from "./Views/WalletWithdrawal";
+import OrdersListPage from "./Views/OrdersListPage";
+import FrequentlyAskedQuestions from "./Views/FrequentlyAskedQuestions";
+import SingleFrequentlyAskedQuestions from "./Views/SingleFrequentlyAskedQuestions";
+
 
 // import Main from './public/main'
           
@@ -55,6 +65,9 @@ function App(props) {
                         {/* {props.auth.is_logged_in ?  */}
                         
                         <>
+                            <Route exact path="/house-auctions-offers" render={props=><Main {...props}><HouseAuctionOffers {...props} /></Main>}/>
+                            <Route exact path="/sales-consuler" render={props=><Main {...props}><SalesConsulerPage {...props} /></Main>}/>
+                            <Route exact path="/sales-consuler/:id/:name" render={props=><Main {...props}><SingleSaleConsulerPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions/auctions/:id/:name" render={props=><Main {...props}><AuctionsOfHouseAuctionPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions-participants/:id" render={props=><Main {...props}><ParticipantsInAuctionList {...props} /></Main>}/>
                             <Route exact path="/house-auctions-applicants/:id" render={props=><Main {...props}><ApplicantsMembershipInAuctionList {...props} /></Main>}/>
@@ -66,6 +79,12 @@ function App(props) {
                             <Route exact path="/inbox-messages" render={props=><Main {...props}><MessagesList {...props} /></Main>}/>
                             <Route exact path="/send-message" render={props=><Main {...props}><SendMessagePage {...props} /></Main>}/>
                             <Route exact path="/tickets" render={props=><Main {...props}><TicketPage {...props} /></Main>}/>
+                            <Route exact path="/wallets" render={props=><Main {...props}><WalletPage {...props} /></Main>}/>
+                            <Route exact path="/wallet-deposit" render={props=><Main {...props}><WalletDeposit {...props} /></Main>}/>
+                            <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/>
+                            <Route exact path="/orders" render={props=><Main {...props}><OrdersListPage {...props} /></Main>}/>
+                            <Route exact path="/frequently-asked-questions" render={props=><Main {...props}><FrequentlyAskedQuestions {...props} /></Main>}/>
+                            <Route exact path="/frequently-asked-questions/:id" render={props=><Main {...props}><SingleFrequentlyAskedQuestions {...props} /></Main>}/>
                             {/* <Route exact path="/send-ticket" render={props=><Main {...props}><SendNewTicket {...props} /></Main>}/> */}
                             {/* <Route exact path="/auctions/:id" render={props=><Main {...props} ><SingleAuctionPage {...props}/></Main>}/> */}
                             {/* <Route exact path="/auctions-members/:id" component={MemberAuctionInfo}/>
@@ -81,6 +100,7 @@ function App(props) {
                             {/* <Route exact path="/register" render={props=><RegisterPage {...props} />}/> */}
                             {/* <Route exact path="/login" render={props=><LoginPage {...props} />}/> */}
                         </>
+
                         {/* : <Redirect to = {{pathname : "/login"}} />} */}
 
                         

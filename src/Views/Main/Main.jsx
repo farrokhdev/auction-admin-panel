@@ -6,9 +6,9 @@ import {
   PictureOutlined,
   CommentOutlined,
   WechatOutlined,
-  activeOpenKeys,
-  FileOutlined,
-  defaultOpenKeys,
+  SnippetsOutlined,
+  WalletOutlined,
+  QuestionOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -122,32 +122,113 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
-                  {/* <Menu.Item key="4" className="d-flex align-items-center" icon={<CommentOutlined />}>
-                    <NavLink 
-                    id="4" 
-                    to="/inbox-messages" 
-                    className="mr-2" 
-                    onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
-                    >
-                    پیام‌ها
-                    </NavLink>
-                  </Menu.Item> */}
 
-                  <Menu.Item key="4" className="d-flex align-items-center" icon={<BankOutlined />}>
+                  <SubMenu  key="4" icon={<WalletOutlined />} title="کیف پول">
+                    <Menu.Item  className="d-flex align-items-center" key="4_1">
+                      <NavLink
+                          id="4_1" 
+                          to="/wallets" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                          لیست کیف پول‌ها
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item  className="d-flex align-items-center" key="4_2">
+                      <NavLink
+                        id="4_2" 
+                        to="/wallet-deposit" 
+                        className="mr-4" 
+                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                       >
+                        واریز
+                      </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item   className="d-flex align-items-center" key="4_3">
+                      <NavLink
+                        id="4_3" 
+                        to="/wallet-withdrawal" 
+                        className="mr-4" 
+                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                       >
+                        برداشت
+                      </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
+                  <Menu.Item key="5" className="d-flex align-items-center" icon={<BankOutlined />}>
                     <NavLink 
-                       id="4" 
+                       id="5" 
                        to="/house-auctions" 
-                       className="mr-2" 
+                       className="mr-2 align-items-center" 
                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
                     >
                         خانه‌های حراجی
                     </NavLink>
                   </Menu.Item>
 
-                  <SubMenu  key="5" icon={<CommentOutlined />} title="پیام‌ها">
-                    <Menu.Item  key="5_1">
+                  <Menu.Item key="6" className="d-flex align-items-center" icon={<SnippetsOutlined />}>
+                    <NavLink 
+                       id="6" 
+                       to="/sales-consuler" 
+                       className="mr-2 align-items-center" 
+                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
+                    >
+                        مشاهده فروش
+                    </NavLink>
+                  </Menu.Item>
+
+                  {/* <SubMenu  key="5" icon={<SnippetsOutlined />} title="مشاوره فروش">
+                    <Menu.Item className="d-flex align-items-center" key="5_1">
                       <NavLink
-                          id="5" 
+                          id="5_1" 
+                          to="/sales-consuler" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                          مشاهده فروش
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item className="d-flex align-items-center" key="5_2">
+                      <NavLink
+                          id="5_2" 
+                          to="/send-to-house-auction" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                          ارسال به خانه حراج
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item className="d-flex align-items-center"  key="5_3">
+                      <NavLink
+                        id="5_3" 
+                        to="/house-auctions-offered" 
+                        className="mr-4" 
+                        style={{fontSize : '0.7rem'}}
+                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                       >
+                         خانه حراج‌های پیشنهادی یک اثر
+                      </NavLink>
+                    </Menu.Item>
+                  </SubMenu> */}
+
+                  <Menu.Item key="7" className="d-flex align-items-center" icon={<SnippetsOutlined />}>
+                    <NavLink 
+                       id="7" 
+                       to="/orders" 
+                       className="mr-2 align-items-center" 
+                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
+                    >
+                        سفارشات
+                    </NavLink>
+                  </Menu.Item>
+
+                  <SubMenu  key="8" icon={<CommentOutlined />} title="پیام‌ها">
+                    <Menu.Item  className="d-flex align-items-center" key="8_1">
+                      <NavLink
+                          id="8_1" 
                           to="/inbox-messages" 
                           className="mr-4" 
                           onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
@@ -155,9 +236,10 @@ function Main(props) {
                           لیست پیام‌ها
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item  key="5">
+
+                    <Menu.Item  className="d-flex align-items-center" key="8_2">
                       <NavLink
-                        id="5" 
+                        id="8_2" 
                         to="/send-message" 
                         className="mr-4" 
                         onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
@@ -168,9 +250,9 @@ function Main(props) {
                   </SubMenu>
 
 
-                  <Menu.Item key="6" className="d-flex align-items-center" icon={<WechatOutlined />}>
+                  <Menu.Item key="9" className="d-flex align-items-center" icon={<WechatOutlined />}>
                     <NavLink 
-                       id="6" 
+                       id="9" 
                        to="/tickets" 
                        className="mr-2" 
                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
@@ -179,31 +261,16 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
-                  {/* <SubMenu  key="5" icon={<WechatOutlined />} title="تیکت‌ها">
-                    <Menu.Item  key="4_1">
-                      <NavLink
-                          id="5_1" 
-                          to="/tickets" 
-                          className="mr-4" 
-                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
-                        >
-                          لیست تیکت‌ها
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item  key="5_2">
-                      <NavLink
-                        id="5_2" 
-                        to="/send-ticket" 
-                        className="mr-4" 
-                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
-                       >
-                        ثبت تیکت جدید
-                      </NavLink>
-                    </Menu.Item>
-                  </SubMenu> */}
-
-
-        
+                  <Menu.Item key="10" className="d-flex align-items-center" icon={<QuestionOutlined />}>
+                    <NavLink 
+                       id="10" 
+                       to="/frequently-asked-questions" 
+                       className="mr-2" 
+                       onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
+                    >
+                        سوالات متداول
+                    </NavLink>
+                  </Menu.Item>
 
                 </Menu>
               </Sider>

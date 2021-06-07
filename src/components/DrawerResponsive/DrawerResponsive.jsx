@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 
 function DrawerResponsive() {
@@ -79,6 +79,45 @@ function DrawerResponsive() {
                          <div className="d-flex align-items-center">
                          <BankFilled />
                              <p className="mb-0 mr-2">خانه‌های حراجی</p>
+                        </div>
+                        </NavLink>
+                    </div>
+
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/wallets" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <WalletFilled />
+                             <p className="mb-0 mr-2">کیف پول</p>
+                        </div>
+                        </NavLink>
+                    </div>
+
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/sales-consuler" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <BankFilled />
+                             <p className="mb-0 mr-2">مشاوره فروش</p>
+                        </div>
+                        </NavLink>
+                    </div>
+
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/orders" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <BankFilled />
+                             <p className="mb-0 mr-2">سفارشات</p>
                         </div>
                         </NavLink>
                     </div>

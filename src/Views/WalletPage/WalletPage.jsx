@@ -1,46 +1,42 @@
-import React , {useState , useEffect} from 'react'
-import axios from '../../utils/request';
+import React, {useState, useEffect} from 'react';
 import {BASE_URL} from '../../utils';
-import Loading from '../../components/Loading';
 import {Pagination , Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-import TableAuctonsList from './TableAuctonsList';
+import Loading from '../../components/Loading';
+import TableWalletList from './TableWalletList';
+import axios from '../../utils/request';
 
+function WalletPage(props) {
 
-function AuctionsPage(props) {
+    const [walletList, setWalletList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countWallets, setCountWallets] = useState(0);
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get(`${BASE_URL}/panel/wallet/?page=${currentPage}&page_size=5`).then(res => {
+            setWalletList(res.data.data.result.results)
+            setCountWallets(res.data.count)
+            setLoading(false)
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
+
+    }, []);
+
+    const handeSelectPage = (e) => {
+        console.log("Log Of Pagination", e);
+        setCurrentPage(e)
+    }
+
     
-    const [auctionsList , setAuctionsList] = useState([]);
-    const [countAuction, setCountAuction] = useState();
-    const [currentPage,setcurrentPage] = useState(1);
-    const [loading, setLoading] = useState(true);
-
-        useEffect(() => {
-            axios.get(`${BASE_URL}/auctions`).then(res => {
-                setLoading(false)
-                setAuctionsList(res.data.results)
-                setCountAuction(res.count)
-            }).catch(err => {
-                console.log(err);
-                setLoading(false)
-            })
-        }, []);
-
-
-        const handeSelectPage = (e) => {
-            console.log("Log Of Pagination", e);
-            setcurrentPage(e)
-        }
-
-
-        const handleRedirect = () => {
-            window.location.href = "/#add-new-auction";
-        }
-
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Loading loading={loading} />
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -50,8 +46,7 @@ function AuctionsPage(props) {
                                         <div className="col">
                                             <div className="d-flex">
                                                 <Breadcrumb>
-                                                    <Breadcrumb.Item>
-                                                        <NavLink 
+                                                    <Breadcrumb.Item><NavLink 
                                                             key="1"
                                                             onClick={ e => props.toggleActiveNavDrawer("1")}
                                                             to="/">
@@ -59,12 +54,7 @@ function AuctionsPage(props) {
                                                         </NavLink>
                                                     </Breadcrumb.Item>
                                                     <Breadcrumb.Item>
-                                                        <NavLink 
-                                                            key="5"
-                                                            onClick={ e => props.toggleActiveNavDrawer("1")}
-                                                            to="/house-auctions">
-                                                           حراج‌ها
-                                                        </NavLink>
+                                                       لیست کیف پول‌ها
                                                     </Breadcrumb.Item>
                                                 </Breadcrumb>
                                             </div>
@@ -72,20 +62,16 @@ function AuctionsPage(props) {
                                     </div>
                                     <div className="row  mx-0">
                                         <div className="col content-page p-4  ">
-
-                                            <button className="btn-redirect-to-add-auction" onClick={handleRedirect}>افزودن حراج جدید</button>
                                             
-                                            <div className="row px-0 mx-0 mt-3">
-                                                <TableAuctonsList 
-                                                    auctionsList={auctionsList}
-                                                />
+                                            <div className="row px-0 mx-0">
+                                                <TableWalletList walletList={walletList}/>
                                             </div>
                                             <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1}
-                                                    total={countAuction}
+                                                    total={countWallets}
                                                     defaultPageSize={5}
                                                 />
                                             </div>
@@ -93,11 +79,11 @@ function AuctionsPage(props) {
                                                 <Pagination 
                                                     onChange={(e)=>handeSelectPage(e)}
                                                     defaultCurrent={1} 
-                                                    total={countAuction} 
+                                                    total={countWallets} 
                                                     defaultPageSize={5}
                                                     size="small"
                                                 />
-                                             </div>
+                                            </div>
                                         </div>
                                     </div>
                             </div>
@@ -109,7 +95,6 @@ function AuctionsPage(props) {
         </React.Fragment>
     )
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -123,4 +108,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-  export default connect(mapStateToProps , mapDispatchToProps)(AuctionsPage)
+  export default connect(mapStateToProps , mapDispatchToProps)(WalletPage)

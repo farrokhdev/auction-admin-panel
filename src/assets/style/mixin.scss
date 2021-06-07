@@ -27,7 +27,7 @@
 @mixin warningBtn {
     min-width: 100px !important;
     height: 30px !important;
-    background-color: $warning2-color;
+    background-color: $warning2-color !important;
     color: $warning-color ;
     font-size: 0.8rem ;
     border: none !important;

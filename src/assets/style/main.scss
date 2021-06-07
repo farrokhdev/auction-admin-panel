@@ -92,6 +92,12 @@ body{
     background-color: #ffffff1f !important;
 }
 
+.ant-menu-item{
+    height: 30px !important;
+    padding-left: 0px !important;
+    // padding-right: 5px !important;
+}
+
 .ant-menu-submenu-title span{
     margin-right: 10px !important;
 }
@@ -742,7 +748,7 @@ table  tbody tr td {
 
 // --- members page ----
 .minWidth-row{
-    max-width: 3rem !important;
+    max-width: 4rem !important;
 }
 
 .minWidth-name{
@@ -964,6 +970,19 @@ color: $white-color;
     color: $white-color ;
 }
 
+
+.modal-bids .ant-modal-footer{
+    display: none !important;
+}
+
+.modal-bids .ant-modal-header{
+    background-color: $dark-color ;
+
+    .ant-modal-title{
+        color: $white-color;
+    }
+}
+
 // ------- Message page -------
 
 .btn-send-message{
@@ -1070,6 +1089,10 @@ color: $white-color;
 
 .minWidth-details{
     min-width: 10rem !important;
+}
+
+.minWidth-description{
+    min-width: 14rem !important;
 }
 
 .btn-scroll-to-send-message{
@@ -1326,7 +1349,19 @@ color: $white-color;
 }
 
 .tabs-link-add-auction{
-    font-size: 12px !important;
+    font-size: 1rem !important;
+    background-color: $tertiary-color !important;
+}
+
+@media (max-width : '1200px'){
+    .tabs-link-add-auction{
+        background-color: white !important;
+    }
+}
+
+.tab-item-add-auction:hover{
+    color: $primary-color !important;
+    transition: 0.5s;
 }
 
 .tabs-link-add-auction p{
@@ -1343,4 +1378,157 @@ color: $white-color;
 .text-box-aria-add-auction.ant-input{
     min-height: 100px !important;
 }
+
+.btn-submit-auction{
+    @include purpelBtn;
+    width: 150px !important;
+}
+
+.btn-submit-auction:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+
+
+// ------------ Sales Consuler Page --------------
+
+.btn-send-to-house-auctions{
+    @include purpelBtn;
+    min-width: 200px !important;
+}
+ 
+.btn-send-to-house-auctions:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+.btn-response-to-user{
+    @include purpelBtn;
+    min-width: 120px !important;
+}
+
+.btn-response-to-user:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+.modal-send-to-house-autions .ant-modal-footer{
+    display: none !important;
+}
+
+.modal-send-to-house-autions .ant-modal-title{
+    margin-right: 0px !important;
+}
+
+.btn-close-send-to-house-auction{
+    @include grayBtn;
+    width: 100px !important;
+}
+
+
+.btn-accept-offer{
+    @include greenBtn;
+}
+
+.btn-accept-offer:hover{
+    background-color: $primary-color !important;
+    color: $white-color;
+}
+
+.btn-reject-offer{
+    @include cancelBtn;
+}
+
+.btn-reject-offer:hover{
+    background-color: $warning-color !important ;
+    color: $white-color;
+}
+
+.btn-reject-offer{
+    @include warningBtn;
+}
+
+.btn-cancel-accept-offer , .btn-cancel-reject-offer{
+    @include grayBtn;
+    width: 100px !important;
+}
+
+.btn-cancel-accept-offer:hover , .btn-cancel-reject-offer:hover{
+    background-color: $darkGray-color !important;
+    color: $white-color;
+}
+
+
+// --------- Wallets ---------
+
+.btn-close{
+    @extend .btn-cancel-send-ticket;
+}
+
+.btn-redirect-to-getway{
+    @include purpelBtn;
+}
+
+.btn-redirect-to-getway:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
+.modal-confirm-deposit .ant-modal-footer{
+    display: none !important;
+}
+
+.modal-confirm-deposit .ant-modal-header{
+    background-color: $dark-color !important;
+    .ant-modal-title{
+        color: $white-color !important;
+    }
+}
+
+
+// --------- Frequently Questions -----------
+
+.btn-add-frequently-questions{
+    @include purpelBtn;
+    min-width: 200px !important;
+}
+
+.modal-edit-questions .ant-modal-footer{
+    display: none !important;
+}
+
+.modal-edit-questions .ant-modal-header{
+    background-color: $dark-color !important;
+    .ant-modal-title{
+        color: $white-color;
+    }
+}
+
+.modal-confirm-delete-question .ant-modal-confirm-btns{
+    display: flex;
+}
+
+.modal-confirm-delete-question .ant-btn-primary{
+    @include warningBtn;
+}
+
+.modal-confirm-delete-question .ant-btn-primary:hover{
+    background-color:  $warning-color !important;
+    color: $white-color;
+}
+
+.modal-confirm-delete-question button:nth-child(1){
+    @include grayBtn;
+    width: 100px !important;
+    margin-left: 10px !important;
+    color: $dark-color;
+}
+
+.modal-confirm-delete-question button:nth-child(1):hover{
+    background-color:  $darkGray-color !important;
+    color: $white-color;
+}
+
+
 
