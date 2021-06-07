@@ -70,7 +70,7 @@ function Header(props) {
             
             <div className="row justify-content-between align-items-center w-100">
                 <div className="d-none d-lg-block">
-                    <h5 className="text-right mb-0 mr-3">حراجی آنلاین</h5>
+                    <h5 className="text-right mb-0 mr-3">پنل ادمین حراجی آنلاین</h5>
                 </div>
                 <div className=" col-3 col-sm-7  d-lg-none ">
                     <div className="d-flex">

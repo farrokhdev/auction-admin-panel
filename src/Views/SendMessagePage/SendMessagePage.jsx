@@ -132,7 +132,7 @@ function SendMessagePage(props) {
 
                                             <Form.Item
                                                 name="title"
-                                                
+                                                className="input-title-message-send-to"
                                                 label="عنوان پیام"
                                                 labelCol={{
                                                     span: 6
@@ -147,7 +147,7 @@ function SendMessagePage(props) {
                                                 rules={[{ required: true, message: 'ورودی عنوان خالی است!' }]}
                                             
                                                 >
-                                                <Mentions placeholder="عنوان پیام را وارد کنید" rows={1} className="text-right">
+                                                <Mentions  style={{borderRadius : '38px' , minHeight : '38px'}} placeholder="عنوان پیام را وارد کنید" rows={1} className="text-right">
                                                     
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
@@ -167,7 +167,7 @@ function SendMessagePage(props) {
                                                 rules={[{ required: true, message: 'ورودی متن پیام خالی است!' }]}
                                             
                                                 >
-                                                <Mentions className="text-right" rows={4} placeholder="متن پیام را وارد کنید">
+                                                <Mentions style={{borderRadius : '10px' , minHeight : '38px'}} className="text-right" rows={4} placeholder="متن پیام را وارد کنید">
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
                                                     <Option value="yesmeck">yesmeck</Option> */}
