@@ -7,6 +7,7 @@ import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
+import ModalBidsMember from './ModalBidsMember';
 
 function MembersPage(props) {
 
@@ -14,7 +15,7 @@ function MembersPage(props) {
     const [countMember,setCountMember] = useState();
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
-
+    const [visibleBidsMember, setVisibleBidsMember] = useState(false);
 
     useEffect(() => {
         setLoading(true)
@@ -68,7 +69,12 @@ function MembersPage(props) {
                                         <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
-                                                <TableMemberList  memberList={memberList} countMember={countMember}/>
+                                                <TableMemberList  
+                                                    memberList={memberList} 
+                                                    countMember={countMember}
+                                                    setVisibleBidsMember={setVisibleBidsMember}
+                                                    visibleBidsMember={visibleBidsMember}
+                                                />
                                             </div>
                                             <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
@@ -94,24 +100,12 @@ function MembersPage(props) {
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
-                        <DrawerMenu/>
-                    </div>
-                    <div className="col p-4 contentPage">
-                        <TableMemberList memberList={memberList}/>
-                        <div className="d-none  d-sm-flex justify-content-center mt-5">
-                            <Pagination
-                            onChange={(e)=>handeSelectPage(e)}
-                            defaultCurrent={1}
-                            total={countMember}
-                            defaultPageSize={5}
-                            />
-                     </div>
-                    </div>
-                </div> */}
-
             </div>
+
+            <ModalBidsMember
+                setVisibleBidsMember={setVisibleBidsMember}
+                visibleBidsMember={visibleBidsMember}
+             />
         </React.Fragment>
     )
 }

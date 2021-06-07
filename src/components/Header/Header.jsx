@@ -79,7 +79,7 @@ function Header(props) {
                 </div>
                 <div className="col-9 col-sm-5 col-lg-3">
                     <div  className="d-flex justify-content-end">
-                        <div className="col">
+                        <div className="col px-0">
                             <div className="d-flex justify-content-start align-items-center">
 
                             <Badge size="small" count={countUnReadTickets} className="ml-4">

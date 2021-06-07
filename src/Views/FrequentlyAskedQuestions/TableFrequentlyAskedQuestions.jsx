@@ -7,13 +7,19 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
-function TableAuctonsList({auctionsList}) {
+function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
+
 
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}`} >
+                <Link  >
                     مشاهده
+                </Link>
+            </Menu.Item >
+            <Menu.Item className="text-center">
+                <Link  to={`frequently-asked-questions/${id}`}>
+                     افزودن سوال
                 </Link>
             </Menu.Item >
         </Menu>
@@ -29,23 +35,11 @@ function TableAuctonsList({auctionsList}) {
                             <div className=" px-3 text-center">ردیف</div>
                         </th>
                         <th className="  px-0 minWidth-name">
-                            <div className=" px-3 text-center">نام</div>
+                            <div className=" px-3 text-center">دسته‌بندی فارسی</div>
                         </th>
 
                         <th className="  px-0 minWidth-email">
-                            <div className=" px-3 text-center">خانه حراج</div>
-                        </th>
-
-                        <th className="  px-0 minWidth-mobile">
-                            <div className=" px-3 text-center">نوع حراج</div>
-                        </th>
-
-                        <th className="  px-0 minWidth-date">
-                            <div className=" px-3 text-center">تاریخ برگزاری</div>
-                        </th>
-
-                        <th className="  px-0 minWidth-typeUser">
-                            <div className=" px-3 text-center">وضعیت </div>
+                            <div className=" px-3 text-center">دسته‌بندی انگلیسی</div>
                         </th>
 
                         <th className="  px-0 minWidth-action">
@@ -55,20 +49,23 @@ function TableAuctonsList({auctionsList}) {
                 </thead>
 
                 <tbody>
-                    {auctionsList ? auctionsList.map((auction, index) =>
+                    {/* {frequentlyAskedQuestions ? frequentlyAskedQuestions.map((question, index) => */}
                         <> 
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">
+                                        {/* {++index} */}
+                                    </div>
                                 </div>
                             </td>
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {auction?.title}</div>
-
+                                    <div className=" text-center"> 
+                                        {/* {question?.applicant?.first_name} */}
+                                    </div>
                                 </div>
                             </td>
                             <td  className="">
@@ -76,44 +73,31 @@ function TableAuctonsList({auctionsList}) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {auction?.house}
+                                            {/* {question?.applicant?.email} */}
+                                        </div>
                                     </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {convertTypePersian(auction?.type)}</div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> {momentJalaali(auction?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
-                                </div>
-                            </td>
-               
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    {convertTypePersian(auction?.status)}
                                 </div>
                             </td>
 
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(auction?.id)}>
+                                    <Dropdown overlay={menu(1)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                             {/* <DownOutlined/> */}
                                         </a>
                                     </Dropdown>
                                     {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+
                                 </div>
                             </td>
                             </tr>
 
                             </>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        {/* ) : <div className="d-flex text-center w-100">لیست خالی</div>} */}
+
+                   
+
             </tbody>
         </table>
 
@@ -121,4 +105,4 @@ function TableAuctonsList({auctionsList}) {
     )
 }
 
-export default TableAuctonsList;
+export default TableFrequentlyAskedQuestions;

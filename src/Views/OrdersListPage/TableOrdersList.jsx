@@ -7,36 +7,16 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
-function TableMemberList({memberList , countMember , visibleBidsMember , setVisibleBidsMember}) {
+function TableOrdersList({ordersList}) {
 
 
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}`} >
+                <Link  >
                     مشاهده
                 </Link>
             </Menu.Item >
-            <Menu.Item  onClick={()=>setVisibleBidsMember(true)} className="text-center">
-                
-                بیدها
-               
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link to="/house-auctions" >
-                    حراج‌ها
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link >
-                    آثار مورد علاقه
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link>
-                    کیف پول
-                </Link>
-            </Menu.Item>
         </Menu>
     );
 
@@ -50,26 +30,35 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
                             <div className=" px-3 text-center">ردیف</div>
                         </th>
                         <th className="  px-0 minWidth-name">
-                            <div className=" px-3 text-center">نام</div>
+                            <div className=" px-3 text-center">تصویر</div>
                         </th>
 
                         <th className="  px-0 minWidth-email">
-                            <div className=" px-3 text-center">ایمیل</div>
+                            <div className=" px-3 text-center">نام اثر</div>
                         </th>
 
                         <th className="  px-0 minWidth-mobile">
-                            <div className=" px-3 text-center">شماره تماس</div>
+                            <div className=" px-3 text-center">هنرمند</div>
                         </th>
 
                         <th className="  px-0 minWidth-date">
-                            <div className=" px-3 text-center">تاریخ عضویت</div>
+                            <div className=" px-3 text-center">حراج‌دار</div>
                         </th>
 
-                        {/* <th className="  px-0 minWidth-typeRegister">
-                            <div className=" px-3 text-center">نوع عضویت</div>
-                        </th> */}
                         <th className="  px-0 minWidth-typeUser">
-                            <div className=" px-3 text-center">نوع کاربر</div>
+                            <div className=" px-3 text-center">تاریخ حراج</div>
+                        </th>
+
+                        <th className="  px-0 minWidth-typeUser">
+                            <div className=" px-3 text-center">خریدار</div>
+                        </th>
+
+                        <th className="  px-0 minWidth-typeUser">
+                            <div className=" px-3 text-center">قیمت فروش</div>
+                        </th>
+
+                        <th className="  px-0 minWidth-typeUser">
+                            <div className=" px-3 text-center">وضعیت</div>
                         </th>
 
                         <th className="  px-0 minWidth-action">
@@ -79,7 +68,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
                 </thead>
 
                 <tbody>
-                    {memberList ? memberList.map((member, index) =>
+                    {ordersList ? ordersList.map((order, index) =>
                         <> 
                             <tr className="spaceRow row-messages">
 
@@ -91,46 +80,70 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {member?.first_name}</div>
-
+                                    <div className=" text-center"> 
+                                        {/* {order?.applicant?.first_name} */}
+                                    </div>
                                 </div>
                             </td>
                             <td  className="">
 
                                 <div   className=" ">
                                     <div className="my-2 content-td">
-                                        <div className=" text-center"> {member?.email}</div>
+                                        <div className=" text-center"> 
+                                            {/* {order?.applicant?.email} */}
+                                        </div>
                                     </div>
                                 </div>
                             </td>
                             <td className="">
                                 <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {member?.mobile}</div>
+                                    <div className=" w-100 text-center"> 
+                                        {/* {order?.applicant?.mobile} */}
+                                    </div>
                                 </div>
                             </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> {momentJalaali(member?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
-                                </div>
-                            </td>
-                            {/* <td className="">
-                                <div
-                            
-                                    className=" my-2 content-td">
 
-                                </div>
-                            </td> */}
                             <td className="">
-                                <div
-                              
-                                    className="my-2 content-td">
-                                        {convertTypePersian(member?.role)}
+                                <div className="my-2 content-td">
+                                    <div className=" w-100 text-center"> 
+                                        {/* {order?.applicant?.mobile} */}
+                                    </div>
                                 </div>
                             </td>
+
+                            <td className="">
+                                <div className="my-2 content-td">
+                                    <div className=" w-100 text-center"> 
+                                        {/* {order?.applicant?.mobile} */}
+                                    </div>
+                                </div>
+                            </td>
+                            <td className="">
+                                <div className="my-2 content-td">
+                                    <div className=" w-100 text-center"> 
+                                        {/* {order?.applicant?.mobile} */}
+                                    </div>
+                                </div>
+                            </td>
+                            <td className="">
+                                <div
+                                    className=" my-2 content-td">
+                                    <div className=" w-100 text-center"> 
+                                        {/* {momentJalaali(order?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
+                                    </div>
+                                </div>
+                            </td>
+                     
+                            <td className="">
+                                <div
+                                    className="my-2 content-td">
+                                        {/* {convertTypePersian(participant?.role)} */}
+                                </div>
+                            </td>
+
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(member?.id)}>
+                                    <Dropdown overlay={menu(order?.id)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                             {/* <DownOutlined/> */}
@@ -154,4 +167,5 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
     )
 }
 
-export default TableMemberList;
+export default TableOrdersList;
+

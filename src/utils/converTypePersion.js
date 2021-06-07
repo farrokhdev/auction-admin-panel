@@ -13,6 +13,35 @@ export function convertTypePersian(value) {
         case"home_auction":
             return 'خانه حراج'
 
+        case"LIVE":
+            return 'زنده'
+        
+        case"ONLINE":
+            return 'آنلاین'
+        
+        case"PERIODIC":
+            return 'تناوبی'
+            
+        case"SECOND_HIDDEN":
+            return 'دوم پنهان'
+            
+        case"HIDDEN":
+            return 'پنهان'
+
+        case"PREPARING":
+            return 'آماده سازی'
+
+        case"ENROLLMENT":
+            return 'ثبت‌نام'
+        
+        case"ACTIVE":
+            return 'فعال'
+
+        case"CLOSED":
+            return 'بسته‌شده'
+
+
+
         default:
             return ''
     }

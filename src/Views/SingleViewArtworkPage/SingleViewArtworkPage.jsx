@@ -4,9 +4,9 @@ import ImgCrop from 'antd-img-crop';
 import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
-// import {fetcher} from '../../utils/common';
 import axios from "../../utils/request";
-
+import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {connect} from 'react-redux';
 
 
 function SingleViewArtworkPage(props) {
@@ -850,4 +850,16 @@ function SingleViewArtworkPage(props) {
     )
 }
 
-export default SingleViewArtworkPage
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+    }
+  }
+  
+  const mapStateToProps = (store) => {
+    return {
+        panel: store.panelReducer
+    }
+  }
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(SingleViewArtworkPage)
