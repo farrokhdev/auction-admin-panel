@@ -1,6 +1,6 @@
 @import './mixin.scss';
 @import './variables.scss';
-
+@import './leaflet.scss';
 
 @font-face {
     font-family: IRANSans_light;
@@ -168,7 +168,9 @@ body{
 }
 
 
-
+.ant-dropdown-trigger a{
+    color: red !important;
+}
 
 @media (max-width : '992px'){
     .site-layout{
@@ -418,6 +420,13 @@ table  tbody tr td {
     background-color: $darkGray-color !important;
     color: $white-color !important;
  }
+
+ .ant-result-extra {
+    margin: 24px 0 0;
+    text-align: center;
+    display: flex !important;
+    justify-content: center !important;
+}
 
 // --------- Login Page -----------
 
@@ -783,6 +792,10 @@ table  tbody tr td {
     min-width: 9rem !important;
 }
 
+.minWidth--price{
+    min-width: 11rem !important;
+}
+
 .btn-save-bankInfo , .btn-edit-backInfo{
     color: $quaternary-color !important;
 }
@@ -818,6 +831,16 @@ table  tbody tr td {
     background-color: $warning-color;
     color: $white-color  ;
 }
+
+.btn-do-filter{
+    @include purpelBtn;
+}
+
+.btn-do-filter:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color;
+}
+
 
 .btn-add-new-artwork{
     background-color: $primary-color !important;
@@ -866,11 +889,17 @@ table  tbody tr td {
     color: $white-color !important;
 }
 
-.date-field-filter-box{
-    max-width: 75px !important;
-}
 
 .date-field-filter-box{
+    max-width: 75px !important;
+    border: 0.5px solid rgb(230, 230, 230) !important;
+    border-radius: 4px !important;
+    overflow: none !important;
+    box-shadow: none !important;
+}
+
+.data-field-box{
+    min-width: 100px !important;
     border: 0.5px solid rgb(230, 230, 230) !important;
     border-radius: 4px !important;
     overflow: none !important;
@@ -1420,12 +1449,17 @@ color: $white-color;
     color: $white-color;
 }
 
+.modal-send-to-house-autions .ant-modal-header{
+    background-color: $dark-color !important;
+}
+
 .modal-send-to-house-autions .ant-modal-footer{
     display: none !important;
 }
 
 .modal-send-to-house-autions .ant-modal-title{
     margin-right: 0px !important;
+    color: $white-color !important;
 }
 
 .btn-close-send-to-house-auction{

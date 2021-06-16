@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled , QuestionCircleFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 
 function DrawerResponsive() {
@@ -144,6 +144,19 @@ function DrawerResponsive() {
                          <div className="d-flex align-items-center">
                          <WechatFilled />
                              <p className="mb-0 mr-2">تیکت‌ها</p>
+                        </div>
+                        </NavLink>
+                    </div>
+
+                    <div style={{height : '30px'}}>
+                        <NavLink 
+                            to="/frequently-asked-questions" 
+                            className="mr-2 nav-item-drawer-responsive" 
+                            onClick={(e)=>setVisible(false)}
+                        >
+                         <div className="d-flex align-items-center">
+                         <QuestionCircleFilled />
+                             <p className="mb-0 mr-2">سوالات متداول</p>
                         </div>
                         </NavLink>
                     </div>

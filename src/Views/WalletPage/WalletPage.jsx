@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import TableWalletList from './TableWalletList';
 import axios from '../../utils/request';
+import PaginationComponent from '../../components/PaginationComponent';
 
 function WalletPage(props) {
 
@@ -66,7 +67,8 @@ function WalletPage(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableWalletList walletList={walletList}/>
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
+
+                                            {/* <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
@@ -83,7 +85,10 @@ function WalletPage(props) {
                                                     defaultPageSize={5}
                                                     size="small"
                                                 />
-                                            </div>
+                                            </div> */}
+
+                                            <PaginationComponent  count={countWallets}  handeSelectPage={handeSelectPage}/>
+
                                         </div>
                                     </div>
                             </div>

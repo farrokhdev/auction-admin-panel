@@ -1,32 +1,51 @@
 import React , {useState , useEffect} from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
+import { Form, Input, Button, Space , Breadcrumb , Image , Select , notification} from 'antd';
 import {NavLink , Link} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
+import axios from '../../utils/request';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
+import Loading from '../../components/Loading';
 
 
+const layout = {
+    labelCol: {
+      span: 48,
+    },
+    wrapperCol: {
+      span: 200,
+    },
+};
 function AddNewArtwork(props) {
 
-    const layout = {
-        labelCol: {
-          span: 48,
-        },
-        wrapperCol: {
-          span: 200,
-        },
+    const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [imageUrl, setImageUrl] = useState({});
+
+const { Option } = Select;
+
+    useEffect(() => {
+        setLoading(true)
+       axios.get(`${BASE_URL}/sale/category/`).then( res => {
+           setLoading(false)
+           console.log(res.data);
+           setCategories(res.data.data.result.results)
+           
+       }
+       ).catch(err => {
+           console.log(err);
+           setLoading(false)
+       })
+    }, []);
+
+
+     const [mainPic, setMainPic] = useState(); 
+
+     const onChangeMainPic = (newFile) => {
+        setMainPic(newFile);
       };
-
-
-
-    //  const [mainPic, setMainPic] = useState(); 
-
-    //  const onChangeMainPic = (newFile) => {
-    //     setMainPic(newFile);
-    //   };
 
     const [fileList, setFileList] = useState([
         // {
@@ -36,6 +55,8 @@ function AddNewArtwork(props) {
         //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         // },
       ]);
+
+      console.log("FileList =>>>> ",fileList );
     
       const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
@@ -59,12 +80,63 @@ function AddNewArtwork(props) {
 
       const onFinish = (values) => {
         console.log(values);
+        setLoading(true)
+
+        let payload = {
+            "artwork_title": values.artwork_title,
+            "persian_artwork_name": values.persian_artwork_name,
+            "english_artwork_name": values.english_artwork_name,
+            "persian_artist_name": values.persian_artist_name,
+            "english_artist_name": values.english_artist_name,
+            "artwork_owner": values.artwork_owner,
+            "auction_owner_name": values.auction_owner_name,
+            "artwork_num": values.artwork_num,
+            "artwork_length": values.artwork_length,
+            "artwork_width": values.artwork_width,
+            "artwork_height": values.artwork_height,
+            "technique": values.technique,
+            "field_art" : values.field_art,
+            "category_id": values.category_id,
+            "persion_description": values.persion_description,
+            "english_description": values.english_description,
+            "media": {
+                "media_path": "https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8",
+                // "type": "image",
+                "type": fileList?.type ? fileList?.type : "image/jpeg",
+                "bucket_name": "image",
+                "file_key": "d30da840-dd21-443e-9a21-8b973a2ebdbb"
+            },
+            "price": values.price,
+            "price_max": values.price_max,
+            "price_min": values.price_min,
+            "artwork_link" : values.artwork_link
+        }
+
+        axios.post(`${BASE_URL}/sale/product/`, payload).then(res => {
+            setLoading(false)
+            openNotification()
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
+      };
+
+      const openNotification = () => {
+        notification.success({
+          message: 'ثبت اثر هنری',
+          description:`اثر هنری با موفقیت ایجاد شد`,
+            duration: 1,
+            className: 'custom-class',
+            style : {
+                backgroundColor : '#f9faf5'
+            }
+        });
       };
  
 
     return (
         <React.Fragment>
-
+<Loading loading={loading}/>
             <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages">
 
                 <div  className="row m-0">
@@ -85,8 +157,7 @@ function AddNewArtwork(props) {
                                     
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                        اثر هنری
-                                    {/* <Link to="/members">{`${member?.first_name}${' '}${member?.last_name}`}</Link> */}
+                                        افزودن اثر هنری
                                 </Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
@@ -97,7 +168,7 @@ function AddNewArtwork(props) {
         
                     <div className="col pt-5">
 
-                    <Form {...layout} name="nest-messages" onFinish={onFinish} >
+                    <Form {...layout} name="nest-messages" scrollToFirstError={true} onFinish={onFinish} >
 
 
                         
@@ -131,14 +202,14 @@ function AddNewArtwork(props) {
                             <div  className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="auction_owner_name"
                                             className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
+                                            rules={[{
+                                                required: true,
+                                                message: 'ورودی نام حراج دار خالی است!'
+                                            },
+                                  
+                                        ]}
                                             >
                                             <Input />
                                     </Form.Item>
@@ -155,14 +226,14 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_title"
                                             className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
+                                            rules={[{
+                                                required: true,
+                                                message: 'ورودی نام حراج خالی است!'
+                                            },
+                                  
+                                        ]}
                                             >
                                             <Input />
                                     </Form.Item>
@@ -178,18 +249,43 @@ function AddNewArtwork(props) {
                             </div>
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
-                                    <Form.Item
-                                            name=""
-                                            className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
+
+                                            <Form.Item
+                                                className="text-right w-100"
+                                                name="user"
+                                                rules={[
                                                 {
                                                     required: true,
+                                                    message: 'کاربر را انتخاب نکرده‌اید!',
+                                                    type: 'array',
                                                 },
-                                            ]}
+                                                ]}
+                                                >
+                                                <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                    {categories.length >= 1 ? categories.map(category => (
+
+                                                        <React.Fragment key={category?.id}>
+                                                            <Option value={`${category?.id}`}>{category?.title}</Option>
+                                                        </React.Fragment>
+                                                    )) : <Option value=""></Option>}
+                                                        
+                                                </Select>
+                                            </Form.Item>
+
+
+
+                                    {/* <Form.Item
+                                            name="category_id"
+                                            className="w-100 "
+                                            rules={[{
+                                                required: false,
+                                                message: 'ورودی دسته‌بندی محصول خالی است!'
+                                            },
+                                  
+                                        ]}
                                             >
                                             <Input />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                 </div>
                             </div>
                         </div>
@@ -203,12 +299,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="field_art"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی رشته هنری خالی است!"
                                                 },
                                             ]}
                                             >
@@ -227,12 +323,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="persian_artist_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی نام هنرمند فارسی خالی است!"
                                                 },
                                             ]}
                                             >
@@ -251,13 +347,18 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="english_artist_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی نام هنرمند انگلیسی خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+                                                }
+                                                
                                             ]}
                                             >
                                             <Input />
@@ -275,12 +376,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="persian_artwork_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی نام اثر فارسی خالی است!"
                                                 },
                                             ]}
                                             >
@@ -299,13 +400,18 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="english_artwork_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'ورودی نام اثر انگلیسی خالی است!'
                                                 },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+                                                }
+                                                
                                             ]}
                                             >
                                             <Input />
@@ -323,12 +429,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_owner"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی مالک اثر خالی است!"
                                                 },
                                             ]}
                                             >
@@ -347,12 +453,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_num"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی شماره اثر خالی است!"
                                                 },
                                             ]}
                                             >
@@ -371,13 +477,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_length"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی طول محصول خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -395,13 +505,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_width"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی عرض محصول خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -419,13 +533,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_height"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message: "ورودی ارتفاع محصول خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -443,12 +561,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="technique"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی تکنیک اثر خالی است!"
                                                 },
                                             ]}
                                             >
@@ -467,13 +585,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="price_min"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی کمینه قیمت اثر خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -493,11 +615,15 @@ function AddNewArtwork(props) {
                                     <Form.Item
                                             name=""
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی شماره اثر خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -515,13 +641,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="price_max"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی بیشینه قیمت خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -538,13 +668,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="price"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی قیمت فروش خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[\d]{0,14}$/,
+                                                    message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -552,29 +686,7 @@ function AddNewArtwork(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
-                                <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">قیمت فروش</p>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="d-flex  ml-lg-5 pl-lg-5">
-                                    <Form.Item
-                                            name=""
-                                            className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
-                                            >
-                                            <Input />
-                                    </Form.Item>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-2">
@@ -585,12 +697,12 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="persion_description"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "توضیحات فارس خالی است!"
                                                 },
                                             ]}
                                             >
@@ -608,13 +720,17 @@ function AddNewArtwork(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="english_description"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "ورودی توضیحات انگلیسی خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -634,7 +750,7 @@ function AddNewArtwork(props) {
 
                         <div className="row mx-xl-2 ">
                             <Form.List
-                            name="bank_accounts">
+                            name="artwork_link">
                                         {(fields , { add, remove }) => (
                                             <>
 

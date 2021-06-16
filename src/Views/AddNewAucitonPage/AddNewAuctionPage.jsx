@@ -2,10 +2,10 @@ import React , {useState , useEffect , useRef } from 'react';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils/index';
 import { UploadOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber , Breadcrumb , Select , DatePicker , Checkbox , Upload , Button , message} from 'antd';
+import { Form, Input, InputNumber , Breadcrumb , Select  , Checkbox , Upload , Button , message} from 'antd';
 import {NavLink} from 'react-router-dom';
 import Loading from '../../components/Loading';
-
+import DatePicker from 'react-datepicker2';
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 
 function AddNewAuctionPage(props) {
@@ -19,7 +19,7 @@ function AddNewAuctionPage(props) {
     const executeScroll = (e) => scrollToRef(e)
 
     const { Option } = Select;
-    const { RangePicker } = DatePicker;
+    // const { RangePicker } = DatePicker;
 
 
 
@@ -132,7 +132,7 @@ function AddNewAuctionPage(props) {
                                                         key="5"
                                                         onClick={ e => props.toggleActiveNavDrawer("1")}
                                                         to="/house-auctions">
-                                                       ایجاد حراج
+                                                        ایجاد حراجی
                                                     </NavLink>
                                                 </Breadcrumb.Item>
                                             </Breadcrumb>
@@ -195,7 +195,18 @@ function AddNewAuctionPage(props) {
                                                                 <Form.Item
                                                                         className="w-100  h-100"
                                                                         name="title_persion"
-                                                                        rules={[{ required: true, message: 'ورودی عنوان فارسی خالی است!' }]}
+                                                                        rules={[
+                                                                            { 
+                                                                                required: true, message: 'ورودی عنوان فارسی خالی است!' 
+                                                                            },
+                                                                            
+                                                                            {
+                                                                                // pattern: /~[a-zA-Z0-9]/g,
+                                                                                pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                                                message: "کاراکتر انگلیسی مجاز نیست!",
+                                                                            }
+
+                                                                    ]}
                                                                     >
                                                                     <Input 
                                                                         // defaultValue = {member?.first_name}
@@ -216,7 +227,15 @@ function AddNewAuctionPage(props) {
                                                                 <Form.Item
                                                                         className="w-100  h-100"
                                                                         name="title_english"
-                                                                        rules={[{ required: true, message: 'ورودی عنوان انگلیسی خالی است!' }]}
+                                                                        rules={[
+                                                                            { 
+                                                                                required: true, message: 'ورودی عنوان انگلیسی خالی است!' 
+                                                                            },
+                                                                            {
+                                                                                pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                                                message: "کاراکتر فارسی مجاز نیست!",
+                                                                            }
+                                                                        ]}
                                                                     >
                                                                     <Input 
                                                                         // defaultValue = {member?.first_name}
@@ -227,6 +246,30 @@ function AddNewAuctionPage(props) {
                                                             <div className="col col-lg-3"></div>
                                                         </div>
 
+                                                        <div className="d-block d-sm-flex justify-content-start mb-4">
+                                                            <div className="d-flex align-items-center">
+                                                                <p className="mb-0 ml-4 text-right">از تاریخ</p>
+                                                                <DatePicker
+                                                                    className="data-field-box"
+                                                                    isGregorian={false}
+                                                                    timePicker={false}
+                                                                    // onChange={valueFrom  => onChangeFrom(valueFrom)}
+                                                                    // value={dateFrom}
+                                                                />
+
+                                                            </div>
+                                                            <div className="d-flex mt-2 mt-sm-0">
+                                                                <p className="mb-0 mr-3 ml-2 mx-sm-2 pt-1 text-right">تا تاریخ</p>
+                                                                <DatePicker
+                                                                    className="data-field-box"
+                                                                    isGregorian={false}
+                                                                    timePicker={false}
+                                                                    // onChange={valueTo => onChangeTo(valueTo)}
+                                                                    // value={dateTo}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    {/* 
                                                        <div className="d-block d-lg-flex">
                                                            <div className="col col-lg-3">
                                                                <div className="d-flex mb-2 mb-lg-0">
@@ -235,8 +278,7 @@ function AddNewAuctionPage(props) {
                                                            </div>
                                                             <div className="col col-lg-6">
                                                                 <Form.Item name="range-time-picker_insite"  {...rangeConfig}>
-                                                                    {/* <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
-                                                                    <RangePicker showTime format="YYYY-MM-DD" />
+                                                                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                                                                 </Form.Item>
                                                             </div>
                                                             <div className="col col-lg-3"></div>
@@ -250,12 +292,11 @@ function AddNewAuctionPage(props) {
                                                            </div>
                                                             <div className="col col-lg-6">
                                                                 <Form.Item name="range-time-picker"  {...rangeConfig}>
-                                                                    {/* <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" /> */}
-                                                                    <RangePicker showTime format="YYYY-MM-DD" />
+                                                                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                                                                 </Form.Item>
                                                             </div>
                                                             <div className="col col-lg-3"></div>
-                                                       </div>
+                                                       </div> */}
                                                        <div className="d-block d-lg-flex ">
                                                             <div className="col col-lg-3">
                                                                 <div className="d-flex mb-2 mb-lg-0">

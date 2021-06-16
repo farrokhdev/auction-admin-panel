@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown , Image} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
@@ -19,6 +19,18 @@ function TableOrdersList({ordersList}) {
             </Menu.Item >
         </Menu>
     );
+
+    // {
+    //     image : '',
+    //     artwork_name : 'artfition',
+    //     architect_name : 'علی نامجو' ,
+    //     auction_owner : 'ناصر محمدی',
+    //     date_auction : '1399/02/34',
+    //     buyer_name : 'زهره نبی',
+    //     sale_price : '9000000',
+    //     status : 'انجام شده'
+
+    // }
 
     
     return (
@@ -79,9 +91,26 @@ function TableOrdersList({ordersList}) {
                             </td>
 
                             <td   className="">
-                                <div   className="my-2 content-td">
+                                {/* <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                        {/* {order?.applicant?.first_name} */}
+                                        {order?.image_url}
+                                    </div>
+
+                                    
+                                </div> */}
+
+
+
+                                <div  className="my-2 content-td" >
+                                    <div className="text-center">
+                                    <Image
+                                        style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
+                                        className="box-image-product-list"
+                                        width={40}
+                                        preview ={order?.image_url}
+                                        src={order?.image_url}
+                                    />
+                                        {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
                                 </div>
                             </td>
@@ -90,7 +119,7 @@ function TableOrdersList({ordersList}) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {/* {order?.applicant?.email} */}
+                                            {order?.artwork_name}
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +127,7 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {/* {order?.applicant?.mobile} */}
+                                        {order?.artist_name}
                                     </div>
                                 </div>
                             </td>
@@ -106,7 +135,7 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {/* {order?.applicant?.mobile} */}
+                                        {order?.auction_owner}
                                     </div>
                                 </div>
                             </td>
@@ -114,14 +143,14 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {/* {order?.applicant?.mobile} */}
+                                        {order?.date_auction}
                                     </div>
                                 </div>
                             </td>
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {/* {order?.applicant?.mobile} */}
+                                        {order?.buyer_name}
                                     </div>
                                 </div>
                             </td>
@@ -130,6 +159,7 @@ function TableOrdersList({ordersList}) {
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center"> 
                                         {/* {momentJalaali(order?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
+                                        {order?.sale_price}
                                     </div>
                                 </div>
                             </td>
@@ -138,6 +168,8 @@ function TableOrdersList({ordersList}) {
                                 <div
                                     className="my-2 content-td">
                                         {/* {convertTypePersian(participant?.role)} */}
+                                        {(order?.status)}
+
                                 </div>
                             </td>
 

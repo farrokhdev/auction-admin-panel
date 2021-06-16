@@ -12,7 +12,7 @@ import {fetcher} from '../../utils/common';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 
-function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
+function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , setDateFrom , setDateTo , handleFilterDateFrom , handleFilterDateTo}) {
     
     const { Search } = Input;
     const { Panel } = Collapse;
@@ -76,14 +76,13 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
     }
 
 
+  const onChangeFrom = (value) =>{
+    handleFilterDateFrom(value.format('jYYYY-jM-jD'))
 
-
-  function onChangeFrom(value) {
-    console.log('Selected Time: ', value.format('jYYYY-jM-jD') );
   }
 
-  function onChangeTo(value) {
-    console.log('Selected Time: ', value.format('jYYYY-jM-jD'));
+  const onChangeTo = (value) => {
+    handleFilterDateTo(value.format('jYYYY-jM-jD'))
   }
     
     return (
@@ -91,9 +90,9 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
             
             <div className="row w-100">
                 <div className="col w-100 ">
-                    <div className="d-flex">
-                        <Search className="mb-2" placeholder="جستجوی کالا" onSearch={(e)=> setFilterArtwork(e)} style={{ width: 300 }}  />
-                    </div>
+                    {/* <div className="d-flex">
+                        <Search className="mb-2" placeholder="جستجوی کالا" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
+                    </div> */}
 
                     <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3">
                        
@@ -145,9 +144,16 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end mb-2">
-                        <NavLink to="/add-artwork">
-                            <button className="btn-add-new-artwork">افزودن اثر هنری</button>
-                        </NavLink>
+                        <div className="col">
+                            <div className="d-flex">
+                                <button onClick={()=>handleFilterArtwork()} className="btn-do-filter">اعمال فیلتر</button>
+                            </div>
+                        </div>
+                        <div className="col">
+                            <NavLink to="/add-artwork">
+                                <button className="btn-add-new-artwork">افزودن اثر هنری</button>
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
                 
@@ -178,12 +184,12 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
                             <div className=" px-3 text-center">تاریخ حراج</div>
                         </th>
 
-                        <th className="  px-0 minWidth-date">
-                            <div className=" px-3 text-center">براورد قیمت</div>
+                        <th className="  px-0 minWidth--price">
+                            <div className=" px-3 text-center">براورد قیمت (تومان)</div>
                         </th>
 
-                        <th className="  px-0 minWidth-date">
-                            <div className=" px-3 text-center">قیمت فروش</div>
+                        <th className="  px-0 minWidth--price">
+                            <div className=" px-3 text-center"> قیمت فروش (تومان)</div>
                         </th>
 
                         <th className="  px-0 minWidth-action">
@@ -199,8 +205,7 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    {/* <div className="text-center">{++index}</div> */}
-                                    <div className="text-center">{artwork?.id}</div>
+                                    <div className="text-center">{++index}</div>
                                 </div>
                             </td>
                             <td   className="">
@@ -210,8 +215,8 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
                                         style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
                                         className="box-image-product-list"
                                         width={40}
-                                        preview ={artwork?.media?.exact_url}
-                                        src={artwork?.media?.exact_url}
+                                        preview ={artwork?.media?.media_path}
+                                        src={artwork?.media?.media_path}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -220,7 +225,7 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {artwork?.title}</div>
+                                    <div className=" text-center"> {artwork?.artwork_title}</div>
 
                                 </div>
                             </td>
@@ -228,7 +233,9 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
 
                                 <div   className=" ">
                                     <div className="my-2 content-td">
-                                        <div className=" text-center"> {artwork?.email}</div>
+                                        <div className=" text-center"> 
+                                        {artwork?.persian_artist_name}
+                                    </div>
                                     </div>
                                 </div>
                             </td>
@@ -236,34 +243,43 @@ function TableArtworkList({artworkList , countProduct , setFilterArtwork}) {
 
                                 <div   className=" ">
                                     <div className="my-2 content-td">
-                                        <div className=" text-center"> {artwork?.email}</div>
+                                        <div className=" text-center"> 
+                                        {artwork?.email}
+                                        </div>
                                     </div>
                                 </div>
                                 </td>
                                 <td className="">
                                     <div
                                         className=" my-2 content-td">
-                                        <div className=" w-100 text-center"> {momentJalaali(artwork?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
+                                        <div className=" w-100 text-center"> 
+                                        {momentJalaali(artwork?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                        </div>
                                     </div>
                                 </td>
                                 <td  className="">
 
                                 <div   className=" ">
                                     <div className="my-2 content-td">
-                                        <div className=" text-center"> {artwork?.email}</div>
+                                        <div className=" text-center"> 
+                                            {artwork?.email}
+                                        </div>
                                     </div>
                                 </div>
                             </td>
                             <td className="">
                                 <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {artwork?.price}</div>
+                                    <div className=" w-100 text-center"> 
+                                    {artwork?.price}
+                                    </div>
                                 </div>
                             </td>
                      
                      
                             <td className=" text-center">
                                 <div className=" my-2 content-td">
-                                    <Dropdown overlay={actionMenu(artwork?.id , artwork)}>
+                                    <Dropdown 
+                                        overlay={actionMenu(artwork?.id , artwork)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                         </a>

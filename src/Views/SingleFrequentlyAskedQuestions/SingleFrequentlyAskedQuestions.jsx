@@ -21,7 +21,33 @@ function SingleFrequentlyAskedQuestions(props) {
     // const [qen, ] = useState("...سوال انگلیسی");
     // const [ren, ] = useState("...پاسخ انگلیسی");
 
-    const [visibleEditQuestion, setVisibleEditQuestion] = useState(false);
+    const [visibleEditQuestion , setVisibleEditQuestion] = useState(false);
+    const [questionList , setQuestionList] = useState([
+        {
+            q_persion : "سوال فارسی",
+            q_english : "question",
+            r_persion : "پاسخ فارسی",
+            r_english : "response",
+        },
+        {
+            q_persion : "سوال فارسی",
+            q_english : "question",
+            r_persion : "پاسخ فارسی",
+            r_english : "response",
+        },
+        {
+            q_persion : "سوال فارسی",
+            q_english : "question",
+            r_persion : "پاسخ فارسی",
+            r_english : "response",
+        },
+        {
+            q_persion : "سوال فارسی",
+            q_english : "question",
+            r_persion : "پاسخ فارسی",
+            r_english : "response",
+        },
+    ]);
 
     const [qfa, ] = useState("");
     const [rfa, ] = useState("");
@@ -198,6 +224,7 @@ function SingleFrequentlyAskedQuestions(props) {
                                     <TableQuestionsCategory 
                                         setVisibleEditQuestion={setVisibleEditQuestion}
                                         visibleEditQuestion={visibleEditQuestion}
+                                        questionList={questionList}
                                         />
                                 </div>
 

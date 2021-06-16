@@ -27,16 +27,14 @@ const handleCloseDetailMessage = () => {
                     <div className="col-md-5 px-0">
                         <div className="d-flex justify-content-start align-items-center">
                             <p className="mb-0 titleBox-message-details">
-                                {/* {messageDetails?.title} */}
-                                lkjas d lkjas d lkjasdkl 
+                                {messageDetails?.title}
                             </p>
                         </div>
                     </div>
                     <div className="col-md-7 px-0 ">
                         <div className="d-flex justify-content-start justify-content-md-end align-items-center">
                             <p className="mb-0 date-message-details ">
-                                {/* {messageDetails?.created_at ? `${momentJalaali(messageDetails?.created_at).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''} */}
-                                1123 2165 85789 354564 
+                                {messageDetails?.date_send ? `${momentJalaali(messageDetails?.date_send).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
                             </p>
                         </div>
                     </div>
@@ -44,7 +42,7 @@ const handleCloseDetailMessage = () => {
                     <div className="d-flex">
                         <span  style={{whiteSpace: "pre-line"}} className=" text-details-message text-right">
                             {/* {messageDetails?.body} */}
-                            klajsd laksjdf  asldkjf l jlaksdjf lk laksdjflk asjdf lkajsdlk laksdjfl asdf
+                            اعتبار شارژ هدیه برای کاربران اعمال شد
                         </span>
                     </div>
             <div className="d-flex mt-5">

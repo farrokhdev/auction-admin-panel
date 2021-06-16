@@ -8,45 +8,56 @@ import Loading from '../../components/Loading';
 
 const { Option, getMentions } = Mentions;
 
-function ModalConfirmDeposit({visibleCofirmDeposit , setVisibleCofirmDeposit , amount}) {
+function ModalConfirmDeposit({visibleCofirmDeposit , setVisibleCofirmDeposit , giftAmount , usersSelect}) {
 
     const handleCloseModal = () => {
         setVisibleCofirmDeposit(false);
         window.location.reload()
     }
 
-    const handleRedirectGetway = () => {
-        window.location.href = "/"
+    const handleCharge = () => {
+
+        let payload = {
+            "user": usersSelect ? usersSelect : '',
+            "gift_credit": giftAmount ? giftAmount : 0
+        }
+
+
+        axios.post(`${BASE_URL}/panel/credit/gift/` , payload).then(res => {
+            console.log(res.data);
+        }).catch(err => {
+            console.log(err);
+        })
     }
 
     return (
         <React.Fragment>
             <Modal
-                title="تایید واریز و انتقال به درگاه"
+                title="شارژ هدیه"
                 centered
                 className="modal-confirm-deposit"
                 visible={visibleCofirmDeposit}
                 onOk={() => setVisibleCofirmDeposit(false)}
                 onCancel={() => setVisibleCofirmDeposit(false)}
-                width={400}>
+                width={600}>
 
                     <div className="d-flex">
                         <div className="col">
 
                             <div className="d-flex mb-3">
-                                <p>{`شارژ کیف پول به مبلغ ${amount} تومان`}</p>
+                                <p>{`شارژ هدیه به مبلغ ${giftAmount} تومان`}</p>
                             </div>
 
 
                             <div className="d-flex">
-                                <div className="col">
+                                <div className="col px-0">
                                     <div className="d-flex">
                                         <button className="btn-close" onClick={handleCloseModal}>انصراف</button>
                                     </div>
                                 </div>
-                                <div className="col">
+                                <div className="col px-0">
                                     <div className="d-flex">
-                                    <button className="btn-redirect-to-getway" onClick={handleRedirectGetway} >انتقال به درگاه</button>
+                                    <button className="btn-redirect-to-getway px-3" onClick={handleCharge} >اعمال شارژ هدیه</button>
                                     </div>
                                 </div>
                             </div>

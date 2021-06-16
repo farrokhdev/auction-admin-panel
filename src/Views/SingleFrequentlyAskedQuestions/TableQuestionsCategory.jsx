@@ -10,7 +10,7 @@ import { Modal, notification } from 'antd';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
 
-function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) {
+function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , questionList}) {
 
     
     const { confirm } = Modal; 
@@ -27,8 +27,8 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
 
     const openNotification = () => {
         notification.success({
-          message: 'تایید اثر',
-          description:` با موفقیت تایید شد`,
+          message: 'حذف سوال',
+          description:` سوال با موفقیت حذف شد`,
             duration: 1,
             className: 'custom-class',
             style : {
@@ -127,15 +127,15 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
             </thead>
 
             <tbody>
-                {/* {houseAuctionOffersList ? houseAuctionOffersList.map((offer, index) => */}
+                {questionList ? questionList.map((offer, index) =>
                     <> 
                         <tr className="spaceRow row-messages">
 
                         <td   className="">
                             <div  className="my-2 content-td" >
                                 <div className="text-center">
-                                    {/* {++index} */}
-                                    1
+                                    {++index}
+                                   
                                 </div>
                             </div>
                         </td>
@@ -143,8 +143,7 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
                         <td   className="">
                             <div   className="my-2 content-td">
                                 <div className=" text-center"> 
-                                {/* {offer?.first_name} */}
-                                سوال فارسی
+                                {offer?.q_persion}
                             </div>
 
                             </div>
@@ -153,14 +152,18 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
                         <td className="">
                             <div
                                 className=" my-2 content-td">
-                                <div className=" w-100 text-center"> سوال انگلیسی</div>
+                                <div className=" w-100 text-center"> 
+                                {offer?.q_english}
+                                </div>
                             </div>
                         </td>
                         
                         <td className="">
                             <div
                                 className=" my-2 content-td">
-                                <div className=" w-100 text-center"> پاسخ فارسی</div>
+                                <div className=" w-100 text-center"> 
+                                {offer?.r_persion}
+                                </div>
                             </div>
                         </td>
                 
@@ -168,7 +171,7 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
                             <div
                           
                                 className="my-2 content-td">
-                                    پاسخ انگلیسی
+                                    {offer?.r_english}
                             </div>
                         </td>
                         <td className=" text-center">
@@ -185,7 +188,7 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion}) 
                         </tr>
 
                         </>
-                    {/* ) : <div className="d-flex text-center w-100">لیست خالی</div>} */}
+                    ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
 
                     <ModalEditFrequentlyAskedQuestion
                         setVisibleEditQuestion={setVisibleEditQuestion}

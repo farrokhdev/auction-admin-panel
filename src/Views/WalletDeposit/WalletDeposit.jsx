@@ -9,32 +9,34 @@ import axios from '../../utils/request';
 import ModalConfirmDeposit from './ModalConfirmDeposit';
 
 
+
 function WalletDeposit(props) {
 
-    const [cards, setCards] = useState([{card_number : "1111111111111111"}]);
-
+    const [members, setMembers] = useState([]);
     const [visibleCofirmDeposit, setVisibleCofirmDeposit] = useState(false);
-    const [amount, setAmount] = useState();
+    const [giftAmount, setGiftAmount] = useState(0);
+    const [usersSelect, setUsersSelect] = useState([]);
+    console.log(giftAmount);
+
+    const [form] = Form.useForm();
+    useEffect(() => {
+       axios.get(`${BASE_URL}/panel/users/`).then(res => {
+           console.log(res.data);
+           setMembers(res.data.data.result.results)
+       }).catch(err => {
+           console.log(err);
+       })
+    }, []);
 
     const { Option } = Select;
+
     const onFinish = (values) => {
-        setAmount(values.amount ? values.amount : '')
         console.log(values);
-
-        let payload = {
-            card_number : values.amount,
-            amount : values.amount
-        }
-
-
-        axios.post(`${BASE_URL}/` , payload).then(res => {
-            console.log(res.data);
-        }).catch(err => {
-            console.log(err);
-        })
-
-
-        setVisibleCofirmDeposit(true)
+        setGiftAmount(values.gift_credit)
+        setUsersSelect(values.user)
+        setTimeout(() => {
+            setVisibleCofirmDeposit(true)
+        }, 1000);
     }   
     
     const onFinishFailed = (values) => {
@@ -62,7 +64,7 @@ function WalletDeposit(props) {
                                                         </NavLink>
                                                     </Breadcrumb.Item>
                                                     <Breadcrumb.Item>
-                                                       واریز
+                                                        شارژ هدیه
                                                     </Breadcrumb.Item>
                                                 </Breadcrumb>
                                             </div>
@@ -73,8 +75,11 @@ function WalletDeposit(props) {
                                         <div className="col content-page p-4  ">
 
                                         <Form
-                                                id="form-add-ticket"
+                                                id="form-wallet-gift"
                                                 name="basic"
+                                                form={form}
+                                                labelCol={{ span: 24 }}
+                                                wrapperCol={{ span: 24 }}
                                                 initialValues={{
                                                 remember: true
                                             }}
@@ -84,32 +89,36 @@ function WalletDeposit(props) {
                                                 <div className="d-block d-lg-flex">
                                                     <div className="col col-md-3">
                                                         <div className="d-flex">
-                                                            <p className="mb-0 mb-2 mb-lg-0">کارت بانکی</p>
+                                                            <p className="mb-0 mb-2 mb-lg-0">انتخاب کاربران</p>
                                                         </div>
                                                     </div>
                                                     <div className="col">
-                                                    <Form.Item  
-                                                    
-                                                            name="user_bank_account"
-                                                            rules={[{ 
-                                                                required: true ,
-                                                                message: 'شماره کارتی را انتخاب نکرده‌اید!'
-                                                            }]}>
-                                                            <Select
-                                                                // notFoundContent = {'شماره کارتی در حساب کاربری ثبت نکرده اید!'}
-                                                                placeholder="انتخاب کارت بانکی"
-                                                                // onChange={onGenderChange}
-                                                                allowClear
-                                                            >
 
-                                                                {cards ? cards.map(card => (
-                                                                    <Option value={card.card_number}>{card.card_number}</Option>
-                                                                ))  : null }
 
-                                                            </Select>
+                                                    <Form.Item
+                                                        className="text-right w-100"
+                                                        name="user"
+                                                        rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'کاربر را انتخاب نکرده‌اید!',
+                                                            type: 'array',
+                                                        },
+                                                        ]}
+                                                        >
+                                                        <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                            {members.length >= 1 ? members.map(member => (
+
+                                                                <React.Fragment key={member?.id}>
+                                                                    <Option value={`${member?.id}`}>{member?.first_name}</Option>
+                                                                </React.Fragment>
+                                                            )) : <Option value=""></Option>}
+                                                        
+                                                        </Select>
                                                     </Form.Item>
+
                                                     </div>
-                                                    <div className="col"></div>
+                                                    
                                                 </div>
                                                 
                                                 <div className="d-block d-lg-flex">
@@ -120,13 +129,12 @@ function WalletDeposit(props) {
                                                     </div>
                                                     <div className="col">
                                                     <Form.Item 
-                                                    name="amount"  
+                                                    name="gift_credit"  
                                                     rules={[{ 
                                                         required: true ,
                                                         message: 'مبلغ  را وارد نکرده‌اید!'
                                                         },
                                                         {
-                                                            // pattern: /^[\d]{0,20}$/,
                                                             pattern: /^[\u06F0-\u06F90-9]+$/,
                                                             message: "تنها کاراکتر عدد معتبر می‌باشد!",
                                                         },
@@ -165,7 +173,8 @@ function WalletDeposit(props) {
             <ModalConfirmDeposit 
                 setVisibleCofirmDeposit={setVisibleCofirmDeposit}
                 visibleCofirmDeposit = {visibleCofirmDeposit}
-                amount={amount}
+                giftAmount={giftAmount}
+                usersSelect={usersSelect}
             />
         </React.Fragment>
     )

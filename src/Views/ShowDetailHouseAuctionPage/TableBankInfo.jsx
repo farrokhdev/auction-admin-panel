@@ -1,7 +1,9 @@
 import React , {useState ,useEffect} from 'react';
 import {  Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
-import {convertTypePersian} from '../../utils/converTypePersion';
+// import {convertTypePersian} from '../../utils/converTypePersion';
 import { EditFilled , SaveFilled  , CloseOutlined} from '@ant-design/icons';
+
+
 const layout = {
     labelCol: {
       span: 16,
@@ -12,50 +14,35 @@ const layout = {
   };
 
 
-
 function TableBankInfo({member , bankAccountInfo}) {
-
-    console.log("**bankAccountInfo**" , bankAccountInfo.length);
 
     const originData = [];
     const [form] = Form.useForm();
     const [data, setData] = useState(originData);
     const [editingKey, setEditingKey] = useState('');
 
+  console.log(bankAccountInfo);
 
-    const onFinish = (values) => {
-        console.log(values);
-    };
+    // const onFinish = (values) => {
+    //     console.log(values);
+    // };
     
-    const onFinishFailed = (error) => {
-        console.log(error);
-    };
+    // const onFinishFailed = (error) => {
+    //     console.log(error);
+    // };
     
     for (let i = 0; i < bankAccountInfo.length; i++) {
-
-        console.log("bankAccountInfo__bank_name =>>>>", bankAccountInfo?.bank_name);
-        console.log("bankAccountInfo__card_number =>>>>", bankAccountInfo.card_number);
-        console.log("bankAccountInfo__account_number =>>>>", bankAccountInfo?.account_number);
-        console.log("bankAccountInfo__sheba_number =>>>>", bankAccountInfo?.sheba_number);
-        
-
+    
         originData.push({
-            
+
           key: i.toString(),
           
           id: ` ${i}`,
-          bank_name: convertTypePersian(bankAccountInfo[0]?.bank_name),
-          // bank_name: convertTypePersian("melli"),
-
-          card_number: bankAccountInfo[0].card_number,
-          // card_number: '111222333444555666777888',
-
-          account_number: bankAccountInfo[0]?.account_number,
-          // account_number: '111222333444555666777888',
-       
-          sheba_number: bankAccountInfo[0]?.sheba_number,
-          // sheba_number: '111222333444555666777888',
-        //   address: `London Park no. ${i}`,
+          bank_name: bankAccountInfo[i]?.bank_name,
+          card_number: bankAccountInfo[i].card_number,
+          account_number: bankAccountInfo[i]?.account_number,
+          sheba_number: bankAccountInfo[i]?.sheba_number,
+    
         });
       }
       const isEditing = (record) => record.key === editingKey;
@@ -143,7 +130,7 @@ function TableBankInfo({member , bankAccountInfo}) {
           title: 'نام بانک',
           dataIndex: 'bank_name',
           // width: '30%',
-          width: '300px',
+          width: '150px',
           editable: true,
           // responsive: ['sm'],
         },

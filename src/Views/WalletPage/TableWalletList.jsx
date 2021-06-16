@@ -34,11 +34,11 @@ function TableWalletList({walletList}) {
                     </th>
 
                     <th className="  px-0 minWidth-email">
-                        <div className=" px-3 text-center">اعتبار نقدی</div>
+                        <div className=" px-3 text-center">اعتبار نقدی (تومان)</div>
                     </th>
 
                     <th className="  px-0 minWidth-description">
-                        <div className=" px-3 text-center">اعتبار هدیه</div>
+                        <div className=" px-3 text-center">اعتبار هدیه (تومان)</div>
                     </th>
 
                     <th className="  px-0 minWidth-action">

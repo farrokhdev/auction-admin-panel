@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react'
-import {Modal , Form , message , notification , Select , Mentions } from 'antd';
+import {Modal , Form , message , notification , Select , Mentions , Input , Switch} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
@@ -8,7 +8,22 @@ import Loading from '../../components/Loading';
 
 const { Option, getMentions } = Mentions;
 
-function ModalSendToHouseAuction({visibleSendToHouseAuction , setVisibleSendToHouseAuction}) {
+const layout = {
+    labelCol: {
+        span: 16
+    },
+    wrapperCol: {
+        span: 24
+    }
+};
+const tailLayout = {
+    wrapperCol: {
+        offset: 16,
+        span: 24
+    }
+};
+
+function ModalSendToHouseAuction(props) {
 
 
     const [form] = Form.useForm();
@@ -17,10 +32,9 @@ function ModalSendToHouseAuction({visibleSendToHouseAuction , setVisibleSendToHo
 
     useEffect(() => {
         
-        axios.get(`${BASE_URL}/`).then(res => {
+        axios.get(`${BASE_URL}/account/home-auction/`).then(res => {
             console.log(res.data);
-
-            setHouseAuctionList(res.data)
+            setHouseAuctionList(res.data.data.result.results)
 
         }).catch(err => {
             console.log(err);
@@ -28,12 +42,33 @@ function ModalSendToHouseAuction({visibleSendToHouseAuction , setVisibleSendToHo
 
     }, []);
 
+    
+
     const onFinish = (values) => {
         console.log(values);
+
+        let payload = {
+            "is_approve" : values.is_approve ? values.is_approve : false,
+            "admin_description" : values.admin_description ? values.admin_description : '',
+            "auction_houses" : values.auction_houses
+        }
+
+
+        axios.put(`${BASE_URL}/panel/product/approve/${props.paramsId}/` , payload).then(res => {
+            console.log(res.data);
+
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }
+
+    const onFinishFailed = (valuses) => {
+        console.log(valuses);
     }
 
     const handleCloseModal = () => {
-        setVisibleSendToHouseAuction(false);
+        props.setVisibleSendToHouseAuction(false);
         window.location.reload()
     }
 
@@ -45,26 +80,45 @@ function ModalSendToHouseAuction({visibleSendToHouseAuction , setVisibleSendToHo
                 title="ارسال پیشنهاد فروش به خانه‌های حراج"
                 centered
                 className="modal-send-to-house-autions"
-                visible={visibleSendToHouseAuction}
-                onOk={() => setVisibleSendToHouseAuction(false)}
-                onCancel={() => setVisibleSendToHouseAuction(false)}
+                visible={props.visibleSendToHouseAuction}
+                onOk={() => props.setVisibleSendToHouseAuction(false)}
+                onCancel={() => props.setVisibleSendToHouseAuction(false)}
                 width={800}>
 
                     <div className="d-flex">
                         <div className="col">
 
-                            <Form  className="pt-5" form={form} layout="horizontal" onFinish={onFinish}>
+                            <Form  
+                            {...layout}
+                            form={form}
+                            name="basic"
+                            initialValues={{ remember: true }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            >
 
-                                <div className="d-block d-xl-flex">
+                                <div className="d-block ">
+
+                                <div className="col">
+                                    <div className="d-flex">
+                                        <p>تایید </p>
+                                    </div>
+                                    <div className="d-flex mr-2">
+                                        <Form.Item name="is_approve">
+                                            <Switch />
+                                        </Form.Item>
+                                    </div>
+                                </div>
+
                                     <div className="col">
                                         <div className="d-flex">
-                                            <p className="mb-2 mb-xl-0">خانه‌های حراج مد نظر خود را پیدا کنید</p>    
+                                            <p className="mb-2 ">خانه‌های حراج مد نظر خود را پیدا کنید</p>    
                                         </div>
                                     </div>
                                     <div className="col">
                                         <Form.Item
-                                        className="text-right input-message-send-to"
-                                        name="users"
+                                            className="text-right input-message-send-to"
+                                            name="auction_houses"
                                         
                                         rules={[
                                         {
@@ -74,16 +128,28 @@ function ModalSendToHouseAuction({visibleSendToHouseAuction , setVisibleSendToHo
                                         },
                                         ]}
                                     >
-                                        <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                        <Select  className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
                                             {houseAuctionList.length >= 1 ? houseAuctionList.map(houseAuction => (
-
                                                 <React.Fragment key={houseAuction?.id}>
-                                                    <Option value={`${houseAuction?.id}`}>{houseAuction?.first_name}</Option>
+                                                    <Option value={`${houseAuction?.id}`}>{houseAuction?.home_auction_name}</Option>
                                                 </React.Fragment>
                                             )) : <Option value=""></Option>}
                                                     
                                         </Select>
                                     </Form.Item>
+
+                                    <div className="col">
+                                        <div className="d-flex">
+                                            <p className="mb-2">توضیحات</p>    
+                                        </div>
+                                        <div className="d-flex">
+                                            <Form.Item 
+                                                name="admin_description" >
+                                                <Input.TextArea style={{minHeight : '150px' , minWidth : '300px' }} rows={8} />
+                                            </Form.Item>
+                                        </div>
+                                    </div>
+                                    
                                     </div>
                                 </div>
 
