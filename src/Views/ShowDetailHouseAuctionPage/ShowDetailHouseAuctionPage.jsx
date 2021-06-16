@@ -1,15 +1,12 @@
 import React, {useEffect , useState} from 'react';
-import DrawerMenu from '../../components/DrawerMenu';
-import Header from '../../components/Header';
 import TableBankInfo from './TableBankInfo';
-import { Form, Input, Breadcrumb, Button , Upload} from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { Form, Input, Breadcrumb} from 'antd';
 import  {fetcher} from '../../utils/common';
 import { BASE_URL } from '../../utils';
-import {convertTypePersian} from '../../utils/converTypePersion';
 import {Link , NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
+import MapComponent from '../../components/MapComponent';
 
 const layout = {
     labelCol: {
@@ -25,9 +22,31 @@ function ShowDetailHouseAuctionPage(props) {
     const [form] = Form.useForm();
 
     const [member, setMember] = useState();
-    const [bankAccountInfo, setBankAccountInfo] = useState([{}]);
-    console.log("member",member);
-    console.log("bankAccountInfo",bankAccountInfo);
+    const [bankAccountInfo, setBankAccountInfo] = useState([
+        {
+            account_number: "3333333333",
+            bank_name: "رسالت",
+            card_number: "6037776700972010",
+            id: "1",
+            sheba_number: "IR530700052400114950030001"
+        },
+        {
+            account_number: "5555555555",
+            bank_name: "ملی",
+            card_number: "6037776700972032",
+            id: "2",
+            sheba_number: "IR530700052400114950030004"
+        }
+        ,
+        {
+            account_number: "8888888888",
+            bank_name: "پاسارگاد",
+            card_number: "6037776700972403",
+            id: "3",
+            sheba_number: "IR530700052400114950030008"
+        }
+    ]);
+
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -49,13 +68,12 @@ function ShowDetailHouseAuctionPage(props) {
 
 
       useEffect(() => {
-            
+
         // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
-            
-        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
+        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}/`,{method:"GET",data:"",header:{}}).then(res => {
             setMember(res.data.result)
             // setCountMember(res.data.count)
-            setBankAccountInfo(res.data.result.bankaccount)
+            // setBankAccountInfo(res.data.result.bankaccount)
         }).catch(err => {
             console.log(err);
         })
@@ -67,15 +85,16 @@ function ShowDetailHouseAuctionPage(props) {
             first_name : member?.first_name,
             last_name : member?.last_name,
             mobile : member?.mobile,
-            email : member?.email,
-            national_code : member?.national_code,
-            address : member?.adderss,
+            email : member?.email ? member?.email : 'acution_house@gmail.com',
+            national_code : member?.national_code ? member?.national_code : '0123456789',
+            address : member?.address,
+            count : member?.count,
             postal_code : member?.postal_code,
             id : member?.id,
             card_number : member?.bankaccount[0]?.card_number,
             account_number : member?.bankaccount[0]?.account_number,
             sheba_number : member?.bankaccount[0]?.sheba_number,
-            bank_name : convertTypePersian(member?.bankaccount[0]?.bank_name),
+            bank_name : member?.bankaccount[0]?.bank_name,
             home_auction_name : member?.home_auction_name,
             home_auction_type : member?.home_auction_type,
         })
@@ -118,36 +137,35 @@ function ShowDetailHouseAuctionPage(props) {
 
                     <Form 
                         {...layout} 
-                        name="nest-messages" 
+                        name="house-auction-details" 
                         form={form}
+                        initialValues={{ 
+                            remember: true,
+                        }}
+                        // onValuesChange = {onValuesChange}
                         onFinish={onFinish}
-                        initialValues={{
-                            first_name : member?.first_name,
-                            // last_name : "last_name",
-                            // mobile : "mobile",
-                            // email : "email",
-                            // national_code : "national_code",
-                            // address : "address",
-                            // postal_code : "postal_code",
-                            id : "id",
-                            card_number : "card_number",
-                            account_number : "account_number",
-                            sheba_number : "sheba_number",
-                            bank_name : "bank_name",
-                            home_auction_name : "home_auction_name",
+                        onFinishFailed={onFinishFailed}
+                        // initialValues={{
+                        //     first_name : member?.first_name,
+                          
+                        //     id : "id",
+                        //     card_number : "card_number",
+                        //     account_number : "account_number",
+                        //     sheba_number : "sheba_number",
+                        //     bank_name : "bank_name",
+                        //     home_auction_name : "home_auction_name",
+                        //     last_name : member?.last_name,
+                        //     mobile : member?.mobile,
+                        //     email : member?.email,
+                        //     national_code : member?.national_code,
+                        //     address : member?.adderss,
+                        //     postal_code : member?.postal_code,
+                        //   }}
 
-                            // first_name : member?.first_name,
-                            last_name : member?.last_name,
-                            mobile : member?.mobile,
-                            email : member?.email,
-                            national_code : member?.national_code,
-                            address : member?.adderss,
-                            postal_code : member?.postal_code,
-                          }}
                     >
 
                         <div className="d-flex my-4">
-                            <h3>اطلاعات کاربر</h3>
+                            <h3>اطلاعات خانه حراج</h3>
                         </div>
 
 
@@ -346,7 +364,7 @@ function ShowDetailHouseAuctionPage(props) {
                             <div className="col">
 
                                 <Form.Item
-                                    name="3"
+                                    name="count"
                                     // label="حوزه‌های فعالیت"
                                     rules={[
                                     {
@@ -370,7 +388,7 @@ function ShowDetailHouseAuctionPage(props) {
                             <div className="col">
 
                                 <Form.Item
-                                    name="4"
+                                    name="address"
                                     // label="حوزه‌های فعالیت"
                                     rules={[
                                     {
@@ -392,22 +410,22 @@ function ShowDetailHouseAuctionPage(props) {
                             </div>
                             <div className="col">
 
-                                <Form.Item
-                                    name="5"
-                                    // label="حوزه‌های فعالیت"
+                                <MapComponent/>
+
+                                {/* <Form.Item
+                                    name="location"
                                     rules={[
                                     {
-                                        // type: 'email',
                                     },
                                     ]}
                                 >
                                     <Input />
-                                </Form.Item>
+                                </Form.Item> */}
                             </div>
                             
                         </div>
                       
-                        <div className="d-block d-md-flex align-items-center">
+                        {/* <div className="d-block d-md-flex align-items-center">
                             <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
                                 <div className="d-flex">
                                     <p className="mb-0">شماره تماس خانه حراج</p>
@@ -417,10 +435,8 @@ function ShowDetailHouseAuctionPage(props) {
 
                                 <Form.Item
                                     name="6"
-                                    // label="حوزه‌های فعالیت"
                                     rules={[
                                     {
-                                        // type: 'email',
                                     },
                                     ]}
                                 >
@@ -428,7 +444,7 @@ function ShowDetailHouseAuctionPage(props) {
                                 </Form.Item>
                             </div>
                             
-                        </div>
+                        </div> */}
 
                         <div className="d-block d-md-flex align-items-center">
                             <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">

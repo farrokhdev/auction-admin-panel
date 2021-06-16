@@ -10,7 +10,7 @@ import {
   WalletOutlined,
   QuestionOutlined,
   TeamOutlined,
-  UserOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
 // import {FaUsers} from "react-icons/fa";
 // import iconUsers from '../../images/svg/icon-more.svg'
@@ -142,11 +142,11 @@ function Main(props) {
                         className="mr-4" 
                         onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
                        >
-                        واریز
-                      </NavLink>
+                    شارژ هدیه                      
+                    </NavLink>
                     </Menu.Item>
 
-                    <Menu.Item   className="d-flex align-items-center" key="4_3">
+                    {/* <Menu.Item   className="d-flex align-items-center" key="4_3">
                       <NavLink
                         id="4_3" 
                         to="/wallet-withdrawal" 
@@ -155,10 +155,10 @@ function Main(props) {
                        >
                         برداشت
                       </NavLink>
-                    </Menu.Item>
+                    </Menu.Item> */}
                   </SubMenu>
 
-                  <Menu.Item key="5" className="d-flex align-items-center" icon={<BankOutlined />}>
+                  {/* <Menu.Item key="5" className="d-flex align-items-center" icon={<BankOutlined />}>
                     <NavLink 
                        id="5" 
                        to="/house-auctions" 
@@ -167,7 +167,31 @@ function Main(props) {
                     >
                         خانه‌های حراجی
                     </NavLink>
-                  </Menu.Item>
+                  </Menu.Item> */}
+
+                  <SubMenu  key="5" icon={<BankOutlined />} title="خانه‌های حراجی">
+                    <Menu.Item  className="d-flex align-items-center" key="5_1">
+                      <NavLink
+                          id="5_1" 
+                          to="/house-auctions" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                           خانه‌های حراجی
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item  className="d-flex align-items-center" key="5_2">
+                      <NavLink
+                          id="5_2" 
+                          to="/add-new-auction" 
+                          className="mr-4" 
+                          onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                          ایجاد حراجی
+                        </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
 
                   <Menu.Item key="6" className="d-flex align-items-center" icon={<SnippetsOutlined />}>
                     <NavLink 
@@ -176,7 +200,7 @@ function Main(props) {
                        className="mr-2 align-items-center" 
                        onClick={ e => props.toggleActiveNavDrawer(e.currentTarget.id) } 
                     >
-                        مشاهده فروش
+                        مشاوره فروش
                     </NavLink>
                   </Menu.Item>
 
@@ -214,7 +238,7 @@ function Main(props) {
                     </Menu.Item>
                   </SubMenu> */}
 
-                  <Menu.Item key="7" className="d-flex align-items-center" icon={<SnippetsOutlined />}>
+                  <Menu.Item key="7" className="d-flex align-items-center" icon={<FileTextOutlined />}>
                     <NavLink 
                        id="7" 
                        to="/orders" 

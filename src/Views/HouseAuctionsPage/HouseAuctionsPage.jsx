@@ -11,6 +11,7 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';
+import PaginationComponent from '../../components/PaginationComponent';
 
 function HouseAuctionsPage(props) {
 
@@ -70,50 +71,19 @@ function HouseAuctionsPage(props) {
                                         <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
-                                            <TableHouseAuctionList 
-                                                houseAuctionsList={houseAuctionsList}
-                                            />
-                                            </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countHouseAuction}
-                                                    defaultPageSize={5}
+                                                <TableHouseAuctionList 
+                                                    houseAuctionsList={houseAuctionsList}
                                                 />
                                             </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                        <Pagination 
-                                                            onChange={(e)=>handeSelectPage(e)}
-                                                            defaultCurrent={1} 
-                                                            total={countHouseAuction} 
-                                                            defaultPageSize={5}
-                                                            size="small"
-                                                        />
-                                                    </div>
+
+                                            <PaginationComponent count={countHouseAuction} handeSelectPage={handeSelectPage}/>
+
                                         </div>
                                     </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
-                        <DrawerMenu/>
-                    </div>
-                    <div className="col p-4 contentPage">
-                        <TableMemberList memberList={memberList}/>
-                        <div className="d-none  d-sm-flex justify-content-center mt-5">
-                            <Pagination
-                            onChange={(e)=>handeSelectPage(e)}
-                            defaultCurrent={1}
-                            total={countMember}
-                            defaultPageSize={5}
-                            />
-                     </div>
-                    </div>
-                </div> */}
 
             </div>
         </React.Fragment>

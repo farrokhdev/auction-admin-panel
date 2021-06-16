@@ -3,7 +3,7 @@ import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali from 'moment-jalaali';
+import momentJalaali, { now } from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
@@ -54,13 +54,17 @@ function TableSalesConsuler({salesConsulerList}) {
 
                         <td   className="">
                             <div  className="my-2 content-td" >
-                                <div className="text-center">{++index}</div>
+                                <div className="text-center">
+                                    {++index}
+                                </div>
                             </div>
                         </td>
 
                         <td   className="">
                             <div   className="my-2 content-td">
-                                <div className=" text-center"> {salesConsuler?.first_name}</div>
+                                <div className=" text-center"> 
+                                {salesConsuler?.owner?.first_name ? salesConsuler?.owner?.first_name : 'علی'}{' '}{salesConsuler?.owner?.last_name ? salesConsuler?.owner?.last_name : 'صابری'}
+                                </div>
 
                             </div>
                         </td>
@@ -68,7 +72,9 @@ function TableSalesConsuler({salesConsulerList}) {
                         <td className="">
                             <div
                                 className=" my-2 content-td">
-                                <div className=" w-100 text-center"> {momentJalaali(salesConsuler?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
+                                <div className=" w-100 text-center"> 
+                                {momentJalaali(salesConsuler?.date_joined ? salesConsuler?.date_joined : new Date()).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                </div>
                             </div>
                         </td>
                 
@@ -76,16 +82,19 @@ function TableSalesConsuler({salesConsulerList}) {
                             <div
                           
                                 className="my-2 content-td">
-                                    {convertTypePersian(salesConsuler?.role)}
+                                    {salesConsuler?.is_approve === true ? "تایید شده" : "تایید نشده"}
                             </div>
                         </td>
                         <td className=" text-center">
                             <div className="my-2 content-td">
-                                <Dropdown overlay={menu(salesConsuler?.id , salesConsuler?.first_name)}>
-                                    <a className="">
+                                <Dropdown 
+                                overlay={menu(salesConsuler?.id , salesConsuler?.owner?.first_name)}
+                             
+                                >
+                                    
                                         <img src={icon_more} alt=""/>
                                         {/* <DownOutlined/> */}
-                                    </a>
+                                    
                                 </Dropdown>
                                 {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
 
@@ -94,7 +103,7 @@ function TableSalesConsuler({salesConsulerList}) {
                         </tr>
 
                         </>
-                    ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                     ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
 
                
 

@@ -15,9 +15,15 @@ import {getCountUnReadMessages , getStatusMessages} from '../../redux/reducers/u
 function TableInboxMessage(props) {
 
 
-    const [modalMessageDetails, setModalMessageDetails] = useState(false);
-    const [selectShowDetailsMessage, setSelectShowDetailsMessage] = useState();
-    const [messageDetails, setmessageDetails] = useState({});
+    const [modalMessageDetails , setModalMessageDetails] = useState(false);
+    const [selectShowDetailsMessage , setSelectShowDetailsMessage] = useState();
+    const [messageDetails, setmessageDetails] = useState({
+        title : 'اعتبار شارژ',
+        receiver : 'نادری',
+        sender : 'قربانی',
+        date_send : '1400/03/04',
+        date_update : '1400/03/23',
+        type : 'مشاهده شده'});
     const [visibleDetailsMessage, setVisibleDetailsMessage] = useState(false);
 
 
@@ -96,6 +102,14 @@ function TableInboxMessage(props) {
                             </tr>
                         </thead>
 
+                        {/* {
+            title : 'تاییدیه',
+            receiver : 'محمدی',
+            sender : 'سعیدی',
+            date_send : '1400/02/22',
+            date_update : '1400/03/24',
+        }, */}
+
                         <tbody>
 
                                 {props.messageList?.map(message => (
@@ -117,7 +131,7 @@ function TableInboxMessage(props) {
                                             <div className=" py-3 contentTd my-1 ">
                                                 <div className="border-left text-center w-100"> 
                                                     {/* {message?.additional_data?.receiver ? message?.additional_data?.receiver : ''} */}
-                                                    {message?.additional_data?.receiver ? message?.users?.receiver : ''}
+                                                    {message?.receiver ? message?.receiver : ''}
                                         
                                                 </div>
                                                 
@@ -128,7 +142,7 @@ function TableInboxMessage(props) {
                                             <div className=" py-3 contentTd my-1 ">
                                                 <div className="border-left text-center w-100"> 
                                                     {/* {message?.additional_data?.sender ? message?.additional_data?.sender : ''} */}
-                                                    {message?.additional_data?.sender ? message?.sender : ''}
+                                                    {message?.sender ? message?.sender : ''}
                                                 </div>
                                                 
                                             </div>
@@ -136,7 +150,7 @@ function TableInboxMessage(props) {
                                         <td>
                                             <div className=" py-3 contentTd my-1 ">
                                                 <div className="border-left text-center w-100"> 
-                                                    {message?.created_at ? `${momentJalaali(message?.creation_date).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
+                                                    {message?.date_send ? `${momentJalaali(message?.date_send).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
                                                 </div>
                                                 
                                             </div>
@@ -144,7 +158,7 @@ function TableInboxMessage(props) {
                                         <td>
                                             <div className=" py-3 contentTd my-1 ">
                                                 <div className="border-left text-center w-100">
-                                                {message?.created_at ? `${momentJalaali(message?.modified_date).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
+                                                {message?.date_update ? `${momentJalaali(message?.date_update).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
                                                     
                                                 </div>
                                             </div>
@@ -152,7 +166,7 @@ function TableInboxMessage(props) {
                                         <td>
                                             <div className=" py-3 contentTd my-1 ">
                                                 <div className="border-left text-center w-100">
-                                                    {message?.pro_type ? messageStatusTypePersian(message?.type) : ''}
+                                                    {message?.type ? messageStatusTypePersian(message?.type) : ''}
                                                 </div>
                                             </div>
                                         </td>
@@ -176,7 +190,6 @@ function TableInboxMessage(props) {
                                         setVisibleDetailsMessage = {setVisibleDetailsMessage}
                                         visibleDetailsMessage = {visibleDetailsMessage}
                                         messageDetails = {messageDetails}
-                                        // message = {message}
                                         momentJalaali = {momentJalaali}
                             />
                                 
@@ -189,8 +202,6 @@ function TableInboxMessage(props) {
         </React.Fragment>
     )
 }
-
-// export default TableInboxMessage;
 
 
 const mapDispatchToProps = (dispatch) => {

@@ -11,10 +11,30 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading'
+import PaginationComponent from '../../components/PaginationComponent';
 
 function AuctionsOfHouseAuctionPage(props) {
 
-    const [auctionsInHouseAuction , setAuctionsInHouseAuction] = useState([]);
+    const [auctionsInHouseAuction , setAuctionsInHouseAuction] = useState([
+        {
+            title : 'سپید',
+            house_auction_name : 'mohammad',
+            type : 'Online',
+            date_joined : '1400/03/25',
+        },
+        {
+            title : 'نارنج',
+            house_auction_name : 'mohammad',
+            type : 'Online',
+            date_joined : '1400/03/25',
+        },
+        {
+            title : 'بهار',
+            house_auction_name : 'mohammad',
+            type : 'Online',
+            date_joined : '1400/03/25',
+        }
+    ]);
     const [countAuctionsInHouseAuction, setCountAuctionsInHouseAuction] = useState();
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -22,7 +42,7 @@ function AuctionsOfHouseAuctionPage(props) {
         useEffect(() => {
             axios.get(`${BASE_URL}/sale/join-auction/?sale__house__id=${props.match.params.id}`).then(res => {
                 setLoading(false)
-                setAuctionsInHouseAuction(res.data.data.result.results)
+                // setAuctionsInHouseAuction(res.data.data.result.results)
                 setCountAuctionsInHouseAuction(res.data.data.result.count)
             }).catch(err => {
                 console.log(err);
@@ -91,46 +111,14 @@ function AuctionsOfHouseAuctionPage(props) {
                                                     houseAuciton={props.match.params.name}
                                                 />
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countAuctionsInHouseAuction}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countAuctionsInHouseAuction} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                             </div>
+                                            
+                                             <PaginationComponent count={countAuctionsInHouseAuction} handeSelectPage={handeSelectPage} />
                                         </div>
                                     </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
-                        <DrawerMenu/>
-                    </div>
-                    <div className="col p-4 contentPage">
-                        <TableMemberList memberList={memberList}/>
-                        <div className="d-none  d-sm-flex justify-content-center mt-5">
-                            <Pagination
-                            onChange={(e)=>handeSelectPage(e)}
-                            defaultCurrent={1}
-                            total={countMember}
-                            defaultPageSize={5}
-                            />
-                     </div>
-                    </div>
-                </div> */}
 
             </div>
         </React.Fragment>

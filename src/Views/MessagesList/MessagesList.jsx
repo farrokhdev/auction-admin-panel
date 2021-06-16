@@ -8,6 +8,7 @@ import {fetcher} from '../../utils/common';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';
 import TableInboxMessage from './TableInboxMessage';
+import PaginationComponent from '../../components/PaginationComponent';
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
@@ -44,17 +45,54 @@ function MessagesList(props) {
 
     const [loading, setLoading] = useState(false);
 
-    const [messageList, setMessageList] = useState([]);
+    const [messageList, setMessageList] = useState([
+        {
+            title : 'اعتبار شارژ',
+            receiver : 'نادری',
+            sender : 'قربانی',
+            date_send : '1400/03/04',
+            date_update : '1400/03/23',
+            type : 'مشاهده شده'
+        },
+        {
+            title : 'تاییدیه',
+            receiver : 'محمدی',
+            sender : 'سعیدی',
+            date_send : '1400/02/22',
+            date_update : '1400/03/24',
+            type : 'مشاهده نشده'
+        },
+        {
+            title : 'اعتبار شارژ',
+            receiver : 'نادری',
+            sender : 'قربانی',
+            date_send : '1400/03/04',
+            date_update : '1400/03/23',
+            type : 'مشاهده شده'
+        },
+        {
+            title : 'تاییدیه',
+            receiver : 'محمدی',
+            sender : 'سعیدی',
+            date_send : '1400/02/22',
+            date_update : '1400/03/24',
+            type : 'مشاهده نشده'
+        },
+
+    ]);
     const [countMessages , setCountMessages] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
 
     useEffect(() => {
-
-        axios.get(`${BASE_URL}/panel/message/`).then(res => {
+        setLoading(true)
+        axios.get(`${BASE_URL}/panel/message/?page=${currentPage}&page_size=5`).then(res => {
+            console.log(res.data);
+            setLoading(false)
             setMessageList(res.data.result.items)
             setCountMessages(res.data.count)
         }).catch(err => {
             console.log(err);
+            setLoading(false)
         })
 
 
@@ -97,44 +135,29 @@ function MessagesList(props) {
                                 </div>
                                 
                                 <div className="row  mx-0">
-                                    <div className="col content-page p-4  ">
+                                    <div className="col content-page p-4 ">
+
                                         <div className="row px-3 mb-5">
                                             <TableInboxMessage messageList={messageList}/>
-                                         </div>
-                                         <div className="row  mx-0">
-                                        <div className="col  px-2  px-md-4  ">
-                                         
-                                        
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countMessages}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countMessages} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div>
                                         </div>
-                                    </div>
 
+                                        <div className="row  mx-0">
 
+                                            <div className="col  px-2  px-md-4  ">
+                                                <PaginationComponent count={countMessages} handeSelectPage={handeSelectPage}/>
+                                            </div>
+
+                                        </div>
 
                                         <div className="d-flex d-lg-none justify-content-end mb-3 ml-3">
                                             <NavLink to= "/send-message">
                                                 <button className="btn-scroll-to-send-message" >ارسال پیام</button>
                                             </NavLink>
                                         </div>
+
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

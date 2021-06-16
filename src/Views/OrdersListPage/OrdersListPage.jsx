@@ -6,10 +6,78 @@ import {connect} from 'react-redux';
 import {BASE_URL} from '../../utils';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';import TableOrdersList from './TableOrdersList';
+import PaginationComponent from '../../components/PaginationComponent';
 
 function OrdersListPage(props) {
 
-    const [ordersList, setOrdersList] = useState([]);
+    const [ordersList, setOrdersList] = useState([
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'artfition',
+            artist_name : 'علی نامجو' ,
+            auction_owner : 'ناصر محمدی',
+            date_auction : '1399/02/06',
+            buyer_name : 'زهره نبی',
+            sale_price : '9000000',
+            status : 'انجام شده'
+
+        },
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'fit',
+            artist_name : 'علی سعیدی' ,
+            auction_owner : 'علیرضا صابری',
+            date_auction : '1400/01/02',
+            buyer_name : 'زهره کاویان فر',
+            sale_price : '870000',
+            status : 'در حال بررسی'
+
+        },
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'artwork',
+            artist_name : 'سعید جفعری' ,
+            auction_owner : 'کریم قاسم‌زاده',
+            date_auction : '1398/05/12',
+            buyer_name : 'سید جلال پورابراهیم‌زاده',
+            sale_price : '500000',
+            status : 'کنسل شده'
+
+        },
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'artfition',
+            artist_name : 'علی نامجو' ,
+            auction_owner : 'ناصر محمدی',
+            date_auction : '1399/02/06',
+            buyer_name : 'زهره نبی',
+            sale_price : '9000000',
+            status : 'انجام شده'
+
+        },
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'fit',
+            artist_name : 'علی سعیدی' ,
+            auction_owner : 'علیرضا صابری',
+            date_auction : '1400/01/02',
+            buyer_name : 'زهره کاویان فر',
+            sale_price : '870000',
+            status : 'در حال بررسی'
+
+        },
+        {
+            image_url : 'https://picsum.photos/200/300',
+            artwork_name : 'artwork',
+            artist_name : 'سعید جفعری' ,
+            auction_owner : 'کریم قاسم‌زاده',
+            date_auction : '1398/05/12',
+            buyer_name : 'سید جلال پورابراهیم‌زاده',
+            sale_price : '500000',
+            status : 'کنسل شده'
+
+        },
+    ]);
     const [countOrders, setCountOrders] = useState(0);
     const [currentPage, setcurrentPage] = useState(1);
     const [loading, setloading] = useState(false);
@@ -66,24 +134,8 @@ function OrdersListPage(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableOrdersList ordersList={ordersList}/>
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countOrders}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countOrders} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div>
+                                     
+                                            <PaginationComponent count={countOrders} handeSelectPage={handeSelectPage}/>
                                         </div>
                                     </div>
                             </div>

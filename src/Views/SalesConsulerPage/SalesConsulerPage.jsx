@@ -7,6 +7,7 @@ import Loading from '../../components/Loading';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
+import PaginationComponent from '../../components/PaginationComponent';
 
 
 function SalesConsulerPage(props) {
@@ -17,10 +18,10 @@ function SalesConsulerPage(props) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-
-        axios.get(`${BASE_URL}/auctions`).then(res => {
+        setLoading(true)
+        axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
             setLoading(false)
-            setsalesConsulerList(res.data.results)
+            setsalesConsulerList(res.data.data.result.results)
             setCountSalesConsuler(res.count)
         }).catch(err => {
             console.log(err);
@@ -67,7 +68,7 @@ function SalesConsulerPage(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableSalesConsuler salesConsulerList={salesConsulerList} />
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
+                                            {/* <div className="d-none d-sm-flex justify-content-center">
                                                 <Pagination
                                                     showSizeChanger={false}
                                                     onChange={(e)=>handeSelectPage(e)}
@@ -82,9 +83,11 @@ function SalesConsulerPage(props) {
                                                     defaultCurrent={1} 
                                                     total={countSalesConsuler} 
                                                     defaultPageSize={5}
-                                                            size="small"
+                                                    size="small"
                                                 />
-                                            </div>
+                                            </div> */}
+
+                                            <PaginationComponent count={countSalesConsuler} handeSelectPage={handeSelectPage}/>
                                         </div>
                                     </div>
                             </div>

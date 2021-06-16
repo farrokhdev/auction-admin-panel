@@ -108,25 +108,29 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton}
                             <td   className="">
                                 <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                        {auction?.sale?.title}
+                                        {/* {auction?.sale?.title} */}
+                                        {auction?.title}
                                     </div>
 
                                 </div>
                             </td>
                             <td  className="">
 
-                                <div   className=" ">
+                                <div  className="">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {houseAuciton ? houseAuciton : ''}
+                                            {/* {houseAuciton ? houseAuciton : ''} */}
+                                            {auction?.house_auction_name ? auction?.house_auction_name : ''}
                                         </div>
                                     </div>
                                 </div>
+
                             </td>
 
                             <td className="">
                                 <div className=" my-2 content-td">
-                                    {auction?.sale?.type ? messageStatusTypePersian(auction?.sale?.type) : ''}
+                                    {/* {auction?.sale?.type ? messageStatusTypePersian(auction?.sale?.type ) : ''} */}
+                                    {auction?.type}
                                 </div>
                             </td>
                        
@@ -134,6 +138,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton}
                                 <div
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center">
+                                        {/* {momentJalaali(auction?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
                                         {momentJalaali(auction?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                     </div>
                                 </div>

@@ -23,13 +23,13 @@ function TableBankInfo({member , bankAccountInfo}) {
     const [editingKey, setEditingKey] = useState('');
 
 
-    const onFinish = (values) => {
-        console.log(values);
-    };
+    // const onFinish = (values) => {
+    //     console.log(values);
+    // };
     
-    const onFinishFailed = (error) => {
-        console.log(error);
-    };
+    // const onFinishFailed = (error) => {
+    //     console.log(error);
+    // };
 
     useEffect(() => {
       console.log("**bankAccountInfo**" ,bankAccountInfo, bankAccountInfo.length,originData);

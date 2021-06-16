@@ -12,11 +12,11 @@ function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
 
     const menu=(id) => (
         <Menu>
-            <Menu.Item className="text-center">
+            {/* <Menu.Item className="text-center">
                 <Link  >
                     مشاهده
                 </Link>
-            </Menu.Item >
+            </Menu.Item > */}
             <Menu.Item className="text-center">
                 <Link  to={`frequently-asked-questions/${id}`}>
                      افزودن سوال
@@ -49,14 +49,14 @@ function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
                 </thead>
 
                 <tbody>
-                    {/* {frequentlyAskedQuestions ? frequentlyAskedQuestions.map((question, index) => */}
+                    {frequentlyAskedQuestions ? frequentlyAskedQuestions.map((question, index) =>
                         <> 
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
                                     <div className="text-center">
-                                        {/* {++index} */}
+                                        {++index}
                                     </div>
                                 </div>
                             </td>
@@ -64,7 +64,7 @@ function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
                             <td   className="">
                                 <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                        {/* {question?.applicant?.first_name} */}
+                                        {question?.persion_category}
                                     </div>
                                 </div>
                             </td>
@@ -73,7 +73,7 @@ function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {/* {question?.applicant?.email} */}
+                                            {question?.english_category}
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@ function TableFrequentlyAskedQuestions({frequentlyAskedQuestions}) {
                             </tr>
 
                             </>
-                        {/* ) : <div className="d-flex text-center w-100">لیست خالی</div>} */}
+                         ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
 
                    
 

@@ -106,7 +106,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                             <td   className="">
                                 <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                    {houseAuction?.firs_name}
+                                    {houseAuction?.first_name}
                                     </div>
 
                                 </div>
@@ -126,7 +126,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                                 <div
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center">
-                                        {houseAuction?.email}
+                                        {houseAuction?.email ? houseAuction?.email : 'mail@gmail.com'}
                                     </div>
                                 </div>
                             </td>

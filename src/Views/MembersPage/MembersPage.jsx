@@ -8,6 +8,7 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ModalBidsMember from './ModalBidsMember';
+import PaginationComponent from '../../components/PaginationComponent';
 
 function MembersPage(props) {
 
@@ -19,7 +20,7 @@ function MembersPage(props) {
 
     useEffect(() => {
         setLoading(true)
-        fetcher(`${BASE_URL}/panel/users/?page=${currentPage}&page_size=10`, {
+        fetcher(`${BASE_URL}/panel/users/?page=${currentPage}&page_size=5`, {
             method: "GET",
             data: "",
             header: {}
@@ -76,24 +77,9 @@ function MembersPage(props) {
                                                     visibleBidsMember={visibleBidsMember}
                                                 />
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countMember}
-                                                    defaultPageSize={10}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                        <Pagination 
-                                                            onChange={(e)=>handeSelectPage(e)}
-                                                            defaultCurrent={1} 
-                                                            total={countMember} 
-                                                            defaultPageSize={10}
-                                                            size="small"
-                                                        />
-                                                    </div>
+
+                                            <PaginationComponent count={countMember} handeSelectPage={handeSelectPage}/>
+                                            
                                         </div>
                                     </div>
                             </div>
