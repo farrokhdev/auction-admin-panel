@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled , QuestionCircleFilled} from '@ant-design/icons';
+import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled , QuestionCircleFilled , NotificationFilled , SnippetsFilled , FileTextFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
+import NavItemComponent from './NavItemComponent';
+
 
 function DrawerResponsive() {
 
-    const [visible,
-        setVisible] = useState(false);
+    const [visible , setVisible] = useState(false);
 
     const showDrawer = () => {
         setVisible(true);
@@ -29,137 +30,18 @@ function DrawerResponsive() {
                 visible={visible}>
                 
                
-                    <div style={{height : '30px'}}> 
-                        <NavLink 
-                            to="/home" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                            <div className="d-flex align-items-center">
-                                <HomeFilled />
-                                <p  className="mb-0 mr-2">خانه</p>
-                            </div>
-                        </NavLink>
-                    </div>
+                    <NavItemComponent setVisible={setVisible}  icon={<HomeFilled/>}  title ={"خانه"}  link={"/home"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<TeamOutlined />}  title ={"اعضا"}  link={"/members"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<PictureFilled />}  title ={"آثار هنری"}  link={"/artworks"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<NotificationFilled />}  title ={"حراج‌ها"}  link={"/auctions"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<BankFilled />}  title ={"خانه‌های حراجی"}  link={"/house-auctions"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<WalletFilled />}  title ={"کیف پول"}  link={"/wallets"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<SnippetsFilled />}  title ={"مشاوره فروش"}  link={"/sales-consuler"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<FileTextFilled />}  title ={"سفارشات"}  link={"/orders"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<MessageFilled />}  title ={"پیام‌ها"}  link={"/inbox-messages"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<WechatFilled />}  title ={"تیکت‌ها"}  link={"/tickets"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<QuestionCircleFilled />}  title ={"سوالات متداول"}  link={"/frequently-asked-questions"}/>
                 
-
-                    <div style ={{height : '30px'}}>
-                        <NavLink 
-                            to="/members" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                            <div className="d-flex align-items-center">
-                            <TeamOutlined />
-                                <p  className="mb-0 mr-2">اعضا</p>
-                            </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/artworks" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <PictureFilled />
-                             <p className="mb-0 mr-2">آثار هنری</p>
-                        </div>
-                        </NavLink>
-                    </div>
-                    
-                    
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/house-auctions" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <BankFilled />
-                             <p className="mb-0 mr-2">خانه‌های حراجی</p>
-                        </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/wallets" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <WalletFilled />
-                             <p className="mb-0 mr-2">کیف پول</p>
-                        </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/sales-consuler" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <BankFilled />
-                             <p className="mb-0 mr-2">مشاوره فروش</p>
-                        </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/orders" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <BankFilled />
-                             <p className="mb-0 mr-2">سفارشات</p>
-                        </div>
-                        </NavLink>
-                    </div>
-        
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/inbox-messages" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                            <MessageFilled />
-                             <p className="mb-0 mr-2">پیام‌ها</p>
-                        </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/tickets" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <WechatFilled />
-                             <p className="mb-0 mr-2">تیکت‌ها</p>
-                        </div>
-                        </NavLink>
-                    </div>
-
-                    <div style={{height : '30px'}}>
-                        <NavLink 
-                            to="/frequently-asked-questions" 
-                            className="mr-2 nav-item-drawer-responsive" 
-                            onClick={(e)=>setVisible(false)}
-                        >
-                         <div className="d-flex align-items-center">
-                         <QuestionCircleFilled />
-                             <p className="mb-0 mr-2">سوالات متداول</p>
-                        </div>
-                        </NavLink>
-                    </div>
                     
             </Drawer>
         </React.Fragment>

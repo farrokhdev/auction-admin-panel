@@ -6,6 +6,7 @@ import { DownOutlined } from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
+import PaginationComponent from '../../components/PaginationComponent';
 
 
 function ParticipantsInAuctionList(props) {
@@ -68,24 +69,9 @@ function ParticipantsInAuctionList(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableParticipantsInAuctionList participantsList={participantsList} />
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countParticipants}
-                                                    defaultPageSize={10}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countParticipants} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div>
+
+                                            <PaginationComponent count={countParticipants} handeSelectPage={handeSelectPage}/>
+
                                         </div>
                                     </div>
                             </div>

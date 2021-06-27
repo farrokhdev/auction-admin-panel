@@ -7,17 +7,77 @@ import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableAuctonsList from './TableAuctonsList';
+import PaginationComponent from '../../components/PaginationComponent';
 
 
 function AuctionsPage(props) {
     
-    const [auctionsList , setAuctionsList] = useState([]);
+    const [auctionsList , setAuctionsList] = useState([
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        },
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        }
+        ,
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        }
+        ,
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        }
+        ,
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        }
+        ,
+        {
+            title : 'title',
+            house : 'house',
+            type : 'type',
+            date_joined : 'date_joined',
+            status : 'status',
+            id : 'id',
+
+        }
+    ]);
     const [countAuction, setCountAuction] = useState();
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            axios.get(`${BASE_URL}/auctions`).then(res => {
+            axios.get(`${BASE_URL}/sale/auctions/`).then(res => {
                 setLoading(false)
                 setAuctionsList(res.data.results)
                 setCountAuction(res.count)
@@ -80,24 +140,9 @@ function AuctionsPage(props) {
                                                     auctionsList={auctionsList}
                                                 />
                                             </div>
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countAuction}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countAuction} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                             </div>
+
+                                            <PaginationComponent count={countAuction} handeSelectPage={handeSelectPage}/>
+
                                         </div>
                                     </div>
                             </div>

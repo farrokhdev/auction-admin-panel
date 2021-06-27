@@ -68,25 +68,6 @@ function WalletPage(props) {
                                                 <TableWalletList walletList={walletList}/>
                                             </div>
 
-                                            {/* <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countWallets}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countWallets} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div> */}
-
                                             <PaginationComponent  count={countWallets}  handeSelectPage={handeSelectPage}/>
 
                                         </div>
