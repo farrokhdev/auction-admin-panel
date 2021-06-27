@@ -13,7 +13,23 @@ function TableAuctonsList({auctionsList}) {
         <Menu>
             <Menu.Item className="text-center">
                 <Link to={`/members/${id}`} >
-                    مشاهده
+                مشاهده
+                </Link>
+            </Menu.Item >
+
+            <Menu.Item className="text-center">
+                <Link >
+                    شرکت کنندگان
+                </Link>
+            </Menu.Item >
+            <Menu.Item className="text-center">
+                <Link >
+                    آثار
+                </Link>
+            </Menu.Item >
+            <Menu.Item className="text-center">
+                <Link >
+                    بیدها
                 </Link>
             </Menu.Item >
         </Menu>

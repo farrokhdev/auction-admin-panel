@@ -8,6 +8,7 @@ import {fetcher} from '../../utils/common';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';
 import TableTickets from './TableTickets';
+import PaginationComponent from '../../components/PaginationComponent';
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
@@ -105,26 +106,9 @@ function TicketPage(props) {
                                          </div>
                                          <div className="row  mx-0">
                                         <div className="col  px-2  px-md-4  ">
-                                         
+
+                                            <PaginationComponent count={countTickets} handeSelectPage={handeSelectPage}/>
                                         
-                                            <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countTickets}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countTickets} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div>
                                         </div>
                                     </div>
 

@@ -68,26 +68,9 @@ function SalesConsulerPage(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableSalesConsuler salesConsulerList={salesConsulerList} />
                                             </div>
-                                            {/* <div className="d-none d-sm-flex justify-content-center">
-                                                <Pagination
-                                                    showSizeChanger={false}
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1}
-                                                    total={countSalesConsuler}
-                                                    defaultPageSize={5}
-                                                />
-                                            </div>
-                                            <div className="d-flex d-sm-none justify-content-center ">
-                                                <Pagination 
-                                                    onChange={(e)=>handeSelectPage(e)}
-                                                    defaultCurrent={1} 
-                                                    total={countSalesConsuler} 
-                                                    defaultPageSize={5}
-                                                    size="small"
-                                                />
-                                            </div> */}
 
                                             <PaginationComponent count={countSalesConsuler} handeSelectPage={handeSelectPage}/>
+                                            
                                         </div>
                                     </div>
                             </div>
