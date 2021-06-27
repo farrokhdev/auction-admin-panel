@@ -47,8 +47,6 @@ function Main(props) {
       };
 
       
-
-
     return (
         <React.Fragment>
             <Layout style={{ minHeight: '100vh' }} >
@@ -79,31 +77,220 @@ function Main(props) {
                   // defaultOpenKeys={[""]}
                   mode="inline">
 
-                    <MenuItemComponent id={"1"} key={"1"} title={"خانه"} link={"/home"} toggleActiveNavDrawer={toggleActiveNavDrawer} icon={<HomeOutlined />}/>
-                    <MenuItemComponent id={"2"} key={"2"} title={"اعضا"} link={"/members"} toggleActiveNavDrawer={toggleActiveNavDrawer} icon={<TeamOutlined />}/>
-                    <MenuItemComponent id={"3"} key={"3"} title={"آثار هنری"} link={"/artworks"} toggleActiveNavDrawer={toggleActiveNavDrawer} icon={<PictureOutlined />}/>
-                    <MenuItemComponent id={"4"} key={"4"} title={"حراج‌ها"} link={"/auctions"} toggleActiveNavDrawer={toggleActiveNavDrawer} icon={<NotificationOutlined />}/> 
+
+                  <Menu.Item 
+                      className="d-flex align-items-center" 
+                      key={1} 
+                      icon={<HomeOutlined />}>
+                    <NavLink 
+                        id={1}
+                        to={"/home"} 
+                        className="mr-2" 
+                        onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                    >
+                        خانه
+                    </NavLink>
+                  </Menu.Item>
+
+
+                  <Menu.Item 
+                      className="d-flex align-items-center" 
+                      key={2} 
+                      icon={<TeamOutlined />}>
+                    <NavLink 
+                        id={2}
+                        to={"/members"} 
+                        className="mr-2" 
+                        onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                    >
+                        اعضا
+                    </NavLink>
+                  </Menu.Item>
+
+                  <Menu.Item 
+                      className="d-flex align-items-center" 
+                      key={3} 
+                      icon={<PictureOutlined />}>
+                    <NavLink 
+                        id={3}
+                        to={"/artworks"} 
+                        className="mr-2" 
+                        onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                    >
+                        آثار هنری
+                    </NavLink>
+                  </Menu.Item>
+       
+                  <SubMenu id={4}  key={4} icon={<NotificationOutlined />} title="حراج‌ها">
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={4.1}
+                        >
+                      <NavLink 
+                          id={4.1}
+                          to={"/auctions"} 
+                          className="mr-2" 
+                          onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                      >
+                          حراج‌ها 
+                      </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={4.2} 
+                              >
+                        <NavLink 
+                            id={4.2}
+                            to={"/add-new-auction"} 
+                            className="mr-2" 
+                            onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                        >
+                            ایجاد حراجی 
+                        </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
+                    <SubMenu id={5}  key={5} icon={<WalletOutlined />} title="کیف پول">
+                          <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={5.1} 
+                            >
+                          <NavLink 
+                              id={5.1}
+                              to={"/wallets"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              لیست کیف پول‌ها 
+                          </NavLink>
+                        </Menu.Item>
+                        
+                        <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={5.2}
+                            >
+                          <NavLink 
+                              id={5.2}
+                              to={"/wallet-deposit"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              شارژ هدیه 
+                          </NavLink>
+                        </Menu.Item>
+                    </SubMenu>
+
+                    <SubMenu id={6}  key={6} icon={<BankOutlined />} title="خانه‌های حراجی">
+                        <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={6.1} 
+                            >
+                          <NavLink 
+                              id={6.1}
+                              to={"/house-auctions"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              خانه‌های حراجی 
+                          </NavLink>
+                        </Menu.Item>
+                    </SubMenu>
+
+                        <Menu.Item 
+                        icon={<SnippetsOutlined/>}
+                            className="d-flex align-items-center" 
+                            key={7}
+                            >
+                          <NavLink 
+                              id={7}
+                              to={"/sales-consuler"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              مشاوره فروش 
+                          </NavLink>
+                        </Menu.Item>
+
+                        <Menu.Item
+                          icon={<FileTextOutlined />} 
+                            className="d-flex align-items-center" 
+                            key={8} 
+                            >
+                          <NavLink 
+                              id={8}
+                              to={"/orders"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              سفارشات  
+                          </NavLink>
+                        </Menu.Item>
+
+
+                    <SubMenu  id={9} key={9} icon={<CommentOutlined />} title="پیام‌ها">
+                         <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={9.1} 
+                            >
+                          <NavLink 
+                              id={9.1}
+                              to={"/inbox-messages"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              لیست پیام‌ها  
+                          </NavLink>
+                        </Menu.Item>
+
+                        <Menu.Item
+                            className="d-flex align-items-center" 
+                            key={9.2} 
+                            >
+                          <NavLink 
+                              id={9.2}
+                              to={"/send-message"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              ارسال پیام  
+                          </NavLink>
+                        </Menu.Item>
+
+
+                    </SubMenu>
+
+                    <Menu.Item 
+                      icon={<WechatOutlined />}
+                            className="d-flex align-items-center" 
+                            key={10} 
+                            >
+                          <NavLink 
+                              id={10}
+                              to={"/tickets"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              تیکت‌ها   
+                          </NavLink>
+                        </Menu.Item>
+
+                        <Menu.Item
+                            icon={<QuestionOutlined />}
+                            className="d-flex align-items-center" 
+                            key={11} 
+                            >
+                          <NavLink 
+                              id={11}
+                              to={"/frequently-asked-questions"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              سوالات متداول  
+                          </NavLink>
+                        </Menu.Item>
+
                     
-                    <SubMenu  key="5" icon={<WalletOutlined />} title="کیف پول">
-                      <MenuItemComponent id={"5_1"} key={"5_1"} title={"لیست کیف پول‌ها"} link={"/wallets"} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                      <MenuItemComponent id={"5_2"} key={"5_2"} title={"شارژ هدیه"} link={"/wallet-deposit"} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                    </SubMenu>
-
-                    <SubMenu  key="6" icon={<BankOutlined />} title="خانه‌های حراجی">
-                      <MenuItemComponent id={"6_1"} key={"6_1"} title={"خانه‌های حراجی "} link={"/house-auctions"} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                      <MenuItemComponent id={"6_2"} key={"6_2"} title={"ایجاد حراجی"} link={"/add-new-auction"} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                    </SubMenu>
-
-                    <MenuItemComponent id={"7"} key={"7"} title={"مشاوره فروش"} link={"/sales-consuler"} icon={<SnippetsOutlined/>} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                    <MenuItemComponent id={"8"} key={"8"} title={"سفارشات"} link={"/orders"} icon={<FileTextOutlined />} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-
-                    <SubMenu  key="9" icon={<CommentOutlined />} title="پیام‌ها">
-                      <MenuItemComponent id={"9_1"} key={"9_1"} title={"لیست پیام‌ها"} link={"/inbox-messages"} icon={<FileTextOutlined />} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                      <MenuItemComponent id={"9_2"} key={"9_2"} title={"ارسال پیام"} link={"/send-message"}  toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                    </SubMenu>
-
-                    <MenuItemComponent id={"10"} key={"10"} title={"تیکت‌ها"} link={"/tickets"} icon={<WechatOutlined />} toggleActiveNavDrawer={toggleActiveNavDrawer} />
-                    <MenuItemComponent id={"11"} key={"11"} title={"سوالات متداول"} link={"/frequently-asked-questions"} icon={<QuestionOutlined />} toggleActiveNavDrawer={toggleActiveNavDrawer} />
 
                 
                                   {/* <SubMenu  key="5" icon={<SnippetsOutlined />} title="مشاوره فروش">
