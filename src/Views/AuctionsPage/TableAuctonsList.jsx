@@ -12,7 +12,7 @@ function TableAuctonsList({auctionsList}) {
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}`} >
+                <Link  >
                 مشاهده
                 </Link>
             </Menu.Item >
