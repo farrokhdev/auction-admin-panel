@@ -291,8 +291,6 @@ function Main(props) {
                         </Menu.Item>
 
                     
-
-                
                                   {/* <SubMenu  key="5" icon={<SnippetsOutlined />} title="مشاوره فروش">
                                     <Menu.Item className="d-flex align-items-center" key="5_1">
                                     <NavLink
@@ -357,8 +355,6 @@ function Main(props) {
                       
                     </Content>
 
-
-
                 <Footer style={{ textAlign: 'center' }}>کلیه حقوق این سایت نزد شرکت تجارت الکترونیک امن موج محفوظ است</Footer>
 
 
@@ -368,7 +364,6 @@ function Main(props) {
     )
 }
 
-// export default Main;
 
 const mapDispatchToProps = (dispatch) => {
   return {
