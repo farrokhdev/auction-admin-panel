@@ -8,9 +8,8 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableArtworkList from './TableArtworkList';
 import Loading from '../../components/Loading';
-import queryString from 'query-string';
 import PaginationComponent from '../../components/PaginationComponent';
-
+import queryString from 'query-string';
 
 function ArtWorkListPage(props) {
 
@@ -18,7 +17,7 @@ function ArtWorkListPage(props) {
     const [countArtwork , setCountArtwork] = useState();
     const [currentPage , setcurrentPage] = useState(1);
     const [loading , setLoading] = useState(false);
-    const [filterArtwork , setFilterArtwork] = useState(
+    const [params , setParams] = useState(
         {
             page : `${currentPage}` , 
             page_size : '' , 
@@ -32,18 +31,18 @@ function ArtWorkListPage(props) {
 
     const handleFilterDateFrom = (date) => {
         console.log("Date ^^^^  " , date);
-        setFilterArtwork({...filterArtwork , date_after : date})
+        setParams({...params , date_after : date})
     }
 
     const handleFilterDateTo = (date) => {
         console.log("Date %%%  " , date);
-        setFilterArtwork({...filterArtwork , date_befor : date})
+        setParams({...params , date_befor : date})
     }
 
 
     const handleFilterArtwork = () => {
        
-        console.log("Filter-text =>>", filterArtwork);
+        console.log("Filter-text =>>", params);
    
 
     }
@@ -51,13 +50,14 @@ function ArtWorkListPage(props) {
     useEffect(() => {
 
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
+        const queries = queryString.stringify(params);
+            console.log("queries ", queries);
+        // axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
+        axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
             console.log(res);
-
             setLoading(false)
             setArtworkList(res.data.data.result.results)
             setCountArtwork(res.count)
-
         }).catch(err => {
             console.log(err);
 
@@ -103,9 +103,9 @@ function ArtWorkListPage(props) {
                                          
                                             <div className="row px-0 mx-0">
                                                 <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} 
-                                                handleFilterArtwork={handleFilterArtwork}
-                                                handleFilterDateFrom={handleFilterDateFrom}
-                                                handleFilterDateTo={handleFilterDateTo}
+                                                    handleFilterArtwork={handleFilterArtwork}
+                                                    handleFilterDateFrom={handleFilterDateFrom}
+                                                    handleFilterDateTo={handleFilterDateTo}
                                                 
                                                 />
                                             </div>

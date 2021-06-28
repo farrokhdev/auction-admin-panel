@@ -31,7 +31,7 @@ const { Option } = Select;
        axios.get(`${BASE_URL}/sale/category/`).then( res => {
            setLoading(false)
            console.log(res.data);
-           setCategories(res.data.data.result.results)
+           setCategories(res.data.data.result)
            
        }
        ).catch(err => {
@@ -261,7 +261,7 @@ const { Option } = Select;
                                                 },
                                                 ]}
                                                 >
-                                                <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                <Select className="" mode="multiple" placeholder="دسته‌بندی را انتخاب کنید">
                                                     {categories.length >= 1 ? categories.map(category => (
 
                                                         <React.Fragment key={category?.id}>

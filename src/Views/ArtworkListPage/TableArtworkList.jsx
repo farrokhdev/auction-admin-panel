@@ -90,9 +90,9 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
             
             <div className="row w-100">
                 <div className="col w-100 ">
-                    {/* <div className="d-flex">
+                    <div className="d-flex">
                         <Search className="mb-2" placeholder="جستجوی کالا" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
-                    </div> */}
+                    </div>
 
                     <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3">
                        
@@ -104,8 +104,11 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         <RangePicker value={date} onChange={onChange}/>
                                     </div> */}
                             {/* </Form.Item> */}
+
+
+
                             
-                            <div className="d-block d-sm-flex justify-content-start">
+                            {/* <div className="d-block d-sm-flex justify-content-start">
                                 <div className="d-flex align-items-center">
 
                                     <FilterFilled  className="ml-2 icon-filter"/>
@@ -117,7 +120,6 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         isGregorian={false}
                                         timePicker={false}
                                         onChange={valueFrom  => onChangeFrom(valueFrom)}
-                                        // value={dateFrom}
                                     />
 
                                 </div>
@@ -129,26 +131,29 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         isGregorian={false}
                                         timePicker={false}
                                         onChange={valueTo => onChangeTo(valueTo)}
-                                        // value={dateTo}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
+
+
                         </div>
-                        <div className="col-4 px-0">
+
+
+                        {/* <div className="col-4 px-0">
                             <div className="d-flex justify-content-start align-items-center  mt-sm-0">
                                 <FilterFilled className="ml-2 icon-filter"/>
                                 <Dropdown className="d-flex " overlay={menu} placement="bottomLeft" arrow>
                                     <button className="d-flex justify-content-center align-items-center btn-status-product-filter"> <p className="mb-0">وضعیت</p><CaretDownOutlined /> </button>
                                 </Dropdown>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="d-flex justify-content-end mb-2">
-                        <div className="col">
+                        {/* <div className="col">
                             <div className="d-flex">
                                 <button onClick={()=>handleFilterArtwork()} className="btn-do-filter">اعمال فیلتر</button>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="col">
                             <NavLink to="/add-artwork">
                                 <button className="btn-add-new-artwork">افزودن اثر هنری</button>

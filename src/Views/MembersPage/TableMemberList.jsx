@@ -13,7 +13,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}`} >
+                <Link to={`/members/${id}/`} >
                     مشاهده
                 </Link>
             </Menu.Item >
