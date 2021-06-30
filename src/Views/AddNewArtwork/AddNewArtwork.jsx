@@ -313,6 +313,7 @@ const { Option } = Select;
                                                 <Select  
                                                     className="" mode="multiple"
                                                     placeholder="انتخاب دسته‌بندی">
+
                                                     {categories.length >= 1 ? categories.map(category => (
 
                                                         <React.Fragment key={category?.id}>

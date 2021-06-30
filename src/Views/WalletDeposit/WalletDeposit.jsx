@@ -16,15 +16,14 @@ function WalletDeposit(props) {
     const [visibleCofirmDeposit, setVisibleCofirmDeposit] = useState(false);
     const [giftAmount, setGiftAmount] = useState(0);
     const [usersSelect, setUsersSelect] = useState([]);
-    console.log(giftAmount);
+
 
     const [form] = Form.useForm();
     useEffect(() => {
        axios.get(`${BASE_URL}/panel/users/`).then(res => {
-           console.log(res.data);
-           setMembers(res.data.data.result.results)
+           setMembers(res.data.data.result)
        }).catch(err => {
-           console.log(err);
+           console.error(err);
        })
     }, []);
 

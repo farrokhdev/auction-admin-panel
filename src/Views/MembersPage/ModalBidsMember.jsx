@@ -12,15 +12,15 @@ function ModalBidsMember({setVisibleBidsMember , visibleBidsMember}) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true)
-        axios.get(`${BASE_URL}/`).then(res => {
-            console.log(res.data);
-            setBids(res.data.data.result)
-            setLoading(false)
-        }).catch(err => {
-            console.log(err);
-            setLoading(false)
-        })
+        // setLoading(true)
+        // axios.get(`${BASE_URL}/`).then(res => {
+        //     console.log(res.data);
+        //     setBids(res.data.data.result)
+        //     setLoading(false)
+        // }).catch(err => {
+        //     console.log(err);
+        //     setLoading(false)
+        // })
 
     }, []);
 

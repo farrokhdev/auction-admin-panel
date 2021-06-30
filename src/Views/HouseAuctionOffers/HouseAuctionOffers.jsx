@@ -12,16 +12,16 @@ function HouseAuctionOffers(props) {
     const [artwork, setArtwork] = useState({});
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/`).then(res => {
-            console.log(res.data);
-            setHouseAuctionOffersList(res.data.data.results)
+        // axios.get(`${BASE_URL}/`).then(res => {
+        //     console.log(res.data);
+        //     setHouseAuctionOffersList(res.data.data.results)
 
-        }).catch(err => {
-            console.log(err);
-        })
+        // }).catch(err => {
+        //     console.log(err);
+        // })
 
 
-        axios.get(`${BASE_URL}/artworks/${props.match.params.id}`).then(res => {
+        axios.get(`${BASE_URL}/artworks/${props.match.params.id}/`).then(res => {
             console.log(res.data);
             setArtwork(res.data.data.result)
 

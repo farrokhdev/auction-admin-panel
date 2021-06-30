@@ -8,7 +8,7 @@ import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import PaginationComponent from '../../components/PaginationComponent';
-
+import queryString from 'query-string';
 
 function SalesConsulerPage(props) {
 
@@ -16,23 +16,30 @@ function SalesConsulerPage(props) {
     const [countSalesConsuler, setCountSalesConsuler] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 5 , 
+        });
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
             setLoading(false)
-            setsalesConsulerList(res.data.data.result.results)
-            setCountSalesConsuler(res.count)
+            setsalesConsulerList(res.data.data.result)
+            setCountSalesConsuler(res.data.data.count)
         }).catch(err => {
-            console.log(err);
+            console.error(err);
             setLoading(false)
         })
      
-    }, [currentPage]);
+    }, [params]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
         setCurrentPage(e)
+        setParams({...params , page : e})
     }
 
 
