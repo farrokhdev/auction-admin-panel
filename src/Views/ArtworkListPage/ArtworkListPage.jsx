@@ -1,75 +1,65 @@
 import React, {useState, useEffect} from 'react';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
-import {fetcher} from '../../utils/common';
-import {Pagination , Breadcrumb} from 'antd';
+import {Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableArtworkList from './TableArtworkList';
 import Loading from '../../components/Loading';
-import queryString from 'query-string';
 import PaginationComponent from '../../components/PaginationComponent';
-
+import queryString from 'query-string';
 
 function ArtWorkListPage(props) {
 
     const [artworkList , setArtworkList] = useState([]);
-    const [countArtwork , setCountArtwork] = useState();
+    const [countArtwork , setCountArtwork] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
     const [loading , setLoading] = useState(false);
-    const [filterArtwork , setFilterArtwork] = useState(
+    const [params , setParams] = useState(
         {
-            page : `${currentPage}` , 
-            page_size : '' , 
-            sale_status : '' , 
-            title : '' , 
-            category : '' , 
-            date_after : '',
-            date_befor : ''
+            page : 1 , 
+            page_size : 5 , 
+            search : ''
         });
 
 
-    const handleFilterDateFrom = (date) => {
-        console.log("Date ^^^^  " , date);
-        setFilterArtwork({...filterArtwork , date_after : date})
-    }
+    // const handleFilterDateFrom = (date) => {
+    //     setParams({...params , date_after : date})
+    // }
 
-    const handleFilterDateTo = (date) => {
-        console.log("Date %%%  " , date);
-        setFilterArtwork({...filterArtwork , date_befor : date})
-    }
+    // const handleFilterDateTo = (date) => {
+    //     setParams({...params , date_befor : date})
+    // }
 
 
-    const handleFilterArtwork = () => {
-       
-        console.log("Filter-text =>>", filterArtwork);
-   
-
+    const handleFilterArtwork = (value) => {
+        setParams({
+            ...params , search : value
+        })
     }
 
     useEffect(() => {
 
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
-            console.log(res);
-
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
             setLoading(false)
-            setArtworkList(res.data.data.result.results)
-            setCountArtwork(res.count)
-
+            setArtworkList(res.data.data.result)
+            setCountArtwork(res.data.data.count)
         }).catch(err => {
-            console.log(err);
-
+            console.error(err);
             setLoading(false)
         })
 
-    }, [currentPage]);
+    }, [params]);
 
 
     const handeSelectPage = (e) => {
-        console.log("Log Of Pagination", e);
         setcurrentPage(e)
+        setParams({
+            ...params , page : e
+        })
     }
 
     return (
@@ -103,9 +93,9 @@ function ArtWorkListPage(props) {
                                          
                                             <div className="row px-0 mx-0">
                                                 <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} 
-                                                handleFilterArtwork={handleFilterArtwork}
-                                                handleFilterDateFrom={handleFilterDateFrom}
-                                                handleFilterDateTo={handleFilterDateTo}
+                                                    handleFilterArtwork={handleFilterArtwork}
+                                                    // handleFilterDateFrom={handleFilterDateFrom}
+                                                    // handleFilterDateTo={handleFilterDateTo}
                                                 
                                                 />
                                             </div>

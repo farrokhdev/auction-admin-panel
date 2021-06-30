@@ -66,7 +66,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                         </th>
 
                         <th style={{minWidth : '10rem'}} className="  px-0 minWidth-status-messageRead">
-                            <div className=" px-3 text-center">نام مالک</div>
+                            <div className=" px-3 text-center">نام خانه حراج</div>
                         </th>
 
                         <th style={{minWidth : '12rem'}} className="  px-0 minWidth-status-messageRead">
@@ -90,9 +90,9 @@ function TableHouseAuctionList({houseAuctionsList}) {
 
                 <tbody>
                     {houseAuctionsList ? houseAuctionsList.map((houseAuction, index) =>
-                        <> 
+                        <React.Fragment key={houseAuction?.id}> 
                             <tr 
-                            // key={index} 
+                             
                             className="spaceRow row-messages">
 
                             <td   className="">
@@ -164,7 +164,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                             </td>
                             </tr>
 
-                            </>
+                            </React.Fragment>
                        ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
 
                    

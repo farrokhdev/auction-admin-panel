@@ -13,7 +13,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}`} >
+                <Link to={`/members/${id}/`} >
                     مشاهده
                 </Link>
             </Menu.Item >
@@ -91,7 +91,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {member?.first_name}</div>
+                                    <div className=" text-center"> {member?.first_name}{' '}{member?.last_name}</div>
 
                                 </div>
                             </td>
