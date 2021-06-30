@@ -13,66 +13,68 @@ import PaginationComponent from '../../components/PaginationComponent';
 function AuctionsPage(props) {
     
     const [auctionsList , setAuctionsList] = useState([
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '1',
 
-        },
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // },
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '1',
 
-        }
-        ,
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // }
+        // ,
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '2',
 
-        }
-        ,
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // }
+        // ,
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '3',
 
-        }
-        ,
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // }
+        // ,
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '4',
 
-        }
-        ,
-        {
-            title : 'title',
-            house : 'house',
-            type : 'type',
-            date_joined : 'date_joined',
-            status : 'status',
-            id : 'id',
+        // }
+        // ,
+        // {
+        //     title : 'title',
+        //     house : 'house',
+        //     type : 'type',
+        //     date_joined : 'date_joined',
+        //     status : 'status',
+        //     id : '5',
 
-        }
+        // }
     ]);
-    const [countAuction, setCountAuction] = useState();
+
+    console.log("auctionsList =>>> ", auctionsList);
+    const [countAuction, setCountAuction] = useState(0);
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
