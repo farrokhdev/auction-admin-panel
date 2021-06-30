@@ -9,6 +9,8 @@ import axios from "../../utils/request";
 import Loading from '../../components/Loading';
 import TableInboxMessage from './TableInboxMessage';
 import PaginationComponent from '../../components/PaginationComponent';
+import queryString from 'query-string';
+
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
@@ -82,25 +84,32 @@ function MessagesList(props) {
     ]);
     const [countMessages , setCountMessages] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 5 , 
+        });
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`${BASE_URL}/panel/message/?page=${currentPage}&page_size=5`).then(res => {
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/panel/message/?${queries}`).then(res => {
             console.log(res.data);
             setLoading(false)
-            setMessageList(res.data.result.items)
-            setCountMessages(res.data.count)
+            setMessageList(res.data.data.result)
+            setCountMessages(res.data.data.count)
         }).catch(err => {
-            console.log(err);
+            console.error(err);
             setLoading(false)
         })
 
 
-    }, []);
+    }, [params]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
         setcurrentPage(e)
+        setParams({...params , page : e})
     }
 
     

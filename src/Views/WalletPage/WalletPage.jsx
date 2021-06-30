@@ -8,6 +8,7 @@ import Loading from '../../components/Loading';
 import TableWalletList from './TableWalletList';
 import axios from '../../utils/request';
 import PaginationComponent from '../../components/PaginationComponent';
+import queryString from 'query-string';
 
 function WalletPage(props) {
 
@@ -15,23 +16,30 @@ function WalletPage(props) {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [countWallets, setCountWallets] = useState(0);
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 5 , 
+        });
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`${BASE_URL}/panel/wallet/?page=${currentPage}&page_size=5`).then(res => {
-            setWalletList(res.data.data.result.results)
-            setCountWallets(res.data.count)
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/panel/wallet/?${queries}`).then(res => {
+            setWalletList(res.data.data.result)
+            setCountWallets(res.data.data.count)
             setLoading(false)
         }).catch(err => {
-            console.log(err);
+            console.error(err);
             setLoading(false)
         })
 
-    }, []);
+    }, [params]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
         setCurrentPage(e)
+        setParams({...params , page : e})
     }
 
     

@@ -66,7 +66,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                         </th>
 
                         <th style={{minWidth : '10rem'}} className="  px-0 minWidth-status-messageRead">
-                            <div className=" px-3 text-center">نام مالک</div>
+                            <div className=" px-3 text-center">نام خانه حراج</div>
                         </th>
 
                         <th style={{minWidth : '12rem'}} className="  px-0 minWidth-status-messageRead">

@@ -110,7 +110,7 @@ function HouseAuctionsPage(props) {
                                                 
                                                 <div className="col">
                                                     <div className="d-flex">
-                                                        <Search className="mb-2" placeholder="جستجوی کاربر" 
+                                                        <Search className="mb-2" placeholder="جستجو خانه حراج" 
                                                         onSearch={(e)=> handleSetMemberFilter(e)} 
                                                         style={{ width: 300 }}  />
                                                     </div>

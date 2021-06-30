@@ -13,7 +13,7 @@ import queryString from 'query-string';
 function ArtWorkListPage(props) {
 
     const [artworkList , setArtworkList] = useState([]);
-    const [countArtwork , setCountArtwork] = useState();
+    const [countArtwork , setCountArtwork] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
     const [loading , setLoading] = useState(false);
     const [params , setParams] = useState(
@@ -21,11 +21,6 @@ function ArtWorkListPage(props) {
             page : 1 , 
             page_size : 5 , 
             search : ''
-            // sale_status : '' , 
-            // title : '' , 
-            // category : '' , 
-            // date_after : '',
-            // date_befor : ''
         });
 
 

@@ -217,8 +217,8 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                         style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
                                         className="box-image-product-list"
                                         width={40}
-                                        preview ={artwork?.media?.media_path}
-                                        src={artwork?.media?.media_path}
+                                        preview ={artwork?.media?.exact_url ? artwork?.media?.exact_url : ''}
+                                        src={artwork?.media?.exact_url}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
