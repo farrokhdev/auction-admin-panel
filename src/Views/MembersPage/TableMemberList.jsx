@@ -91,7 +91,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {member?.first_name}</div>
+                                    <div className=" text-center"> {member?.first_name}{' '}{member?.last_name}</div>
 
                                 </div>
                             </td>

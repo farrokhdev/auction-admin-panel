@@ -79,7 +79,7 @@ function AuctionsPage(props) {
         useEffect(() => {
             axios.get(`${BASE_URL}/sale/auctions/`).then(res => {
                 setLoading(false)
-                setAuctionsList(res.data.results)
+                setAuctionsList(res.data.data.result)
                 setCountAuction(res.count)
             }).catch(err => {
                 console.log(err);

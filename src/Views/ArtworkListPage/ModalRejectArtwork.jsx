@@ -21,7 +21,6 @@ function ModalRejectArtwork(props) {
         });
       };
 
-    console.log("details =>>> ", props.detailsArtwork?.category);
     const handleOk = () => {
       props.setIsModalVisibleReject(false);
     };

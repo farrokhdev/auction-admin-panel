@@ -9,9 +9,7 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ModalBidsMember from './ModalBidsMember';
 import PaginationComponent from '../../components/PaginationComponent';
-import DatePicker from 'react-datepicker2';
 import queryString from 'query-string';
-import momentJalaali from 'moment-jalaali';
 import axios from '../../utils/request';
 
 
@@ -22,12 +20,16 @@ function MembersPage(props) {
     const menu=() => (
 
         <Menu>
-            <Menu.Item onClick={(e)=> handleSetState("پذیرفته شده")} className="text-center">
-                 پذیرفته شده
+            <Menu.Item onClick={(e)=> handleSetRole("user")} className="text-center">
+                  کاربر
             </Menu.Item >
        
-            <Menu.Item onClick={(e)=> handleSetState("پذیرفته نشده")} className="text-center">
-                  پذیرفته نشده
+            <Menu.Item onClick={(e)=> handleSetRole("admin")} className="text-center">
+                   ادمین
+            </Menu.Item>
+            
+            <Menu.Item onClick={(e)=> handleSetRole("home_auction")} className="text-center">
+                   خانه حراج
             </Menu.Item>
 
         </Menu>
@@ -40,26 +42,20 @@ function MembersPage(props) {
     const [visibleBidsMember, setVisibleBidsMember] = useState(false);
     const [params , setParams] = useState(
         {
-            page : `${currentPage}` , 
-            page_size : '' , 
-            member_status : '' , 
-            // title : '' , 
-            name : '' , 
-            // date_joined : '',
+            page : 1, 
+            page_size : 5 , 
+            role : '' , 
+            search : '' , 
         });
-
-        console.log("PPP ",params);
 
     useEffect(() => {
         setLoading(true)
         const queries = queryString.stringify(params);
-        console.log("queries " , queries);
-        // fetcher(`${BASE_URL}/panel/users/?page=${currentPage}&page_size=5`, {
         axios.get(`${BASE_URL}/panel/users/?${queries}`, {
         }).then(res => {
             setLoading(false)
             setMemberList(res.data.data.result)
-            // setCountMember(res.data.result.count)
+            setCountMember(res.data.data.count)
         }).catch(err => {
             console.log(err);
             setLoading(false)
@@ -68,20 +64,22 @@ function MembersPage(props) {
     }, [params]);
 
     const handeSelectPage = (e) => {
-        console.log("Log Of Pagination", e);
         setcurrentPage(e)
+        setParams({
+            ...params , page : e
+        })
     }
 
     // const handleSetDateJoinedFilter = (date) => {
     //     setParams({...params , date_joined : momentJalaali(date).format(`jYYYY/jMM/jDD`)})
     // }
 
-    const handleSetState = (valuState) => {
-        setParams({...params , member_status : valuState })
+    const handleSetRole = (valuState) => {
+        setParams({...params , role : valuState })
     }
 
     const handleSetMemberFilter = (memberSearch) => {
-        setParams({...params , name : memberSearch })
+        setParams({...params , search : memberSearch })
     }
 
 
@@ -126,10 +124,10 @@ function MembersPage(props) {
 
                                                 <div className="col">
                                                     <div className="d-flex align-items-center  h-100 mt-2 mt-lg-0">
-                                                        <p className="mb-0 ml-2 text-right">وضعیت</p>
+                                                        <span className="mb-0 ml-2 text-right"><FilterFilled/> </span>
                                                         <Dropdown className="d-flex " overlay={menu} placement="bottomLeft" arrow>
                                                             <button className="d-flex justify-content-center align-items-center btn-status-product-filter"> 
-                                                            <p className="mb-0">{params?.house_status ? params?.house_status : "انتخاب وضعیت"}</p><CaretDownOutlined /> </button>
+                                                            <p className="mb-0">{params?.house_status ? params?.house_status : " انتخاب نقش کاربر  "}</p><CaretDownOutlined /> </button>
                                                         </Dropdown>
                                                     </div>
                                                 </div>

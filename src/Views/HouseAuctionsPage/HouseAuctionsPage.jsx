@@ -37,12 +37,9 @@ function HouseAuctionsPage(props) {
     const [loading , setLoading] = useState(false);
     const [params , setParams] = useState(
         {
-            page : `${currentPage}` , 
-            page_size : '' , 
-            // house_status : '' , 
-            // title : '' , 
-            name : '' , 
-            // date_joined : '',
+            page : 1 , 
+            page_size : 5 , 
+            search : '' , 
         });
 
         console.log("params " , params);
@@ -50,11 +47,10 @@ function HouseAuctionsPage(props) {
         useEffect(() => {
             setLoading(true)
             const queries = queryString.stringify(params);
-            console.log("queries ", queries);
             axios.get(`${BASE_URL}/account/home-auction/?${queries}`).then(res => {
                 setLoading(false)
                 setHouseAuctionsList(res.data.data.result)
-                // setCountHouseAuction(res.data.count)
+                setCountHouseAuction(res.data.data.count)
             }).catch(err => {
                 console.log(err);
                 setLoading(false)
@@ -63,17 +59,19 @@ function HouseAuctionsPage(props) {
 
 
         const handeSelectPage = (e) => {
-            console.log("Log Of Pagination", e);
-            setcurrentPage(e)
+            setcurrentPage(e);
+            setParams({
+                ...params , page : e
+            })
         }
-
+        
 
         // const handleSetState = (valuState) => {
         //     setParams({...params , house_status : valuState })
         // }
     
-        const handleSetMemberFilter = (memberSearch) => {
-            setParams({...params , name : memberSearch })
+        const handleSetMemberFilter = (value) => {
+            setParams({...params , search : value })
         }
 
 

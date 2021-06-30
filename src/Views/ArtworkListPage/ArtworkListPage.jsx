@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
-import {fetcher} from '../../utils/common';
-import {Pagination , Breadcrumb} from 'antd';
+import {Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -19,57 +18,53 @@ function ArtWorkListPage(props) {
     const [loading , setLoading] = useState(false);
     const [params , setParams] = useState(
         {
-            page : `${currentPage}` , 
-            page_size : '' , 
-            sale_status : '' , 
-            title : '' , 
-            category : '' , 
-            date_after : '',
-            date_befor : ''
+            page : 1 , 
+            page_size : 5 , 
+            search : ''
+            // sale_status : '' , 
+            // title : '' , 
+            // category : '' , 
+            // date_after : '',
+            // date_befor : ''
         });
 
 
-    const handleFilterDateFrom = (date) => {
-        console.log("Date ^^^^  " , date);
-        setParams({...params , date_after : date})
-    }
+    // const handleFilterDateFrom = (date) => {
+    //     setParams({...params , date_after : date})
+    // }
 
-    const handleFilterDateTo = (date) => {
-        console.log("Date %%%  " , date);
-        setParams({...params , date_befor : date})
-    }
+    // const handleFilterDateTo = (date) => {
+    //     setParams({...params , date_befor : date})
+    // }
 
 
-    const handleFilterArtwork = () => {
-       
-        console.log("Filter-text =>>", params);
-   
-
+    const handleFilterArtwork = (value) => {
+        setParams({
+            ...params , search : value
+        })
     }
 
     useEffect(() => {
 
         setLoading(true)
         const queries = queryString.stringify(params);
-            console.log("queries ", queries);
-        // axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
         axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
-            console.log(res);
             setLoading(false)
-            setArtworkList(res.data.data.result.results)
-            setCountArtwork(res.count)
+            setArtworkList(res.data.data.result)
+            setCountArtwork(res.data.data.count)
         }).catch(err => {
-            console.log(err);
-
+            console.error(err);
             setLoading(false)
         })
 
-    }, [currentPage]);
+    }, [params]);
 
 
     const handeSelectPage = (e) => {
-        console.log("Log Of Pagination", e);
         setcurrentPage(e)
+        setParams({
+            ...params , page : e
+        })
     }
 
     return (
@@ -104,8 +99,8 @@ function ArtWorkListPage(props) {
                                             <div className="row px-0 mx-0">
                                                 <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} 
                                                     handleFilterArtwork={handleFilterArtwork}
-                                                    handleFilterDateFrom={handleFilterDateFrom}
-                                                    handleFilterDateTo={handleFilterDateTo}
+                                                    // handleFilterDateFrom={handleFilterDateFrom}
+                                                    // handleFilterDateTo={handleFilterDateTo}
                                                 
                                                 />
                                             </div>

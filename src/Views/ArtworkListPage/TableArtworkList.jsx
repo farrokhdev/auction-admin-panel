@@ -5,14 +5,10 @@ import {Link , NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
-import DatePicker from 'react-datepicker2';
-import moment from 'moment-jalaali';
-import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 
-function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , setDateFrom , setDateTo , handleFilterDateFrom , handleFilterDateTo}) {
+function TableArtworkList({artworkList , handleFilterArtwork }) {
     
     const { Search } = Input;
     const { Panel } = Collapse;
@@ -76,14 +72,14 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
     }
 
 
-  const onChangeFrom = (value) =>{
-    handleFilterDateFrom(value.format('jYYYY-jM-jD'))
+//   const onChangeFrom = (value) =>{
+//     handleFilterDateFrom(value.format('jYYYY-jM-jD'))
 
-  }
+//   }
 
-  const onChangeTo = (value) => {
-    handleFilterDateTo(value.format('jYYYY-jM-jD'))
-  }
+//   const onChangeTo = (value) => {
+//     handleFilterDateTo(value.format('jYYYY-jM-jD'))
+//   }
     
     return (
         <React.Fragment>
@@ -91,10 +87,11 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
             <div className="row w-100">
                 <div className="col w-100 ">
                     <div className="d-flex">
-                        <Search className="mb-2" placeholder="جستجوی کالا" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
+                        <span className="ml-2"><FilterFilled/></span>
+                        <Search className="mb-2" placeholder="جستجو" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
                     </div>
 
-                    <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3">
+                    {/* <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3"> */}
                        
                         <div className="col-8 px-0">
 
@@ -147,7 +144,7 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                 </Dropdown>
                             </div>
                         </div> */}
-                    </div>
+                    {/* </div> */}
                     <div className="d-flex justify-content-end mb-2">
                         {/* <div className="col">
                             <div className="d-flex">
@@ -205,7 +202,7 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
 
                 <tbody>
                     {artworkList ? artworkList.map((artwork, index) =>
-                        <> 
+                        <React.Fragment key={artwork?.id}> 
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
@@ -292,7 +289,7 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                 </div>
                             </td>
                             </tr>
-                            </>
+                            </React.Fragment>
                         ) : <div className="d-flex text-center w-100">لیست خالی</div>}
 
                    
