@@ -8,6 +8,8 @@ import {BASE_URL} from '../../utils';
 import Loading from '../../components/Loading';
 import axios from '../../utils/request';
 import PaginationComponent from '../../components/PaginationComponent';
+import {Link} from 'react-router-dom';
+
 
 function FrequentlyAskedQuestions(props) {
 
@@ -47,6 +49,10 @@ function FrequentlyAskedQuestions(props) {
         setCurrentPage(e)
     }
 
+    // const handleRedirect = () => {
+    //     window.location.href = ""
+    // }
+
 
     return (
         <React.Fragment>
@@ -77,6 +83,13 @@ function FrequentlyAskedQuestions(props) {
 
                                     <div className="row  mx-0">
                                         <div className="col content-page p-4  ">
+
+                                        <div className="d-flex justify-content-center justify-content-lg-end ml-lg-5 mb-5">
+                                            <Link to="/add-question-category" >
+                                                <button className="btn-add-questions-category">افرودن دسته‌بندی</button>
+                                            </Link>
+                                        </div>
+
                                             <TableFrequentlyAskedQuestions frequentlyAskedQuestions={frequentlyAskedQuestions}/>
                                             <PaginationComponent count ={frequentlyCount} handeSelectPage={handeSelectPage} />
                                         </div>

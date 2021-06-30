@@ -1577,6 +1577,16 @@ color: $white-color;
     min-width: 200px !important;
 }
 
+.btn-add-questions-category{
+    @include greenBtn;
+    min-width: 150px !important;
+}
+
+.btn-add-questions-category:hover{
+    background-color: $primary-color !important;
+    color: $white-color !important;
+}
+
 .modal-edit-questions .ant-modal-footer{
     display: none !important;
 }
