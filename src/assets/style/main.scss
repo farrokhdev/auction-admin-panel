@@ -892,10 +892,27 @@ table  tbody tr td {
 
 .date-field-filter-box{
     max-width: 75px !important;
+    height: 35px !important;
     border: 0.5px solid rgb(230, 230, 230) !important;
-    border-radius: 4px !important;
+    border-radius: 30px !important;
     overflow: none !important;
     box-shadow: none !important;
+}
+.date-field-box{
+ @extend .date-field-filter-box;
+ text-align: center !important;
+}
+
+.date-field-show-box{
+    @extend .date-field-filter-box;  
+    min-width: 100px !important;
+    text-align: center !important;
+}
+
+.date-field-firstDay-holding-box{
+    @extend .date-field-filter-box;
+    min-width: 200px !important;
+    text-align: center !important;
 }
 
 .data-field-box{
@@ -1425,7 +1442,32 @@ color: $white-color;
     color: $white-color;
 }
 
+.bullet{
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 100% !important;
+    background-color: $tertiary-color;
+}
+.ant-btn-dashed .anticon .anticon-plus{
+    margin-left : 20px !important;
+}
 
+.ant-btn-dashed{
+    @include greenBtn ;
+    width: 200px !important;
+    height: 40px !important;
+    color: $dark-color !important;
+}
+
+.ant-btn-dashed:hover{
+    background-color: $primary-color !important;
+    color: $white-color !important;
+}
+
+.dynamic-delete-button{
+    color: $warning-color !important;
+    cursor: pointer !important;
+}
 
 // ------------ Sales Consuler Page --------------
 
@@ -1533,6 +1575,16 @@ color: $white-color;
 .btn-add-frequently-questions{
     @include purpelBtn;
     min-width: 200px !important;
+}
+
+.btn-add-questions-category{
+    @include greenBtn;
+    min-width: 150px !important;
+}
+
+.btn-add-questions-category:hover{
+    background-color: $primary-color !important;
+    color: $white-color !important;
 }
 
 .modal-edit-questions .ant-modal-footer{

@@ -44,6 +44,8 @@ import FrequentlyAskedQuestions from "./Views/FrequentlyAskedQuestions";
 import SingleFrequentlyAskedQuestions from "./Views/SingleFrequentlyAskedQuestions";
 import SingleViewAuctionPage from "./Views/SingleViewAuctionPage/SingleViewAuctionPage";
 import AuctionParticipantsListPage from "./Views/AuctionParticipantsListPage/AuctionParticipantsListPage";
+import AddNewQuestionCategory from "./Views/AddNewQuestionCategory";
+
 
 
 // import Main from './public/main'
@@ -87,6 +89,7 @@ function App(props) {
                             <Route exact path="/wallet-deposit" render={props=><Main {...props}><WalletDeposit {...props} /></Main>}/>
                             <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/>
                             <Route exact path="/orders" render={props=><Main {...props}><OrdersListPage {...props} /></Main>}/>
+                            <Route exact path="/add-question-category" render={props=><Main {...props}><AddNewQuestionCategory {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions" render={props=><Main {...props}><FrequentlyAskedQuestions {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions/:id" render={props=><Main {...props}><SingleFrequentlyAskedQuestions {...props} /></Main>}/>
                             {/* <Route exact path="/send-ticket" render={props=><Main {...props}><SendNewTicket {...props} /></Main>}/> */}

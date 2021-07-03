@@ -23,6 +23,8 @@ function AddNewArtwork(props) {
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [imageUrl, setImageUrl] = useState({});
+    const [auctionsList , setAuctionsList] = useState([])
+    const [houseAuctionsList , setHouseAuctionsList] = useState([])
 
 const { Option } = Select;
 
@@ -35,9 +37,30 @@ const { Option } = Select;
            
        }
        ).catch(err => {
-           console.log(err);
+           console.error(err);
            setLoading(false)
        })
+
+    // --------- Get list acutions ---------
+
+       axios.get(`${BASE_URL}/sale/auctions/`).then(res => {
+        setAuctionsList(res.data.data.result)
+    }).catch(err => {
+        console.error(err);
+        
+    })
+
+    // --------- Get list house aucitons ---------
+
+    axios.get(`${BASE_URL}/account/home-auction/`).then(res => {
+        setLoading(false)
+        setHouseAuctionsList(res.data.data.result)
+    }).catch(err => {
+        console.log(err);
+        setLoading(false)
+    })
+
+
     }, []);
 
 
@@ -194,7 +217,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div  className="col-12 col-md-2 ">
+                            <div  className="col-12 col-md-3 ">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">حراج دار</p>
                                 </div>
@@ -202,23 +225,36 @@ const { Option } = Select;
                             <div  className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name="auction_owner_name"
-                                            className="w-100 "
-                                            rules={[{
+                                        name="auction_owner_name"
+                                        className="w-100 "
+                                        rules={[{
                                                 required: true,
                                                 message: 'ورودی نام حراج دار خالی است!'
                                             },
                                   
                                         ]}
                                             >
-                                            <Input />
+                                            <Select
+                                                placeholder="انتخاب حراج‌دار"
+                                                // onChange={onGenderChange}
+                                                className ="text-right"
+                                                allowClear
+                                                >
+
+                                                    {houseAuctionsList.length >=1 ? houseAuctionsList.map(houseAuction => (
+                                                        <React.Fragment key={houseAuction?.id}>
+                                                            <Option value={houseAuction?.id}>{houseAuction?.first_name}{" "}{houseAuction?.last_name}</Option>
+                                                        </React.Fragment>
+                                                    ) ) : <Option value=""></Option>}
+                                                
+                                            </Select>
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
                         
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">نام حراج</p>
                                 </div>
@@ -235,14 +271,27 @@ const { Option } = Select;
                                   
                                         ]}
                                             >
-                                            <Input />
+                                            <Select
+                                                placeholder="انتخاب حراج"
+                                                // onChange={onGenderChange}
+                                                className ="text-right"
+                                                allowClear
+                                                >
+
+                                                    {auctionsList.length >=1 ? auctionsList.map(auction => (
+                                                        <React.Fragment key={auction?.id}>
+                                                            <Option value={auction?.id}>{auction?.title}</Option>
+                                                        </React.Fragment>
+                                                    ) ) : <Option value=""></Option>}
+
+                                            </Select>
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">دسته‌بندی محصول</p>
                                 </div>
@@ -251,21 +300,24 @@ const { Option } = Select;
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
 
                                             <Form.Item
-                                                className="text-right w-100"
-                                                name="user"
+                                                className ="text-right w-100"
+                                                name="category_id"
                                                 rules={[
                                                 {
                                                     required: true,
-                                                    message: 'کاربر را انتخاب نکرده‌اید!',
+                                                    message: 'دسته‌بندی را انتخاب نکرده‌اید!',
                                                     type: 'array',
                                                 },
                                                 ]}
                                                 >
-                                                <Select className="" mode="multiple" placeholder="دسته‌بندی را انتخاب کنید">
+                                                <Select  
+                                                    className="" mode="multiple"
+                                                    placeholder="انتخاب دسته‌بندی">
+
                                                     {categories.length >= 1 ? categories.map(category => (
 
                                                         <React.Fragment key={category?.id}>
-                                                            <Option value={`${category?.id}`}>{category?.title}</Option>
+                                                            <Option value={category?.id}>{category?.title}</Option>
                                                         </React.Fragment>
                                                     )) : <Option value=""></Option>}
                                                         
@@ -291,7 +343,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">رشته هنری</p>
                                 </div>
@@ -315,7 +367,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">نام هنرمند فارسی</p>
                                 </div>
@@ -339,7 +391,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">نام هنرمند انگلیسی</p>
                                 </div>
@@ -368,7 +420,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">نام اثر فارسی</p>
                                 </div>
@@ -392,7 +444,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">نام اثر انگلیسی</p>
                                 </div>
@@ -421,7 +473,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">مالک اثر</p>
                                 </div>
@@ -445,7 +497,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">شماره اثر</p>
                                 </div>
@@ -469,7 +521,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">طول</p>
                                 </div>
@@ -497,7 +549,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">عرض</p>
                                 </div>
@@ -525,7 +577,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">ارتفاع</p>
                                 </div>
@@ -553,7 +605,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">تکنیک</p>
                                 </div>
@@ -577,7 +629,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">کمینه قیمت</p>
                                 </div>
@@ -605,7 +657,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">شماره اثر</p>
                                 </div>
@@ -633,7 +685,7 @@ const { Option } = Select;
                         </div>
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">بیشینه قیمت</p>
                                 </div>
@@ -660,7 +712,7 @@ const { Option } = Select;
                             </div>
                         </div>
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">قیمت فروش</p>
                                 </div>
@@ -689,7 +741,7 @@ const { Option } = Select;
                         
 
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">توضیحات فارسی</p>
                                 </div>
@@ -712,7 +764,7 @@ const { Option } = Select;
                             </div>
                         </div>
                         <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">توضیحات انگلیسی</p>
                                 </div>

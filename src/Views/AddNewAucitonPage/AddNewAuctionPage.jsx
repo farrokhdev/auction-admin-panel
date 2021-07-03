@@ -1,14 +1,33 @@
 import React , {useState , useEffect , useRef } from 'react';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils/index';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined  , MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import { Form, Input, InputNumber , Breadcrumb , Select  , Checkbox , Upload , Button , message} from 'antd';
 import {NavLink} from 'react-router-dom';
 import Loading from '../../components/Loading';
 import DatePicker from 'react-datepicker2';
+import momentJalaali from 'moment-jalaali';
+import { BsFillTrashFill } from "react-icons/bs";
+
+const layout = {
+    labelCol: {
+        span: 16
+    },
+    wrapperCol: {
+        span: 24
+    }
+};
+const tailLayout = {
+    wrapperCol: {
+        offset: 16,
+        span: 24
+    }
+};
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 
 function AddNewAuctionPage(props) {
+
+    const [form] = Form.useForm();
 
     const myRef1 = useRef(null)
     const myRef2 = useRef(null)
@@ -21,7 +40,12 @@ function AddNewAuctionPage(props) {
     const { Option } = Select;
     // const { RangePicker } = DatePicker;
 
-
+    const formItemLayoutWithOutLabel = {
+        wrapperCol: {
+          xs: { span: 24, offset: 0 },
+          sm: { span: 20, offset: 4 },
+        },
+      };
 
       function handleChange(value) {
         console.log(`selected ${value}`);
@@ -57,7 +81,7 @@ function AddNewAuctionPage(props) {
       };
 
       function validatePrimeNumber(number) {
-        if (number === 11) {
+        if (number) {
           return {
             validateStatus: 'success',
             errorMsg: null,
@@ -66,17 +90,22 @@ function AddNewAuctionPage(props) {
       
         return {
           validateStatus: 'error',
-          errorMsg: 'The prime between 8 and 12 is 11!',
+          errorMsg: '',
         };
       }
 
       const [number, setNumber] = useState({
-        value: 11,
+        value: 0,
       });
       
       const onNumberChange = (value) => {
         setNumber({ ...validatePrimeNumber(value), value });
       };
+
+      const onChangeTo = (date) => {
+        //   console.log("DATE --> " , momentJalaali(date).format(`HH:mm  -   jYYYY/jMM/jDD`));
+          console.log("DATE --> " , (date).format('YYYY-MM-DD HH:mm:ss'));
+      }
 
 
     //   const propsFile = {
@@ -106,6 +135,40 @@ function AddNewAuctionPage(props) {
       
         return e && e.fileList;
       };
+
+
+      const onFinish = (values) => {
+          console.log(values);
+
+          let payload = {
+            "title": "حراجی دوم",
+            "text": "این حراجی اول است",
+            "address": "خیابان اول",
+            "is_live_streaming": false,
+            "bidding_interval": null,
+            "extendable_deadline": false,
+            "is_bidding_banned": false,
+            // "start_time": "2021-05-05 15:23:07",
+            "start_time": (values.start_time).format('YYYY-MM-DD HH:mm:ss'),
+            // "end_time": "2021-05-05 15:23:07",
+            "end_time": (values.end_time).format('YYYY-MM-DD HH:mm:ss'),
+            "type": "PERIODIC",
+            "auction_product":[
+                {
+                    "product_id":1,
+                    "base_price":50
+                }
+            ],
+            "house_id":18
+          }
+
+          axios.post(`${BASE_URL}/sale/auctions/` , payload).then(res => {
+              console.log(res.data);
+              
+          }).catch(err => {
+              console.error(err)
+          })
+      }
 
 
     return (
@@ -173,16 +236,27 @@ function AddNewAuctionPage(props) {
                                             
                                         </div>
                                             <div ref={refArray[0]}></div>
-                                                 <Form>
-                               
+                                                 <Form 
+                                                          {...layout}
+                                                          form={form}
+                                                          name="basic"
+                                                          initialValues={{ remember: true }}
+                                                          onFinish={onFinish}
+                                                        //   onFinishFailed={onFinishFailed}
+                                                 >
                                                         <div className="d-flex">
-                                                            <Select defaultValue="نوع حراج" style={{ width: 200 }} onChange={handleChange}>
-                                                                <Option value="LIVE">LIVE</Option>
-                                                                <Option value="ONLINE">ONLINE</Option>
-                                                                <Option value="PERIODIC">PERIODIC</Option>
-                                                                <Option value="HIDDEN">HIDDEN</Option>
-                                                                <Option value="SECOND_HIDDEN">SECOND_HIDDEN</Option>
-                                                            </Select>
+                                                            <Form.Item
+                                                                name="type"
+                                                                rules={[{required: true, message : 'نوع حراج تعیین نشده!'}]}
+                                                                >
+                                                                <Select defaultValue="نوع حراج" style={{ width: 200 }} onChange={handleChange}>
+                                                                    <Option value="LIVE">LIVE</Option>
+                                                                    <Option value="ONLINE">ONLINE</Option>
+                                                                    <Option value="PERIODIC">PERIODIC</Option>
+                                                                    <Option value="HIDDEN">HIDDEN</Option>
+                                                                    <Option value="SECOND_HIDDEN">SECOND_HIDDEN</Option>
+                                                                </Select>
+                                                            </Form.Item>
                                                         </div>
 
                                                         <div className="d-block d-lg-flex mt-4 align-items-start">
@@ -246,29 +320,72 @@ function AddNewAuctionPage(props) {
                                                             <div className="col col-lg-3"></div>
                                                         </div>
 
-                                                        <div className="d-block d-sm-flex justify-content-start mb-4">
-                                                            <div className="d-flex align-items-center">
-                                                                <p className="mb-0 ml-4 text-right">از تاریخ</p>
-                                                                <DatePicker
-                                                                    className="data-field-box"
-                                                                    isGregorian={false}
-                                                                    timePicker={false}
-                                                                    // onChange={valueFrom  => onChangeFrom(valueFrom)}
-                                                                    // value={dateFrom}
-                                                                />
 
+
+                                                        <div className="d-block d-lg-flex ">
+                                                            <div className="col col-lg-3">
+                                                                <div className="d-flex mb-2 mb-lg-0">
+                                                                    تاریخ نمایش در سایت    
+                                                                </div>
                                                             </div>
-                                                            <div className="d-flex mt-2 mt-sm-0">
-                                                                <p className="mb-0 mr-3 ml-2 mx-sm-2 pt-1 text-right">تا تاریخ</p>
-                                                                <DatePicker
-                                                                    className="data-field-box"
-                                                                    isGregorian={false}
-                                                                    timePicker={false}
-                                                                    // onChange={valueTo => onChangeTo(valueTo)}
-                                                                    // value={dateTo}
-                                                                />
+                                                            <div className="d-block d-md-flex justify-content-start mb-4 px-3">
+                                                                <div className="d-flex align-items-center">
+                                                                    <p className="mb-0 ml-4 text-right">شروع</p>
+                                                                    <DatePicker
+                                                                        className="date-field-show-box ml-4"
+                                                                        isGregorian={false}
+                                                                        timePicker={false}
+                                                                        // onChange={valueFrom  => onChangeFrom(valueFrom)}
+                                                                        // value={dateFrom}
+                                                                    />
+
+                                                                </div>
+                                                                <div className="d-flex mt-2 mt-md-0">
+                                                                    <p className="mb-0 mr-3 ml-2 mx-sm-2 pt-1 text-right">پایان</p>
+                                                                    <DatePicker
+                                                                        className="date-field-show-box"
+                                                                        isGregorian={false}
+                                                                        timePicker={false}
+                                                                        // onChange={valueTo => onChangeTo(valueTo)}
+                                                                        // value={dateTo}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
+
+                                                        <div className="d-block d-lg-flex ">
+                                                            <div className="col col-lg-3">
+                                                                <div className="d-flex mb-2 mb-lg-0">
+                                                                    تاریخ نمایش حضوری     
+                                                                </div>
+                                                            </div>
+                                                            <div className="d-block d-md-flex justify-content-start mb-4 px-3">
+                                                                <div className="d-flex align-items-center">
+                                                                    <p className="mb-0 ml-4 text-right">شروع</p>
+                                                                    <DatePicker
+                                                                        className="date-field-show-box ml-4"
+                                                                        isGregorian={false}
+                                                                        timePicker={false}
+                                                                        // onChange={valueFrom  => onChangeFrom(valueFrom)}
+                                                                        // value={dateFrom}
+                                                                    />
+
+                                                                </div>
+                                                                <div className="d-flex mt-2 mt-md-0">
+                                                                    <p className="mb-0 mr-3 ml-2 mx-sm-2 pt-1 text-right">پایان</p>
+                                                                    <DatePicker
+                                                                        className="date-field-show-box"
+                                                                        isGregorian={false}
+                                                                        timePicker={false}
+                                                                        // onChange={valueTo => onChangeTo(valueTo)}
+                                                                        // value={dateTo}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                               
+                                                        
                                                     {/* 
                                                        <div className="d-block d-lg-flex">
                                                            <div className="col col-lg-3">
@@ -317,13 +434,15 @@ function AddNewAuctionPage(props) {
                                                             </div>
                                                             <div className="col col-lg-3"></div>
                                                         </div>
-                                                        <div className="d-flex">
-                                                            <Form.Item  
+                                                        <div className="d-flex align-items-center mb-4">
+                                                            <span className="bullet ml-2"></span>
+                                                            <p className="mb-0">حراج خصوصی</p>
+                                                            {/* <Form.Item  
                                                                 name="private_auction" 
                                                                 valuePropName="checked" 
                                                                 rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                 <Checkbox>حراج خصوصی</Checkbox>
-                                                            </Form.Item>
+                                                            </Form.Item> */}
                                                         </div>
 
                                                         <div ref={refArray[1]}></div>
@@ -333,13 +452,163 @@ function AddNewAuctionPage(props) {
 
                                                         <div className="d-block d-xl-flex justify-content-start">
 
-                                                            <div className="col col-lg-3">
-                                                                <p className="mb-0 text-right mb-2 mb-lg-0">تاریخ و زمان اولین روز برگزاری</p>
-                                                            </div>
-                                                            <div className="col">
+
+
+
+
+
+
+                                                        <div className="d-block w-100">
+    
+                                                            
+                                                            <Form.List
+                                                                name="names"
+                                                                rules={[
+                                                                {
+                                                                    validator: async (_, names) => {
+                                                                    if (!names || names.length < 2) {
+                                                                        return Promise.reject(new Error(' '));
+                                                                    }
+                                                                    },
+                                                                },
+                                                                ]}
+                                                                >
+
+                                                                {(fields, { add, remove }, { errors }) => (
+                                                                    <>
+                                                                    {fields.map((field, index) => (
+                                                                        <Form.Item
+                                                                            {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                                                            required={false}
+                                                                            key={field.key}
+                                                                            >
+
+
+                                                                <div className="d-block d-xl-flex">
+                                                                <div style={{minWidth : '200px'}} className="col ">
+                                                                    <p className="mb-0 text-right mb-2 mb-xl-0">تاریخ و زمان اولین روز برگزاری</p>
+                                                                </div>
+                                                                    <div className="col ">
+                                                                        <div className="d-flex">
+                                                                            <Form.Item 
+                                                                                // name="start_time"  
+                                                                                {...config}
+                                                                                // maxLength={16}
+                                                                                // showCount={16}
+                                                                                {...field}
+                                                                                name={[field.name, 'start_time']}
+                                                                                fieldKey={[field.fieldKey, 'start_time']}
+                                                                                >
+                                                                                <DatePicker 
+                                                                                    className="date-field-firstDay-holding-box" 
+                                                                                    isGregorian={false} 
+                                                                                    showTime 
+                                                                                    format='jYYYY-jMM-jDD HH:mm:ss' 
+                                                                                    onChange={valueTo => onChangeTo(valueTo)}
+                                                                                />
+                                                                            </Form.Item>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col ">
+                                                                        <div className="d-block d-lg-flex justify-content-start">
+                                                                            <p style={{minWidth : '100px'}} className="mb-2 mb-xl-0 ml-2 text-right">شماره لت از</p> 
+                                                                                <Form.Item
+                                                                                    {...formItemLayout}
+                                                                                    className="text-center"
+                                                                                    {...field}
+                                                                                    name={[field.name, 'num1']}
+                                                                                    fieldKey={[field.fieldKey, 'num1']}
+                                                                                    validateStatus={number.validateStatus}
+                                                                                    help={number.errorMsg}
+                                                                                >
+                                                                                    <InputNumber 
+                                                                                
+                                                                                    value={number.value} 
+                                                                                    />
+                                                                                </Form.Item>
+                                                                                <p className="mx-lg-3 mb-2 mb-xl-0 text-right">تا</p> 
+                                                                                <Form.Item
+                                                                                    {...formItemLayout}
+                                                                                    className="text-right"
+                                                                                    {...field}
+                                                                                    name={[field.name, 'num2']}
+                                                                                    fieldKey={[field.fieldKey, 'num2']}
+                                                                                    validateStatus={number.validateStatus}
+                                                                                    help={number.errorMsg}
+                                                                                >
+                                                                                    <InputNumber 
+                                                                                
+                                                                                    value={number.value} onChange={onNumberChange} />
+                                                                                </Form.Item>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                            {/* <Form.Item
+                                                                                {...field}
+                                                                                validateTrigger={['onChange', 'onBlur']}
+                                                                                rules={[
+                                                                                    {
+                                                                                    required: true,
+                                                                                    whitespace: true,
+                                                                                    message: "Please input passenger's name or delete this field.",
+                                                                                    },
+                                                                                ]}
+                                                                                noStyle
+                                                                                >
+                                                                                <Input placeholder="passenger name" style={{ width: '60%' }} />
+                                                                            </Form.Item> */}
+                                                                                {fields.length >= 1 ? (
+                                                                                    
+                                                                                // <MinusCircleOutlined
+                                                                                <BsFillTrashFill
+
+                                                                                    className="dynamic-delete-button"
+                                                                                    onClick={() => remove(field.name)}
+
+                                                                                />
+                                                                                ) : null}
+                                                                        </Form.Item>
+                                                                        ))}
+                                                                        <Form.Item>
+                                                                            <Button
+                                                                                type="dashed"
+                                                                                onClick={() => add()}
+                                                                                style={{ width: '100%'}}
+                                                                                // icon={<PlusOutlined />}
+                                                                            >
+                                                                                اضافه کردن تاریخ 
+                                                                            </Button>
+                                                                            {/* <Button
+                                                                                type="dashed"
+                                                                                onClick={() => {
+                                                                                add('The head item', 0);
+                                                                                }}
+                                                                                style={{ width: '60%', marginTop: '20px' }}
+                                                                                icon={<PlusOutlined />}
+                                                                            >
+                                                                                Add field at head
+                                                                            </Button> */}
+                                                                            <Form.ErrorList errors={errors} />
+                                                                        </Form.Item>
+                                                                </>
+                                                                )}
+                                                            </Form.List>
+                                                        </div>
+
+
+
+
+
+
+
+                                                            {/* <div className="col">
                                                                 <div className="d-flex">
-                                                                    <Form.Item name="date-time-picker"  {...config}>
-                                                                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                                                    <Form.Item name="start_time"  {...config}>
+                                                                        <DatePicker className="date-field-firstDay-holding-box" isGregorian={false} showTime format='jYYYY-jMM-jDD HH:mm:ss' 
+                                                                            onChange={valueTo => onChangeTo(momentJalaali(valueTo.format('jYYYY-jMM-jDD HH:mm:ss')))}
+                                                                        />
                                                                     </Form.Item>
                                                                 </div>
                                                             </div>
@@ -348,14 +617,16 @@ function AddNewAuctionPage(props) {
                                                                     <p className="mb-0 ml-2">شماره لت از</p> 
                                                                         <Form.Item
                                                                             {...formItemLayout}
-                                                                            
+                                                                            name = "num1"
                                                                             validateStatus={number.validateStatus}
                                                                             help={number.errorMsg}
                                                                         >
                                                                             <InputNumber 
-                                                                            // min={8} 
-                                                                            // max={12} 
-                                                                            value={number.value} onChange={onNumberChange} />
+                                                                            min={8} 
+                                                                            max={12} 
+                                                                            value={number.value} 
+                                                                            onChange={onNumberChange} 
+                                                                            />
                                                                         </Form.Item>
                                                                         <p className="mx-3 mb-0">تا</p> 
                                                                         <Form.Item
@@ -365,14 +636,14 @@ function AddNewAuctionPage(props) {
                                                                             help={number.errorMsg}
                                                                         >
                                                                             <InputNumber 
-                                                                            // min={8} 
-                                                                            // max={12} 
+                                                                            min={8} 
+                                                                            max={12} 
                                                                             value={number.value} onChange={onNumberChange} />
                                                                         </Form.Item>
                                                                 </div>
 
                                                                 
-                                                            </div>
+                                                            </div> */}
 
                                                         </div>
                                                         <div ref={refArray[2]}></div>
@@ -381,20 +652,172 @@ function AddNewAuctionPage(props) {
                                                         </div>
 
                                                         <div className="d-flex">
-                                                            <Select defaultValue="واحد پولی" style={{ width: 200 }} onChange={handleChange}>
-                                                                <Option value="LIVE">LIVE</Option>
-                                                                <Option value="ONLINE">ONLINE</Option>
-                                                                <Option value="PERIODIC">PERIODIC</Option>
-                                                                <Option value="HIDDEN">HIDDEN</Option>
-                                                                <Option value="SECOND_HIDDEN">SECOND_HIDDEN</Option>
-                                                            </Select>
+
+                                                            <Form.Item
+                                                                    name="body"
+                                                                    rules={[{
+                                                                    required: true,
+                                                                    message: 'واحد پولی تعیین نشده!'
+                                                                    }
+                                                                ]}>
+                                                                <Select defaultValue="واحد پولی" style={{ width: 200 }} onChange={handleChange}>
+                                                                    <Option value="LIVE">LIVE</Option>
+                                                                    <Option value="ONLINE">ONLINE</Option>
+                                                                    <Option value="PERIODIC">PERIODIC</Option>
+                                                                    <Option value="HIDDEN">HIDDEN</Option>
+                                                                    <Option value="SECOND_HIDDEN">SECOND_HIDDEN</Option>
+                                                                </Select>
+                                                            </Form.Item>
                                                         </div>
 
-                                                        <div className="d-flex align-items-start mt-3">
+
+
+
+
+                                                        <Form.List
+                                                                name="names2"
+                                                                rules={[
+                                                                {
+                                                                    validator: async (_, names) => {
+                                                                    if (!names || names.length < 2) {
+                                                                        return Promise.reject(new Error(' '));
+                                                                    }
+                                                                    },
+                                                                },
+                                                                ]}
+                                                                >
+
+                                                                {(fields, { add, remove }, { errors }) => (
+                                                                    <>
+                                                                    {fields.map((field, index) => (
+                                                                        <Form.Item
+                                                                            {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                                                            required={false}
+                                                                            key={field.key}
+                                                                            >
+
+
+                                                    <div className="d-block d-xl-flex">
+                                             
+                                                            <div className="col px-0">
+                                                                <div className="d-block d-lg-flex align-items-start">
+                                                                    <p style={{minWidth : '80px'}} className="mb-0 ml-2 text-right"> مبلغ خرید از</p> 
+                                                                        <Form.Item
+                                                                            {...formItemLayout}
+                                                                            className="text-right"
+                                                                            name={[field.name, 'num133']}
+                                                                            fieldKey={[field.fieldKey, 'num133']}
+                                                                            validateStatus={number.validateStatus}
+                                                                            help={number.errorMsg}
+                                                                        >
+                                                                            <InputNumber 
+                                                                            // min={8} 
+                                                                            // max={12} 
+                                                                            
+                                                                            style={{width : '150px'}}
+                                                                            value={number.value} 
+                                                                            onChange={onNumberChange} 
+                                                                            />
+                                                                        </Form.Item>
+                                                                        <p className="mx-3 mb-0 text-right">تا</p> 
+                                                                        <Form.Item
+                                                                            className="text-right"
+                                                                            {...formItemLayout}
+                                                                            name={[field.name, 'num166']}
+                                                                            fieldKey={[field.fieldKey, 'num166']}
+                                                                            validateStatus={number.validateStatus}
+                                                                            help={number.errorMsg}
+                                                                        >
+                                                                            <InputNumber 
+                                                                            // min={8} 
+                                                                            // max={12} 
+                                                                            style={{width : '150px'}}
+                                                                            
+                                                                            value={number.value} 
+                                                                            onChange={onNumberChange} />
+                                                                        </Form.Item>
+                                                                        
+                                                                        <p style={{minWidth : '80px'}} className="mx-3 mb-0 text-right">شارژ مورد نیاز</p> 
+                                                                        <Form.Item
+                                                                            {...formItemLayout}
+                                                                            className="text-right"
+                                                                            name={[field.name, 'num122']}
+                                                                            fieldKey={[field.fieldKey, 'num122']}
+                                                                            validateStatus={number.validateStatus}
+                                                                            help={number.errorMsg}
+                                                                        >
+                                                                            <InputNumber 
+                                                                            // min={8} 
+                                                                            // max={12} 
+                                                                            style={{width : '150px'}}
+                                                                            value={number.value} onChange={onNumberChange} />
+                                                                        </Form.Item>
+                                                                </div>
+
+                                                                
+                                                            </div>
+                                                    </div>
+
+                                                                       
+                                                                                {fields.length >= 1 ? (
+                                                                                    
+                                                                                // <MinusCircleOutlined
+                                                                                <BsFillTrashFill
+
+                                                                                    className="dynamic-delete-button"
+                                                                                    onClick={() => remove(field.name)}
+
+                                                                                />
+                                                                                ) : null}
+                                                                        </Form.Item>
+                                                                        ))}
+                                                                        <Form.Item>
+                                                                            <Button
+                                                                                type="dashed"
+                                                                                onClick={() => add()}
+                                                                                style={{ width: '100%'}}
+                                                                                // icon={<PlusOutlined />}
+                                                                            >
+                                                                                اضافه کردن شارژ 
+                                                                            </Button>
+                                                                            {/* <Button
+                                                                                type="dashed"
+                                                                                onClick={() => {
+                                                                                add('The head item', 0);
+                                                                                }}
+                                                                                style={{ width: '60%', marginTop: '20px' }}
+                                                                                icon={<PlusOutlined />}
+                                                                            >
+                                                                                Add field at head
+                                                                            </Button> */}
+                                                                            <Form.ErrorList errors={errors} />
+                                                                        </Form.Item>
+                                                                </>
+                                                                )}
+                                                            </Form.List>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        {/* <div className="d-flex align-items-start mt-3">
                                                                     <p className="mb-0 ml-2">از</p> 
                                                                         <Form.Item
                                                                             {...formItemLayout}
-                                                                            
+                                                                            name="num5"
                                                                             validateStatus={number.validateStatus}
                                                                             help={number.errorMsg}
                                                                         >
@@ -406,7 +829,7 @@ function AddNewAuctionPage(props) {
                                                                         <p className="mx-3 mb-0">تا</p> 
                                                                         <Form.Item
                                                                             {...formItemLayout}
-                                                                            
+                                                                            name="num6"
                                                                             validateStatus={number.validateStatus}
                                                                             help={number.errorMsg}
                                                                         >
@@ -415,15 +838,58 @@ function AddNewAuctionPage(props) {
                                                                             // max={12} 
                                                                             value={number.value} onChange={onNumberChange} />
                                                                         </Form.Item>
-                                                                </div>
+                                                                </div> */}
 
-                                                                <div className="d-flex">
-                                                                    <Form.Item  
+
+
+                                                                {/* <div className="d-none">
+                                                                            <p className="mx-3 mb-0">مبلغ خرید از</p>
+                                                                            <Form.Item
+                                                                                {...formItemLayout}
+                                                                                name="num7"
+                                                                                validateStatus={number.validateStatus}
+                                                                                help={number.errorMsg}
+                                                                            >
+                                                                                <InputNumber 
+                                                                                // min={8} 
+                                                                                // max={12} 
+                                                                                value={number.value} onChange={onNumberChange} />
+                                                                            </Form.Item>
+                                                                            <p className="mx-3 mb-0">تا</p> 
+                                                                            <Form.Item
+                                                                                {...formItemLayout}
+                                                                                name="num8"
+                                                                                validateStatus={number.validateStatus}
+                                                                                help={number.errorMsg}
+                                                                            >
+                                                                                <InputNumber 
+                                                                                // min={8} 
+                                                                                // max={12} 
+                                                                                value={number.value} onChange={onNumberChange} />
+                                                                            </Form.Item> 
+                                                                            <p className="mx-3 mb-0">شارژ مورد نیاز</p> 
+                                                                                <Form.Item
+                                                                                    {...formItemLayout}
+                                                                                    name="num9"
+                                                                                    validateStatus={number.validateStatus}
+                                                                                    help={number.errorMsg}
+                                                                                >
+                                                                                    <InputNumber 
+                                                                                    // min={8} 
+                                                                                    // max={12} 
+                                                                                    value={number.value} onChange={onNumberChange} />
+                                                                            </Form.Item>       
+                                                                    </div>   */}
+
+                                                                    <div className="d-flex align-items-center mb-4">
+                                                                        <span className="bullet ml-2"></span>
+                                                                        <p className="mb-0"> تبدیل نرخ ارز</p>
+                                                                    {/* <Form.Item  
                                                                         name="private_auction" 
                                                                         valuePropName="checked" 
                                                                         rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                         <Checkbox>تبدیل نرخ ارز </Checkbox>
-                                                                    </Form.Item>
+                                                                    </Form.Item> */}
                                                                 </div>
 
                                                                 <div className="d-flex">
@@ -436,13 +902,14 @@ function AddNewAuctionPage(props) {
                                                                         <div className="d-flex">
                                                                             <Form.Item
                                                                                 {...formItemLayout}
-                                                                                        
+                                                                                name="num10"   
                                                                                 validateStatus={number.validateStatus}
                                                                                 help={number.errorMsg}
                                                                             >
                                                                             <InputNumber 
                                                                                 // min={8} 
                                                                                 // max={12} 
+                                                                                style={{width : '200px'}}
                                                                                 value={number.value} onChange={onNumberChange} />
                                                                         </Form.Item>
                                                                         </div>
@@ -453,31 +920,35 @@ function AddNewAuctionPage(props) {
                                                                     <h4>اعتبارسنجی</h4>
                                                                 </div>
 
-                                                                    <div className="d-flex">
-                                                                        <Form.Item  
+                                                                <div className="d-flex align-items-center mb-4">
+                                                                    <span className="bullet ml-2"></span>
+                                                                    <p className="mb-0"> تبدیل آرتیبیشن</p>
+                                                                        {/* <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
                                                                             rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>تبدیل آرتیبیشن</Checkbox>
-                                                                        </Form.Item>
+                                                                        </Form.Item> */}
                                                                     </div>
 
-                                                                    <div className="d-flex">
-                                                                        <Form.Item  
+                                                                    <div className="d-flex align-items-center mb-4">
+                                                                        <span className="bullet ml-2"></span>
+                                                                        <p className="mb-0">شارژ مورد نیاز کیف پول</p>
+                                                                        {/* <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
                                                                             rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>شارژ مورد نیاز کیف پول</Checkbox>
-                                                                        </Form.Item>
+                                                                        </Form.Item> */}
                                                                     </div>
 
 
 
-                                                                        <div className="d-flex">
+                                                                        <div className="d-none">
                                                                             <p className="mx-3 mb-0">مبلغ خرید از</p>
                                                                             <Form.Item
                                                                                 {...formItemLayout}
-                                                                                
+                                                                                name="num12"
                                                                                 validateStatus={number.validateStatus}
                                                                                 help={number.errorMsg}
                                                                             >
@@ -489,7 +960,7 @@ function AddNewAuctionPage(props) {
                                                                             <p className="mx-3 mb-0">تا</p> 
                                                                             <Form.Item
                                                                                 {...formItemLayout}
-                                                                                
+                                                                                name="num13"
                                                                                 validateStatus={number.validateStatus}
                                                                                 help={number.errorMsg}
                                                                             >
@@ -501,7 +972,7 @@ function AddNewAuctionPage(props) {
                                                                             <p className="mx-3 mb-0">شارژ مورد نیاز</p> 
                                                                                 <Form.Item
                                                                                     {...formItemLayout}
-                                                                                    
+                                                                                    name="num14"
                                                                                     validateStatus={number.validateStatus}
                                                                                     help={number.errorMsg}
                                                                                 >
@@ -539,7 +1010,7 @@ function AddNewAuctionPage(props) {
                                                                         </div>
                                                                         <div className="col">
                                                                             <Form.Item
-                                                                                name={['body']}
+                                                                                name="body"
                                                                                 rules={[{
                                                                                 required: false,
                                                                                 message: 'فیلد سایر مدارک خالی است!'
@@ -555,13 +1026,15 @@ function AddNewAuctionPage(props) {
                                                                         <h4>قوانین حراج</h4>
                                                                     </div>   
 
-                                                                    <div className="d-flex">
-                                                                        <Form.Item  
+                                                                    <div className="d-flex align-items-center mb-4">
+                                                                        <span className="bullet ml-2"></span>
+                                                                        <p className="mb-0">پرداخت آنلاین دارد</p>
+                                                                        {/* <Form.Item  
                                                                             name="private_auction" 
                                                                             valuePropName="checked" 
                                                                             rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}>
                                                                             <Checkbox>پرداخت آنلاین دارد </Checkbox>
-                                                                        </Form.Item>
+                                                                        </Form.Item> */}
                                                                     </div>
 
 
@@ -573,7 +1046,7 @@ function AddNewAuctionPage(props) {
                                                                         </div>
                                                                         <div className="col">
                                                                             <Form.Item
-                                                                                name={['body']}
+                                                                                name="payment"
                                                                                 rules={[{
                                                                                 required: true,
                                                                                 message: 'فیلد شرایک پرداخت خالی است!'
@@ -594,7 +1067,7 @@ function AddNewAuctionPage(props) {
                                                                         </div>
                                                                         <div className="col">
                                                                             <Form.Item
-                                                                                name={['body']}
+                                                                                name="marjuee"
                                                                                 rules={[{
                                                                                 required: true,
                                                                                 message: 'فیلد شرایط مرجوعی خالی است!'
@@ -615,7 +1088,7 @@ function AddNewAuctionPage(props) {
                                                                         </div>
                                                                         <div className="col">
                                                                             <Form.Item
-                                                                                name={['body']}
+                                                                                name="transfer"
                                                                                 rules={[{
                                                                                 required: true,
                                                                                 message: 'فیلد حمل و نقل خالی است!'
