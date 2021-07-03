@@ -5,12 +5,13 @@ import {BASE_URL} from '../../utils/index';
 import Loading from '../../components/Loading';
 import { Form, Input, Breadcrumb, Pagination} from 'antd';
 import {NavLink} from 'react-router-dom';
+import PaginationComponent from '../../components/PaginationComponent';
 
 function ApplicantsMembershipInAuctionList(props) {
 
 
     const [applicantsList , setApplicantsList] = useState([]);
-    const [countApplicants, setCountApplicants] = useState();
+    const [countApplicants, setCountApplicants] = useState(0);
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
@@ -63,24 +64,9 @@ function ApplicantsMembershipInAuctionList(props) {
                                         <div className="row px-0 mx-0">
                                             <TableApplicantsMembershipAuciton applicantsList={applicantsList}/>
                                         </div>
-                                        <div className="d-none d-sm-flex justify-content-center">
-                                            <Pagination
-                                                showSizeChanger={false}
-                                                onChange={(e)=>handeSelectPage(e)}
-                                                defaultCurrent={1}
-                                                total={countApplicants}
-                                                defaultPageSize={10}
-                                            />
-                                        </div>
-                                        <div className="d-flex d-sm-none justify-content-center ">
-                                                    <Pagination 
-                                                        onChange={(e)=>handeSelectPage(e)}
-                                                        defaultCurrent={1} 
-                                                        total={countApplicants} 
-                                                        defaultPageSize={10}
-                                                        size="small"
-                                                    />
-                                                </div>
+
+                                       <PaginationComponent count={countApplicants} handeSelectPage={handeSelectPage}/>
+                                       
                                     </div>
                                 </div>
                         </div>
