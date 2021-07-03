@@ -2,7 +2,7 @@ import React , {useState , useEffect} from 'react'
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import Loading from '../../components/Loading';
-import {Pagination , Breadcrumb} from 'antd';
+import {Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
