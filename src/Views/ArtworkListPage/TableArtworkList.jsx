@@ -4,7 +4,6 @@ import { CaretDownOutlined , FilterFilled , DownOutlined} from '@ant-design/icon
 import {Link , NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
-import {convertTypePersian} from '../../utils/converTypePersion';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 
