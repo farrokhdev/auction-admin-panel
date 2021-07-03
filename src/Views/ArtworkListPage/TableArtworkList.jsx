@@ -5,14 +5,10 @@ import {Link , NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
-import DatePicker from 'react-datepicker2';
-import moment from 'moment-jalaali';
-import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 
-function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , setDateFrom , setDateTo , handleFilterDateFrom , handleFilterDateTo}) {
+function TableArtworkList({artworkList , handleFilterArtwork }) {
     
     const { Search } = Input;
     const { Panel } = Collapse;
@@ -76,25 +72,26 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
     }
 
 
-  const onChangeFrom = (value) =>{
-    handleFilterDateFrom(value.format('jYYYY-jM-jD'))
+//   const onChangeFrom = (value) =>{
+//     handleFilterDateFrom(value.format('jYYYY-jM-jD'))
 
-  }
+//   }
 
-  const onChangeTo = (value) => {
-    handleFilterDateTo(value.format('jYYYY-jM-jD'))
-  }
+//   const onChangeTo = (value) => {
+//     handleFilterDateTo(value.format('jYYYY-jM-jD'))
+//   }
     
     return (
         <React.Fragment>
             
             <div className="row w-100">
                 <div className="col w-100 ">
-                    {/* <div className="d-flex">
-                        <Search className="mb-2" placeholder="جستجوی کالا" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
-                    </div> */}
+                    <div className="d-flex">
+                        <span className="ml-2"><FilterFilled/></span>
+                        <Search className="mb-2" placeholder="جستجو" onSearch={(e)=> handleFilterArtwork(e)} style={{ width: 300 }}  />
+                    </div>
 
-                    <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3">
+                    {/* <div className="row mb-2 align-items-start  text-filter bg-light mr-3 p-3"> */}
                        
                         <div className="col-8 px-0">
 
@@ -104,8 +101,11 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         <RangePicker value={date} onChange={onChange}/>
                                     </div> */}
                             {/* </Form.Item> */}
+
+
+
                             
-                            <div className="d-block d-sm-flex justify-content-start">
+                            {/* <div className="d-block d-sm-flex justify-content-start">
                                 <div className="d-flex align-items-center">
 
                                     <FilterFilled  className="ml-2 icon-filter"/>
@@ -117,7 +117,6 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         isGregorian={false}
                                         timePicker={false}
                                         onChange={valueFrom  => onChangeFrom(valueFrom)}
-                                        // value={dateFrom}
                                     />
 
                                 </div>
@@ -129,26 +128,29 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         isGregorian={false}
                                         timePicker={false}
                                         onChange={valueTo => onChangeTo(valueTo)}
-                                        // value={dateTo}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
+
+
                         </div>
-                        <div className="col-4 px-0">
+
+
+                        {/* <div className="col-4 px-0">
                             <div className="d-flex justify-content-start align-items-center  mt-sm-0">
                                 <FilterFilled className="ml-2 icon-filter"/>
                                 <Dropdown className="d-flex " overlay={menu} placement="bottomLeft" arrow>
                                     <button className="d-flex justify-content-center align-items-center btn-status-product-filter"> <p className="mb-0">وضعیت</p><CaretDownOutlined /> </button>
                                 </Dropdown>
                             </div>
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* </div> */}
                     <div className="d-flex justify-content-end mb-2">
-                        <div className="col">
+                        {/* <div className="col">
                             <div className="d-flex">
                                 <button onClick={()=>handleFilterArtwork()} className="btn-do-filter">اعمال فیلتر</button>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="col">
                             <NavLink to="/add-artwork">
                                 <button className="btn-add-new-artwork">افزودن اثر هنری</button>
@@ -200,7 +202,7 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
 
                 <tbody>
                     {artworkList ? artworkList.map((artwork, index) =>
-                        <> 
+                        <React.Fragment key={artwork?.id}> 
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
@@ -215,8 +217,8 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                         style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
                                         className="box-image-product-list"
                                         width={40}
-                                        preview ={artwork?.media?.media_path}
-                                        src={artwork?.media?.media_path}
+                                        preview ={artwork?.media?.exact_url ? artwork?.media?.exact_url : ''}
+                                        src={artwork?.media?.exact_url}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -287,7 +289,7 @@ function TableArtworkList({artworkList , countProduct ,  handleFilterArtwork , s
                                 </div>
                             </td>
                             </tr>
-                            </>
+                            </React.Fragment>
                         ) : <div className="d-flex text-center w-100">لیست خالی</div>}
 
                    

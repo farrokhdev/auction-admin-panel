@@ -17,14 +17,14 @@ function ModalAcceptOffer({visibleAcceptOffer , setVisibleAcceptOffer , openNoti
 
     useEffect(() => {
         
-        axios.get(`${BASE_URL}/`).then(res => {
-            console.log(res.data);
+        // axios.get(`${BASE_URL}/`).then(res => {
+        //     console.log(res.data);
 
-            setHouseAuctionList(res.data)
+        //     setHouseAuctionList(res.data)
 
-        }).catch(err => {
-            console.log(err);
-        })
+        // }).catch(err => {
+        //     console.log(err);
+        // })
 
     }, []);
 

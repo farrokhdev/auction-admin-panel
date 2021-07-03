@@ -22,7 +22,6 @@ function ModalAcceptArtwork(props) {
         });
       };
 
-    console.log("details =>>> ", props.detailsArtwork?.category);
     const handleOk = () => {
       props.setIsModalVisibleAccept(false);
     };
