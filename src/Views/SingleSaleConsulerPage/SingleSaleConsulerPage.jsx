@@ -52,7 +52,8 @@ function SingleSaleConsulerPage(props) {
                                             </Breadcrumb.Item>
                                             <Breadcrumb.Item></Breadcrumb.Item>
                                             <Breadcrumb.Item>
-                                                {`مشاوره فروش ${props.match.params.name}`}
+                                                {/* {`مشاوره فروش ${props.match.params.name}`} */}
+                                                {`مشاوره فروش`}
                                             </Breadcrumb.Item>
                                         </Breadcrumb>
                                     </div>

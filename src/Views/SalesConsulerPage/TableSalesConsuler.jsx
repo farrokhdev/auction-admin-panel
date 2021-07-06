@@ -10,10 +10,10 @@ import {convertTypePersian} from '../../utils/converTypePersion';
 
 function TableSalesConsuler({salesConsulerList}) {
 
-    const menu=(id , name) => (
+    const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/sales-consuler/${id}/${name}`} >
+                <Link to={`/sales-consuler/${id}/`} >
                     مشاهده
                 </Link>
             </Menu.Item >
@@ -48,7 +48,7 @@ function TableSalesConsuler({salesConsulerList}) {
             </thead>
 
             <tbody>
-                {salesConsulerList ? salesConsulerList.map((salesConsuler, index) =>
+                {salesConsulerList?.length ? salesConsulerList.map((salesConsuler, index) =>
                     <> 
                         <tr className="spaceRow row-messages">
 
