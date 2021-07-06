@@ -20,13 +20,13 @@ export function convertTypePersian(value) {
             return 'آنلاین'
         
         case"PERIODIC":
-            return 'تناوبی'
+            return 'زمان‌دار'
             
         case"SECOND_HIDDEN":
-            return 'دوم پنهان'
+            return 'حراج با دومین پیشنهاد قیمت مخفی'
             
         case"HIDDEN":
-            return 'پنهان'
+            return 'حراج با پیشنهاد قیمت مخفی'
 
         case"PREPARING":
             return 'آماده سازی'
@@ -38,7 +38,19 @@ export function convertTypePersian(value) {
             return 'فعال'
 
         case"CLOSED":
-            return 'بسته‌شده'
+            return 'بسته‌شده'       
+            
+        case"create":
+            return 'ایجاد شده' 
+
+        case"pending":
+            return 'در حال بررسی'   
+
+        case"accept":
+            return 'تایید شده'
+
+        case"reject":
+            return 'رد شده'
 
 
 

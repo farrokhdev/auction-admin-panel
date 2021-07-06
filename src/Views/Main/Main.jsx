@@ -195,6 +195,20 @@ function Main(props) {
                               خانه‌های حراجی 
                           </NavLink>
                         </Menu.Item>
+
+                        <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={6.2} 
+                            >
+                          <NavLink 
+                              id={6.2}
+                              to={"/house-auctions-requests"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              درخواست‌ها   
+                          </NavLink>
+                        </Menu.Item>
                     </SubMenu>
 
                         <Menu.Item 

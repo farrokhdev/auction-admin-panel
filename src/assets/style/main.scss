@@ -369,7 +369,7 @@ th.ant-table-cell{
 
 table thead {
 // background-color: $tertiary-color !important;
-background-color: $pink-color !important;
+background-color: $primary3-color !important;
 }
 
 .table thead th{
@@ -1622,6 +1622,50 @@ color: $white-color;
     background-color:  $darkGray-color !important;
     color: $white-color;
 }
+
+
+// ------------ Requests House Auction -----------
+
+.btn-accept-request-house-auction{
+    @include greenBtn ;
+    width: 200px !important;
+}
+
+.btn-accept-request-house-auction:hover{
+    background-color: $primary-color !important;
+    color: $white-color !important;
+}
+
+.btn-reject-request-house-auction{
+    @include warningBtn;
+    background-color: $warning2-color !important;
+    width: 200px !important;
+}
+
+.btn-reject-request-house-auction:hover{
+    background-color: $warning-color !important;
+    color: $white-color !important;
+}
+
+.modal-confirm-request-house-auction .ant-modal-footer{
+    display: none !important;
+}
+
+.modal-confirm-request-house-auction .ant-modal-confirm-body-wrapper .ant-btn .ant-btn-primary {
+    background-color: red !important;
+    // @include greenBtn  ;
+
+}
+
+.modal-confirm-request-house-auction .ant-modal-header{
+    background-color: $dark-color !important;
+}
+
+.modal-confirm-request-house-auction .ant-modal-title{
+    color: $white-color !important;
+}
+
+
 
 
 
