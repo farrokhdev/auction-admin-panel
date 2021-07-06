@@ -72,7 +72,7 @@ function App(props) {
                         <>
                             <Route exact path="/house-auctions-offers" render={props=><Main {...props}><HouseAuctionOffers {...props} /></Main>}/>
                             <Route exact path="/sales-consuler" render={props=><Main {...props}><SalesConsulerPage {...props} /></Main>}/>
-                            <Route exact path="/sales-consuler/:id/:name" render={props=><Main {...props}><SingleSaleConsulerPage {...props} /></Main>}/>
+                            <Route exact path="/sales-consuler/:id" render={props=><Main {...props}><SingleSaleConsulerPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions/auctions/:id/:name" render={props=><Main {...props}><AuctionsOfHouseAuctionPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions-participants/:id" render={props=><Main {...props}><ParticipantsInAuctionList {...props} /></Main>}/>
                             <Route exact path="/house-auctions-applicants/:id" render={props=><Main {...props}><ApplicantsMembershipInAuctionList {...props} /></Main>}/>

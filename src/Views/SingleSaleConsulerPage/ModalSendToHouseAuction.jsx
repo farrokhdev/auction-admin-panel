@@ -129,7 +129,7 @@ function ModalSendToHouseAuction(props) {
                                         ]}
                                     >
                                         <Select  className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
-                                            {houseAuctionList.length >= 1 ? houseAuctionList.map(houseAuction => (
+                                            {houseAuctionList?.length >= 1 ? houseAuctionList?.map(houseAuction => (
                                                 <React.Fragment key={houseAuction?.id}>
                                                     <Option value={`${houseAuction?.id}`}>{houseAuction?.home_auction_name}</Option>
                                                 </React.Fragment>

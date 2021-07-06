@@ -120,7 +120,7 @@ function SendMessagePage(props) {
                                             ]}
                                         >
                                             <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
-                                                {memberList.length >= 1 ? memberList.map(member => (
+                                                {memberList?.length >= 1 ? memberList?.map(member => (
 
                                                     <React.Fragment key={member?.id}>
                                                         <Option value={`${member?.id}`}>{member?.first_name}</Option>
