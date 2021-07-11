@@ -4,7 +4,6 @@ import dark_Profiel_icon from '../../images/svg/profile-header.svg';
 
 function TicketBoxUserFirst({ticketDetails}) {
 
-    console.log("ticketDetails",ticketDetails);
     return (
         <React.Fragment>
            

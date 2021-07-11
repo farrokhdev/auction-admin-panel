@@ -7,8 +7,6 @@ import dark_Profiel_icon from '../../images/svg/profile-header.svg';
 
 function TicketBoxAdmin(props) {
 
-    console.log("Admin_Ticket_Reply =>>>", props.ticket);
-
     return (
         <React.Fragment>
 

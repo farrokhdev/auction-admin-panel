@@ -6,6 +6,8 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions'
 import {connect} from 'react-redux';
 import ModalShowDetailTicket from './ModalShowDetailTicket';
 import classnames from 'classnames';
+import { GET_TICKETS } from '../../utils/constant';
+import {messageStatusTypePersian} from '../../utils/converTypePersion';
 
 function TableTickets(props) {
 
@@ -13,11 +15,9 @@ function TableTickets(props) {
     const [ticketDetails, setTicketDetails] = useState();
 
     const handleClickShowDetailsTicket = (id) => {
-
-        axios.get(`${BASE_URL}/panel/ticket/${id}/`).then(res => {
+        axios.get(`${BASE_URL}${GET_TICKETS}${id}/`).then(res => {
             setTicketDetails(res.data.data.result);
             props.decreaseCountUnredTicket()
-
         }).catch(err => {
             console.log(err);
         })
@@ -25,21 +25,6 @@ function TableTickets(props) {
         setVisibleDetailTicket(true);
     }
 
-    function messageStatusTypePersian(value) {
-
-        switch(value){
-            case 'pending':
-                return 'در انتظار پاسخ'
-            case 'close':
-                return 'بسته شده'
-            case 'read':
-                return 'پاسخ داده شده'
-            case 'unread':
-                return 'پاسخ داده شده'
-            default:
-                return ''
-        }
-    }
 
     return (
         <React.Fragment>

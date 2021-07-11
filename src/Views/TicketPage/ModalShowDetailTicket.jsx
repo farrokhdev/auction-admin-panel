@@ -9,7 +9,7 @@ import TicketContentDetails from './TicketContentDetails';
 
 const layout = {
     labelCol: {
-      span:20,
+      span:24,
     },
     wrapperCol: {
       span: 24,
@@ -139,7 +139,7 @@ function ModalShowDetailTicket(props) {
                           message: 'تیکتی وارد نکرده‌اید!'
                         }]}
                       >
-                        <Input.TextArea className="text-box-ticket" rows={6}/>
+                        <Input.TextArea style={{minHeight : '100px'}} className="text-box-ticket" rows={6}/>
                       </Form.Item>
                       
                     <div className="d-flex justify-content-end  pt-3 ">
