@@ -9,6 +9,8 @@ import axios from "../../utils/request";
 import Loading from '../../components/Loading';
 import TableTickets from './TableTickets';
 import PaginationComponent from '../../components/PaginationComponent';
+import { GET_TICKETS } from '../../utils/constant';
+import queryString from 'query-string';
 
 const { Option, getMentions } = Mentions;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
@@ -16,10 +18,7 @@ const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 function TicketPage(props) {
 
     const myRef1 = useRef(null)
-
     const executeScroll = (e) => scrollToRef(e)
-
-
     const [form] = Form.useForm();
 
     const onReset = () => {
@@ -47,25 +46,27 @@ function TicketPage(props) {
 
     const [ticketList, setTicketList] = useState([]);
     const [countTickets , setCountTickets] = useState(0);
-    const [currentPage , setcurrentPage] = useState(1);
+    const [params, setParams] = useState({
+        page : 1 , 
+        page_size : 5
+    })
 
-    console.log("currentPage",currentPage);
-
-    useEffect(() => {
-
-        axios.get(`${BASE_URL}/panel/ticket/?page=${currentPage}&page_size=5`).then(res => {
-            setTicketList(res.data.data.result.results)
-            setCountTickets(res.data.count)
+    const getTickets = () => {
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}${GET_TICKETS}?${queries}`).then(res => {
+            setTicketList(res.data.data.result)
+            setCountTickets(res.data.data.count)
         }).catch(err => {
             console.log(err);
         })
+    }
 
-
-    }, [currentPage]);
+    useEffect(() => {
+        getTickets()
+    }, [params]);
 
     const handeSelectPage = (e) => {
-        console.log("Log Of Pagination", e);
-        setcurrentPage(e)
+        setParams({...params , page : e})
     }
 
     
@@ -92,7 +93,7 @@ function TicketPage(props) {
                                                     </NavLink>
                                                 </Breadcrumb.Item>
                                                 <Breadcrumb.Item>
-                                                    لیست پیام‌ها
+                                                    لیست تیکت‌ها
                                                 </Breadcrumb.Item>
                                             </Breadcrumb>
                                         </div>

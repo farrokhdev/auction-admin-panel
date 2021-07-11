@@ -58,3 +58,20 @@ export function convertTypePersian(value) {
             return ''
     }
 }
+
+
+export function messageStatusTypePersian(value) {
+
+    switch(value){
+        case 'pending':
+            return 'در انتظار پاسخ'
+        case 'close':
+            return 'بسته شده'
+        case 'read':
+            return 'پاسخ داده شده'
+        case 'unread':
+            return 'پاسخ داده شده'
+        default:
+            return ''
+    }
+}

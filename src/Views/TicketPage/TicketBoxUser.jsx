@@ -4,7 +4,6 @@ import momentJalaali from 'moment-jalaali';
 
 function TicketBoxUser(props) {
 
-    console.log("******User_Tickets ****** =>>>", props.ticket);
     return (
         <div className="d-flex justify-content-start box-content-ticket-user ml-2 ml-lg-5">
             <div className="d-block ">
