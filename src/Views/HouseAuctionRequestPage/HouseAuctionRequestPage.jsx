@@ -22,54 +22,54 @@ function HouseAuctionRequestPage(props) {
     const [detail_Id, setDetail_Id] = useState()
     
     const [requestHouseAuctionList , setRequestHouseAuctionList] = useState([
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'ONLINE',
-            activity_type : 'نقاشی',
-            count : 2 ,
-            id : 35,
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'ONLINE',
+        //     activity_type : 'نقاشی',
+        //     count : 2 ,
+        //     id : 35,
 
-        },
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'ONLINE',
-            activity_type : 'خطاطی',
-            count : 5 ,
-            id : 2,
+        // },
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'ONLINE',
+        //     activity_type : 'خطاطی',
+        //     count : 5 ,
+        //     id : 2,
 
-        },
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'HIDDEN',
-            activity_type : 'خوشنویسی',
-            count : 7 ,
-            id : 3,
+        // },
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'HIDDEN',
+        //     activity_type : 'خوشنویسی',
+        //     count : 7 ,
+        //     id : 3,
 
-        },
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'SECOND_HIDDEN',
-            activity_type : 'نقاشی',
-            count : 8 ,
-            id : 4,
+        // },
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'SECOND_HIDDEN',
+        //     activity_type : 'نقاشی',
+        //     count : 8 ,
+        //     id : 4,
 
-        },
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'LIVE',
-            activity_type : 'خطاطی',
-            count : 9 ,
-            id : 5,
+        // },
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'LIVE',
+        //     activity_type : 'خطاطی',
+        //     count : 9 ,
+        //     id : 5,
 
-        },
-        {
-            home_auction_name : 'house',
-            home_auction_type : 'ONLINE',
-            activity_type : 'خطاطی',
-            count : 12 ,
-            id : 6,
+        // },
+        // {
+        //     home_auction_name : 'house',
+        //     home_auction_type : 'ONLINE',
+        //     activity_type : 'خطاطی',
+        //     count : 12 ,
+        //     id : 6,
 
-        },
+        // },
         
     ]);
 
@@ -81,7 +81,7 @@ function HouseAuctionRequestPage(props) {
         useEffect(() => {
             axios.get(`${BASE_URL}${REQUESTS_HOUSE_AUCTION}`).then(res => {
                 setLoading(false)
-                // setRequestHouseAuctionList(res.data.data.result)
+                setRequestHouseAuctionList(res.data.data.result)
                 setCountRequestHouseAuctionList(res.data.data.count)
             }).catch(err => {
                 console.log(err);

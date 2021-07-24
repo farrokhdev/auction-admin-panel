@@ -72,12 +72,12 @@ function Header(props) {
                 <div className="d-none d-lg-block">
                     <h5 className="text-right mb-0 mr-3">پنل ادمین حراجی آنلاین</h5>
                 </div>
-                <div className=" col-3 col-sm-7  d-lg-none ">
+                <div className=" col-3 col-sm-3  d-lg-none px-0">
                     <div className="d-flex">
                         <DrawerResponsive/>
                     </div>
                 </div>
-                <div className="col-9 col-sm-5 col-lg-3">
+                <div className="col-9 col-sm-9 col-lg-4">
                     <div  className="d-flex justify-content-end">
                         <div className="col px-0">
                             <div className="d-flex justify-content-start align-items-center">

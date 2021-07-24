@@ -1372,6 +1372,29 @@ color: $white-color;
     color: $white-color;
 }
 
+// 
+
+.ant-modal-body .ant-btn:first-child{
+    @include cancelBtn;
+    margin-left: 10px !important;
+}
+
+.ant-modal-body .ant-btn:first-child:hover{
+    background-color: $warning-color;
+    color: $white-color;
+}
+
+.ant-modal-body .ant-btn:nth-child(2){
+    @include greenBtn;
+}
+
+.ant-modal-body .ant-btn:nth-child(2):hover{
+    background-color: $primary-color !important;
+    color: $white-color;
+}
+
+// 
+
 .ant-modal-close-x{
     display: none !important;
 }
@@ -1651,17 +1674,25 @@ color: $white-color;
     display: none !important;
 }
 
+.modal-reject-request-house-auction .ant-modal-footer{
+    display: none !important;
+}
+
 .modal-confirm-request-house-auction .ant-modal-confirm-body-wrapper .ant-btn .ant-btn-primary {
     background-color: red !important;
     // @include greenBtn  ;
 
 }
 
-.modal-confirm-request-house-auction .ant-modal-header{
+.modal-confirm-request-house-auction .ant-modal-header , .modal-reject-request-house-auction .ant-modal-header {
     background-color: $dark-color !important;
 }
 
-.modal-confirm-request-house-auction .ant-modal-title{
+.modal-reject-request-house-auction .ant-modal-confirm-body-wrapper .ant-btn .ant-btn-primary{
+    background-color: $dark-color !important;
+}
+
+.modal-confirm-request-house-auction .ant-modal-title , .modal-reject-request-house-auction .ant-modal-title{
     color: $white-color !important;
 }
 
