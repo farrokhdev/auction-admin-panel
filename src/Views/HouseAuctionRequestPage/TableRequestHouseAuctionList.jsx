@@ -50,7 +50,7 @@ function TableAuctonsList(props) {
     
     return (
         <div collapse className="table-responsive ">
-            <table className="table ">
+            {props.requestHouseAuctionList?.length ?  <table className="table ">
                 <thead >
                     <tr className="meassage-header-table-title">
                         <th className=" px-0 minWidth-row">
@@ -138,9 +138,15 @@ function TableAuctonsList(props) {
                             </tr>
 
                             </>
-                        ) : <span className="d-flex text-center w-100"></span>}
+                        ) : <div className="row justify-content-center my-3 "></div>}
             </tbody>
-        </table>
+        </table> : <div className="d-flex justify-content-center p-3 mb-4 bg-light">
+            <p className="mb-0 w-100 text-center">درخواستی موجود نیست</p>
+        </div> }
+
+
+        
+        
 
     </div>
     )

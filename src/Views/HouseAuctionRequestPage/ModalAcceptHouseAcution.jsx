@@ -4,6 +4,7 @@ import { BASE_URL } from '../../utils';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Mentions, Form, Button , Modal , notification} from 'antd';
 import { REQUESTS_HOUSE_AUCTION } from '../../utils/constant';
+import { failNotification, successNotification } from '../../utils/notification';
 
 function ModalAcceptHouseAcution({setVisibleAcceptHouseAuction , visibleAcceptHouseAuction , detail_Id , requestHouseAuction}) {
     const { confirm } = Modal; 
@@ -57,9 +58,14 @@ function ModalAcceptHouseAcution({setVisibleAcceptHouseAuction , visibleAcceptHo
             }
     
             axios.put(`${BASE_URL}${REQUESTS_HOUSE_AUCTION}${detail_Id}/`, payload).then(res => {
-    
+              successNotification("تایید خانه حراجی" , "خانه حراجی با موفقیت تایید شد")
+              setTimeout(() => {
+                window.location.reload();
+              }, 1500);
             }).catch(err => {
                 console.log(err);
+                failNotification("خطا در تایید خانه حراجی" , "امکان تایید خانه حراجی وجود ندارد")
+
             })
 
             // openNotification('topLeft')
@@ -97,7 +103,7 @@ function ModalAcceptHouseAcution({setVisibleAcceptHouseAuction , visibleAcceptHo
                     </Form.Item> */}
 
                     <div className="d-flex">
-                        <p>{`تایید درخواست خانه حراجی ${requestHouseAuction?.home_auction_name}`}</p>
+                        <p>{`تایید درخواست خانه حراجی ${requestHouseAuction?.home_auction_name  ? requestHouseAuction?.home_auction_name  : ''}`}</p>
                     </div>
                     <button htmlType="submit" className="btn-accept-request-house-auction" >تایید درخواست خانه حراجی </button>
                 </Form>

@@ -66,7 +66,7 @@ const layout = {
 
                         home_auction_name : requestDetails?.home_auction_name,
                         home_auction_type : requestDetails?.home_auction_type,
-                        activity_type : requestDetails?.activity_type,
+                        activity_type : requestDetails?.activity_type[0]?.title,
                         count : requestDetails?.count,
                         home_auction_request : requestDetails?.home_auction_request ? convertTypePersian(requestDetails?.home_auction_request) : '',
 
