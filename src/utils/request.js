@@ -1,10 +1,10 @@
 import {getTokenObject} from "./utils";
 import * as axios from "axios";
-import {refreshToken} from "../redux/reducers/auth/auth.actions";
+// import {refreshToken} from "../redux/reducers/auth/auth.actions";
 // import {refreshToken} from "./refreshTokenRequest"
 // import {connect} from 'react-redux';
 // import {clearStorage} from '../redux/reducers/auth/auth.actions';
-import store from '../redux/store';
+// import store from '../redux/store';
 
 const instance = axios.create({});
 
@@ -34,7 +34,6 @@ instance.interceptors.request.use((config) => {
                 //   axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
                 //   return axiosApiInstance(originalRequest);
                 timeOut = true;
-                store.dispatch(refreshToken())
                 setTimeout(()=>{
                     timeOut = false;
                 },2000)
