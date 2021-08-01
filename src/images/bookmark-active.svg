@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e6007e;
+        stroke: #e6007e;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="bookmark_icon" data-name="bookmark icon" class="cls-1" d="M44,0H5V48H8L23,33h3L41,48h3V0Z"/>
+</svg>

@@ -36,6 +36,8 @@ const BaseInformation = (props) => {
         finalData?.gallery_start_date && (listDate["gallery_start_date"] = moment(finalData?.gallery_start_date || ''))
         finalData?.end_time && (listDate["end_time"] = moment(finalData?.end_time))
         finalData?.gallery_end_date && (listDate["gallery_end_date"] = moment(finalData?.gallery_end_date))
+        finalData?.start_clock && (listDate["start_clock"] = moment(finalData?.start_clock))
+        finalData?.end_clock && (listDate["end_clock"] = moment(finalData?.end_clock))
         finalData?.type && (setType(finalData?.type))
         setMedia(finalData?.media || null)
 
@@ -45,14 +47,14 @@ const BaseInformation = (props) => {
             type: finalData?.type,
             description: finalData?.description,
             address: finalData?.address,
-            start_clock: finalData?.start_clock,
-            end_clock: finalData?.end_clock,
-            gallery_start_clock: finalData?.gallery_start_clock,
-            gallery_end_clock: finalData?.gallery_end_clock,
+            // start_clock: finalData?.start_clock,
+            // end_clock: finalData?.end_clock,
+            // gallery_start_clock: finalData?.gallery_start_clock,
+            // gallery_end_clock: finalData?.gallery_end_clock,
 
         })
     }, [finalData])
-
+    console.log((form.getFieldsValue()))
     const onFinish = (values) => {
         // console.log(values)
         // setFinalData({...finalData, ...values})
@@ -199,7 +201,9 @@ const BaseInformation = (props) => {
                                     <div className="col-md-6">
                                         <div className="input-group">
                                             <label className="default-lable">ساعت شروع</label>
-                                            <Form.Item
+
+
+                                             <Form.Item
                                                 className="w-100"
                                                 name="start_clock"
                                                 rules={[
@@ -208,16 +212,17 @@ const BaseInformation = (props) => {
                                                         message: "تکمیل این فیلد ضروری است",
                                                     },
                                                 ]}>
-                                                <TimePicker    locale={{
-                                                    ...locale,
-                                                    lang: {
-                                                        ...locale.lang,
-                                                        ok: "تایید",
-                                                    }
-                                                }}
-                                                               placeholder="00:00"
-                                                               format={"HH:mm"} showNow={false}  className="default-input custom-timePicker mt-2" />
-                                            </Form.Item>
+                                                 <TimePicker
+                                                 locale={{
+                                                     ...locale,
+                                                     lang: {
+                                                         ...locale.lang,
+                                                         ok: "تایید",
+                                                     }
+                                                 }}
+                                                 placeholder="00:00"
+                                                 format={"HH:mm"} showNow={false}  className="default-input custom-timePicker mt-2" />
+                                           </Form.Item>
                                         </div>
                                     </div>
                                     {type !== 'LIVE' && <div className="col-md-6">

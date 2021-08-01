@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dev" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dev" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/AddProduct.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/AddProductDate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/BidAddSuggest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/PriceAddValidate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/conditions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/currency.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/products.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/suggest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/uploadImage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/style/antd.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/style/mainFront.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.reducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.types.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.reducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.types.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.reducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.types.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/uploadRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/style/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/style/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,16 +70,23 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/style" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\samira\adminAuction\src\assets\style" />
+      <recent name="D:\samira\adminAuction\src\redux\reducers" />
+      <recent name="D:\samira\adminAuction\src\utils" />
       <recent name="D:\rezaei\reactDevelop\adminPanelAuction\src\Views" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="" />
@@ -53,11 +95,15 @@
       <option name="presentableId" value="Default" />
       <updated>1627738637758</updated>
       <workItem from="1627738639046" duration="1758000" />
+      <workItem from="1627793389540" duration="5882000" />
+      <workItem from="1627820027471" duration="643000" />
+      <workItem from="1627821015765" duration="11000" />
+      <workItem from="1627821246366" duration="6612000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -69,5 +115,27 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="500" y="185" key="FileChooserDialogImpl" timestamp="1627820074172">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="500" y="185" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1627820074172" />
+    <state x="427" y="134" width="585" height="592" key="find.popup" timestamp="1627800448339">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="427" y="134" width="585" height="592" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1627800448339" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js</url>
+          <line>87</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

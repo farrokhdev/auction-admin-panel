@@ -8,10 +8,11 @@ import {PersistGate} from 'redux-persist/integration/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import  './assets/style/main.scss'
 import 'antd/dist/antd.css';
-
-
+import '../node_modules/antd/dist/antd.css';
+import  './assets/style/mainFront.scss'
+import  './assets/style/main.scss'
+import  './assets/style/antd.scss'
 ReactDOM.render(
   <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

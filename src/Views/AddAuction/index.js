@@ -1,9 +1,9 @@
 import React, {useEffect, useReducer, useState} from 'react';
-import HeaderPanel from '../../components/HeaderPanel';
-import PanelSidebar from '../../components/PanelSidebar';
+// import HeaderPanel from '../../components/HeaderPanel';
+// import PanelSidebar from '../../components/PanelSidebar';
 import {Link, Redirect, useParams} from "react-router-dom";
 import BaseInformation from "./baseInformation";
-import EditPanelProfile from "../BuyerRegister/profile";
+// import EditPanelProfile from "../BuyerRegister/profile";
 import axios from "../../utils/request";
 import {BASE_URL} from "../../utils";
 import {ADD_AUCTION, DETAIL_AUCTION, EDIT_AUCTION} from "../../utils/constant";
@@ -42,6 +42,7 @@ function Index() {
     const dispatch = useDispatch();
     let {auctionId} = useParams();
     const {id} = useSelector((state) => state.profileReducer)
+
     const {
         data,
         products,
@@ -57,8 +58,8 @@ function Index() {
     const checkData = useSelector((state) => state.auctionReducer)
 
     useEffect(() => {
-        if (auctionId !== "new")
-            getData()
+        // if (auctionId !== "new")
+        //     getData()
         if (!id)
             dispatch(getProfile())
     }, [])
@@ -270,12 +271,9 @@ function Index() {
 
 
     return (
-        <div>
-            <HeaderPanel/>
-            <div className="panel-main">
+        <div className="text-right">
 
-                <PanelSidebar/>
-                <div className="panel-body">
+
                     <div className="panel-container newauction">
                         <div className="wizard leftalign">
                             <ul className="wizard-list">
@@ -318,8 +316,7 @@ function Index() {
                             {/*        نهایی</Button> : ''}*/}
                         </div>
                     </div>
-                </div>
-            </div>
+
         </div>
 
     )
