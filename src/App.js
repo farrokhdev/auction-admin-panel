@@ -51,9 +51,12 @@ import HouseAuctionRequestPage from "./Views/HouseAuctionRequestPage";
 
 
 // import Main from './public/main'
-          
 
 function App(props) {
+    
+    console.log("LOgin ))) ",props.auth.is_logged_in);
+
+
     return (
        
             <HashRouter >
@@ -68,7 +71,7 @@ function App(props) {
                         {/* <Route exact path="/" render={props=><Main {...props} />}/> */}
                         <Route exact path="/" render={props=><Main {...props}><Home {...props} /></Main>}/>
 
-                        {/* {props.auth.is_logged_in ?  */}
+                        {props.auth.is_logged_in ? 
                         
                         <>
                             <Route exact path="/house-auctions-offers" render={props=><Main {...props}><HouseAuctionOffers {...props} /></Main>}/>
@@ -112,7 +115,7 @@ function App(props) {
                             {/* <Route exact path="/login" render={props=><LoginPage {...props} />}/> */}
                         </>
 
-                        {/* : <Redirect to = {{pathname : "/login"}} />} */}
+                        : <Redirect to = {{pathname : "/login"}} />}
 
                         
 
