@@ -200,8 +200,6 @@ function Index() {
                         message.success("اطلاعات حساب شما با موفقیت ثبت شد")
                         setNext(true)
                         dispatch(removeAUCTION())
-
-
                     } else {
                         console.log(resp)
                     }

@@ -31,27 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/style/antd.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/style/mainFront.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/all/all.types.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.types.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profile/profile.types.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/uploadRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/style/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/style/main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +78,7 @@
       <workItem from="1627793389540" duration="5882000" />
       <workItem from="1627820027471" duration="643000" />
       <workItem from="1627821015765" duration="11000" />
-      <workItem from="1627821246366" duration="6612000" />
+      <workItem from="1627821246366" duration="6815000" />
     </task>
     <servers />
   </component>
