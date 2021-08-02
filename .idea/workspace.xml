@@ -30,16 +30,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Views/AddAuction/ChooseHouseAuction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/Main/Main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/Main/Main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/auction/auction.reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/auction/auction.reducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constant.js" afterDir="false" />
-    </list>
+    <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,7 +78,7 @@
       <workItem from="1627820027471" duration="643000" />
       <workItem from="1627821015765" duration="11000" />
       <workItem from="1627821246366" duration="6815000" />
-      <workItem from="1627902430120" duration="4562000" />
+      <workItem from="1627902430120" duration="4841000" />
     </task>
     <servers />
   </component>
