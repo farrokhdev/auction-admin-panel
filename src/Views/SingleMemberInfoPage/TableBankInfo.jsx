@@ -32,8 +32,8 @@ function TableBankInfo({member , bankAccountInfo}) {
     // };
 
     useEffect(() => {
-      console.log("**bankAccountInfo**" ,bankAccountInfo, bankAccountInfo.length,originData);
-      if(bankAccountInfo.length)
+      // console.log("**bankAccountInfo**" ,bankAccountInfo, bankAccountInfo.length,originData);
+      if(bankAccountInfo)
         for (let i = 0; i < bankAccountInfo.length; i++) {
           originData.push({
               

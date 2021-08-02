@@ -1,14 +1,15 @@
 import React , {useState , useEffect} from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, Button, Space , Breadcrumb , Image , Select , notification} from 'antd';
+import { Form, Input, Button, Space , Breadcrumb , Select , notification} from 'antd';
 import {NavLink , Link} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
 import axios from '../../utils/request';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
-
+import  { Redirect } from 'react-router-dom'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const layout = {
     labelCol: {
@@ -22,9 +23,13 @@ function AddNewArtwork(props) {
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [imageUrl, setImageUrl] = useState({});
+    const [imageUrl, setImageUrl] = useState('');
     const [auctionsList , setAuctionsList] = useState([])
     const [houseAuctionsList , setHouseAuctionsList] = useState([])
+
+    const [CoreUpload, setCoreUpload] = useState([]);
+    const [Uploaded, setUploaded] = useState(false);
+    const [Uploading, setUploading] = useState(false);
 
 const { Option } = Select;
 
@@ -32,7 +37,6 @@ const { Option } = Select;
         setLoading(true)
        axios.get(`${BASE_URL}/sale/category/`).then( res => {
            setLoading(false)
-           console.log(res.data);
            setCategories(res.data.data.result)
            
        }
@@ -63,27 +67,56 @@ const { Option } = Select;
 
     }, []);
 
+    const handleUpload = (e) => {
+        let payload = {"content_type":"image"}
+        setImageUrl('')
+        axios.post(`${BASE_URL}/core/upload/`, payload)
+            .then(resp=>{
+                if(resp.data.code === 200){
+                    setCoreUpload(resp.data.data.result)
+                    setUploading(true)
+                    axios.put(resp.data.data.result.upload_url, e)
+                        .then(resp1 => {
+                            if (resp1.status === 200) {
+                                axios.post(`${BASE_URL}/core/media/photos/`, {
+                                    "media_path": resp.data.data.result.upload_url,
+                                    "type": "image",
+                                    "bucket_name": "image",
+                                    "file_key": resp.data.data.result.file_key
+                                })
+                                    .then(resp2=>{
+                                        if(resp2.data.code === 201){
+                                            setCoreUpload(resp2.data.data.result)
+                                            setUploaded(true)
+                                            setUploading(false)
+                                            getBase64(e, imageUrl =>
+                                                setImageUrl(imageUrl)
+                                            );
+                                        }
+                                    })
+                                    .catch(err=>{
+                                        console.log("Error Message" , err.response);
+                                        setUploading(false)
+                                    })
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err.response);
+                            setUploading(false)
+                        })
+                }
+            })
+            .catch(err=>{
+                console.log("Error Message" , err.response);
+            })
 
-     const [mainPic, setMainPic] = useState(); 
+    }
 
-     const onChangeMainPic = (newFile) => {
-        setMainPic(newFile);
-      };
-
-    const [fileList, setFileList] = useState([
-        // {
-        //   uid: '-1',
-        //   name: 'image.png',
-        //   status: 'done',
-        //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        // },
-      ]);
-
-      console.log("FileList =>>>> ",fileList );
-    
-      const onChange = ({ fileList: newFileList }) => {
-        setFileList(newFileList);
-      };
+    function getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
     
       const onPreview = async file => {
         let src = file.url;
@@ -94,7 +127,8 @@ const { Option } = Select;
             reader.onload = () => resolve(reader.result);
           });
         }
-        const image = new Image();
+
+        let image = new Image();
         image.src = src;
         const imgWindow = window.open(src);
         imgWindow.document.write(image.outerHTML);
@@ -102,7 +136,6 @@ const { Option } = Select;
 
 
       const onFinish = (values) => {
-        console.log(values);
         setLoading(true)
 
         let payload = {
@@ -122,13 +155,7 @@ const { Option } = Select;
             "category_id": values.category_id,
             "persion_description": values.persion_description,
             "english_description": values.english_description,
-            "media": {
-                "media_path": "https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8",
-                // "type": "image",
-                "type": fileList?.type ? fileList?.type : "image/jpeg",
-                "bucket_name": "image",
-                "file_key": "d30da840-dd21-443e-9a21-8b973a2ebdbb"
-            },
+            "media": CoreUpload,
             "price": values.price,
             "price_max": values.price_max,
             "price_min": values.price_min,
@@ -138,8 +165,9 @@ const { Option } = Select;
         axios.post(`${BASE_URL}/sale/product/`, payload).then(res => {
             setLoading(false)
             openNotification()
+
         }).catch(err => {
-            console.log(err);
+            console.log(err.response);
             setLoading(false)
         })
       };
@@ -154,6 +182,7 @@ const { Option } = Select;
                 backgroundColor : '#f9faf5'
             }
         });
+          return <Redirect to='/artworks'  />
       };
  
 
@@ -203,13 +232,21 @@ const { Option } = Select;
                                 <div className="d-flex">
                                     <ImgCrop rotate>
                                         <Upload
-                                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                            beforeUpload={(file, fileList) => {
+                                                handleUpload(file)
+                                                return false
+                                            }}
                                             listType="picture-card"
-                                            fileList={fileList}
-                                            onChange={onChange}
                                             onPreview={onPreview}
+                                            showUploadList={false}
+
                                         >
-                                            {fileList.length < 20 && '+ Upload'}
+                                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> :
+                                                <div>
+                                                    {Uploading ? <LoadingOutlined /> : <PlusOutlined />}
+                                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                                </div>
+                                            }
                                         </Upload>
                                     </ImgCrop>
                                 </div>
