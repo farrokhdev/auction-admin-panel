@@ -85,7 +85,7 @@ function App(props) {
                             <Route exact path="/house-auctions" render={props=><Main {...props}><HouseAuctionsPage {...props} /></Main>}/>
                             <Route exact path="/house-auctions-requests" render={props=><Main {...props}><HouseAuctionRequestPage {...props} /></Main>}/>
                             {/*<Route exact path="/add-new-auction" render={props=><Main {...props}><AddNewAuctionPage {...props} /></Main>}/>*/}
-                            <Route exact path="/add-new-auction" render={props=><Main {...props}><AddNewAuctionPage {...props} /></Main>}/>
+                            <Route exact path="/add-new-auction/:auctionId" render={props=><Main {...props}><AddNewAuctionPage {...props} /></Main>}/>
                             <Route exact path="/auctions" render={props=><Main {...props}><AuctionsPage {...props} /></Main>}/>
                             <Route exact path="/auctions/:id" render={props=><Main {...props}><SingleViewAuctionPage {...props} /></Main>}/>
                             <Route exact path="/auctions-participants/:id" render={props=><Main {...props} ><AuctionParticipantsListPage {...props}/></Main>}/>

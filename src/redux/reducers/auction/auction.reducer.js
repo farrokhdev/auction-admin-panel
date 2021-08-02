@@ -22,11 +22,11 @@ const initial_state = {
     other: false,
     is_send_invitation: false,
     has_gallery: false,
-    start_clock:moment("08:00","HH:mm"),
-    end_clock:moment("20:00","HH:mm"),
-    gallery_start_clock:moment("08:00","HH:mm"),
-    gallery_end_clock:moment("20:00","HH:mm"),
-
+    start_clock: moment("08:00", "HH:mm"),
+    end_clock: moment("20:00", "HH:mm"),
+    gallery_start_clock: moment("08:00", "HH:mm"),
+    gallery_end_clock: moment("20:00", "HH:mm"),
+    house_id: null,
 }
 
 

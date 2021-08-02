@@ -6,5 +6,7 @@ module.exports={
     EDIT_AUCTION:id=>`/sale/auctions/${id}/`,
     EDIT_PROFILE:"/account/profile/",
     LIST_PRODUCTS:"/sale/product/",
+    LIST_AUCTIONS:"/sale/auctions/",
+    LIST_HOUSE_AUCTIONS:"/account/home-auction/",
 
 }

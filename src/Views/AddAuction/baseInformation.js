@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setAUCTION} from "../../redux/reducers/auction/auction.actions";
 import UploadImage from "./uploadImage";
 import locale from "antd/es/date-picker/locale/de_DE";
+import ChooseHouseAuction from "./ChooseHouseAuction";
 const listAuctionType = [
     {name: "SECOND_HIDDEN", value: "دومین قیمت پیشنهاد با حراج (مخفی)"},
     {name: "HIDDEN", value: "قیمت پیشنهاد با حراج (مخفی)"},
@@ -24,9 +25,10 @@ const BaseInformation = (props) => {
     const [type, setType] = useState("")
 
 
-    const {has_gallery} = useSelector((state) => state.auctionReducer)
+    // const {has_gallery} = useSelector((state) => state.auctionReducer)
     const finalData = useSelector((state) => state.auctionReducer)
     const [media, setMedia] = useState( null)
+    const [has_gallery_state, setHas_gallery_state] = useState( false)
     const [today, setToday] = useState(finalData?.start_time || moment())
     const [todayGallery, setTodayGallery] = useState(finalData?.gallery_start_date || moment())
     const dispatch = useDispatch();
@@ -38,8 +40,11 @@ const BaseInformation = (props) => {
         finalData?.gallery_end_date && (listDate["gallery_end_date"] = moment(finalData?.gallery_end_date))
         finalData?.start_clock && (listDate["start_clock"] = moment(finalData?.start_clock))
         finalData?.end_clock && (listDate["end_clock"] = moment(finalData?.end_clock))
+        finalData?.gallery_start_clock && (listDate["gallery_start_clock"] = moment(finalData?.gallery_start_clock))
+        finalData?.gallery_end_clock && (listDate["gallery_end_clock"] = moment(finalData?.gallery_end_clock))
         finalData?.type && (setType(finalData?.type))
         setMedia(finalData?.media || null)
+        setHas_gallery_state(finalData?.has_gallery || false)
 
         form.setFieldsValue({
             ...listDate,
@@ -47,6 +52,7 @@ const BaseInformation = (props) => {
             type: finalData?.type,
             description: finalData?.description,
             address: finalData?.address,
+            house_id:finalData?.house_id
             // start_clock: finalData?.start_clock,
             // end_clock: finalData?.end_clock,
             // gallery_start_clock: finalData?.gallery_start_clock,
@@ -59,7 +65,7 @@ const BaseInformation = (props) => {
         // console.log(values)
         // setFinalData({...finalData, ...values})
         if(media){
-            dispatch(setAUCTION({...values, media}))
+            dispatch(setAUCTION({...values, media,has_gallery:has_gallery_state}))
             setSelectComponent(selectComponent + 1)
         }else{
             message.error("آپلود تصویر آکشن اجباری می باشد")
@@ -116,6 +122,7 @@ const BaseInformation = (props) => {
                                 </div>
                             </div>
                         </div>
+                        <ChooseHouseAuction/>
 
                         <div className="row">
                             <div className="col-md-6">
@@ -285,8 +292,10 @@ const BaseInformation = (props) => {
                                             <div className="input-group">
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="checkbox"
-                                                           checked={has_gallery}
-                                                           onChange={e => dispatch(setAUCTION({has_gallery: e.target.checked}))}
+                                                           checked={has_gallery_state}
+                                                           onChange={e => setHas_gallery_state(e.target.checked)
+                                                               // dispatch(setAUCTION({has_gallery: e.target.checked}))
+                                                           }
                                                            id="checkboxphysicalex"/>
                                                     <label className="form-check-label" htmlFor="checkboxphysicalex">
                                                         نمایش در نمایشگاه فیزیکی
@@ -294,7 +303,7 @@ const BaseInformation = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {has_gallery && <>
+                                        {has_gallery_state && <>
                                             <div className="col-md-6"/>
                                             <div className="col-md-6">
                                                 <div className="input-group">

@@ -20,10 +20,10 @@ import {
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {NavLink} from 'react-router-dom';
 import Header from '../../components/Header';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import classnames from 'classnames';
 import MenuItemComponent from './MenuItemComponent';
-
+import {removeAUCTION, setAUCTION} from "../../redux/reducers/auction/auction.actions";
 const {  Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -31,7 +31,7 @@ function Main(props) {
 
     const [collapsed, setCollapsed] = useState(false);
     // const [marginRightSider, setMarginRightSider] = useState(0);
-
+    const dispatch = useDispatch();
     const onCollapse = (collapsed) => {
         console.log(collapsed);
         setCollapsed(collapsed );
@@ -142,9 +142,12 @@ function Main(props) {
                               >
                         <NavLink 
                             id={4.2}
-                            to={"/add-new-auction"} 
+                            to={"/add-new-auction/new"}
                             className="mr-2" 
-                            onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                            onClick={ e=> {
+                                toggleActiveNavDrawer(e.currentTarget.id)
+                            dispatch(removeAUCTION())
+                            }}
                         >
                             ایجاد حراجی 
                         </NavLink>
