@@ -1,0 +1,108 @@
+
+:root {
+  --bgcolor: #f6f6f6;
+  --lightgray: #b1b1b1;
+  --darkgray: #1b1b1b;
+  --gray95: #f1f1f1;
+  --gray90: #e0e0de;
+  --gray80: #c6c6c6;
+  --gray70: #ababab;
+  --gray60: #919191;
+  --gray50: #777;
+  --gray15: #262626;
+  --blue: #00305b;
+  --light-blue: #e5eaee;
+  --pink: #e6007e;
+  --lightpink: #fce5f2;
+  --lightgreenbg: #e5f6e5;
+  --lightgreen: #00a900;
+  --green: #028b09;
+  --light-red: #ff4444;
+  --dangerred: #ff0000;
+  --red: #c84c47;
+  --bs-gutter-x: 30px !important;
+  --bs-white: #fff;
+  --border-input: #f1f1f1;
+  --passed: #ffdada;
+  --light-orange: #fef4e8;
+  --orange: #f7941d;
+}
+
+.ant-tabs-tab {
+  margin: 0 0 0 32px;
+}
+
+.ant-form{
+  margin: 0 auto;
+}
+.ant-modal-close{
+  display: none;
+
+}
+
+
+// .unit-custom{
+//   top: 8px !important;
+// }
+
+.ant-select-selector{
+  // border: none !important;
+  border-radius: 4rem !important;
+}
+
+
+// .select-option input{
+//   border: none !important;
+//   background-color: blue !important;
+// }
+
+.ant-alert-icon {
+  margin-right: 0 !important;
+  margin-left: 8px !important;
+}
+
+.ant-btn-primary{
+  border-color:white !important;
+}
+
+.ant-tabs-tab-btn{
+  color: var(--gray50) !important;
+  position: relative !important;
+}
+.ant-tabs-ink-bar{
+  background-color:  var(--darkgray) !important;
+  // position: relative !important;
+}
+
+
+.ant-input{
+  background-color: var(--bgcolor) !important; 
+}
+.ant-card-actions > li > span a:not(.ant-btn):hover, .ant-card-actions > li > span > .anticon:hover {
+  color: #e6007e;
+
+}
+.btn-outline-pink {
+ &:hover{
+   font-size: 14px ;
+ }
+}
+.ant-picker-content{
+  flex-direction: row-reverse;
+}
+.custom-timePicker{
+.ant-picker-input{
+  padding: 4px;
+}}
+.custom-timePicker.ant-picker{
+
+  background: var(--bgcolor);
+
+}
+.ant-picker-ok{
+  button{
+    background: #e6007e !important;
+    color:#fff;
+    border-radius: 100px;
+  }
+}

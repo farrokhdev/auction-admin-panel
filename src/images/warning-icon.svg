@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #f7941d;
+        stroke-width: 1px;
+        stroke-dasharray: 4 2;
+      }
+
+      .cls-2 {
+        font-size: 40px;
+        fill: #f8a440;
+        font-family: Roboto;
+        font-weight: 300;
+      }
+    </style>
+  </defs>
+  <circle class="cls-1" cx="25" cy="25" r="24"/>
+  <text id="_" data-name="!" class="cls-2" x="20.5" y="39.106">!</text>
+</svg>
