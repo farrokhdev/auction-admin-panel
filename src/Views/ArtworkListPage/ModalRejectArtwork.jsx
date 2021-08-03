@@ -12,7 +12,7 @@ function ModalRejectArtwork(props) {
     const openNotification = () => {
         notification.success({
           message: 'رد اثر',
-          description:`${props.detailsArtwork?.title} با موفقیت رد شد`,
+          description:`${props.detailsArtwork?.artwork_title} با موفقیت رد شد`,
             duration: 1,
             className: 'custom-class',
             style : {
@@ -40,13 +40,13 @@ function ModalRejectArtwork(props) {
         confirm({
           title: 'از رد اثر اطمینان دارید؟',
           icon: <ExclamationCircleOutlined />,
-          content: `رد اثر ${props.detailsArtwork?.title}`,
+          content: `رد اثر ${props.detailsArtwork?.artwork_title}`,
 
           onOk() {
             console.log('OK');
 
             let payload = {
-                "title" : props.detailsArtwork?.title,
+                "title" : props.detailsArtwork?.artwork_title,
                 "category": props.detailsArtwork?.category,
                 "description": props.detailsArtwork?.description,
                 "is_approve":"False",

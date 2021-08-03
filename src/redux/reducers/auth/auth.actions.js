@@ -1,4 +1,9 @@
 import types from './auth.types';
+import axios from "../../../utils/request";
+import {BASE_URL} from "../../../utils";
+import {REFRESH_TOKEN} from "../../../utils/constant";
+import {getRefreshToken, setToken} from "../../../utils/utils";
+
 
 // ----- Register --------
 // export const registerStart = () => (
@@ -20,6 +25,30 @@ import types from './auth.types';
 //         payload : error
 //     }
 // )
+
+
+export const refreshToken = () => async dispatch => {
+
+    let refresh = getRefreshToken()
+    if (refresh)
+        axios.post(`${BASE_URL}/account/token/refresh/`, {refresh})
+            .then(r => {
+                setToken(r.data.data.result);
+                console.log(r)
+                return r;
+            }).catch(e => {
+            // dispatch(clearStorageAll())
+            clearStorage()
+            window.location.href = "#/login"
+        })
+    else {
+        // dispatch(clearStorageAll())
+        clearStorage()
+        window.location.href = "#/login"
+    }
+
+
+}
 
 export const clearStorage = () => (
     {

@@ -13,7 +13,7 @@ function ModalAcceptArtwork(props) {
     const openNotification = () => {
         notification.success({
           message: 'تایید اثر',
-          description:`${props.detailsArtwork?.title} با موفقیت تایید شد`,
+          description:`${props.detailsArtwork?.artwork_title} با موفقیت تایید شد`,
             duration: 1,
             className: 'custom-class',
             style : {
@@ -41,13 +41,13 @@ function ModalAcceptArtwork(props) {
         confirm({
           title: 'از تایید اثر اطمینان دارید؟',
           icon: <ExclamationCircleOutlined />,
-          content: `تایید اثر ${props.detailsArtwork?.title}`,
+          content: `تایید اثر ${props.detailsArtwork?.artwork_title}`,
 
           onOk() {
             console.log('OK');
 
             let payload = {
-                "title" : props.detailsArtwork?.title,
+                "title" : props.detailsArtwork?.artwork_title,
                 "category": props.detailsArtwork?.category,
                 "description": props.detailsArtwork?.description,
                 "is_approve":"True",

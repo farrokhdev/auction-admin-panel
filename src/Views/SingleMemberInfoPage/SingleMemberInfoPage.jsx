@@ -10,6 +10,7 @@ import {convertTypePersian} from '../../utils/converTypePersion';
 import {Link , NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
+import axios from '../../utils/request';
 
 const layout = {
     labelCol: {
@@ -25,43 +26,42 @@ function SingleMemberInfoPage(props) {
     const [form] = Form.useForm();
 
     const [member, setMember] = useState();
-    const [bankAccountInfo, setBankAccountInfo] = useState([{}]);
     const [role, setRole] = useState();
 
 
-    const normFile = (e) => {
-        console.log('Upload event:', e);
+    // const normFile = (e) => {
+    //     console.log('Upload event:', e);
       
-        if (Array.isArray(e)) {
-          return e;
-        }
+    //     if (Array.isArray(e)) {
+    //       return e;
+    //     }
       
-        return e && e.fileList;
-      };
+    //     return e && e.fileList;
+    //   };
 
     const onFinish = (values) => {
         console.log(values);
       };
 
-      const onFinishFailed = (error) => {
-        console.log(error);
-      };
+    //   const onFinishFailed = (error) => {
+    //     console.log(error);
+    //   };
 
 
       useEffect(() => {
             
         // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             
-        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
-            setMember(res.data.result)
-            // setCountMember(res.data.count)
+        axios.get(`${BASE_URL}/panel/users/${props.match.params.id}/`).then(res => {
+            setMember(res.data.data.result)
             setRole(res.data.result.role)
-            setBankAccountInfo(res.data.result.bankaccount)
         }).catch(err => {
             console.log(err);
         })
 
     }, []);
+
+
 
     useEffect(() => {
         form.setFieldsValue({
@@ -70,13 +70,15 @@ function SingleMemberInfoPage(props) {
             mobile : member?.mobile,
             email : member?.email,
             national_code : member?.national_code,
-            address : member?.adderss,
+            address : member?.home_auction_location?.address,
             postal_code : member?.postal_code,
             id : member?.id,
-            card_number : member?.bankaccount ? member?.bankaccount[0]?.card_number : "",
-            account_number : member?.bankaccount ? member?.bankaccount[0]?.account_number : "",
-            sheba_number : member?.bankaccount ? member?.bankaccount[0]?.sheba_number : "",
-            bank_name : member?.bankaccount ? convertTypePersian(member?.bankaccount[0]?.bank_name) : "",
+
+            card_number : member?.bankaccount[0]?.card_number ,
+            account_number : member?.bankaccount[0]?.account_number,
+            sheba_number : member?.bankaccount[0]?.sheba_number,
+            bank_name : convertTypePersian(member?.bankaccount[0]?.bank_name),
+
             home_auction_name : member?.home_auction_name,
             home_auction_type : member?.home_auction_type,
         })
@@ -282,7 +284,7 @@ function SingleMemberInfoPage(props) {
                             <h3>اطلاعات حساب بانکی</h3>
                         </div>
 
-                        <TableBankInfo  member={member} bankAccountInfo={bankAccountInfo} />
+                        <TableBankInfo  member={member}  />
 
 
               { role === 'home_auction' ? <>
