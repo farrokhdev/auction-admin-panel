@@ -30,7 +30,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="" />
+    <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +80,9 @@
       <workItem from="1627820027471" duration="643000" />
       <workItem from="1627821015765" duration="11000" />
       <workItem from="1627821246366" duration="6815000" />
-      <workItem from="1627902430120" duration="4841000" />
+      <workItem from="1627902430120" duration="5373000" />
+      <workItem from="1627967060082" duration="618000" />
+      <workItem from="1627969685872" duration="10277000" />
     </task>
     <servers />
   </component>
@@ -104,6 +108,11 @@
           <url>file://$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js</url>
           <line>93</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/Views/AddAuction/ChooseHouseAuction.js</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

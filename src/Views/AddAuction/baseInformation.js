@@ -60,7 +60,7 @@ const BaseInformation = (props) => {
 
         })
     }, [finalData])
-    console.log((form.getFieldsValue()))
+    // console.log((form.getFieldsValue()))
     const onFinish = (values) => {
         // console.log(values)
         // setFinalData({...finalData, ...values})
