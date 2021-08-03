@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import {MinusCircleOutlined} from '@ant-design/icons';
 import UploadImage from '../AddAuction/uploadImage';
+import { failNotification, successNotification } from '../../utils/notification';
 
 function SingleViewArtworkPage(props) {
 
@@ -54,7 +55,7 @@ function SingleViewArtworkPage(props) {
                 artwork_title : artwork?.artwork_title,
                 artwork_title_en : artwork?.artwork_title,
                 artwork_num : artwork?.artwork_num,
-                artwork_field : artwork?.latest_auction?.house?.activity_type[0].title,
+                // artwork_field : artwork?.latest_auction?.house?.activity_type[0].title,
                 artwork_width : artwork?.artwork_width,
                 email : artwork?.credentials?.email,
                 english_artist_name : artwork?.english_artist_name,
@@ -121,36 +122,61 @@ function SingleViewArtworkPage(props) {
         console.log(values);
 
         let payload = {
-            media : values.media ,
-            title_link : "" ,
-            link : "" ,
-            artwork_height : values.artwork_height,
-            artwork_length : values.artwork_length,
-            artwork_link : values.artwork_link,
-            artwork_title : values.artwork_title,
-            artwork_title_en : values.artwork_title_en,
-            artwork_num : values.artwork_num,
-            artwork_field : values.artwork_field,
-            artwork_width : values.artwork_width,
-            english_artist_name : values.english_artist_name,
-            persian_artist_name : values.persian_artist_name,
-            english_description : values.english_description,
-            persian_description : values.persian_description,
-            price :values.price,
-            price_min : values.price_min,
-            price_max : values.price_max,
-            price_sale : values.price_sale,
-            technique : values.technique,
-            artwork_owner_name : values.artwork_owner_name,
-            artwork_owner_house_auction_name : values.artwork_owner_house_auction_name,
-            artwork_auction_name : values.artwork_auction_name,
-            artwork_category : artwork?.category ? values[0]?.title : '' 
+            "artwork_title" : values.artwork_title,
+            "persian_artist_name" : values.persian_artist_name,
+            "english_artist_name" : values.english_artist_name,
+            "artwork_num" : values.artwork_num,
+            "artwork_length" : values.artwork_length,
+            "artwork_width" : values.artwork_width,
+            "artwork_height" : values.artwork_height,
+            "technique" : values.technique,
+            "persian_description" : values.persian_description,
+            "english_description" : values.english_description,
+            "price" :values.price,
+            "media" : values.media ,
+            "category_id": [
+                2
+            ],
+            "media": {
+                "media_path": "https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8",
+                "type": "image",
+                "bucket_name": "image",
+                "file_key": "d30da840-dd21-443e-9a21-8b973a2ebdbb"
+            },
+
+            "artwork_link": values.artwork_link,
+            "min_price": values.price_min,
+            "max_price": values.price_max,
+
+
+            // title_link : "" ,
+            // link : "" ,
+            // artwork_link : values.artwork_link,
+            // artwork_title_en : values.artwork_title_en,
+            // artwork_field : values.artwork_field,
+            // price_min : values.price_min,
+            // price_max : values.price_max,
+            // price_sale : values.price_sale,
+            // artwork_owner_name : values.artwork_owner_name,
+            // artwork_owner_house_auction_name : values.artwork_owner_house_auction_name,
+            // artwork_auction_name : values.artwork_auction_name,
+            // artwork_category : artwork?.category ? values[0]?.title : '' 
         }
 
-        axios.put(`${BASE_URL}/panel/product/approve/${props.match.params.id}/` , payload).then(res => {
+
+
+        // axios.put(`${BASE_URL}/panel/product/approve/${props.match.params.id}/` , payload).then(res => {
+        //     console.log(res.data);
+        // }).catch(err => {
+        //     console.log(err);
+        // })       
+        
+        axios.put(`${BASE_URL}/sale/product/${props.match.params.id}/` , payload).then(res => {
             console.log(res.data);
+            successNotification("ویرایش اطلاعات" , "ویرایش اطلاعات با موفقیت انجام شد")
         }).catch(err => {
             console.log(err);
+            failNotification("ویرایش ناموفق" , "خطا در ویرایش اطلاعات")
         })
 
       };
@@ -299,7 +325,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -323,7 +349,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -371,7 +397,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -468,7 +494,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -637,7 +663,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                     message : "مقدار کمینه قیمت خالی است!"
                                                 },
                                                 // {
@@ -753,7 +779,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -776,7 +802,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
