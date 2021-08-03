@@ -18,7 +18,7 @@ import Suggest from "./suggest";
 import Currency from "./currency";
 import Validate from "./validate";
 import {UrlQuery} from "../../utils/utils";
-import  '../../assets/style/mainFront.scss'
+// import  '../../assets/style/mainFront.scss'
 const listComponent = [
     {name: "اطلاعات پایه", value: 1, thisComponent: BaseInformation},
     {name: "انتخاب محصول", value: 2, thisComponent: Products},
@@ -303,9 +303,9 @@ function Index() {
                                 })
                             }
                         </Spin>
-                        <div className="text-start">
+                        <div className="text-left">
                             {selectComponent !== 1 ?
-                                <Button type="button" className="btn-warn-custom mt-4" loading={loading}
+                                <Button type="button" className="btn btn-warning mt-4" loading={loading}
                                         onClick={() => {
                                             dispatch(removeAUCTION())
                                         }}>انصراف و حذف اطلاعات
