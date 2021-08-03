@@ -37,7 +37,7 @@ instance.interceptors.request.use((config) => {
                 store.dispatch(refreshToken())
                 setTimeout(()=>{
                     timeOut = false;
-                },2000)
+                },1000)
 
 
 
