@@ -51,26 +51,26 @@ const Validate = (props) => {
         <>
             <div className="col-xxxxl-8">
                 <div className="row">
-                    <div className="col-12">
-                        <div className="form-check sm-mrgt35">
-                            <input className="form-check-input" type="checkbox" checked={admin_confirmation}
-                                   onChange={e => dispatch(setAUCTION({
-                                       admin_confirmation: e.target.checked,
-                                       is_send_invitation: false,
-                                       has_recommendation: false,
-                                       add_previous_buyer: false,
-                                       other: false,
-                                   }))}
-                                   id="checkbox41"/>
-                            <label className="form-check-label" htmlFor="checkbox41">
-                                اعتبارسنجی توسط گالری آرتیبیشن
-                                <span className="form-check-txt">اگر می خواهید سایت مسئول مراحل احراز هویت باشد ، این گزینه را فعال کنید</span>
-                            </label>
-                        </div>
-                    </div>
+                    {/*<div className="col-12">*/}
+                    {/*    <div className="form-check sm-mrgt35">*/}
+                    {/*        <input className="form-check-input" type="checkbox" checked={admin_confirmation}*/}
+                    {/*               onChange={e => dispatch(setAUCTION({*/}
+                    {/*                   admin_confirmation: e.target.checked,*/}
+                    {/*                   is_send_invitation: false,*/}
+                    {/*                   has_recommendation: false,*/}
+                    {/*                   add_previous_buyer: false,*/}
+                    {/*                   other: false,*/}
+                    {/*               }))}*/}
+                    {/*               id="checkbox41"/>*/}
+                    {/*        <label className="form-check-label" htmlFor="checkbox41">*/}
+                    {/*            اعتبارسنجی توسط گالری آرتیبیشن*/}
+                    {/*            <span className="form-check-txt">اگر می خواهید سایت مسئول مراحل احراز هویت باشد ، این گزینه را فعال کنید</span>*/}
+                    {/*        </label>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                 </div>
-                {!admin_confirmation ? <div className="row">
+                 <div className="row">
                         <div className="col-12">
                             <div className="form-check sm-mrgt35">
                                 <input className="form-check-input" type="checkbox" checked={is_send_invitation}
@@ -168,7 +168,6 @@ const Validate = (props) => {
                         </div>
 
                     </div>
-                    : ''}
 
             </div>
             <Form onFinish={onFinish}
