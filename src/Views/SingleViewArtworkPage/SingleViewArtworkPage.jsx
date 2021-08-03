@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react';
-import { Upload , Empty} from 'antd';
+import { Upload , Empty, InputNumber} from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
 import {NavLink} from 'react-router-dom';
@@ -8,6 +8,7 @@ import axios from "../../utils/request";
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
+import {MinusCircleOutlined} from '@ant-design/icons';
 
 function SingleViewArtworkPage(props) {
 
@@ -45,29 +46,30 @@ function SingleViewArtworkPage(props) {
 
             form.setFieldsValue({
 
-                media : "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                // media : "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                media : artwork?.media?.exact_url,
                 artwork_height : artwork?.artwork_height,
                 artwork_length : artwork?.artwork_length,
                 artwork_link : artwork?.artwork_link,
                 artwork_title : artwork?.artwork_title,
-                artwork_title_en : "Art",
+                artwork_title_en : artwork?.artwork_title,
                 artwork_num : artwork?.artwork_num,
-                artwork_field : "نقاشی",
+                artwork_field : artwork?.latest_auction?.house?.activity_type[0].title,
                 artwork_width : artwork?.artwork_width,
                 email : artwork?.credentials?.email,
                 english_artist_name : artwork?.english_artist_name,
-                persian_artist_name : "سهرابی",
+                persian_artist_name : artwork?.persian_artist_name,
                 english_description : artwork?.english_description,
-                persian_description : "توضیحات فارسی ...",
+                persian_description : artwork?.persian_description,
                 price : artwork?.price,
-                price_min : "8",
-                price_max : "155",
-                price_sale : "135",
+                price_min :artwork?.min_price,
+                price_max : artwork?.max_price,
+                price_sale : artwork?.price,
                 technique : artwork?.technique,
-                artwork_owner_name : "کریمی",
-                artwork_owner_house_auction_name : "داوودی",
-                artwork_auction_name : "آینه",
-                artwork_category : artwork?.category ? artwork?.category[0]?.title : 'آنتیک'
+                artwork_owner_name : artwork?.owner?.first_name,
+                artwork_owner_house_auction_name :  artwork?.latest_auction?.house?.first_name,
+                artwork_auction_name : artwork?.latest_auction?.title,
+                artwork_category : artwork?.category ? artwork?.category[0]?.title : ''
 
             })
         }
@@ -119,29 +121,29 @@ function SingleViewArtworkPage(props) {
 
         let payload = {
             media : values.media ,
-            title_link : "لینک 1" ,
-            link : "http//:artwork" ,
+            title_link : "" ,
+            link : "" ,
             artwork_height : values.artwork_height,
             artwork_length : values.artwork_length,
             artwork_link : values.artwork_link,
             artwork_title : values.artwork_title,
-            artwork_title_en : "Art",
+            artwork_title_en : values.artwork_title_en,
             artwork_num : values.artwork_num,
-            artwork_field : "نقاشی",
+            artwork_field : values.artwork_field,
             artwork_width : values.artwork_width,
             english_artist_name : values.english_artist_name,
-            persian_artist_name : "سهرابی",
+            persian_artist_name : values.persian_artist_name,
             english_description : values.english_description,
-            persian_description : "توضیحات فارسی ...",
+            persian_description : values.persian_description,
             price :values.price,
-            price_min : "8",
-            price_max : "155",
-            price_sale : "135",
+            price_min : values.price_min,
+            price_max : values.price_max,
+            price_sale : values.price_sale,
             technique : values.technique,
-            artwork_owner_name : "کریمی",
-            artwork_owner_house_auction_name : "داوودی",
-            artwork_auction_name : "آینه",
-            artwork_category : artwork?.category ? values[0]?.title : 'آنتیک' 
+            artwork_owner_name : values.artwork_owner_name,
+            artwork_owner_house_auction_name : values.artwork_owner_house_auction_name,
+            artwork_auction_name : values.artwork_auction_name,
+            artwork_category : artwork?.category ? values[0]?.title : '' 
         }
 
         axios.put(`${BASE_URL}/panel/product/approve/${props.match.params.id}/` , payload).then(res => {
@@ -234,10 +236,10 @@ function SingleViewArtworkPage(props) {
                                 <Image
                                     width={200}
                                     height={200}
-                                    src={artwork?.media ? artwork?.media?.media_path : 'error'}
+                                    src={artwork?.media ? artwork?.media?.exact_url : 'error'}
                                     // fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBobtQPdLciLEVJYzMPBHMDBsayhILEqEO4DxG0txmrERhM29nYGBddr//5/DGRjYNRkY/l7////39v///y4Dmn+LgeHANwDrkl1AuO+pmgAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAwqADAAQAAAABAAAAwwAAAAD9b/HnAAAHlklEQVR4Ae3dP3PTWBSGcbGzM6GCKqlIBRV0dHRJFarQ0eUT8LH4BnRU0NHR0UEFVdIlFRV7TzRksomPY8uykTk/zewQfKw/9znv4yvJynLv4uLiV2dBoDiBf4qP3/ARuCRABEFAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghgg0Aj8i0JO4OzsrPv69Wv+hi2qPHr0qNvf39+iI97soRIh4f3z58/u7du3SXX7Xt7Z2enevHmzfQe+oSN2apSAPj09TSrb+XKI/f379+08+A0cNRE2ANkupk+ACNPvkSPcAAEibACyXUyfABGm3yNHuAECRNgAZLuYPgEirKlHu7u7XdyytGwHAd8jjNyng4OD7vnz51dbPT8/7z58+NB9+/bt6jU/TI+AGWHEnrx48eJ/EsSmHzx40L18+fLyzxF3ZVMjEyDCiEDjMYZZS5wiPXnyZFbJaxMhQIQRGzHvWR7XCyOCXsOmiDAi1HmPMMQjDpbpEiDCiL358eNHurW/5SnWdIBbXiDCiA38/Pnzrce2YyZ4//59F3ePLNMl4PbpiL2J0L979+7yDtHDhw8vtzzvdGnEXdvUigSIsCLAWavHp/+qM0BcXMd/q25n1vF57TYBp0a3mUzilePj4+7k5KSLb6gt6ydAhPUzXnoPR0dHl79WGTNCfBnn1uvSCJdegQhLI1vvCk+fPu2ePXt2tZOYEV6/fn31dz+shwAR1sP1cqvLntbEN9MxA9xcYjsxS1jWR4AIa2Ibzx0tc44fYX/16lV6NDFLXH+YL32jwiACRBiEbf5KcXoTIsQSpzXx4N28Ja4BQoK7rgXiydbHjx/P25TaQAJEGAguWy0+2Q8PD6/Ki4R8EVl+bzBOnZY95fq9rj9zAkTI2SxdidBHqG9+skdw43borCXO/ZcJdraPWdv22uIEiLA4q7nvvCug8WTqzQveOH26fodo7g6uFe/a17W3+nFBAkRYENRdb1vkkz1CH9cPsVy/jrhr27PqMYvENYNlHAIesRiBYwRy0V+8iXP8+/fvX11Mr7L7ECueb/r48eMqm7FuI2BGWDEG8cm+7G3NEOfmdcTQw4h9/55lhm7DekRYKQPZF2ArbXTAyu4kDYB2YxUzwg0gi/41ztHnfQG26HbGel/crVrm7tNY+/1btkOEAZ2M05r4FB7r9GbAIdxaZYrHdOsgJ/wCEQY0J74TmOKnbxxT9n3FgGGWWsVdowHtjt9Nnvf7yQM2aZU/TIAIAxrw6dOnAWtZZcoEnBpNuTuObWMEiLAx1HY0ZQJEmHJ3HNvGCBBhY6jtaMoEiJB0Z29vL6ls58vxPcO8/zfrdo5qvKO+d3Fx8Wu8zf1dW4p/cPzLly/dtv9Ts/EbcvGAHhHyfBIhZ6NSiIBTo0LNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiEC/wGgKKC4YMA4TAAAAABJRU5ErkJggg=="
                                     // fallback="https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8"
-                                    fallback="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                    // fallback="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
                                 />
 
                              
@@ -277,10 +279,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div  className="col-12 col-md-2 ">
+                        <div className="d-block d-lg-flex">
+                            <div  className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">حراج دار</p>
+                                    <p className="text-right mb-2 mb-lg-0">حراج دار</p>
                                 </div>
                             </div>
                             <div  className="col">
@@ -301,10 +303,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
                         
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">نام حراج</p>
+                                    <p className="text-right mb-2 mb-lg-0">نام حراج</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -325,10 +327,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">دسته‌بندی محصول</p>
+                                    <p className="text-right mb-2 mb-lg-0">دسته‌بندی محصول</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -349,10 +351,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">رشته هنری</p>
+                                    <p className="text-right mb-2 mb-lg-0">رشته هنری</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -373,10 +375,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">نام هنرمند فارسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">نام هنرمند فارسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -397,10 +399,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">نام هنرمند انگلیسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">نام هنرمند انگلیسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -422,10 +424,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">نام اثر فارسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">نام اثر فارسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -446,10 +448,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">نام اثر انگلیسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">نام اثر انگلیسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -470,10 +472,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">مالک اثر</p>
+                                    <p className="text-right mb-2 mb-lg-0">مالک اثر</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -494,10 +496,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">شماره اثر</p>
+                                    <p className="text-right mb-2 mb-lg-0">شماره اثر</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -518,10 +520,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">طول</p>
+                                    <p className="text-right mb-2 mb-lg-0">طول</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -542,10 +544,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">عرض</p>
+                                    <p className="text-right mb-2 mb-lg-0">عرض</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -566,10 +568,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">ارتفاع</p>
+                                    <p className="text-right mb-2 mb-lg-0">ارتفاع</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -591,8 +593,8 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-md-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-md-0">تکنیک</p>
                                 </div>
@@ -615,10 +617,10 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">کمینه قیمت</p>
+                                    <p className="text-right mb-2 mb-lg-0">کمینه قیمت</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -630,25 +632,29 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "مقدار کمینه قیمت خالی است!"
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <InputNumber 
+                                                className="ant-input w-100"
+                                                formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            />
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
 
-                        {/* <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">شماره اثر</p>
+                                    <p className="text-right mb-2 mb-lg-0">شماره اثر</p>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name=""
+                                            name="artwork_num"
                                             className="w-100 "
                                             // label="حراج دار"
                                             rules={[
@@ -661,12 +667,12 @@ function SingleViewArtworkPage(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">بیشینه قیمت</p>
+                                    <p className="text-right mb-2 mb-lg-0">بیشینه قیمت</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -678,18 +684,23 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'مقدار بیشینه قیمت خالی است!'
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <InputNumber 
+                                                className="ant-input w-100"
+                                                // defaultValue={}
+                                                formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            />
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">قیمت فروش</p>
+                                    <p className="text-right mb-2 mb-lg-0">قیمت فروش</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -701,42 +712,25 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'مقدار قیمت فروش خالی است!'
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <InputNumber 
+                                                className="ant-input w-100"
+                                                // defaultValue={}
+                                                formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            />
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
-                                <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">قیمت فروش</p>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="d-flex  ml-lg-5 pl-lg-5">
-                                    <Form.Item
-                                            name="price"
-                                            className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
-                                            >
-                                            <Input />
-                                    </Form.Item>
-                                </div>
-                            </div>
-                        </div>
+                        
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">توضیحات فارسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">توضیحات فارسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -756,10 +750,10 @@ function SingleViewArtworkPage(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-2">
+                        <div className="d-block d-lg-flex">
+                            <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">توضیحات انگلیسی</p>
+                                    <p className="text-right mb-2 mb-lg-0">توضیحات انگلیسی</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -813,16 +807,16 @@ function SingleViewArtworkPage(props) {
                                                 <Space key={field.key} style={{ display: 'flex', marginBottom: 8}} align="baseline">
 
                                             <div className="col p-0">
-                                                <div className="d-block d-xl-flex">
+                                                <div className="d-block d-lg-flex ">
                                                     <div className="col p-0">
-                                                        <div className="d-block d-xl-flex p-0">
 
+                                                        <div className="d-block  p-0">
                                                             <div className="col-12 col-xl-2 p-0">
-                                                                <div className="d-flex justify-content-start pr-3 my-3 my-xl-2">
+                                                                <div className="d-flex justify-content-start pr-2 my-3 my-xl-2">
                                                                 عنوان
                                                                 </div>
                                                             </div>
-                                                            <div className="col-10 px-2">
+                                                            <div className="col-11 px-2">
                                                                 <Form.Item
                                                                     {...field}
                                                                     maxLength={16}
@@ -843,11 +837,12 @@ function SingleViewArtworkPage(props) {
                                                                 </Form.Item>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                     <div className="col p-0">
-                                                        <div className="d-block d-xl-flex p-0">
-                                                            <div className="col-12 col-xl-2 p-0">
-                                                            <div className="d-flex justify-content-start pr-3 my-3 my-xl-2">
+                                                        <div className="d-block  p-0">
+                                                            <div className="col-12  p-0">
+                                                            <div className="d-flex justify-content-start pr-2 my-3 my-xl-2">
                                                             لینک
                                                             </div>
 
@@ -891,7 +886,8 @@ function SingleViewArtworkPage(props) {
                                                     </div>
 
                                                 </div>
-                                            </div>     
+                                            </div>  
+                                            <MinusCircleOutlined onClick={(e) => remove(e.currentTarget)} />   
 
                                             </Space>
 

@@ -13,7 +13,7 @@ const layout = {
 
 
 
-function TableBankInfo({member , bankAccountInfo}) {
+function TableBankInfo({member }) {
 
    
 
@@ -31,23 +31,26 @@ function TableBankInfo({member , bankAccountInfo}) {
     //     console.log(error);
     // };
 
+
+
     useEffect(() => {
-      console.log("**bankAccountInfo**" ,bankAccountInfo, bankAccountInfo.length,originData);
-      if(bankAccountInfo.length)
-        for (let i = 0; i < bankAccountInfo.length; i++) {
+      // console.log("**member?.bankaccount**" ,member?.bankaccount, member?.bankaccount.length,originData);
+      if(member?.bankaccount?.length)
+        for (let i = 0; i < member?.bankaccount?.length; i++) {
           originData.push({
               
             key: i.toString(),
             
             id: ` ${i}`,
-            bank_name: bankAccountInfo[i]?.bank_name,
-            card_number: bankAccountInfo[i].card_number,
-            account_number: bankAccountInfo[i]?.account_number,        
-            sheba_number: bankAccountInfo[i]?.sheba_number,
+            bank_name: member?.bankaccount[i]?.bank_name,
+            card_number: member?.bankaccount[i].card_number,
+            account_number: member?.bankaccount[i]?.account_number,        
+            sheba_number: member?.bankaccount[i]?.sheba_number,
           });
+
         }
         setData(originData)
-    }, [bankAccountInfo]);
+    }, [member?.bankaccount]);
     
    
       const isEditing = (record) => record.key === editingKey;
@@ -127,7 +130,7 @@ function TableBankInfo({member , bankAccountInfo}) {
         {
           title: 'ردیف',
           dataIndex: 'id',
-          width: '3%',
+          width: '20px',
           editable: true,
           // responsive: ['sm'],
         },
@@ -142,21 +145,21 @@ function TableBankInfo({member , bankAccountInfo}) {
         {
           title: 'شماره کارت',
           dataIndex: 'card_number',
-          width: '40%',
+          width: '300px',
           editable: true,
           // responsive: ['sm'],
         },
         {
             title: 'شماره حساب',
             dataIndex: 'account_number',
-            width: '50%',
+            width: '300px',
             editable: true,
             // responsive: ['sm'],
           },
           {
             title: 'شبا',
             dataIndex: 'sheba_number',
-            width: '60%',
+            width: '250px',
             editable: true,
             // responsive: ['sm'],
           },
@@ -227,9 +230,11 @@ function TableBankInfo({member , bankAccountInfo}) {
                           dataSource={data}
                           columns={mergedColumns}
                           rowClassName="editable-row"
-                          pagination={{
-                          onChange: cancel,
-                          }}
+                          // pagination={{
+                          // onChange: cancel,
+                          // }}
+
+                          pagination={false}
                       />
                 </Form>
               </div>
