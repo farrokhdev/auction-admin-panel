@@ -19,7 +19,7 @@ function ArtWorkListPage(props) {
     const [params , setParams] = useState(
         {
             page : 1 , 
-            page_size : 5 , 
+            page_size : 10 , 
             search : ''
         });
 
@@ -92,7 +92,10 @@ function ArtWorkListPage(props) {
                                         <div className="col content-page px-2  px-md-4 py-4 ">
                                          
                                             <div className="row px-0 mx-0">
-                                                <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} 
+                                                <TableArtworkList 
+                                                    params={params} 
+                                                    artworkList={artworkList} 
+                                                    countArtwork={countArtwork} 
                                                     handleFilterArtwork={handleFilterArtwork}
                                                     // handleFilterDateFrom={handleFilterDateFrom}
                                                     // handleFilterDateTo={handleFilterDateTo}

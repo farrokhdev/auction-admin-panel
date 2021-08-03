@@ -1,6 +1,9 @@
+
 @import './mixin.scss';
 @import './variables.scss';
 @import './leaflet.scss';
+// @import './mainFront.scss';
+
 
 @font-face {
     font-family: IRANSans_light;
@@ -516,6 +519,17 @@ table  tbody tr td {
     height: 38px !important;
 }
 
+.custom-input-number{
+    // padding-right: 0px !important;
+    margin-right: -20px !important;
+}
+
+.ant-input-number-input{
+    box-shadow: none !important;
+    padding: 0px !important;
+}
+
+
 .ant-input-affix-wrapper{
     border-radius: 20px !important;
     padding: 0px !important;
@@ -800,6 +814,24 @@ table  tbody tr td {
     color: $quaternary-color !important;
 }
 
+.ant-input-number-handler-wrap{
+    display: none !important;
+}
+
+.ant-input-number-input{
+    text-align: right !important;
+    width: 100%;
+    height: 35px;
+    padding: 0 11px;
+    text-align: left;
+    background-color: transparent;
+    /* border: 0; */
+    border-radius: 38px;
+    outline: 0;
+    transition: all 0.3s linear;
+    
+}
+
 // .anticon-close{
 .btn-cancel-edit-bankInfo{
     color: rgba(255, 0, 0, 0.486) !important;
@@ -980,6 +1012,10 @@ table  tbody tr td {
 
 .ant-modal-confirm-content{
     text-align: right !important;
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns{
+    display: flex !important;
 }
 
 .ant-notification-notice-message{

@@ -7,7 +7,7 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
-function TableMemberList({memberList , countMember , visibleBidsMember , setVisibleBidsMember}) {
+function TableMemberList({memberList , params ,  countMember , visibleBidsMember , setVisibleBidsMember}) {
 
 
     const menu=(id) => (
@@ -85,7 +85,7 @@ function TableMemberList({memberList , countMember , visibleBidsMember , setVisi
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
 

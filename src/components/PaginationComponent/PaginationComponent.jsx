@@ -10,14 +10,14 @@ function PaginationComponent({count , handeSelectPage}) {
                     onChange={(e) => handeSelectPage(e)}
                     defaultCurrent={1}
                     total={count}
-                    defaultPageSize={5}/>
+                    defaultPageSize={10}/>
             </div>
             <div className="d-flex d-sm-none justify-content-center ">
                 <Pagination
                     onChange={(e) => handeSelectPage(e)}
                     defaultCurrent={1}
                     total={count}
-                    defaultPageSize={5}
+                    defaultPageSize={10}
                     size="small"/>
             </div>
         </React.Fragment>

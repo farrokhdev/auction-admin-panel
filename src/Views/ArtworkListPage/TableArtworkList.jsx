@@ -6,8 +6,9 @@ import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
+import { separatorCurrency } from '../../utils/separator';
 
-function TableArtworkList({artworkList , handleFilterArtwork }) {
+function TableArtworkList({artworkList , handleFilterArtwork , params }) {
     
     const { Search } = Input;
     const { Panel } = Collapse;
@@ -206,7 +207,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
                             <td   className="">
@@ -245,7 +246,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {artwork?.email}
+                                        {artwork?.latest_auction?.house?.first_name}{' '}{artwork?.latest_auction?.house?.last_name}
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +264,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {artwork?.email}
+                                            {artwork?.max_price ? separatorCurrency(artwork?.max_price) : 0}{' - '}{artwork?.min_price ? separatorCurrency(artwork?.min_price) : 0}
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +272,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                    {artwork?.price}
+                                    {artwork?.price ? separatorCurrency(artwork?.price) : 0}
                                     </div>
                                 </div>
                             </td>

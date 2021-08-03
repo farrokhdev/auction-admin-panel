@@ -43,10 +43,11 @@ function MembersPage(props) {
     const [params , setParams] = useState(
         {
             page : 1, 
-            page_size : 5 , 
+            page_size : 10 , 
             role : '' , 
             search : '' , 
         });
+
 
     useEffect(() => {
         setLoading(true)
@@ -56,6 +57,7 @@ function MembersPage(props) {
             setLoading(false)
             setMemberList(res.data.data.result)
             setCountMember(res.data.data.count)
+            
         }).catch(err => {
             console.log(err);
             setLoading(false)
@@ -152,6 +154,7 @@ function MembersPage(props) {
                                                     countMember={countMember}
                                                     setVisibleBidsMember={setVisibleBidsMember}
                                                     visibleBidsMember={visibleBidsMember}
+                                                    params={params}
                                                 />
                                             </div>
 
