@@ -27,7 +27,7 @@ const Validate = (props) => {
     const {
         validations_auction,
         has_recommendation,
-    
+
         add_previous_buyer,
         other,
         is_send_invitation,

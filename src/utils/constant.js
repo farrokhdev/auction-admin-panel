@@ -8,5 +8,6 @@ module.exports={
     LIST_PRODUCTS:"/sale/product/",
     LIST_AUCTIONS:"/sale/auctions/",
     LIST_HOUSE_AUCTIONS:"/account/home-auction/",
-
+    UPLOAD_EXEL_AUCTION:name=>`/sale/upload/${name}/`,
+    DELETE_AUCTION:id=>`/sale/auctions/${id}/`,
 }

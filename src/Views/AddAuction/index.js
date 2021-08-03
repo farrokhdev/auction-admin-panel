@@ -58,8 +58,8 @@ function Index() {
     const checkData = useSelector((state) => state.auctionReducer)
 
     useEffect(() => {
-        // if (auctionId !== "new")
-        //     getData()
+        if (auctionId !== "new")
+            getData()
         if (!id)
             dispatch(getProfile())
     }, [])
@@ -111,6 +111,7 @@ function Index() {
                         end_clock: moment(end_clock, "HH:mm"),
                         gallery_start_clock:gallery_start_clock,
                         gallery_end_clock:gallery_end_clock,
+                        house_id:res?.house?.id
                     }))
                     // setData(res)
                     // setDataCount(resp.data?.data?.count)
@@ -251,7 +252,7 @@ function Index() {
     }
     // console.log(productsDate, productsArrayDate)
     if (next) {
-        return <Redirect to="/auctions-list"/>
+        return <Redirect to="/auctions"/>
     }
 
     const setData = (data) => {
