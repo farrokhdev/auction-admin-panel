@@ -1,14 +1,77 @@
-import React from 'react'
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import React, {useEffect,useState} from 'react'
+import {Menu, Dropdown, message,Modal} from 'antd';
+import {DownOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
-
+import {useDispatch} from "react-redux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {removeAUCTION, setAUCTION} from "../../redux/reducers/auction/auction.actions";
+import {DELETE_AUCTION} from "../../utils/constant";
+import {faPen, faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {BASE_URL} from "../../utils";
+import axios from "../../utils/request";
 
 function TableAuctonsList({auctionsList}) {
+    const [Auctions, setAuctions] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [pageSize, setPageSize] = useState(30);
+    const {confirm} = Modal;
+    useEffect(() => {
+        getProducts()
 
+    }, [])
+    function showDeleteConfirm(id) {
+
+        confirm({
+            title: 'آیا قصد حذف کردن این حراجی را دارید؟',
+            icon: <ExclamationCircleOutlined/>,
+            content: '',
+            okText: 'بله',
+            okType: 'danger',
+            cancelText: 'خیر',
+            onOk() {
+                setLoading(true)
+                axios.delete(`${BASE_URL}${DELETE_AUCTION(id)}`)
+                    .then(resp => {
+                        setLoading(false)
+                        message.success("حذف حراجی با موفقیت انجام شد")
+                        getProducts()
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        console.error(err);
+                        if (err?.response?.data?.message)
+                            message.error(err.response.data.message)
+                        else if (err?.response?.data?.data?.result)
+                            message.error(err.response.data.message)
+                        else
+                            message.error("دوباره تلاش کنید")
+                    })
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
+    const getProducts = (page_size = pageSize) => {
+        setLoading(true)
+        axios.get(`${BASE_URL}/sale/auctions/?page_size=${page_size}`)
+            .then(resp => {
+                setLoading(false)
+                if (resp.data.code === 200) {
+                    setAuctions(resp.data.data.result)
+                }
+
+            })
+            .catch(err => {
+                setLoading(false)
+                console.error(err);
+            })
+    }
+
+    const dispatch = useDispatch();
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
@@ -63,15 +126,17 @@ function TableAuctonsList({auctionsList}) {
                         <th className="  px-0 minWidth-typeUser">
                             <div className=" px-3 text-center">وضعیت </div>
                         </th>
-
+                        <th className="  px-0 minWidth-action"></th>
                         <th className="  px-0 minWidth-action">
                             <div className="px-3 text-center">عملیات</div>
                         </th>
+                        {/*<th className="  px-0 minWidth-action text-center">نمایش درسایت </th>*/}
+
                     </tr>
                 </thead>
 
                 <tbody>
-                    {auctionsList ? auctionsList.map((auction, index) =>
+                    {Auctions ? Auctions.map((auction, index) =>
                         <> 
                             <tr className="spaceRow row-messages">
 
@@ -114,7 +179,20 @@ function TableAuctonsList({auctionsList}) {
                                     {convertTypePersian(auction?.status)}
                                 </div>
                             </td>
-
+                                <td>
+                                    <div className="my-2 content-td" >
+                                        {auction.status!== "CLOSED"  ?    <>
+                                        <Link onClick={() => dispatch(removeAUCTION())}
+                                              to={`/add-new-auction/${auction.id}`} type="button">
+                                            <FontAwesomeIcon icon={faPen} style={{color: '#007268'}}/>
+                                        </Link>
+                                        <button className="btn " type="button" style={{color: 'red'}}
+                                                onClick={() => showDeleteConfirm(auction.id)}>
+                                            <FontAwesomeIcon icon={faTimes} />
+                                        </button>
+                                            </>:''}
+                                    </div>
+                                </td>
                             <td className=" text-center">
                                 <div className="my-2 content-td">
                                     <Dropdown overlay={menu(auction?.id)}>
@@ -126,6 +204,17 @@ function TableAuctonsList({auctionsList}) {
                                     {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
                                 </div>
                             </td>
+                                {/*<td className="text-center">*/}
+                                {/*    <div className="my-2 content-td">*/}
+                                {/*    <input className="form-check-input" type="checkbox"*/}
+                                {/*           checked={false}*/}
+                                {/*           onChange={(e) => {*/}
+                                {/*               // dispatch(setAUCTION({extendable_deadline:e.target.checked}))*/}
+                                {/*           }}*/}
+                                {/*           id="checkbox413"/>*/}
+                                {/*    </div>*/}
+                                {/*</td>*/}
+
                             </tr>
 
                             </>
