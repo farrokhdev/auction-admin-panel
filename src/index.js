@@ -10,7 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import '../node_modules/antd/dist/antd.css';
-import  './assets/style/mainFront.scss'
+// import  './assets/style/mainFront.scss'
 import  './assets/style/main.scss'
 import  './assets/style/antd.scss'
 ReactDOM.render(
