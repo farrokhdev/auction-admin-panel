@@ -27,7 +27,7 @@ const Validate = (props) => {
     const {
         validations_auction,
         has_recommendation,
-        admin_confirmation,
+    
         add_previous_buyer,
         other,
         is_send_invitation,
@@ -75,7 +75,7 @@ const Validate = (props) => {
                             <div className="form-check sm-mrgt35">
                                 <input className="form-check-input" type="checkbox" checked={is_send_invitation}
                                        onChange={e => dispatch(setAUCTION({is_send_invitation: e.target.checked,
-                                           admin_confirmation: false,
+
                                            has_recommendation: false,
                                            add_previous_buyer: false,
                                            other: false,
@@ -176,7 +176,7 @@ const Validate = (props) => {
                   wrapperCol={{span: 24}}>
 
                 <div className="row">
-                    {(other && !admin_confirmation) ? <div className="col-12">
+                    {(other) ? <div className="col-12">
                         <div className="input-group">
                             <label className="default-lable">توضیحات</label>
                             <Form.Item
@@ -200,7 +200,7 @@ const Validate = (props) => {
                             }}>بازگشت
                             </Button>
                             <Button className="btn-default" htmlType="submit"
-                                    disabled={!validations_auction?.length && !admin_confirmation && !is_send_invitation}>ادامه</Button>
+                                    disabled={!validations_auction?.length  && !is_send_invitation}>ادامه</Button>
                         </div>
                     </div>
                 </div>
