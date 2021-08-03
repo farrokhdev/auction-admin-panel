@@ -37,6 +37,7 @@ function TableBankInfo({member }) {
       // console.log("**member?.bankaccount**" ,member?.bankaccount, member?.bankaccount.length,originData);
       if(member?.bankaccount?.length)
         for (let i = 0; i < member?.bankaccount?.length; i++) {
+
           originData.push({
               
             key: i.toString(),

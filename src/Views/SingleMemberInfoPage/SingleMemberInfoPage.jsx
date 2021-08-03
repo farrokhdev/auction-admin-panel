@@ -73,10 +73,12 @@ function SingleMemberInfoPage(props) {
             address : member?.home_auction_location?.address,
             postal_code : member?.postal_code,
             id : member?.id,
+
             card_number : member?.bankaccount[0]?.card_number ,
             account_number : member?.bankaccount[0]?.account_number,
             sheba_number : member?.bankaccount[0]?.sheba_number,
             bank_name : convertTypePersian(member?.bankaccount[0]?.bank_name),
+
             home_auction_name : member?.home_auction_name,
             home_auction_type : member?.home_auction_type,
         })

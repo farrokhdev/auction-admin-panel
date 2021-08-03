@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #777;
+        stroke-width: 1px;
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M17.885,9.443l-2.228-2.19a0.6,0.6,0,0,0-.891,0c-0.468.46-3.565,3.723-3.565,3.723a0.726,0.726,0,0,0,0,1.095l2.005,1.971a0.915,0.915,0,0,0,1.114,0c0.5-.452,3.565-3.5,3.565-3.5A0.764,0.764,0,0,0,17.885,9.443Z"/>
+  <path class="cls-1" d="M15,6l4,4"/>
+  <path id="Shape_9_copy" data-name="Shape 9 copy" class="cls-1" d="M11,10l4,4"/>
+  <path class="cls-1" d="M16,12l4,4"/>
+  <path class="cls-2" d="M15,17H10"/>
+  <path class="cls-2" d="M17.662,4.406l-3.9-2.628a1.533,1.533,0,0,0-2.005,0C10.791,2.658,1.4,8.851,1.4,8.851"/>
+  <path class="cls-2" d="M4.74,9.975v7.959A1.072,1.072,0,0,0,5.7,18.955H9.751"/>
+</svg>

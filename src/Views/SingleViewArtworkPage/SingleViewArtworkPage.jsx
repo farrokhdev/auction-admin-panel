@@ -9,6 +9,7 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import {MinusCircleOutlined} from '@ant-design/icons';
+import UploadImage from '../AddAuction/uploadImage';
 
 function SingleViewArtworkPage(props) {
 
@@ -22,7 +23,7 @@ function SingleViewArtworkPage(props) {
       };
     const [artwork, setArtwork] = useState();
     const [loading, setLoading] = useState(false);
-
+    const [media, setMedia] = useState( null)
     console.log("artwork =>>>", artwork);
 
       useEffect(() => {
@@ -46,7 +47,6 @@ function SingleViewArtworkPage(props) {
 
             form.setFieldsValue({
 
-                // media : "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
                 media : artwork?.media?.exact_url,
                 artwork_height : artwork?.artwork_height,
                 artwork_length : artwork?.artwork_length,
@@ -69,6 +69,7 @@ function SingleViewArtworkPage(props) {
                 artwork_owner_name : artwork?.owner?.first_name,
                 artwork_owner_house_auction_name :  artwork?.latest_auction?.house?.first_name,
                 artwork_auction_name : artwork?.latest_auction?.title,
+
                 artwork_category : artwork?.category ? artwork?.category[0]?.title : ''
 
             })
@@ -94,26 +95,26 @@ function SingleViewArtworkPage(props) {
         // },
       ]);
 
-      console.log("FileList =>>>> ",fileList);
+     
     
-      const onChange = ({ fileList: newFileList }) => {
-        setFileList(newFileList);
-      };
+    //   const onChange = ({ fileList: newFileList }) => {
+    //     setFileList(newFileList);
+    //   };
     
-      const onPreview = async file => {
-        let src = file.url;
-        if (!src) {
-          src = await new Promise(resolve => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file.originFileObj);
-            reader.onload = () => resolve(reader.result);
-          });
-        }
-        const image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow.document.write(image.outerHTML);
-      };
+    //   const onPreview = async file => {
+    //     let src = file.url;
+    //     if (!src) {
+    //       src = await new Promise(resolve => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file.originFileObj);
+    //         reader.onload = () => resolve(reader.result);
+    //       });
+    //     }
+    //     const image = new Image();
+    //     image.src = src;
+    //     const imgWindow = window.open(src);
+    //     imgWindow.document.write(image.outerHTML);
+    //   };
 
 
       const onFinish = (values) => {
@@ -158,18 +159,22 @@ function SingleViewArtworkPage(props) {
         console.log('Failed:', errorInfo);
     };
 
-    const normFile = (e) => {
-        console.log('Upload event:', e);
+    // const normFile = (e) => {
+    //     console.log('Upload event:', e);
       
-        if (Array.isArray(e)) {
-          return e;
-        }
+    //     if (Array.isArray(e)) {
+    //       return e;
+    //     }
       
-        return e && e.fileList;
-      };
+    //     return e && e.fileList;
+    //   };
 
  
- 
+      const handleResultUpload = (value) => {
+        if (value?.media_path)
+            setMedia(value)
+        // dispatch(setAUCTION({media:value}))
+    }
 
     return (
         <React.Fragment>
@@ -254,26 +259,27 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex">
 
-
-                                <Form.Item
-                                    name="media"
-                                    // label="Upload"
-                                    valuePropName="fileList"
-                                    getValueFromEvent={normFile}
-                                    // extra="longgggggggggggggggggggggggggggggggggg"
-                                    >
-                                    <ImgCrop rotate>
-                                        <Upload
-                                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                            listType="picture-card"
-                                            fileList={fileList}
-                                            onChange={onChange}
-                                            onPreview={onPreview}
-                                        >
-                                            {fileList.length < 20 && '+ Upload'}
-                                        </Upload>
-                                    </ImgCrop>
-                                </Form.Item>
+                                        <UploadImage handleResultUpload={handleResultUpload} initialImage={media}/>
+                                    
+                                        {/* <Form.Item
+                                            name="media"
+                                            // label="Upload"
+                                            valuePropName="fileList"
+                                            getValueFromEvent={normFile}
+                                            // extra="longgggggggggggggggggggggggggggggggggg"
+                                            >
+                                            <ImgCrop rotate>
+                                                <Upload
+                                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                                    listType="picture-card"
+                                                    fileList={fileList}
+                                                    onChange={onChange}
+                                                    onPreview={onPreview}
+                                                >
+                                                    {fileList.length < 20 && '+ Upload'}
+                                                </Upload>
+                                                </ImgCrop>
+                                            </Form.Item> */}
 
                                 </div>
                             </div>
@@ -627,19 +633,26 @@ function SingleViewArtworkPage(props) {
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
                                             name="price_min"
-                                            className="w-100 "
+                                            className="w-100 mx-0"
                                             // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
                                                     message : "مقدار کمینه قیمت خالی است!"
                                                 },
+                                                // {
+                                                //     pattern: /^[\d]$/,
+                                                //     message: "تنها کاراکتر عدد معتبر می‌باشد!",
+                                                // },
                                             ]}
                                             >
-                                            <InputNumber 
-                                                className="ant-input w-100"
-                                                formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                            />
+                                            <span>
+                                                <InputNumber 
+                                                    maxLength={20}
+                                                    className="ant-input custom-input-number w-100 pr-0"
+                                                    formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                />
+                                            </span>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -725,7 +738,6 @@ function SingleViewArtworkPage(props) {
                                 </div>
                             </div>
                         </div>
-                        
 
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">

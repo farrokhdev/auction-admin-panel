@@ -65,3 +65,6 @@ export function formatNumber(value) {
     if (f) return f[0];
     return '';
 }
+export function UrlQuery(url = "", data = {}){
+    return url + `?${qs.stringify(data, {arrayFormat: 'comma'})}`
+}
