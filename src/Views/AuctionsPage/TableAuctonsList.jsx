@@ -184,11 +184,11 @@ function TableAuctonsList({auctionsList}) {
                                         {auction.status!== "CLOSED"  ?    <>
                                         <Link onClick={() => dispatch(removeAUCTION())}
                                               to={`/add-new-auction/${auction.id}`} type="button">
-                                            <FontAwesomeIcon icon={faPen}/>
+                                            <FontAwesomeIcon icon={faPen} style={{color: '#007268'}}/>
                                         </Link>
-                                        <button type="button"
+                                        <button className="btn " type="button" style={{color: 'red'}}
                                                 onClick={() => showDeleteConfirm(auction.id)}>
-                                            <FontAwesomeIcon icon={faTimes}/>
+                                            <FontAwesomeIcon icon={faTimes} />
                                         </button>
                                             </>:''}
                                     </div>

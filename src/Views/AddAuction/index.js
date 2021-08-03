@@ -18,7 +18,7 @@ import Suggest from "./suggest";
 import Currency from "./currency";
 import Validate from "./validate";
 import {UrlQuery} from "../../utils/utils";
-
+import  '../../assets/style/mainFront.scss'
 const listComponent = [
     {name: "اطلاعات پایه", value: 1, thisComponent: BaseInformation},
     {name: "انتخاب محصول", value: 2, thisComponent: Products},
@@ -270,7 +270,7 @@ function Index() {
 
 
     return (
-        <div className="text-right">
+        <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages text-right custom-create-auction">
 
 
                     <div className="panel-container newauction">
