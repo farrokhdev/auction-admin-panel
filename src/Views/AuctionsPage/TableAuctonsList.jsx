@@ -180,7 +180,8 @@ function TableAuctonsList({auctionsList}) {
                                 </div>
                             </td>
                                 <td>
-                                    <div className="my-2 content-td">
+                                    <div className="my-2 content-td" >
+                                        {auction.status!== "CLOSED"  ?    <>
                                         <Link onClick={() => dispatch(removeAUCTION())}
                                               to={`/add-new-auction/${auction.id}`} type="button">
                                             <FontAwesomeIcon icon={faPen}/>
@@ -189,6 +190,7 @@ function TableAuctonsList({auctionsList}) {
                                                 onClick={() => showDeleteConfirm(auction.id)}>
                                             <FontAwesomeIcon icon={faTimes}/>
                                         </button>
+                                            </>:''}
                                     </div>
                                 </td>
                             <td className=" text-center">
