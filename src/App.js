@@ -69,7 +69,8 @@ function App(props) {
                         <Route exact path="/confirm-code" render={props=><ConfirmCodeOtpPage {...props} />}/>
                         <Route exact path="/set-password" render={props=><SetpasswordPage {...props} />}/>
                         {/* <Route exact path="/" render={props=><Main {...props} />}/> */}
-                        <Route exact path="/" render={props=><Main {...props}><Home {...props} /></Main>}/>
+                        {/* <Route exact path="/" render={props=><Main {...props}><Home {...props} /></Main>}/> */}
+                        <Route exact path="/" render={props=><Main {...props}><LoginPage {...props} /></Main>}/>
 
                         {props.auth.is_logged_in ? 
                         
