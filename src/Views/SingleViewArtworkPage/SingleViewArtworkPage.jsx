@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react';
-import { Upload , Empty, InputNumber} from 'antd';
+import { Upload , Empty, InputNumber , Alert} from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
 import {NavLink} from 'react-router-dom';
@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import {MinusCircleOutlined} from '@ant-design/icons';
 import UploadImage from '../AddAuction/uploadImage';
+import { failNotification, successNotification } from '../../utils/notification';
+import classnames from 'classnames';
 
 function SingleViewArtworkPage(props) {
 
@@ -21,10 +23,10 @@ function SingleViewArtworkPage(props) {
           span: 200,
         },
       };
-    const [artwork, setArtwork] = useState();
+    const [artwork, setArtwork] = useState({});
     const [loading, setLoading] = useState(false);
-    const [media, setMedia] = useState( null)
-    console.log("artwork =>>>", artwork);
+    const [media, setMedia] = useState(null)
+    const [is_upload, setIs_upload] = useState(true)
 
       useEffect(() => {
         setLoading(true)
@@ -40,7 +42,9 @@ function SingleViewArtworkPage(props) {
 
     const [form] = Form.useForm();
 
-   
+   console.log("ARTWORK -->> " , artwork);
+   console.log("MIN -->> " , artwork?.min_price);
+   console.log("MAX -->> " , artwork?.max_price);
 
     useEffect(() => {
         if(artwork){
@@ -54,7 +58,7 @@ function SingleViewArtworkPage(props) {
                 artwork_title : artwork?.artwork_title,
                 artwork_title_en : artwork?.artwork_title,
                 artwork_num : artwork?.artwork_num,
-                artwork_field : artwork?.latest_auction?.house?.activity_type[0].title,
+                artwork_field : artwork?.latest_auction?.house?.activity_type?.length ? artwork?.latest_auction?.house?.activity_type[0].title : '',
                 artwork_width : artwork?.artwork_width,
                 email : artwork?.credentials?.email,
                 english_artist_name : artwork?.english_artist_name,
@@ -62,14 +66,13 @@ function SingleViewArtworkPage(props) {
                 english_description : artwork?.english_description,
                 persian_description : artwork?.persian_description,
                 price : artwork?.price,
-                price_min :artwork?.min_price,
-                price_max : artwork?.max_price,
-                price_sale : artwork?.price,
-                technique : artwork?.technique,
-                artwork_owner_name : artwork?.owner?.first_name,
-                artwork_owner_house_auction_name :  artwork?.latest_auction?.house?.first_name,
-                artwork_auction_name : artwork?.latest_auction?.title,
-
+                price_min : artwork?.min_price ,
+                price_max : artwork?.max_price ,
+                price_sale : artwork?.price ,
+                technique : artwork?.technique ,
+                artwork_owner_name : artwork?.owner?.first_name ,
+                artwork_owner_house_auction_name :  artwork?.latest_auction?.house?.first_name ? artwork?.latest_auction?.house?.first_name : '',
+                artwork_auction_name : artwork?.latest_auction?.title ? artwork?.latest_auction?.title : '',
                 artwork_category : artwork?.category ? artwork?.category[0]?.title : ''
 
             })
@@ -120,37 +123,73 @@ function SingleViewArtworkPage(props) {
       const onFinish = (values) => {
         console.log(values);
 
-        let payload = {
-            media : values.media ,
-            title_link : "" ,
-            link : "" ,
-            artwork_height : values.artwork_height,
-            artwork_length : values.artwork_length,
-            artwork_link : values.artwork_link,
-            artwork_title : values.artwork_title,
-            artwork_title_en : values.artwork_title_en,
-            artwork_num : values.artwork_num,
-            artwork_field : values.artwork_field,
-            artwork_width : values.artwork_width,
-            english_artist_name : values.english_artist_name,
-            persian_artist_name : values.persian_artist_name,
-            english_description : values.english_description,
-            persian_description : values.persian_description,
-            price :values.price,
-            price_min : values.price_min,
-            price_max : values.price_max,
-            price_sale : values.price_sale,
-            technique : values.technique,
-            artwork_owner_name : values.artwork_owner_name,
-            artwork_owner_house_auction_name : values.artwork_owner_house_auction_name,
-            artwork_auction_name : values.artwork_auction_name,
-            artwork_category : artwork?.category ? values[0]?.title : '' 
+        if(media === null){
+            setIs_upload(false)
         }
 
-        axios.put(`${BASE_URL}/panel/product/approve/${props.match.params.id}/` , payload).then(res => {
+        let payload = {
+            "artwork_title": values.artwork_title,
+            "persian_artist_name": values.persian_artist_name,
+            "english_artist_name": values.english_artist_name,
+            "artwork_num": values.artwork_num,
+            "artwork_length": values.artwork_length,
+            "artwork_width": values.artwork_width,
+            "artwork_height": values.artwork_height,
+            "technique": values.technique,
+            "persian_description": values.persian_description,
+            "english_description": values.english_description,
+            "price": values.price,
+            "media": media,
+            "category_id": [
+                2
+            ],
+            "artwork_link": values.artwork_link,
+            "min_price": values.price_min,
+            "max_price": values.price_max,
+
+
+
+
+
+
+
+
+
+            // media : values.media ,
+            // title_link : "" ,
+            // link : "" ,
+            // artwork_height : values.artwork_height,
+            // artwork_length : values.artwork_length,
+            // artwork_link : values.artwork_link,
+            // artwork_title : values.artwork_title,
+            // artwork_title_en : values.artwork_title_en,
+            // artwork_num : values.artwork_num,
+            // artwork_field : values.artwork_field,
+            // artwork_width : values.artwork_width,
+            // english_artist_name : values.english_artist_name,
+            // persian_artist_name : values.persian_artist_name,
+            // english_description : values.english_description,
+            // persian_description : values.persian_description,
+            // price : values.price,
+            // price_min : values.price_min,
+            // price_max : values.price_max,
+            // price_sale : values.price_sale,
+            // technique : values.technique,
+            // artwork_owner_name : values.artwork_owner_name,
+            // artwork_owner_house_auction_name : values.artwork_owner_house_auction_name,
+            // artwork_auction_name : values.artwork_auction_name,
+            // artwork_category : artwork?.category ? values[0]?.title : '' 
+        }
+
+        axios.put(`${BASE_URL}/sale/product/${props.match.params.id}/` , payload).then(res => {
             console.log(res.data);
+            successNotification("ویرایش اثر هنری" , "اطلاعات با موفقیت بروز‌رسانی شد");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         }).catch(err => {
             console.log(err);
+            failNotification("خطا در ثبت اطلاعات" , "")
         })
 
       };
@@ -241,7 +280,9 @@ function SingleViewArtworkPage(props) {
                                 <Image
                                     width={200}
                                     height={200}
+                                    // src={artwork?.media ? artwork?.media?.exact_url : 'error'}
                                     src={artwork?.media ? artwork?.media?.exact_url : 'error'}
+                                    
                                     // fallback="data:image/png;base64,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"
                                     // fallback="https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8"
                                     // fallback="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
@@ -253,13 +294,19 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
                         <div className="d-block d-lg-flex justify-content-start my-3">
-                            <div className="col-12 col-lg-2">
-                                <p className="text-right mb-0 mb-4 mb-lg-0">سایر تصاویر</p>
-                            </div>
+                            {/* <div className="col-12 col-lg-2">
+                                <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصویر</p>
+                            </div> */}
                             <div className="col">
+                                    <Alert className={classnames("text-right", {
+                                            "d-flex" : !is_upload ,
+                                            "d-none" : is_upload  ,
+
+                                           
+                                        })}  message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                 <div className="d-flex">
 
-                                        <UploadImage handleResultUpload={handleResultUpload} initialImage={media}/>
+                                        <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload = {setIs_upload}/>
                                     
                                         {/* <Form.Item
                                             name="media"
@@ -299,7 +346,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -323,7 +370,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -348,6 +395,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'دسته‌بندی محصول وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -371,7 +419,7 @@ function SingleViewArtworkPage(props) {
                                             // label="حراج دار"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                 },
                                             ]}
                                             >
@@ -396,6 +444,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'نام فارسی هنرمند وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -421,6 +470,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'نام انگلیسی هنرمند وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -445,6 +495,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'نام اثر فارسی وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -493,6 +544,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'نام مالک اثر وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -502,34 +554,11 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                        <div className="d-block d-lg-flex">
-                            <div className="col-12 col-lg-3">
-                                <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">شماره اثر</p>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="d-flex  ml-lg-5 pl-lg-5">
-                                    <Form.Item
-                                            name="artwork_num"
-                                            className="w-100 "
-                                            // label="حراج دار"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
-                                            >
-                                            <Input />
-                                    </Form.Item>
-                                </div>
-                            </div>
-                        </div>
 
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">طول</p>
+                                    <p className="text-right mb-2 mb-lg-0">طول (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -541,6 +570,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'طول محصول وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -553,7 +583,7 @@ function SingleViewArtworkPage(props) {
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">عرض</p>
+                                    <p className="text-right mb-2 mb-lg-0">عرض (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -561,10 +591,10 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_width"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'عرض محصول وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -577,7 +607,7 @@ function SingleViewArtworkPage(props) {
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">ارتفاع</p>
+                                    <p className="text-right mb-2 mb-lg-0">ارتفاع (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -585,11 +615,10 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_height"
                                             className="w-100"
-                                            // label="حراج دار"
-                                            // initialValues={artwork?.artwork_height}
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'ارتفاع محصول وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -610,10 +639,10 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="technique"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'تکنیک محصول وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -623,40 +652,35 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
+
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">کمینه قیمت</p>
+                                    <p className="text-right mb-2 mb-lg-0">کمینه قیمت (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
                                             name="price_min"
-                                            className="w-100 mx-0"
-                                            // label="حراج دار"
+                                            className="w-100 "
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message : "مقدار کمینه قیمت خالی است!"
+                                                    message : 'مقدار کمینه قیمت خالی است!'
                                                 },
-                                                // {
-                                                //     pattern: /^[\d]$/,
-                                                //     message: "تنها کاراکتر عدد معتبر می‌باشد!",
-                                                // },
                                             ]}
                                             >
-                                            <span>
-                                                <InputNumber 
-                                                    maxLength={20}
-                                                    className="ant-input custom-input-number w-100 pr-0"
-                                                    formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                />
-                                            </span>
+                                            <InputNumber 
+                                                maxLength={20}
+                                                formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                className="ant-input custom-input-number w-100 pr-0"
+                                            />
                                     </Form.Item>
                                 </div>
                             </div>
                         </div>
+
 
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
@@ -669,7 +693,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_num"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -685,7 +708,7 @@ function SingleViewArtworkPage(props) {
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">بیشینه قیمت</p>
+                                    <p className="text-right mb-2 mb-lg-0">بیشینه قیمت (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -702,9 +725,10 @@ function SingleViewArtworkPage(props) {
                                             ]}
                                             >
                                             <InputNumber 
-                                                className="ant-input w-100"
-                                                // defaultValue={}
+                                                // className="ant-input w-100"
+                                                maxLength={20}
                                                 formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                className="ant-input custom-input-number w-100 pr-0"
                                             />
                                     </Form.Item>
                                 </div>
@@ -713,7 +737,7 @@ function SingleViewArtworkPage(props) {
                         <div className="d-block d-lg-flex">
                             <div className="col-12 col-lg-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-lg-0">قیمت فروش</p>
+                                    <p className="text-right mb-2 mb-lg-0">قیمت فروش (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -754,6 +778,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : "توضیحات فارسی وارد نشده است!"
                                                 },
                                             ]}
                                             >
@@ -777,6 +802,7 @@ function SingleViewArtworkPage(props) {
                                             rules={[
                                                 {
                                                     required: true,
+                                                    message : 'توضیحات انگلیسی وارد نشده است!'
                                                 },
                                             ]}
                                             >
@@ -913,9 +939,9 @@ function SingleViewArtworkPage(props) {
 
                     </div> 
 
-                        <div className="d-flex justify-content-end ">
+                        <div  className="d-flex justify-content-end ">
                             <Form.Item>
-                                <Button className="btn-edit-link" htmlType="submit">
+                                <Button disabled={artwork?.is_approve === "accept" ? true : false} className="btn-edit-link" htmlType="submit">
                                  ویرایش اطلاعات
                                 </Button>
                             </Form.Item>

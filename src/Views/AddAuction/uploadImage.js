@@ -32,6 +32,7 @@ const UploadImage = (props) => {
                                                 handleResultUpload(resp2.data.data.result)
                                             setUploaded(true)
                                             setUploading(false)
+                                            props.setIs_upload(true)
                                             console.log(resp2.data.data.result)
                                         }
                                     })
