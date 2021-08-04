@@ -1,7 +1,7 @@
 import React , {useState , useEffect} from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, Button, Space , Breadcrumb , Select , notification} from 'antd';
+import { Form, Input,InputNumber,  Button, Space , Breadcrumb , Select , notification , Alert} from 'antd';
 import {NavLink , Link} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
 import axios from '../../utils/request';
@@ -9,7 +9,9 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import  { Redirect } from 'react-router-dom'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+// import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import UploadImage from '../AddAuction/uploadImage';
+import classnames  from 'classnames';
 
 const layout = {
     labelCol: {
@@ -21,6 +23,8 @@ const layout = {
 };
 function AddNewArtwork(props) {
 
+    let numeral = require('numeral');
+
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
@@ -30,8 +34,12 @@ function AddNewArtwork(props) {
     const [CoreUpload, setCoreUpload] = useState([]);
     const [Uploaded, setUploaded] = useState(false);
     const [Uploading, setUploading] = useState(false);
+    const [media, setMedia] = useState(null)
+    const [is_upload, setIs_upload] = useState(true)
 
-const { Option } = Select;
+    const [minPrice, setMinPrice] = useState()
+
+    const { Option } = Select;
 
     useEffect(() => {
         setLoading(true)
@@ -67,76 +75,88 @@ const { Option } = Select;
 
     }, []);
 
-    const handleUpload = (e) => {
-        let payload = {"content_type":"image"}
-        setImageUrl('')
-        axios.post(`${BASE_URL}/core/upload/`, payload)
-            .then(resp=>{
-                if(resp.data.code === 200){
-                    setCoreUpload(resp.data.data.result)
-                    setUploading(true)
-                    axios.put(resp.data.data.result.upload_url, e)
-                        .then(resp1 => {
-                            if (resp1.status === 200) {
-                                axios.post(`${BASE_URL}/core/media/photos/`, {
-                                    "media_path": resp.data.data.result.upload_url,
-                                    "type": "image",
-                                    "bucket_name": "image",
-                                    "file_key": resp.data.data.result.file_key
-                                })
-                                    .then(resp2=>{
-                                        if(resp2.data.code === 201){
-                                            setCoreUpload(resp2.data.data.result)
-                                            setUploaded(true)
-                                            setUploading(false)
-                                            getBase64(e, imageUrl =>
-                                                setImageUrl(imageUrl)
-                                            );
-                                        }
-                                    })
-                                    .catch(err=>{
-                                        console.log("Error Message" , err.response);
-                                        setUploading(false)
-                                    })
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err.response);
-                            setUploading(false)
-                        })
-                }
-            })
-            .catch(err=>{
-                console.log("Error Message" , err.response);
-            })
+    // const handleUpload = (e) => {
+    //     let payload = {"content_type":"image"}
+    //     setImageUrl('')
+    //     axios.post(`${BASE_URL}/core/upload/`, payload)
+    //         .then(resp=>{
+    //             if(resp.data.code === 200){
+    //                 setCoreUpload(resp.data.data.result)
+    //                 setUploading(true)
+    //                 axios.put(resp.data.data.result.upload_url, e)
+    //                     .then(resp1 => {
+    //                         if (resp1.status === 200) {
+    //                             axios.post(`${BASE_URL}/core/media/photos/`, {
+    //                                 "media_path": resp.data.data.result.upload_url,
+    //                                 "type": "image",
+    //                                 "bucket_name": "image",
+    //                                 "file_key": resp.data.data.result.file_key
+    //                             })
+    //                                 .then(resp2=>{
+    //                                     if(resp2.data.code === 201){
+    //                                         setCoreUpload(resp2.data.data.result)
+    //                                         setUploaded(true)
+    //                                         setUploading(false)
+    //                                         getBase64(e, imageUrl =>
+    //                                             setImageUrl(imageUrl)
+    //                                         );
+    //                                     }
+    //                                 })
+    //                                 .catch(err=>{
+    //                                     console.log("Error Message" , err.response);
+    //                                     setUploading(false)
+    //                                 })
+    //                         }
+    //                     })
+    //                     .catch(err => {
+    //                         console.error(err.response);
+    //                         setUploading(false)
+    //                     })
+    //             }
+    //         })
+    //         .catch(err=>{
+    //             console.log("Error Message" , err.response);
+    //         })
 
-    }
+    // }
 
-    function getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
+    // function getBase64(img, callback) {
+    //     const reader = new FileReader();
+    //     reader.addEventListener('load', () => callback(reader.result));
+    //     reader.readAsDataURL(img);
+    // }
     
-      const onPreview = async file => {
-        let src = file.url;
-        if (!src) {
-          src = await new Promise(resolve => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file.originFileObj);
-            reader.onload = () => resolve(reader.result);
-          });
-        }
+    //   const onPreview = async file => {
+    //     let src = file.url;
+    //     if (!src) {
+    //       src = await new Promise(resolve => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file.originFileObj);
+    //         reader.onload = () => resolve(reader.result);
+    //       });
+    //     }
 
-        let image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow.document.write(image.outerHTML);
-      };
+    //     let image = new Image();
+    //     image.src = src;
+    //     const imgWindow = window.open(src);
+    //     imgWindow.document.write(image.outerHTML);
+    //   };
+    const [form] = Form.useForm();
+
+
+    form.setFieldsValue({
+
+        price_min : minPrice
+
+    })
 
 
       const onFinish = (values) => {
         setLoading(true)
+
+        if(media === null){
+            setIs_upload(false)
+        }
 
         let payload = {
             "artwork_title": values.artwork_title,
@@ -155,7 +175,7 @@ const { Option } = Select;
             "category_id": values.category_id,
             "persion_description": values.persion_description,
             "english_description": values.english_description,
-            "media": CoreUpload,
+            "media": media,
             "price": values.price,
             "price_max": values.price_max,
             "price_min": values.price_min,
@@ -184,7 +204,14 @@ const { Option } = Select;
         });
           return <Redirect to='/artworks'  />
       };
- 
+
+
+      const handleResultUpload = (value) => {
+        if (value?.media_path)
+            setMedia(value)
+        // dispatch(setAUCTION({media:value}))
+    }
+
 
     return (
         <React.Fragment>
@@ -220,17 +247,32 @@ const { Option } = Select;
         
                     <div className="col pt-5">
 
-                    <Form {...layout} name="nest-messages" scrollToFirstError={true} onFinish={onFinish} >
+                    <Form 
+                        {...layout} 
+                        name="nest-messages" 
+                        scrollToFirstError={true} 
+                        onFinish={onFinish} 
+                        >
 
-
+                        <div className="d-flex">
+                            <Alert className={classnames("text-right w-100", {
+                                    "d-flex" : !is_upload ,
+                                    "d-none" : is_upload  ,
+                                })}  message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
+                        </div>
                         
                         <div className="d-block d-lg-flex justify-content-start my-3">
                             <div className="col-12 col-lg-2">
+
                                 <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p>
                             </div>
                             <div className="col">
-                                <div className="d-flex">
-                                    <ImgCrop rotate>
+
+                            <div className="row mb-5">
+                                <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload = {setIs_upload}/>
+                            </div>
+
+                                    {/* <ImgCrop rotate>
                                         <Upload
                                             beforeUpload={(file, fileList) => {
                                                 handleUpload(file)
@@ -248,8 +290,7 @@ const { Option } = Select;
                                                 </div>
                                             }
                                         </Upload>
-                                    </ImgCrop>
-                                </div>
+                                    </ImgCrop> */}
                             </div>
                         </div>
 
@@ -419,6 +460,10 @@ const { Option } = Select;
                                                     required: true,
                                                     message : "ورودی نام هنرمند فارسی خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -472,6 +517,10 @@ const { Option } = Select;
                                                     required: true,
                                                     message : "ورودی نام اثر فارسی خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
+                                                }
                                             ]}
                                             >
                                             <Input />
@@ -533,34 +582,12 @@ const { Option } = Select;
                             </div>
                         </div>
 
-                        <div className="d-block d-md-flex">
-                            <div className="col-12 col-md-3">
-                                <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">شماره اثر</p>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="d-flex  ml-lg-5 pl-lg-5">
-                                    <Form.Item
-                                            name="artwork_num"
-                                            className="w-100 "
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message : "ورودی شماره اثر خالی است!"
-                                                },
-                                            ]}
-                                            >
-                                            <Input />
-                                    </Form.Item>
-                                </div>
-                            </div>
-                        </div>
+  
 
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">طول</p>
+                                    <p className="text-right mb-2 mb-md-0">طول (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -579,7 +606,12 @@ const { Option } = Select;
                                                 }
                                             ]}
                                             >
-                                            <Input />
+                                                <Input
+                                                    className="w-100"
+                                                        maxLength = {15}
+                                                        type="number"
+                                                    >
+                                                </Input>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -588,7 +620,7 @@ const { Option } = Select;
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">عرض</p>
+                                    <p className="text-right mb-2 mb-md-0">عرض (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -607,7 +639,12 @@ const { Option } = Select;
                                                 }
                                             ]}
                                             >
-                                            <Input />
+                                            <Input
+                                                    className="w-100"
+                                                        maxLength = {15}
+                                                        type="number"
+                                                    >
+                                                </Input>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -616,7 +653,7 @@ const { Option } = Select;
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">ارتفاع</p>
+                                    <p className="text-right mb-2 mb-md-0">ارتفاع (سانتی‌متر)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -635,7 +672,12 @@ const { Option } = Select;
                                                 }
                                             ]}
                                             >
-                                            <Input />
+                                            <Input
+                                                    className="w-100"
+                                                        maxLength = {15}
+                                                        type="number"
+                                                    >
+                                                </Input>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -668,11 +710,12 @@ const { Option } = Select;
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">کمینه قیمت</p>
+                                    <p className="text-right mb-2 mb-md-0">کمینه قیمت (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
+                                    <>
                                     <Form.Item
                                             name="price_min"
                                             className="w-100 "
@@ -681,14 +724,24 @@ const { Option } = Select;
                                                     required: true,
                                                     message : "ورودی کمینه قیمت اثر خالی است!"
                                                 },
+                                 
                                                 {
-                                                    pattern: /^[\d]{0,14}$/,
+                                                    // pattern: /^[\d]{0,20}$/,
+                                                    pattern: /^[\u06F0-\u06F90-9]+$/,
                                                     message: "تنها کاراکتر عدد معتبر می‌باشد!",
-                                                }
-                                            ]}
-                                            >
-                                            <Input />
+                                                },
+                                            ]}>
+
+                                                    <InputNumber
+                                                        className="w-100"
+                                                        maxLength = {20}
+                                                        formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        >
+                                                    </InputNumber>
+
+   
                                     </Form.Item>
+                                            </>
                                 </div>
                             </div>
                         </div>
@@ -710,12 +763,17 @@ const { Option } = Select;
                                                     message : "ورودی شماره اثر خالی است!"
                                                 },
                                                 {
-                                                    pattern: /^[\d]{0,14}$/,
+                                                    pattern: /^[\d]{0,15}$/,
                                                     message: "تنها کاراکتر عدد معتبر می‌باشد!",
                                                 }
                                             ]}
                                             >
-                                            <Input />
+                                            <Input
+                                                    className="w-100"
+                                                        maxLength = {15}
+                                                        type="number"
+                                                    >
+                                                </Input>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -724,7 +782,7 @@ const { Option } = Select;
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">بیشینه قیمت</p>
+                                    <p className="text-right mb-2 mb-md-0">بیشینه قیمت (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -738,12 +796,21 @@ const { Option } = Select;
                                                     message : "ورودی بیشینه قیمت خالی است!"
                                                 },
                                                 {
-                                                    pattern: /^[\d]{0,14}$/,
+                                                    // pattern: /^[\u06F0-\u06F90-9]+$/,
+                                                    pattern: /^[\u06F0-\u06F90-[,]+$/,
                                                     message: "تنها کاراکتر عدد معتبر می‌باشد!",
                                                 }
                                             ]}
                                             >
-                                            <Input />
+
+                                          
+                                                    <InputNumber
+                                                        className="w-100"
+                                                        maxLength = {20}
+                                                        formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        >
+                                                    </InputNumber>
+
                                     </Form.Item>
                                 </div>
                             </div>
@@ -751,7 +818,7 @@ const { Option } = Select;
                         <div className="d-block d-md-flex">
                             <div className="col-12 col-md-3">
                                 <div className="d-flex">
-                                    <p className="text-right mb-2 mb-md-0">قیمت فروش</p>
+                                    <p className="text-right mb-2 mb-md-0">قیمت فروش (تومان)</p>
                                 </div>
                             </div>
                             <div className="col">
@@ -765,12 +832,18 @@ const { Option } = Select;
                                                     message : "ورودی قیمت فروش خالی است!"
                                                 },
                                                 {
-                                                    pattern: /^[\d]{0,14}$/,
+                                                    // pattern: /^[\d]{0,20}$/,
+                                                    pattern: /^[\u06F0-\u06F90-[,]+$/,
                                                     message: "تنها کاراکتر عدد معتبر می‌باشد!",
                                                 }
                                             ]}
                                             >
-                                            <Input />
+                                                <InputNumber
+                                                    className="w-100"
+                                                    maxLength = {20}
+                                                    formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        >
+                                                </InputNumber>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -793,6 +866,10 @@ const { Option } = Select;
                                                     required: true,
                                                     message : "توضیحات فارس خالی است!"
                                                 },
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
+                                                }
                                             ]}
                                             >
                                             <Input />
