@@ -32,10 +32,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/BidAddSuggest.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/BidAddSuggest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/PriceAddValidate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/PriceAddValidate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/assets/style/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/style/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +54,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../auction-front-end" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -86,7 +85,17 @@
       <workItem from="1627821246366" duration="6815000" />
       <workItem from="1627902430120" duration="5373000" />
       <workItem from="1627967060082" duration="618000" />
-      <workItem from="1627969685872" duration="15303000" />
+      <workItem from="1627969685872" duration="15783000" />
+      <workItem from="1628051816642" duration="656000" />
+      <workItem from="1628056062893" duration="1760000" />
+      <workItem from="1628066464482" duration="2435000" />
+      <workItem from="1628082340801" duration="996000" />
+      <workItem from="1628485346725" duration="4653000" />
+      <workItem from="1628570346395" duration="595000" />
+      <workItem from="1628579340114" duration="593000" />
+      <workItem from="1628595103606" duration="922000" />
+      <workItem from="1628660225626" duration="1910000" />
+      <workItem from="1628665303509" duration="173000" />
     </task>
     <servers />
   </component>
@@ -115,7 +124,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Views/AddAuction/ChooseHouseAuction.js</url>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

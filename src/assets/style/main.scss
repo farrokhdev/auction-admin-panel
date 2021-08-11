@@ -1732,7 +1732,13 @@ color: $white-color;
     color: $white-color !important;
 }
 
-
+.image-custom-back{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    background-color: #eee;
+}
 
 
 
