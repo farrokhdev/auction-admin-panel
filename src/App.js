@@ -38,6 +38,7 @@ import SalesConsulerPage from "./Views/SalesConsulerPage";
 import SingleSaleConsulerPage from "./Views/SingleSaleConsulerPage";
 import HouseAuctionOffers from "./Views/HouseAuctionOffers";
 import WalletPage from "./Views/WalletPage";
+import DetailWalletPage from "./Views/WalletPage/detail";
 import WalletDeposit from "./Views/WalletDeposit";
 import WalletWithdrawal from "./Views/WalletWithdrawal";
 import OrdersListPage from "./Views/OrdersListPage";
@@ -93,6 +94,7 @@ function App(props) {
                             <Route exact path="/send-message" render={props=><Main {...props}><SendMessagePage {...props} /></Main>}/>
                             <Route exact path="/tickets" render={props=><Main {...props}><TicketPage {...props} /></Main>}/>
                             <Route exact path="/wallets" render={props=><Main {...props}><WalletPage {...props} /></Main>}/>
+                            <Route exact path="/wallets/:id" render={props=><Main {...props}><DetailWalletPage {...props} /></Main>}/>
                             <Route exact path="/wallet-deposit" render={props=><Main {...props}><WalletDeposit {...props} /></Main>}/>
                             <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/>
                             <Route exact path="/orders" render={props=><Main {...props}><OrdersListPage {...props} /></Main>}/>

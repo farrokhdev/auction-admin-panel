@@ -13,7 +13,7 @@ function TableWalletList({walletList}) {
     const menu=(id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link  >
+                <Link  to={'/wallets/'+id}>
                     مشاهده
                 </Link>
             </Menu.Item >

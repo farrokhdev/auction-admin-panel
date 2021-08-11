@@ -31,9 +31,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Views/WalletPage/detail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/ChooseArtwork.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/style/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/style/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/AuctionsPage/TableAuctonsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AuctionsPage/TableAuctonsList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/WalletPage/TableWalletList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/WalletPage/TableWalletList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +97,7 @@
       <workItem from="1628579340114" duration="593000" />
       <workItem from="1628595103606" duration="922000" />
       <workItem from="1628660225626" duration="1910000" />
-      <workItem from="1628665303509" duration="173000" />
+      <workItem from="1628665303509" duration="4490000" />
     </task>
     <servers />
   </component>
