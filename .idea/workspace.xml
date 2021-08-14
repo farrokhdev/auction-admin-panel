@@ -31,7 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Views/TicketPage/ModalShowDetailTicket.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/TicketPage/ModalShowDetailTicket.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/AddNewArtwork/AddNewArtwork.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddNewArtwork/AddNewArtwork.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +94,7 @@
       <workItem from="1628660225626" duration="1910000" />
       <workItem from="1628665303509" duration="7956000" />
       <workItem from="1628682408358" duration="2012000" />
-      <workItem from="1628915921682" duration="5900000" />
+      <workItem from="1628915921682" duration="6027000" />
     </task>
     <servers />
   </component>
