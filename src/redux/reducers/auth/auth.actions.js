@@ -37,13 +37,13 @@ export const refreshToken = () => async dispatch => {
                 console.log(r)
                 return r;
             }).catch(e => {
-            // dispatch(clearStorageAll())
-            clearStorage()
+            dispatch(clearStorage())
+            // clearStorage()
             window.location.href = "#/login"
         })
     else {
-        // dispatch(clearStorageAll())
-        clearStorage()
+        dispatch(clearStorage())
+        // clearStorage()
         window.location.href = "#/login"
     }
 
