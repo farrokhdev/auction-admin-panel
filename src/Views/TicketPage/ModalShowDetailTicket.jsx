@@ -131,7 +131,6 @@ function ModalShowDetailTicket(props) {
                   form={form} 
                   name="nest-messages" 
                   onFinish={onFinish} >
-
                       <Form.Item  name="body" 
                         label = "ارسال تیکت" 
                          rules={[{ 
