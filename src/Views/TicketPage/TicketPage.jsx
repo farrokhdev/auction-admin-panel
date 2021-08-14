@@ -53,10 +53,14 @@ function TicketPage(props) {
 
     const getTickets = () => {
         const queries = queryString.stringify(params);
+        setLoading(true)
+
         axios.get(`${BASE_URL}${GET_TICKETS}?${queries}`).then(res => {
+            setLoading(false)
             setTicketList(res.data.data.result)
             setCountTickets(res.data.data.count)
         }).catch(err => {
+            setLoading(false)
             console.log(err);
         })
     }
