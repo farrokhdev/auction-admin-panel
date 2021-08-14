@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {BASE_URL} from '../../utils';
-import {Form , Breadcrumb , Select , Input} from 'antd';
+import {Form, Breadcrumb, Select, Input, message} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -30,12 +30,20 @@ function WalletDeposit(props) {
     const { Option } = Select;
 
     const onFinish = (values) => {
-        console.log(values);
-        setGiftAmount(values.gift_credit)
-        setUsersSelect(values.user)
-        setTimeout(() => {
-            setVisibleCofirmDeposit(true)
-        }, 1000);
+        // console.log(values);
+        // setGiftAmount(values.gift_credit)
+        // setUsersSelect(values.user)
+        // setTimeout(() => {
+        //     setVisibleCofirmDeposit(true)
+        // }, 1000);
+        axios.post(`${BASE_URL}/panel/credit/gift`,values).then(res => {
+            // setMembers(res.data.data.result)
+            message.success("شارژ هدیه با موفقیت اضافه شد");
+            props.history.push("/wallets")
+        }).catch(err => {
+            console.error(err);
+            message.error("دوباره تلاش کنید");
+        })
     }   
     
     const onFinishFailed = (values) => {

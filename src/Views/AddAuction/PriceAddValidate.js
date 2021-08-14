@@ -46,6 +46,7 @@ const PriceAddValidate = (props) => {
     return (
         <>
             <Form onFinish={onFinish}
+                  className="m-0 mx-4"
                   form={form}
                 // initialValues={{start_time:moment("1398-02-02","jYYYY-jMM-jDD")}}
                   wrapperCol={{span: 24}}>
@@ -114,7 +115,7 @@ const PriceAddValidate = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-start">
+                        <div className="text-left">
                             <Button className="add-row-danger" onClick={() => {
                                 dispatch(setAUCTION({validations_auction: []}))
                                 setRange(0)
@@ -131,7 +132,7 @@ const PriceAddValidate = (props) => {
                     </div>
                 </div>
             </Form>
-            <div>
+            <div className="col-12">
                 <div className="table-responsive">
                 {(validations_auction && validations_auction.length) ? <table className="panel-table create-auctions table">
                     <thead>

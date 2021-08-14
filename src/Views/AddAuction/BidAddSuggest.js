@@ -141,7 +141,7 @@ const Suggest = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-start">
+                        <div className="text-left">
                             <Button className="add-row-danger" onClick={() => {
                                 dispatch(setAUCTION({steps: []}))
                                 setRange(0)

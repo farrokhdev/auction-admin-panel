@@ -23,7 +23,7 @@ const layout = {
 };
 function AddNewArtwork(props) {
 
-    let numeral = require('numeral');
+    // let numeral = require('numeral');
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
