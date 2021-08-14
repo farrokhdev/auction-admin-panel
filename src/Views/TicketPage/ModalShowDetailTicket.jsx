@@ -65,9 +65,9 @@ function ModalShowDetailTicket(props) {
                 openNotification()
               }, 500);
     
-              setTimeout(() => {
-                window.location.reload()
-            }, 1000);
+            //   setTimeout(() => {
+            //     // window.location.reload()
+            // }, 1000);
             }
     
              
@@ -86,7 +86,7 @@ function ModalShowDetailTicket(props) {
     
       const handleCancel = ()=>{
         props.setVisibleDetailTicket(false)
-        window.location.reload();
+        // window.location.reload();
       }
 
     // const handleCloseTicket = (e) => {
@@ -143,7 +143,7 @@ function ModalShowDetailTicket(props) {
                       </Form.Item>
                       
                     <div className="d-flex justify-content-end  pt-3 ">
-                          <button onClick={handleCancel} className="btn-cancel-send-ticket ml-2"> انصراف</button>  
+                          <button type="button" onClick={handleCancel} className="btn-cancel-send-ticket ml-2"> انصراف</button>
                           {/* <button className="btn-close-ticket" onClick={handleCloseTicket}>بستن تیکت</button> */}
                           <button htmlType="submit" className="btn-send-new-ticket mr-2" >ارسال تیکت</button>  
                     </div>

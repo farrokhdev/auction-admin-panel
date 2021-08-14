@@ -29,7 +29,7 @@ function SendMessagePage(props) {
     useEffect(() => {
 
         axios.get(`${BASE_URL}/panel/users/`).then(res => {
-            setMemberList(res.data.data.result.results)
+            setMemberList(res.data.data.result)
         }).catch(err => {
             console.log(err);
         })
@@ -39,39 +39,71 @@ function SendMessagePage(props) {
     const onFinish = (values) => {
         console.log(values);
         setLoading(true)
-        let payload = {
-            "users": values.users,
-            "message": {
-                "title": values.title,
-                "body": values.body
-            }
-        }
 
-        axios.post(`${BASE_URL}/panel/message/`, payload).then(res => {
-            setLoading(false)
-            message.success({content: `${' '}ارسال پیام با موفقیت انجام شد`,
-                className: 'text-success',
-                style: {
+if(values.users.includes("allUsers")){
+    let payload = {
+            "title": values.title,
+            "body": values.body
+    }
+    axios.post(`${BASE_URL}/panel/message/`, payload).then(res => {
+        setLoading(false)
+        message.success({content: `${' '}ارسال پیام با موفقیت انجام شد`,
+            className: 'text-success',
+            style: {
                 marginTop: '10vh',
             },})
 
-            setTimeout(() => {
-                window.location.reload()
-            }, 1000);
-        }).catch(err => {
-            console.log(err);
-            setLoading(false)
-            if(err.response && err?.response?.data?.message !== undefined ){
-                message.error({content: `${' '}${err?.response?.data?.message}`,
+        setTimeout(() => {
+            // window.location.reload()
+            props.history.push('/inbox-messages')
+        }, 1000);
+    }).catch(err => {
+        console.log(err);
+        setLoading(false)
+        if(err.response && err?.response?.data?.message !== undefined ){
+            message.error({content: `${' '}${err?.response?.data?.message}`,
                 className: 'text-danger',
                 style: {
+                    marginTop: '10vh',
+                },})
+        }
+    })
+}else{
+    let payload = {
+        "users": values.users,
+        "message": {
+            "title": values.title,
+            "body": values.body
+        }
+    }
+    axios.post(`${BASE_URL}/panel/sendmessage/`, payload).then(res => {
+        setLoading(false)
+        message.success({content: `${' '}ارسال پیام با موفقیت انجام شد`,
+            className: 'text-success',
+            style: {
                 marginTop: '10vh',
             },})
-            }
-        })
-           
-        
-    }    
+
+        setTimeout(() => {
+            // window.location.reload()
+            props.history.push('/inbox-messages')
+        }, 1000);
+    }).catch(err => {
+        console.log(err);
+        setLoading(false)
+        if(err.response && err?.response?.data?.message !== undefined ){
+            message.error({content: `${' '}${err?.response?.data?.message}`,
+                className: 'text-danger',
+                style: {
+                    marginTop: '10vh',
+                },})
+        }
+    })
+}
+
+
+
+    }
 
     return (
         <React.Fragment>
@@ -86,7 +118,7 @@ function SendMessagePage(props) {
                                         <div className="d-flex">
                                             <Breadcrumb>
                                                 <Breadcrumb.Item>
-                                                    <NavLink 
+                                                    <NavLink
                                                         key="1"
                                                         onClick={ e => props.toggleActiveNavDrawer("1")}
                                                         to="/">
@@ -100,10 +132,10 @@ function SendMessagePage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
-                                   
+
 
                                         <Form  className="pt-5" form={form} layout="horizontal" onFinish={onFinish}>
                                             <div ref={myRef1}></div>
@@ -120,13 +152,17 @@ function SendMessagePage(props) {
                                             ]}
                                         >
                                             <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                <React.Fragment key={"allUsers"}>
+                                                <Option value={`allUsers`}>همه کاربران</Option>
+                                            </React.Fragment>
                                                 {memberList?.length >= 1 ? memberList?.map(member => (
 
                                                     <React.Fragment key={member?.id}>
                                                         <Option value={`${member?.id}`}>{member?.first_name}</Option>
                                                     </React.Fragment>
+
                                                 )) : <Option value=""></Option>}
-                                            
+
                                             </Select>
                                         </Form.Item>
 
@@ -145,10 +181,10 @@ function SendMessagePage(props) {
                                                 // }
                                                 // ]}
                                                 rules={[{ required: true, message: 'ورودی عنوان خالی است!' }]}
-                                            
+
                                                 >
                                                 <Mentions  style={{borderRadius : '38px' , minHeight : '38px'}} placeholder="عنوان پیام را وارد کنید" rows={1} className="text-right">
-                                                    
+
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
                                                     <Option value="yesmeck">yesmeck</Option> */}
@@ -165,7 +201,7 @@ function SendMessagePage(props) {
                                                     span: 16
                                                 }}
                                                 rules={[{ required: true, message: 'ورودی متن پیام خالی است!' }]}
-                                            
+
                                                 >
                                                 <Mentions style={{borderRadius : '10px' , minHeight : '38px'}} className="text-right" rows={4} placeholder="متن پیام را وارد کنید">
                                                     {/* <Option value="afc163">afc163</Option>
@@ -206,11 +242,11 @@ const mapDispatchToProps = (dispatch) => {
         toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
     }
   }
-  
+
   const mapStateToProps = (store) => {
     return {
         panel: store.panelReducer
     }
   }
-  
+
   export default connect(mapStateToProps , mapDispatchToProps)(SendMessagePage)

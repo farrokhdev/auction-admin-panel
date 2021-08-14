@@ -43,9 +43,9 @@ function TableInboxMessage(props) {
 
     const handleClickShowDetailsMessage = (id) => {
         
-       axios.get(`${BASE_URL}/users/messaging/${id}/`).then(res => {
+       axios.get(`${BASE_URL}/panel/message/${id}/`).then(res => {
 
-           if(true){
+           if(false){
                 axios.get(`${BASE_URL}/messaging/unread_count`).then(res => {
                     props.getCountUnReadMessages(res.data.result.count_unread)
                     props.getStatusMessages()
@@ -75,22 +75,22 @@ function TableInboxMessage(props) {
                                 <th  className="px-0 minWidth-titleMessage">
                                     <div className="  text-center">عنوان پیام</div>
                                 </th>
-                                <th  className="px-0 minWidth-titleMessage">
-                                    <div className="  text-center">دریافت کننده</div>
-                                </th>
-                                <th  className="px-0 minWidth-titleMessage">
-                                    <div className="  text-center">ارسال کننده</div>
-                                </th>
-                                <th  className="border-0 px-0 minWidth-DateMessage">
-                                    <div className="  text-center">زمان ارسال</div>
-                                </th>
-                                <th  className="border-0 px-0 minWidth-DateMessage">
-                                    <div className="  text-center">زمان بروزرسانی</div>
-                                </th>
-                              
-                                <th  className="border-0 px-0 minWidth-type">
-                                    <div className="  text-center">نوع</div>
-                                </th>  
+                                {/*<th  className="px-0 minWidth-titleMessage">*/}
+                                {/*    <div className="  text-center">دریافت کننده</div>*/}
+                                {/*</th>*/}
+                                {/*<th  className="px-0 minWidth-titleMessage">*/}
+                                {/*    <div className="  text-center">ارسال کننده</div>*/}
+                                {/*</th>*/}
+                                {/*<th  className="border-0 px-0 minWidth-DateMessage">*/}
+                                {/*    <div className="  text-center">زمان ارسال</div>*/}
+                                {/*</th>*/}
+                                {/*<th  className="border-0 px-0 minWidth-DateMessage">*/}
+                                {/*    <div className="  text-center">زمان بروزرسانی</div>*/}
+                                {/*</th>*/}
+
+                                {/*<th  className="border-0 px-0 minWidth-type">*/}
+                                {/*    <div className="  text-center">نوع</div>*/}
+                                {/*</th>  */}
                                 {/* <th  className="border-0 px-0 minWidth-status">
                                     <div className="  text-center">وضعیت</div>
                                 </th>  */}
@@ -127,49 +127,49 @@ function TableInboxMessage(props) {
                                         </td>
                                 
 
-                                        <td>
-                                            <div className=" py-3 contentTd my-1 ">
-                                                <div className="border-left text-center w-100"> 
-                                                    {/* {message?.additional_data?.receiver ? message?.additional_data?.receiver : ''} */}
-                                                    {message?.receiver ? message?.receiver : ''}
+                                        {/*<td>*/}
+                                        {/*    <div className=" py-3 contentTd my-1 ">*/}
+                                        {/*        <div className="border-left text-center w-100"> */}
+                                        {/*            /!* {message?.additional_data?.receiver ? message?.additional_data?.receiver : ''} *!/*/}
+                                        {/*            {message?.receiver ? message?.receiver : ''}*/}
                                         
-                                                </div>
-                                                
-                                            </div>
-                                        </td>
+                                        {/*        </div>*/}
+                                        {/*        */}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
 
-                                        <td>
-                                            <div className=" py-3 contentTd my-1 ">
-                                                <div className="border-left text-center w-100"> 
-                                                    {/* {message?.additional_data?.sender ? message?.additional_data?.sender : ''} */}
-                                                    {message?.sender ? message?.sender : ''}
-                                                </div>
-                                                
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className=" py-3 contentTd my-1 ">
-                                                <div className="border-left text-center w-100"> 
-                                                    {message?.date_send ? `${momentJalaali(message?.date_send).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
-                                                </div>
-                                                
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className=" py-3 contentTd my-1 ">
-                                                <div className="border-left text-center w-100">
-                                                {message?.date_update ? `${momentJalaali(message?.date_update).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
-                                                    
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className=" py-3 contentTd my-1 ">
-                                                <div className="border-left text-center w-100">
-                                                    {message?.type ? messageStatusTypePersian(message?.type) : ''}
-                                                </div>
-                                            </div>
-                                        </td>
+                                        {/*<td>*/}
+                                        {/*    <div className=" py-3 contentTd my-1 ">*/}
+                                        {/*        <div className="border-left text-center w-100"> */}
+                                        {/*            /!* {message?.additional_data?.sender ? message?.additional_data?.sender : ''} *!/*/}
+                                        {/*            {message?.sender ? message?.sender : ''}*/}
+                                        {/*        </div>*/}
+                                        {/*        */}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
+                                        {/*<td>*/}
+                                        {/*    <div className=" py-3 contentTd my-1 ">*/}
+                                        {/*        <div className="border-left text-center w-100"> */}
+                                        {/*            {message?.date_send ? `${momentJalaali(message?.date_send).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}*/}
+                                        {/*        </div>*/}
+                                        {/*        */}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
+                                        {/*<td>*/}
+                                        {/*    <div className=" py-3 contentTd my-1 ">*/}
+                                        {/*        <div className="border-left text-center w-100">*/}
+                                        {/*        {message?.date_update ? `${momentJalaali(message?.date_update).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}*/}
+                                        {/*            */}
+                                        {/*        </div>*/}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
+                                        {/*<td>*/}
+                                        {/*    <div className=" py-3 contentTd my-1 ">*/}
+                                        {/*        <div className="border-left text-center w-100">*/}
+                                        {/*            {message?.type ? messageStatusTypePersian(message?.type) : ''}*/}
+                                        {/*        </div>*/}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
                                  
                                 
                                         <td>

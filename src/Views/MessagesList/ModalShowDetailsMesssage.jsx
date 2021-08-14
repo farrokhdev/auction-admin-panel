@@ -5,9 +5,9 @@ const ModalShowDetailsMesssage = ({visibleDetailsMessage , setVisibleDetailsMess
   
 const handleCloseDetailMessage = () => {
     setVisibleDetailsMessage(false)
-    setTimeout(() => {
-        window.location.reload()
-    }, 500);
+    // setTimeout(() => {
+    //     // window.location.reload()
+    // }, 500);
 }
 
   return (
@@ -41,8 +41,8 @@ const handleCloseDetailMessage = () => {
                 </div>
                     <div className="d-flex">
                         <span  style={{whiteSpace: "pre-line"}} className=" text-details-message text-right">
-                            {/* {messageDetails?.body} */}
-                            اعتبار شارژ هدیه برای کاربران اعمال شد
+                             {messageDetails?.body}
+                            {/*اعتبار شارژ هدیه برای کاربران اعمال شد*/}
                         </span>
                     </div>
             <div className="d-flex mt-5">
