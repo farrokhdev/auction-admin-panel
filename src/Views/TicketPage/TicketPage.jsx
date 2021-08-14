@@ -53,10 +53,14 @@ function TicketPage(props) {
 
     const getTickets = () => {
         const queries = queryString.stringify(params);
+        setLoading(true)
+
         axios.get(`${BASE_URL}${GET_TICKETS}?${queries}`).then(res => {
+            setLoading(false)
             setTicketList(res.data.data.result)
             setCountTickets(res.data.data.count)
         }).catch(err => {
+            setLoading(false)
             console.log(err);
         })
     }
@@ -99,7 +103,7 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <Loading loading={loading}/>
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
                                         <div className="row px-3 ">
@@ -122,6 +126,7 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
+                                <Loading />
                             </div>
                         </div>
                     </div>
