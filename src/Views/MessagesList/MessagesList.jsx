@@ -47,41 +47,7 @@ function MessagesList(props) {
 
     const [loading, setLoading] = useState(false);
 
-    const [messageList, setMessageList] = useState([
-        {
-            title : 'اعتبار شارژ',
-            receiver : 'نادری',
-            sender : 'قربانی',
-            date_send : '1400/03/04',
-            date_update : '1400/03/23',
-            type : 'مشاهده شده'
-        },
-        {
-            title : 'تاییدیه',
-            receiver : 'محمدی',
-            sender : 'سعیدی',
-            date_send : '1400/02/22',
-            date_update : '1400/03/24',
-            type : 'مشاهده نشده'
-        },
-        {
-            title : 'اعتبار شارژ',
-            receiver : 'نادری',
-            sender : 'قربانی',
-            date_send : '1400/03/04',
-            date_update : '1400/03/23',
-            type : 'مشاهده شده'
-        },
-        {
-            title : 'تاییدیه',
-            receiver : 'محمدی',
-            sender : 'سعیدی',
-            date_send : '1400/02/22',
-            date_update : '1400/03/24',
-            type : 'مشاهده نشده'
-        },
-
-    ]);
+    const [messageList, setMessageList] = useState([]);
     const [countMessages , setCountMessages] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
     const [params , setParams] = useState(
