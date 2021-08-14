@@ -99,7 +99,7 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <Loading loading={loading}/>
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
                                         <div className="row px-3 ">
@@ -122,6 +122,7 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
+                                <Loading />
                             </div>
                         </div>
                     </div>
