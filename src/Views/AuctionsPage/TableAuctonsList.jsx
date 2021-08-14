@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Menu, Dropdown, message, Modal} from 'antd';
+import {Menu, Dropdown, message, Modal, Spin} from 'antd';
 import {DownOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
@@ -236,13 +236,14 @@ const ShowCheckbox = (props) => {
     }, [visible_in_site])
 
     const handleShow = (value) => {
-        axios.put(`${BASE_URL}${EDIT_AUCTION(auctionId)}`, {
+        setLoading(true)
+        axios.patch(`${BASE_URL}${EDIT_AUCTION(auctionId)}`, {
             visible_in_site:value
         })
             .then(resp => {
                 setLoading(false)
                 if (resp.data.code === 200) {
-                    message.success("اطلاعات حساب شما با موفقیت ثبت شد")
+                    message.success("اطلاعات نمایش در سایت با موفقیت ویرایش شد")
                     // setNext(true)
                     // dispatch(removeAUCTION())
                     setIsShow(value)
@@ -262,6 +263,7 @@ const ShowCheckbox = (props) => {
             })
     }
     return (
+        <Spin spinning={loading}>
         <div className="my-2 content-td">
             <input className="form-check-input" type="checkbox"
                    checked={isShow}
@@ -271,5 +273,6 @@ const ShowCheckbox = (props) => {
                    }}
                    id="checkbox413"/>
         </div>
+        </Spin>
     )
 }
