@@ -31,13 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/SalesConsulerPage/SalesConsulerPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SalesConsulerPage/SalesConsulerPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/SalesConsulerPage/TableSalesConsuler.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SalesConsulerPage/TableSalesConsuler.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/ModalSendToHouseAuction.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/ModalSendToHouseAuction.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/SingleSaleConsulerPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/SingleSaleConsulerPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/TicketPage/TicketPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/TicketPage/TicketPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +140,7 @@
       <workItem from="1629522189131" duration="273000" />
       <workItem from="1629522482402" duration="25000" />
       <workItem from="1629522523537" duration="17260000" />
-      <workItem from="1629606814833" duration="3465000" />
+      <workItem from="1629606814833" duration="3921000" />
     </task>
     <servers />
   </component>
