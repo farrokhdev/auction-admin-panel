@@ -126,7 +126,7 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <Loading />
+
                             </div>
                         </div>
                     </div>

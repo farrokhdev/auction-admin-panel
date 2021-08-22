@@ -34,7 +34,7 @@ function ModalSendToHouseAuction(props) {
         
         axios.get(`${BASE_URL}/account/home-auction/`).then(res => {
             console.log(res.data);
-            setHouseAuctionList(res.data.data.result.results)
+            setHouseAuctionList(res.data.data.result)
 
         }).catch(err => {
             console.log(err);
@@ -48,7 +48,7 @@ function ModalSendToHouseAuction(props) {
         console.log(values);
 
         let payload = {
-            "is_approve" : values.is_approve ? values.is_approve : false,
+            "is_approve" : values.is_approve ? "accept" : "reject",
             "admin_description" : values.admin_description ? values.admin_description : '',
             "auction_houses" : values.auction_houses
         }
@@ -69,7 +69,7 @@ function ModalSendToHouseAuction(props) {
 
     const handleCloseModal = () => {
         props.setVisibleSendToHouseAuction(false);
-        window.location.reload()
+        // window.location.reload()
     }
 
 

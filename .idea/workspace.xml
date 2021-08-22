@@ -32,8 +32,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/SendMessagePage/SendMessagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SendMessagePage/SendMessagePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SalesConsulerPage/SalesConsulerPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SalesConsulerPage/SalesConsulerPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SalesConsulerPage/TableSalesConsuler.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SalesConsulerPage/TableSalesConsuler.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/ModalSendToHouseAuction.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/ModalSendToHouseAuction.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/SingleSaleConsulerPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleSaleConsulerPage/SingleSaleConsulerPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Views/TicketPage/TicketPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/TicketPage/TicketPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,8 +57,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../angular/website" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -65,6 +70,41 @@
       <recent name="D:\samira\adminAuction\src\utils" />
       <recent name="D:\rezaei\reactDevelop\adminPanelAuction\src\Views" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="npm run start" />
+      <command value="yarn run start" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="start (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start (1)" />
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -97,7 +137,16 @@
       <workItem from="1628665303509" duration="7956000" />
       <workItem from="1628682408358" duration="2012000" />
       <workItem from="1628915921682" duration="8487000" />
-      <workItem from="1628945285183" duration="2151000" />
+      <workItem from="1628945285183" duration="2392000" />
+      <workItem from="1629002860243" duration="2689000" />
+      <workItem from="1629520071639" duration="439000" />
+      <workItem from="1629520543781" duration="68000" />
+      <workItem from="1629520630337" duration="65000" />
+      <workItem from="1629520709101" duration="322000" />
+      <workItem from="1629522189131" duration="273000" />
+      <workItem from="1629522482402" duration="25000" />
+      <workItem from="1629522523537" duration="17260000" />
+      <workItem from="1629606814833" duration="3465000" />
     </task>
     <servers />
   </component>
@@ -130,5 +179,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
