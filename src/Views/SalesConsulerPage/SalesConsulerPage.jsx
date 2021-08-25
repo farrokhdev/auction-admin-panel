@@ -19,13 +19,14 @@ function SalesConsulerPage(props) {
     const [params , setParams] = useState(
         {
             page : 1, 
-            page_size : 5 , 
+            page_size : 10 ,
         });
 
     useEffect(() => {
         setLoading(true)
         const queries = queryString.stringify(params);
         axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
+        // axios.get(`${BASE_URL}/auction-house/suggest/?${queries}`).then(res => {
             setLoading(false)
             setsalesConsulerList(res.data.data.result)
             setCountSalesConsuler(res.data.data.count)
@@ -73,7 +74,7 @@ function SalesConsulerPage(props) {
                                         <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
-                                                <TableSalesConsuler salesConsulerList={salesConsulerList} />
+                                                <TableSalesConsuler page={params.page}  salesConsulerList={salesConsulerList} />
                                             </div>
 
                                             <PaginationComponent count={countSalesConsuler} handeSelectPage={handeSelectPage}/>

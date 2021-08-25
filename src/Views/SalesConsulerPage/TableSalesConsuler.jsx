@@ -1,33 +1,35 @@
 import React from 'react'
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import {Menu, Dropdown, Image} from 'antd';
+import {DownOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali, { now } from 'moment-jalaali';
+import momentJalaali, {now} from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
+function TableSalesConsuler({salesConsulerList, page}) {
 
-function TableSalesConsuler({salesConsulerList}) {
-
-    const menu=(id) => (
+    const menu = (id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/sales-consuler/${id}/`} >
+                <Link to={`/sales-consuler/${id}/`}>
                     مشاهده
                 </Link>
-            </Menu.Item >
+            </Menu.Item>
         </Menu>
     );
 
 
     return (
         <div collapse className="table-responsive ">
-        <table className="table ">
-            <thead >
+            <table className="table ">
+                <thead>
                 <tr className="meassage-header-table-title">
                     <th className=" px-0 minWidth-row">
                         <div className=" px-3 text-center">ردیف</div>
+                    </th>
+                    <th className="  px-0 minWidth-name">
+                        <div className=" px-3 text-center">نام کاربر</div>
                     </th>
                     <th className="  px-0 minWidth-name">
                         <div className=" px-3 text-center">نام کاربر</div>
@@ -45,72 +47,75 @@ function TableSalesConsuler({salesConsulerList}) {
                         <div className="px-3 text-center">عملیات</div>
                     </th>
                 </tr>
-            </thead>
+                </thead>
 
-            <tbody>
+                <tbody>
                 {salesConsulerList?.length ? salesConsulerList.map((salesConsuler, index) =>
-                    <> 
+                    <>
                         <tr className="spaceRow row-messages">
 
-                        <td   className="">
-                            <div  className="my-2 content-td" >
-                                <div className="text-center">
-                                    {++index}
+                            <td className="">
+                                <div className="my-2 content-td">
+                                    <div className="text-center">
+                                        {(index + 1) + ((page - 1) * 10)}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
+                            <td>
+                                <div className="my-2 content-td">
+                                <Image height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
+                                </div>
+                            </td>
+                            <td className="">
+                                <div className="my-2 content-td">
+                                    <div className=" text-center">
+                                        {salesConsuler?.owner?.first_name ? salesConsuler?.owner?.first_name : 'علی'}{' '}{salesConsuler?.owner?.last_name ? salesConsuler?.owner?.last_name : 'صابری'}
+                                    </div>
 
-                        <td   className="">
-                            <div   className="my-2 content-td">
-                                <div className=" text-center"> 
-                                {salesConsuler?.owner?.first_name ? salesConsuler?.owner?.first_name : 'علی'}{' '}{salesConsuler?.owner?.last_name ? salesConsuler?.owner?.last_name : 'صابری'}
                                 </div>
+                            </td>
 
-                            </div>
-                        </td>
-                 
-                        <td className="">
-                            <div
-                                className=" my-2 content-td">
-                                <div className=" w-100 text-center"> 
-                                {momentJalaali(salesConsuler?.date_joined ? salesConsuler?.date_joined : new Date()).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                            <td className="">
+                                <div
+                                    className=" my-2 content-td">
+                                    <div className=" w-100 text-center">
+                                        {momentJalaali(salesConsuler?.date_joined ? salesConsuler?.date_joined : new Date()).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                
-                        <td className="">
-                            <div
-                          
-                                className="my-2 content-td">
+                            </td>
+
+                            <td className="">
+                                <div
+
+                                    className="my-2 content-td">
                                     {salesConsuler?.is_approve === true ? "تایید شده" : "تایید نشده"}
-                            </div>
-                        </td>
-                        <td className=" text-center">
-                            <div className="my-2 content-td">
-                                <Dropdown 
-                                overlay={menu(salesConsuler?.id , salesConsuler?.owner?.first_name)}
-                             
-                                >
-                                    
+                                </div>
+                            </td>
+                            <td className=" text-center">
+                                <div className="my-2 content-td">
+                                    <Dropdown
+                                        overlay={menu(salesConsuler?.id, salesConsuler?.owner?.first_name)}
+
+                                    >
+
                                         <img src={icon_more} alt=""/>
                                         {/* <DownOutlined/> */}
-                                    
-                                </Dropdown>
-                                {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
 
-                            </div>
-                        </td>
+                                    </Dropdown>
+                                    {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+
+                                </div>
+                            </td>
                         </tr>
 
-                        </>
-                     ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
+                    </>
+                ) : <div className="d-flex text-center w-100">لیست خالی</div>}
 
-               
 
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-</div>
+        </div>
     )
 }
 
