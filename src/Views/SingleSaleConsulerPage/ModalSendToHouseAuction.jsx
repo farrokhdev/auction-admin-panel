@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react'
-import {Modal , Form , message , notification , Select , Mentions , Input , Switch} from 'antd';
+import {Modal, Form, message, notification, Select, Mentions, Input, Switch, Spin} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
@@ -29,6 +29,8 @@ function ModalSendToHouseAuction(props) {
     const [form] = Form.useForm();
 
     const [houseAuctionList, setHouseAuctionList] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         
@@ -52,13 +54,21 @@ function ModalSendToHouseAuction(props) {
             "admin_description" : values.admin_description ? values.admin_description : '',
             "auction_houses" : values.auction_houses
         }
-
+        setLoading(true)
 
         axios.put(`${BASE_URL}/panel/product/approve/${props.paramsId}/` , payload).then(res => {
             console.log(res.data);
-
+            setLoading(false)
+            if(res.data.code ===200){
+                message.success("درخواست شما با موفقیت ارسال شد")
+                props.getSuggest()
+            }
+            props.setVisibleSendToHouseAuction(false)
         }).catch(err => {
+            setLoading(false)
             console.log(err);
+            message.error("با خطا مواجه شدید")
+            props.setVisibleSendToHouseAuction(false)
         })
 
     }
@@ -84,7 +94,7 @@ function ModalSendToHouseAuction(props) {
                 onOk={() => props.setVisibleSendToHouseAuction(false)}
                 onCancel={() => props.setVisibleSendToHouseAuction(false)}
                 width={800}>
-
+<Spin spinning={loading}>
                     <div className="d-flex">
                         <div className="col">
 
@@ -172,6 +182,7 @@ function ModalSendToHouseAuction(props) {
                         </Form>
                         </div>
                     </div>
+</Spin>
             </Modal>
         </React.Fragment>
     )
