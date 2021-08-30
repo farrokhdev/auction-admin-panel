@@ -12,48 +12,38 @@ import {connect} from 'react-redux';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading'
 import PaginationComponent from '../../components/PaginationComponent';
+import queryString from 'query-string';
 
 function AuctionsOfHouseAuctionPage(props) {
 
-    const [auctionsInHouseAuction , setAuctionsInHouseAuction] = useState([
-        {
-            title : 'سپید',
-            house_auction_name : 'mohammad',
-            type : 'Online',
-            date_joined : '1400/03/25',
-        },
-        {
-            title : 'نارنج',
-            house_auction_name : 'mohammad',
-            type : 'Online',
-            date_joined : '1400/03/25',
-        },
-        {
-            title : 'بهار',
-            house_auction_name : 'mohammad',
-            type : 'Online',
-            date_joined : '1400/03/25',
-        }
-    ]);
-    const [countAuctionsInHouseAuction, setCountAuctionsInHouseAuction] = useState();
+    const [auctionsInHouseAuction , setAuctionsInHouseAuction] = useState([]);
+    const [countAuctionsInHouseAuction, setCountAuctionsInHouseAuction] = useState(0);
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
-
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 10 ,  
+            home_auction : props.match.params.id
+        });
         useEffect(() => {
-            axios.get(`${BASE_URL}/sale/join-auction/?sale__house__id=${props.match.params.id}`).then(res => {
+            const queries = queryString.stringify(params);
+            axios.get(`${BASE_URL}/sale/auctions/?${queries}`).then(res => {
                 setLoading(false)
-                // setAuctionsInHouseAuction(res.data.data.result.results)
-                setCountAuctionsInHouseAuction(res.data.data.result.count)
+                setAuctionsInHouseAuction(res.data.data.result)
+                setCountAuctionsInHouseAuction(res.data.data.count)
             }).catch(err => {
                 console.log(err);
                 setLoading(false)
             })
-        }, []);
+        }, [params]);
 
 
         const handeSelectPage = (e) => {
-            console.log("Log Of Pagination", e);
             setcurrentPage(e)
+            setParams({
+                ...params , page : e
+            })
         }
 
 
@@ -109,6 +99,7 @@ function AuctionsOfHouseAuctionPage(props) {
                                                 <TableAuctionOfHouseAuctionsPage 
                                                     auctionsInHouseAuction={auctionsInHouseAuction}
                                                     houseAuciton={props.match.params.name}
+                                                    params={params}
                                                 />
                                             </div>
                                             
