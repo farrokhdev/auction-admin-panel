@@ -5,7 +5,7 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import { Menu, Dropdown } from 'antd';
 
-function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton}) {
+function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton , params}) {
 
 
     const menu = (
@@ -100,7 +100,7 @@ function TableAuctionOfHouseAuctionsPage({auctionsInHouseAuction , houseAuciton}
                             <td   className="">
                                 <div  className="my-2 content-td" >
                                     <div className="text-center">
-                                        {++index}
+                                    {params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }
                                     </div>
                                 </div>
                             </td>
