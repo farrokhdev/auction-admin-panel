@@ -244,6 +244,7 @@ function SingleSaleConsulerPage(props) {
                                                 <span>{record.homeauction_sugesstion_status === "accept" &&  <span className="text-success">  <FontAwesomeIcon className="ms-1"
                                                                                                                                                                icon={faCheck}/></span>}</span>
                                                 <span>{record.homeauction_sugesstion_status === "unseen" && ' دیده نشده'}</span>
+                                                <span>{record.homeauction_sugesstion_status === "seen" && ' دیده شده'}</span>
                                                 <span>{record.homeauction_sugesstion_status === "reject" && <span className="text-danger">  <FontAwesomeIcon className="ms-1"
                                                                                                                                                               icon={faTimes}/></span>}</span>
                                             </>
@@ -281,6 +282,7 @@ function SingleSaleConsulerPage(props) {
                 </div>
                 <ModalSendToHouseAuction
                     paramsId={props.match.params.id}
+                    getSuggest={getSuggest}
                     visibleSendToHouseAuction={visibleSendToHouseAuction}
                     setVisibleSendToHouseAuction={setVisibleSendToHouseAuction}/>
             </React.Fragment>

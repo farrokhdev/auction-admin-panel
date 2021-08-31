@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import BidAddSuggest from "./BidAddSuggest";
 import moment from "moment-jalaali";
 
-const timeInterval = [1,2,3,4,5]
+const timeInterval = [1,2,3,4,5,15,30,45]
 
 const Suggest = (props) => {
     const {
@@ -52,7 +52,7 @@ const Suggest = (props) => {
                   wrapperCol={{span: 24}}>
                 <div className="row">
                     <div className="col-xxxxl-8">
-                        {(type === "ONLINE") ? <div className="row">
+                        {((type === "ONLINE") || (type === "PERIODIC")) ? <div className="row">
                             <div className="col-md-6">
                                 <div className="input-group">
                                     <label className="default-lable">بازه زمانی پیشنهاد</label>
@@ -69,7 +69,7 @@ const Suggest = (props) => {
                                             className="search-input w-100 fs-6"
                                             size="large"
                                             dropdownClassName="text-right"
-                                            placeholder="  واحد پول را انتخاب کنید"
+                                            placeholder=" بازه زمانی پیشنهاد را انتخاب کنید"
                                             // onChange={value => {
                                             //     setType(value)
                                             // }}
