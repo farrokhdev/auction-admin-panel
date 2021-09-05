@@ -3,11 +3,11 @@ import { Menu, Dropdown , Image} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
+import { separatorCurrency } from '../../utils/separator';
+import moment from 'moment-jalaali';
 
-
-function TableOrdersList({ordersList}) {
+function TableOrdersList({ordersList , params}) {
 
 
     const menu=(id) => (
@@ -86,7 +86,7 @@ function TableOrdersList({ordersList}) {
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
 
@@ -108,7 +108,7 @@ function TableOrdersList({ordersList}) {
                                         className="box-image-product-list"
                                         width={40}
                                         preview ={order?.image_url}
-                                        src={order?.image_url}
+                                        src={order?.media?.exact_url}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -119,7 +119,7 @@ function TableOrdersList({ordersList}) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {order?.artwork_name}
+                                            {order?.artwork_title}
                                         </div>
                                     </div>
                                 </div>
@@ -127,7 +127,7 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {order?.artist_name}
+                                        {order?.persian_artist_name}
                                     </div>
                                 </div>
                             </td>
@@ -135,7 +135,7 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {order?.auction_owner}
+                                        {order?.owner?.first_name}
                                     </div>
                                 </div>
                             </td>
@@ -143,7 +143,7 @@ function TableOrdersList({ordersList}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {order?.date_auction}
+                                        {`${moment(order?.end_time).format("jYYYY/jMM/jDD ")}  -  ${moment(order?.start_time).format("jYYYY/jMM/jDD")}`}
                                     </div>
                                 </div>
                             </td>
@@ -159,7 +159,7 @@ function TableOrdersList({ordersList}) {
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center"> 
                                         {/* {momentJalaali(order?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
-                                        {order?.sale_price}
+                                        {order?.price ? separatorCurrency(order?.price) : ''}
                                     </div>
                                 </div>
                             </td>
@@ -168,7 +168,7 @@ function TableOrdersList({ordersList}) {
                                 <div
                                     className="my-2 content-td">
                                         {/* {convertTypePersian(participant?.role)} */}
-                                        {(order?.status)}
+                                        {order?.sale_status ? <p className="mb-0">فروخته شد</p> : <p className="mb-0">فروخته نشد</p>}
 
                                 </div>
                             </td>
