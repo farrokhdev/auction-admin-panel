@@ -11,7 +11,8 @@ import {
   QuestionOutlined,
   TeamOutlined,
   FileTextOutlined,
-  NotificationOutlined
+  NotificationOutlined, 
+  BorderRightOutlined
 } from '@ant-design/icons';
 // import {FaUsers} from "react-icons/fa";
 // import iconUsers from '../../images/svg/icon-more.svg'
@@ -304,6 +305,21 @@ function Main(props) {
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
                           >
                               سوالات متداول  
+                          </NavLink>
+                        </Menu.Item>
+
+                        <Menu.Item
+                            icon={<BorderRightOutlined />}
+                            className="d-flex align-items-center" 
+                            key={12} 
+                            >
+                          <NavLink 
+                              id={12}
+                              to={"/create-content"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              ایجاد محتوا  
                           </NavLink>
                         </Menu.Item>
 
