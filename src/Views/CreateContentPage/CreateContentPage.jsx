@@ -1,14 +1,10 @@
-import React , {useState , useEffect , useRef} from 'react'
-import axios from '../../utils/request';
-import {BASE_URL} from '../../utils';
+import React , {useState , useRef} from 'react'
 import Loading from '../../components/Loading';
 import {Breadcrumb} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-import TextEditor from './TextEditor';
-
-
+import TextEditorDraft from './TextEditorDraft';
 
 
 function CreateContentPage(props) {
@@ -21,9 +17,6 @@ function CreateContentPage(props) {
     };
 
     const [loading, setloading] = useState(false)
-
-
-
 
     return (
         <React.Fragment>
@@ -60,14 +53,10 @@ function CreateContentPage(props) {
                                     <div className="row  mx-0">
                                         <div className="col content-page p-4  ">
 
+                                            {/*  form create html of content  */}
+                                            <TextEditorDraft/>
                                             
-                                        
-                                       <TextEditor/>
-
-                                    
-     
                                         </div>
-
                                     </div>
                             </div>
                         </div>
