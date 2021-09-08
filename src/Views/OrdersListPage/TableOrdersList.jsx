@@ -61,7 +61,7 @@ function TableOrdersList({ordersList , params}) {
                             <div className=" px-3 text-center">تاریخ حراج</div>
                         </th>
 
-                        <th className="  px-0 minWidth-typeUser">
+                        <th  className="  px-0 minWidth-winner">
                             <div className=" px-3 text-center">خریدار</div>
                         </th>
 
@@ -80,7 +80,7 @@ function TableOrdersList({ordersList , params}) {
                 </thead>
 
                 <tbody>
-                    {ordersList ? ordersList.map((order, index) =>
+                    {ordersList?.length ? ordersList.map((order, index) =>
                         <> 
                             <tr className="spaceRow row-messages">
 
@@ -150,10 +150,12 @@ function TableOrdersList({ordersList , params}) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                        {order?.buyer_name}
+                                        {order?.bidding_details?.winner ? <p>{order?.bidding_details?.winner?.first_name}{' '}{order?.bidding_details?.winner?.last_name}</p> : ''}
                                     </div>
                                 </div>
                             </td>
+
+                            {console.log("order -->> " , order)}
                             <td className="">
                                 <div
                                     className=" my-2 content-td">
