@@ -169,13 +169,27 @@ function Main(props) {
                               لیست کیف پول‌ها 
                           </NavLink>
                         </Menu.Item>
-                        
+
                         <Menu.Item 
                             className="d-flex align-items-center" 
                             key={5.2}
                             >
                           <NavLink 
                               id={5.2}
+                              to={"/wallet-withdrawal"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              لیست درخواست برداشت 
+                          </NavLink>
+                        </Menu.Item>
+                        
+                        <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={5.3}
+                            >
+                          <NavLink 
+                              id={5.3}
                               to={"/wallet-deposit"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
