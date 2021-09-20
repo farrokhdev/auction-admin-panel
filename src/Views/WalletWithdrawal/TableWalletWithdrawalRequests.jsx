@@ -1,36 +1,9 @@
-import React , {useState} from 'react'
+import React  from 'react'
 import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali from 'moment-jalaali';
-import {convertTypePersian} from '../../utils/converTypePersion';
 import { separatorCurrency } from '../../utils/separator';
-import ModalConfirmWithdrawalRequest from './ModalConfirmWithdrawal';
 
-function TableWalletList({withdrawalRequestList , params , setUserId , setVisibleAcceptWithdrawal}) {
-
- 
-    // const [visibleRejectOffer, setVisibleRejectOffer] = useState(false);
-
-
-    // const menu=(id) => (
-      
-    //         <Menu>
-    //             <Menu.Item key="0" onClick={()=>handleShowModalAcceptWithdrawal(id)} className="text-center">
-    //                 تایید برداشت
-    //             </Menu.Item >
-
-    //             <Menu.Item key="1" className="text-center">
-    //                 رد برداشت
-    //             </Menu.Item >
-    //         </Menu>
-
-        
-   
-    // );
-
-
+function TableWalletList({withdrawalRequestList , params , setUserId , setVisibleAcceptWithdrawal , setVisibleRejectWithdrawal}) {
 
     const menu=(id) => (
         <Menu>
@@ -38,18 +11,22 @@ function TableWalletList({withdrawalRequestList , params , setUserId , setVisibl
                  تایید برداشت
             </Menu.Item >
 
-            <Menu.Item key="1" className="text-center">
+            <Menu.Item key="1" onClick={()=>handleShowModalRejectWithdrawal(id)} className="text-center">
                 رد برداشت
             </Menu.Item >
         </Menu>
     );
 
-
+    // function for show modal accept withdrawal
     const handleShowModalAcceptWithdrawal = (id) => {
         setUserId(id)
         setVisibleAcceptWithdrawal(true)
+    } 
+    // function for show modal reject withdrawal
+    const handleShowModalRejectWithdrawal = (id) => {
+        setUserId(id)
+        setVisibleRejectWithdrawal(true)
     }
-
 
 
     return (
@@ -71,10 +48,6 @@ function TableWalletList({withdrawalRequestList , params , setUserId , setVisibl
                     <th className="px-0 minWidth-tracking_code">
                         <div className=" px-3 text-center">کد پیگیری</div>
                     </th>
-                    
-                    {/* <th className="  px-0 minWidth-description">
-                        <div className=" px-3 text-center">نوع تراکنش</div>
-                    </th> */}
 
                     <th className="px-0 minWidth-action">
                         <div className="px-3 text-center">عملیات</div>
@@ -84,7 +57,7 @@ function TableWalletList({withdrawalRequestList , params , setUserId , setVisibl
 
             <tbody>
 
-                {withdrawalRequestList ? withdrawalRequestList?.map((withdrawalRequest, index) =>
+                {withdrawalRequestList?.length ? withdrawalRequestList?.map((withdrawalRequest, index) =>
                     <> 
                         <tr key={withdrawalRequest?.id} className="spaceRow row-messages">
                             <td className="">
@@ -120,12 +93,6 @@ function TableWalletList({withdrawalRequestList , params , setUserId , setVisibl
                                 </div>
                             </td>        
                             
-                            {/* <td className="">
-                                <div
-                                    className="my-2 content-td">
-                                        {withdrawalRequest?.transaction_type}
-                                </div>
-                            </td> */}
                             <td className=" text-center">
                                 <div className="my-2 content-td">
                                     <Dropdown overlay={menu(withdrawalRequest?.id)}>
@@ -138,11 +105,7 @@ function TableWalletList({withdrawalRequestList , params , setUserId , setVisibl
                         </tr>
 
                         </>
-                     ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
-
-
-      
-
+                     ) : <div className="d-flex text-center w-100"></div>} 
         </tbody>
     </table>
 

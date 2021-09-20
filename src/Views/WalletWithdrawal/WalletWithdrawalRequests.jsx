@@ -10,6 +10,7 @@ import PaginationComponent from '../../components/PaginationComponent';
 import queryString from 'query-string';
 import TableWalletWithdrawalRequests from './TableWalletWithdrawalRequests';
 import ModalConfirmWithdrawalRequest from './ModalConfirmWithdrawalRequest';
+import ModalRejectWithdrawal from './ModalRejectWithdrawal';
 
 function WalletWithdrawalRequests(props) {
 
@@ -18,6 +19,7 @@ function WalletWithdrawalRequests(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [countWithdrawalRequests, setCountWithdrawalRequests] = useState(0);
     const [visibleAcceptWithdrawal, setVisibleAcceptWithdrawal] = useState(false);
+    const [visibleRejectWithdrawal, setVisibleRejectWithdrawal] = useState(false);
     const [useId, setUserId] = useState();
     const [params , setParams] = useState(
         {
@@ -82,6 +84,7 @@ function WalletWithdrawalRequests(props) {
                                                 params={params} 
                                                 withdrawalRequestList={withdrawalRequestList}
                                                 setVisibleAcceptWithdrawal={setVisibleAcceptWithdrawal}
+                                                setVisibleRejectWithdrawal={setVisibleRejectWithdrawal}
                                                 setUserId={setUserId}
                                                 />
                                         </div>
@@ -98,7 +101,13 @@ function WalletWithdrawalRequests(props) {
                                     setVisibleAcceptWithdrawal={setVisibleAcceptWithdrawal}
                                     visibleAcceptWithdrawal={visibleAcceptWithdrawal}
                                     useId={useId}
-            />
+                                />
+
+                                <ModalRejectWithdrawal
+                                    setVisibleRejectWithdrawal={setVisibleRejectWithdrawal}
+                                    visibleRejectWithdrawal={visibleRejectWithdrawal}
+                                    useId={useId}
+                                />
                         </div>
                     </div>
                 </div>

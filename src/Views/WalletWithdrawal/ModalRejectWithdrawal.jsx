@@ -1,55 +1,53 @@
-import React , {useState , useEffect} from 'react';
-import {Modal , Form , message , notification , Select , Mentions } from 'antd';
-import {Link} from 'react-router-dom';
+import React  from 'react';
+import {Modal } from 'antd';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
-import Loading from '../../components/Loading';
-import { ACCEPT_WITHDRAWAL } from '../../utils/constant';
+import { REJECT_WITHDRAWAL } from '../../utils/constant';
 import { failNotification, successNotification } from '../../utils/notification';
 
 
-const { Option, getMentions } = Mentions;
-
-function ModalAcceptOffer({visibleAcceptWithdrawal , setVisibleAcceptWithdrawal  , useId }) {
+function ModalRejectWithdrawal({visibleRejectWithdrawal , setVisibleRejectWithdrawal  , useId }) {
 
 
     const handleCloseModal = () => {
-        setVisibleAcceptWithdrawal(false);
+        setVisibleRejectWithdrawal(false);
         window.location.reload()
     }
 
     const handleAcceptWithdrawal = (id) => {
-
-        axios.put(`${BASE_URL}${ACCEPT_WITHDRAWAL(id)}`).then(res => {
-
+        // api service call for reject withdrawal user by admin
+        axios.put(`${BASE_URL}${REJECT_WITHDRAWAL(id)}`).then(res => {
+            // if statusCode of response is not equal 400 close modal confirm and show success notification
             if(res.data.data.statusCode !== 400){
-                setVisibleAcceptWithdrawal(false);
+                setVisibleRejectWithdrawal(false);
                 setTimeout(() => {
-                    successNotification( "تایید برداشت" , res.data.data.result )
+                    successNotification( "رد برداشت" , res.data.data.result )
                 }, 500);
+            // if statusCode of response is equal 400 close modal confirm and show failed notification
             }else{
-                setVisibleAcceptWithdrawal(false);
+                setVisibleRejectWithdrawal(false);
                 setTimeout(() => {
                     failNotification("خطا" , res.data.data.error_message)
                 }, 500);
             }
 
         }).catch(err => {
-            console.error(err.response);
             
         })
     }
 
     
+
+
     return (
         <React.Fragment>
             <Modal
-                title="پذیرش درخواست برداشت"
+                title="رد درخواست برداشت"
                 centered
                 className="modal-send-to-house-autions"
-                visible={visibleAcceptWithdrawal}
-                onOk={() => setVisibleAcceptWithdrawal(false)}
-                onCancel={() => setVisibleAcceptWithdrawal(false)}
+                visible={visibleRejectWithdrawal}
+                onOk={() => setVisibleRejectWithdrawal(false)}
+                onCancel={() => setVisibleRejectWithdrawal(false)}
                 width={300}
             >
 
@@ -58,7 +56,7 @@ function ModalAcceptOffer({visibleAcceptWithdrawal , setVisibleAcceptWithdrawal 
                             <div className="d-block d-sm-flex mt-5">
                                 <div className="col px-0">
                                     <div className="d-flex justify-content-center justify-content-sm-end ml-sm-3">
-                                        <button onClick={()=>handleAcceptWithdrawal(useId)} className="btn-accept-withdrawal">تایید برداشت</button>
+                                        <button onClick={()=>handleAcceptWithdrawal(useId)} className="btn-reject-withdrawal">رد برداشت</button>
                                     </div>
                                 </div>
                                 <div className="col px-0">
@@ -75,5 +73,6 @@ function ModalAcceptOffer({visibleAcceptWithdrawal , setVisibleAcceptWithdrawal 
     )
 }
 
-export default ModalAcceptOffer;
+export default ModalRejectWithdrawal;
+
 

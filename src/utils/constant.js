@@ -10,5 +10,6 @@ module.exports={
     LIST_HOUSE_AUCTIONS:"/account/home-auction/",
     UPLOAD_EXEL_AUCTION:name=>`/sale/upload/${name}/`,
     DELETE_AUCTION:id=>`/sale/auctions/${id}/`,
-    ACCEPT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/decrease/`
+    ACCEPT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/approve/`,
+    REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`
 }
