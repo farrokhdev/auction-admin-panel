@@ -40,7 +40,7 @@ import HouseAuctionOffers from "./Views/HouseAuctionOffers";
 import WalletPage from "./Views/WalletPage";
 import DetailWalletPage from "./Views/WalletPage/detail";
 import WalletDeposit from "./Views/WalletDeposit";
-import WalletWithdrawal from "./Views/WalletWithdrawal";
+import WalletWithdrawal from "./Views/WalletWithdrawal/WalletWithdrawalRequests";
 import OrdersListPage from "./Views/OrdersListPage";
 import FrequentlyAskedQuestions from "./Views/FrequentlyAskedQuestions";
 import SingleFrequentlyAskedQuestions from "./Views/SingleFrequentlyAskedQuestions";
@@ -99,6 +99,7 @@ function App(props) {
                             <Route exact path="/wallets/:id" render={props=><Main {...props}><DetailWalletPage {...props} /></Main>}/>
                             <Route exact path="/wallet-deposit" render={props=><Main {...props}><WalletDeposit {...props} /></Main>}/>
                             <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/>
+                            {/* <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/> */}
                             <Route exact path="/orders" render={props=><Main {...props}><OrdersListPage {...props} /></Main>}/>
                             <Route exact path="/add-question-category" render={props=><Main {...props}><AddNewQuestionCategory {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions" render={props=><Main {...props}><FrequentlyAskedQuestions {...props} /></Main>}/>

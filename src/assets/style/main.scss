@@ -830,6 +830,10 @@ table  tbody tr td {
     min-width: 10rem !important;
 }
 
+.minWidth-fullname{
+    min-width: 15rem !important;
+}
+
 .minWidth-email{
     min-width: 10rem !important;
 }
@@ -852,6 +856,9 @@ table  tbody tr td {
 
 .minWidth-winner{
     min-width: 15rem !important;
+}
+.minWidth-tracking_code{
+    min-width: 20rem !important;
 }
 
 .minWidth-action{
@@ -1628,7 +1635,7 @@ color: $white-color;
 
 .btn-accept-offer:hover{
     background-color: $primary-color !important;
-    color: $white-color;
+    color: $white-color !important;
 }
 
 .btn-reject-offer{
@@ -1637,7 +1644,7 @@ color: $white-color;
 
 .btn-reject-offer:hover{
     background-color: $warning-color !important ;
-    color: $white-color;
+    color: $white-color !important;
 }
 
 .btn-reject-offer{
@@ -1679,6 +1686,30 @@ color: $white-color;
     .ant-modal-title{
         color: $white-color !important;
     }
+}
+
+
+
+.btn-accept-withdrawal{
+    @include greenBtn;
+}
+
+.btn-accept-withdrawal:hover{
+    background-color: $primary-color !important;
+    color: $white-color !important;
+}
+
+.btn-reject-withdrawal{
+    @include cancelBtn;
+}
+
+.btn-reject-withdrawal:hover{
+    background-color: $warning-color !important ;
+    color: $white-color !important;
+}
+
+.btn-reject-withdrawal{
+    @include warningBtn;
 }
 
 
