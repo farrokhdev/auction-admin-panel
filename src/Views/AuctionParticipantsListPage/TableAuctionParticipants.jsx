@@ -1,41 +1,17 @@
-import React from 'react'
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom';
-import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali from 'moment-jalaali';
-import {convertTypePersian} from '../../utils/converTypePersion';
+import React from 'react';
+import { Tooltip} from 'antd';
+
+function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsAuction , setParticipant_id , params}) {
 
 
-function TableAuctionParticipants({auctionParticipants}) {
+    const handleClickShowDetails = (id) => {
+        setParticipant_id(id)
+        setTimeout(() => {
+            setVisibleParticipantsAuction(true)
+        }, 500);
+    }
 
-    const menu=(id) => (
-        <Menu>
-            <Menu.Item className="text-center">
-                <Link  >
-                مشاهده
-                </Link>
-            </Menu.Item >
-
-            {/* <Menu.Item className="text-center">
-                <Link  to={`/auctions-participants/${id}`}>
-                    شرکت کنندگان
-                </Link>
-            </Menu.Item >
-            <Menu.Item className="text-center">
-                <Link >
-                    آثار
-                </Link>
-            </Menu.Item >
-            <Menu.Item className="text-center">
-                <Link >
-                    بیدها
-                </Link>
-            </Menu.Item > */}
-        </Menu>
-    );
-
-    
+     
     return (
         <div collapse className="table-responsive ">
             <table className="table ">
@@ -48,17 +24,6 @@ function TableAuctionParticipants({auctionParticipants}) {
                             <div className=" px-3 text-center">نام</div>
                         </th>
 
-                        <th className="  px-0 minWidth-email">
-                            <div className=" px-3 text-center">ایمیل</div>
-                        </th>
-
-                        <th className="  px-0 minWidth-mobile">
-                            <div className=" px-3 text-center">شماره تماس </div>
-                        </th>
-
-                        <th className="  px-0 minWidth-date">
-                            <div className=" px-3 text-center"> تاریخ عضویت</div>
-                        </th>
 
                         <th className="  px-0 minWidth-typeUser">
                             <div className=" px-3 text-center">وضعیت </div>
@@ -71,13 +36,13 @@ function TableAuctionParticipants({auctionParticipants}) {
                 </thead>
 
                 <tbody>
-                    {Boolean(auctionParticipants) ? auctionParticipants.map(( item, index) =>
+                    {Boolean(auctionParticipants) ? auctionParticipants?.map(( item, index) =>
                         <> 
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
 
@@ -87,49 +52,26 @@ function TableAuctionParticipants({auctionParticipants}) {
 
                                 </div>
                             </td>
-                            <td  className="">
 
-                                <div   className=" ">
-                                    <div className="my-2 content-td">
-                                        <div className=" text-center"> 
-                                        {item?.applicant?.email}
-                                    </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {item?.applicant?.username}</div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> {momentJalaali(item?.applicant?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
-                                </div>
-                            </td>
                
                             <td className="">
                                 <div className="my-2 content-td">
-                                    {convertTypePersian(item?.applicant?.status)}
+                                    {console.log("item?.applicant?.is_approve ---" , item?.is_approve)}
+                                    {!!item?.is_approve ? <button className="btn-status-accept">تایید شده</button> : <button className="btn-status-reject"> رد شده</button>}
                                 </div>
                             </td>
 
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(item?.applicant?.id)}>
-                                        <a className="">
-                                            <img src={icon_more} alt=""/>
-                                            {/* <DownOutlined/> */}
-                                        </a>
-                                    </Dropdown>
-                                    {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+                                    <Tooltip title="مشاهده جزییات، تایید و رد شرکت کننده" >
+                                        <button onClick={()=>handleClickShowDetails(item?.id) } className="btn-show-detail-participant">مشاهده جزییات</button>
+                                    </Tooltip>
                                 </div>
                             </td>
                             </tr>
 
                             </>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        ) : <div className="d-flex text-center w-100"></div>}
             </tbody>
         </table>
 
