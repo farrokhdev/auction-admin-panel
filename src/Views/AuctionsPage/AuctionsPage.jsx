@@ -8,6 +8,9 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableAuctonsList from './TableAuctonsList';
 import PaginationComponent from '../../components/PaginationComponent';
+import ModalBidsMember from '../MembersPage/ModalBidsMember';
+import ModalBidsAuction from './ModalBidsAuction';
+import ModalAuctionProducts from './ModalAuctionProducts';
 
 
 function AuctionsPage(props) {
@@ -16,6 +19,12 @@ function AuctionsPage(props) {
     const [countAuction, setCountAuction] = useState(0);
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [visibleBidsAuction, setVisibleBidsAuction] = useState(false);
+    const [visibleAuctionProduct, setVisibleAuctionProduct] = useState(false);
+    const [bidsAuction_id, setBidsAuction_id] = useState()
+    const [auctionProduct_id, setAuctionProduct_id] = useState()
+
+    
 
         useEffect(() => {
             axios.get(`${BASE_URL}/sale/auctions/`).then(res => {
@@ -79,6 +88,11 @@ function AuctionsPage(props) {
                                             <div className="row px-0 mx-0 mt-3">
                                                 <TableAuctonsList 
                                                     auctionsList={auctionsList}
+                                                    setVisibleBidsAuction={setVisibleBidsAuction}
+                                                    setBidsAuction_id={setBidsAuction_id}
+                                                    setAuctionProduct_id={setAuctionProduct_id}
+                                                    visibleAuctionProduct={visibleAuctionProduct}
+                                                    setVisibleAuctionProduct={setVisibleAuctionProduct}
                                                 />
                                             </div>
 
@@ -90,6 +104,26 @@ function AuctionsPage(props) {
                         </div>
                     </div>
                 </div>
+
+                {!!bidsAuction_id  ? 
+                    <ModalBidsAuction
+                    setVisibleBidsAuction={setVisibleBidsAuction}
+                    visibleBidsAuction={visibleBidsAuction}
+                    bidsAuction_id={bidsAuction_id}
+                    setBidsAuction_id={setBidsAuction_id}
+                />
+                : null}          
+                
+                {!!auctionProduct_id  ? 
+                    <ModalAuctionProducts
+                    setVisibleAuctionProduct={setVisibleAuctionProduct}
+                    visibleAuctionProduct={visibleAuctionProduct}
+                    auctionProduct_id={auctionProduct_id}
+                    setAuctionProduct_id={setAuctionProduct_id}
+                />
+                : null}
+
+                
 
             </div>
         </React.Fragment>
