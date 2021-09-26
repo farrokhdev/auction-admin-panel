@@ -8,6 +8,7 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableAuctionParticipants from './TableAuctionParticipants';
 import PaginationComponent from '../../components/PaginationComponent';
+import ModalAcceptParticipantsAuction from './ModalAcceptParticipantsAuction';
 
 
 function AuctionsPage(props) {
@@ -17,32 +18,38 @@ function AuctionsPage(props) {
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [countParticipants , setCountParticipants] = useState(0)
+    const [participant_id, setParticipant_id] = useState()
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 10 , 
+        });
 
-    console.log("auctionParticipants =>>> " , auctionParticipants);
+    const [visibleParticipantsAuction, setVisibleParticipantsAuction] = useState(false)
 
         useEffect(() => {
-            axios.get(`${BASE_URL}/sale/join-auction/`).then(res => {
+            axios.get(`${BASE_URL}/sale/join-auction/?sale__id=${props.match.params.id}`).then(res => {
 
-                console.log("REEEEE ",res.data.data.result);
                 setLoading(false)
                 setAuctionParticipants(res.data.data.result)
-          
+                setCountParticipants(res.data.data.count)
             }).catch(err => {
-                // console.error(err);
                 setLoading(false)
             })
         }, []);
 
 
         const handeSelectPage = (e) => {
-            console.log("Log Of Pagination", e);
             setcurrentPage(e)
+            setParams({
+                ...params , page : e
+            })
         }
 
 
-        // const handleRedirect = () => {
-        //     window.location.href = "/#add-new-auction";
-        // }
+        console.log("auctionParticipants ---" ,  auctionParticipants);
+
+
 
     return (
         <React.Fragment>
@@ -81,6 +88,9 @@ function AuctionsPage(props) {
                                             <div className="row px-0 mx-0 mt-3">
                                                 <TableAuctionParticipants
                                                     auctionParticipants = {auctionParticipants}
+                                                    setVisibleParticipantsAuction={setVisibleParticipantsAuction}
+                                                    setParticipant_id={setParticipant_id}
+                                                    params={params}
                                                 />
                                             </div>
 
@@ -92,6 +102,15 @@ function AuctionsPage(props) {
                         </div>
                     </div>
                 </div>
+
+            {!!participant_id ?    
+                <ModalAcceptParticipantsAuction 
+                    auctionParticipants={auctionParticipants}
+                    visibleParticipantsAuction={visibleParticipantsAuction}
+                    setVisibleParticipantsAuction={setVisibleParticipantsAuction}
+                    participant_id={participant_id}
+                    setParticipant_id={setParticipant_id}
+                /> : null}
 
             </div>
         </React.Fragment>

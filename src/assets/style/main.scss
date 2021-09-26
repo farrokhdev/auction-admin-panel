@@ -1588,6 +1588,57 @@ color: $white-color;
     cursor: pointer !important;
 }
 
+.btn-cancel-participant{
+    @include grayBtn;
+    width: 80px;
+}
+
+.btn-cancel-participant:hover{
+    background-color: $darkGray-color !important;
+    color: $white-color;
+}
+
+.btn-reject-participant{
+    @include warningBtn;
+    width: 80px;
+}
+
+.btn-reject-participant:hover{
+    background-color: $warning-color !important ;
+    color: $white-color !important;
+}
+
+.btn-accept-participant{
+    @include greenBtn;
+}
+
+.btn-accept-participant:hover{
+    background-color: $primary3-color !important ;
+    color: $white-color !important;
+}
+
+.btn-show-detail-participant{
+    @include pinkBtn ;
+    width: 140px;
+
+}
+.btn-show-detail-participant:hover{
+    background-color: $pink-color !important;
+    color:$white-color !important ;
+}
+
+.btn-status-accept{
+    @include grayBtn;
+    min-width: 80px !important;
+    color: $primary3-color !important;
+    background-color: $primary2-color !important;
+}
+
+.btn-status-reject{
+    @include warningBtn;
+    min-width: 80px !important;
+}
+
 // ------------ Sales Consuler Page --------------
 
 .btn-send-to-house-auctions{
