@@ -13,7 +13,7 @@ import {faPen, faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {BASE_URL} from "../../utils";
 import axios from "../../utils/request";
 
-function TableAuctonsList({auctionsList}) {
+function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisibleAuctionProduct , setAuctionProduct_id}) {
     const [Auctions, setAuctions] = useState("");
     const [loading, setLoading] = useState(false);
     const [pageSize, setPageSize] = useState(30);
@@ -89,18 +89,34 @@ function TableAuctonsList({auctionsList}) {
                     شرکت کنندگان
                 </Link>
             </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link>
-                    آثار
-                </Link>
+            <Menu.Item 
+                onClick={()=> handleShowAuctionProduct(id)}
+                className="text-center">
+      
+                آثار
             </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link>
-                    بیدها
-                </Link>
+            <Menu.Item 
+             className="text-center"
+                onClick={()=>handleShowModalBid(id)}
+             >
+               بیدها
             </Menu.Item>
         </Menu>
     );
+
+    const handleShowModalBid = (id)=> {
+        setBidsAuction_id(id)
+        setTimeout(() => {
+            setVisibleBidsAuction(true)
+        }, 700);
+    }   
+    
+    const handleShowAuctionProduct = (id)=> {
+        setAuctionProduct_id(id)
+        setTimeout(() => {
+            setVisibleAuctionProduct(true)
+        }, 700);
+    }
 
 
     return (
