@@ -29,6 +29,7 @@ function SingleSaleConsulerPage(props) {
     }
 
 
+
     const getData = () => {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/product/${props.match.params.id}/`).then(res => {
@@ -222,36 +223,41 @@ function SingleSaleConsulerPage(props) {
 
                                         </div>
                                     </div>
-                                    <div className="d-block d-lg-flex mt-4">
-                                        <div className="col">
-                                            <p className="mb-2 mb-lg-0 text-right">لیست پیشنهادات به خانه حراج</p>
+
+
+                                    { artwork?.owner?.role !== "home_auction" ? <>
+                                        <div className="d-block d-lg-flex mt-4">
+                                            <div className="col">
+                                                <p className="mb-2 mb-lg-0 text-right">لیست پیشنهادات به خانه حراج</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="mt-3">
+                                        <div className="mt-3">
 
-                                        <Table dataSource={suggestHomeAuction}>
+                                            <Table dataSource={suggestHomeAuction}>
 
-                                            <Column title="نام خانه حراجی " render={(text, record) => <span>{record.auction_house.home_auction_name}</span>}/>
-                                            <Column title="نام ونام خانوادگی " render={(text, record) => <span>{record.auction_house.first_name + ' ' + record.auction_house.last_name}</span>}/>
-                                            <Column title="شماره موبایل " render={(text, record) => <span>{record.auction_house.mobile }</span>}/>
+                                                <Column title="نام خانه حراجی " render={(text, record) => <span>{record.auction_house.home_auction_name}</span>}/>
+                                                <Column title="نام ونام خانوادگی " render={(text, record) => <span>{record.auction_house.first_name + ' ' + record.auction_house.last_name}</span>}/>
+                                                <Column title="شماره موبایل " render={(text, record) => <span>{record.auction_house.mobile }</span>}/>
 
-                                            <Column title="  انتخاب توسط کاربر "
-                                                    render={(text, record) => <span>{record.is_selected ? <span className="text-success">
-                                                        <FontAwesomeIcon className="ms-1"
-                                                                         icon={faCheck}/>
-                                                    </span> : 'انتخاب نشده'}</span>}/>
-                                            <Column title="پاسخ خانه حراجی" render={(text, record) => <>
-                                                <span>{record.homeauction_sugesstion_status === "accept" &&  <span className="text-success">  <FontAwesomeIcon className="ms-1"
-                                                                                                                                                               icon={faCheck}/></span>}</span>
-                                                <span>{record.homeauction_sugesstion_status === "unseen" && ' دیده نشده'}</span>
-                                                <span>{record.homeauction_sugesstion_status === "seen" && ' دیده شده'}</span>
-                                                <span>{record.homeauction_sugesstion_status === "reject" && <span className="text-danger">  <FontAwesomeIcon className="ms-1"
-                                                                                                                                                              icon={faTimes}/></span>}</span>
-                                            </>
-                                            }/>
+                                                <Column title="  انتخاب توسط کاربر "
+                                                        render={(text, record) => <span>{record.is_selected ? <span className="text-success">
+                                                            <FontAwesomeIcon className="ms-1"
+                                                                            icon={faCheck}/>
+                                                        </span> : 'انتخاب نشده'}</span>}/>
+                                                <Column title="پاسخ خانه حراجی" render={(text, record) => <>
+                                                    <span>{record.homeauction_sugesstion_status === "accept" &&  <span className="text-success">  <FontAwesomeIcon className="ms-1"
+                                                                                                                                                                icon={faCheck}/></span>}</span>
+                                                    <span>{record.homeauction_sugesstion_status === "unseen" && ' دیده نشده'}</span>
+                                                    <span>{record.homeauction_sugesstion_status === "seen" && ' دیده شده'}</span>
+                                                    <span>{record.homeauction_sugesstion_status === "reject" && <span className="text-danger">  <FontAwesomeIcon className="ms-1"
+                                                                                                                                                                icon={faTimes}/></span>}</span>
+                                                </>
+                                                }/>
 
-                                        </Table>
-                                    </div>
+                                            </Table>
+                                        </div>
+                                    </> : null}
+                                    
 
                                     <Loading loading={loading || loadingSuggest}/>
                                     <div className="d-block d-sm-flex mt-5">
