@@ -12,7 +12,8 @@ import {
   TeamOutlined,
   FileTextOutlined,
   NotificationOutlined, 
-  BorderRightOutlined
+  BorderRightOutlined, 
+  ProfileOutlined
 } from '@ant-design/icons';
 // import {FaUsers} from "react-icons/fa";
 // import iconUsers from '../../images/svg/icon-more.svg'
@@ -335,7 +336,22 @@ function Main(props) {
                           >
                               ایجاد محتوا  
                           </NavLink>
-                        </Menu.Item>
+                        </Menu.Item>                  
+                        
+                        {/* <Menu.Item
+                            icon={<ProfileOutlined />}
+                            className="d-flex align-items-center" 
+                            key={13} 
+                            >
+                          <NavLink 
+                              id={13}
+                              to={"/create-categories"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              دسته‌بندی‌ها 
+                          </NavLink>
+                        </Menu.Item> */}
 
                     
                                   {/* <SubMenu  key="5" icon={<SnippetsOutlined />} title="مشاوره فروش">

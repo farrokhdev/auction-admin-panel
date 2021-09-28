@@ -75,72 +75,7 @@ function AddNewArtwork(props) {
 
     }, []);
 
-    // const handleUpload = (e) => {
-    //     let payload = {"content_type":"image"}
-    //     setImageUrl('')
-    //     axios.post(`${BASE_URL}/core/upload/`, payload)
-    //         .then(resp=>{
-    //             if(resp.data.code === 200){
-    //                 setCoreUpload(resp.data.data.result)
-    //                 setUploading(true)
-    //                 axios.put(resp.data.data.result.upload_url, e)
-    //                     .then(resp1 => {
-    //                         if (resp1.status === 200) {
-    //                             axios.post(`${BASE_URL}/core/media/photos/`, {
-    //                                 "media_path": resp.data.data.result.upload_url,
-    //                                 "type": "image",
-    //                                 "bucket_name": "image",
-    //                                 "file_key": resp.data.data.result.file_key
-    //                             })
-    //                                 .then(resp2=>{
-    //                                     if(resp2.data.code === 201){
-    //                                         setCoreUpload(resp2.data.data.result)
-    //                                         setUploaded(true)
-    //                                         setUploading(false)
-    //                                         getBase64(e, imageUrl =>
-    //                                             setImageUrl(imageUrl)
-    //                                         );
-    //                                     }
-    //                                 })
-    //                                 .catch(err=>{
-    //                                     console.log("Error Message" , err.response);
-    //                                     setUploading(false)
-    //                                 })
-    //                         }
-    //                     })
-    //                     .catch(err => {
-    //                         console.error(err.response);
-    //                         setUploading(false)
-    //                     })
-    //             }
-    //         })
-    //         .catch(err=>{
-    //             console.log("Error Message" , err.response);
-    //         })
 
-    // }
-
-    // function getBase64(img, callback) {
-    //     const reader = new FileReader();
-    //     reader.addEventListener('load', () => callback(reader.result));
-    //     reader.readAsDataURL(img);
-    // }
-    
-    //   const onPreview = async file => {
-    //     let src = file.url;
-    //     if (!src) {
-    //       src = await new Promise(resolve => {
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(file.originFileObj);
-    //         reader.onload = () => resolve(reader.result);
-    //       });
-    //     }
-
-    //     let image = new Image();
-    //     image.src = src;
-    //     const imgWindow = window.open(src);
-    //     imgWindow.document.write(image.outerHTML);
-    //   };
     const [form] = Form.useForm();
 
 
@@ -828,7 +763,7 @@ function AddNewArtwork(props) {
                                             className="w-100 "
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    required: false,
                                                     message : "ورودی قیمت فروش خالی است!"
                                                 },
                                                 {
