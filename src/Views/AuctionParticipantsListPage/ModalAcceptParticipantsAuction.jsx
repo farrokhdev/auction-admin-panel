@@ -12,8 +12,6 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
 
     const [participant, setParticipant] = useState()
 
-    console.log("participant_id --" , participant_id);
-    console.log("participant --" , participant);
     
     useEffect(() => {
         getParticipant()
