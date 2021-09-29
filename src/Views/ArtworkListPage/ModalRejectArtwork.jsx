@@ -3,6 +3,7 @@ import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Mentions, Form, Button , Modal , notification} from 'antd';
+import { failNotification } from '../../utils/notification';
 
 function ModalRejectArtwork(props) {
     const { confirm } = Modal; 
@@ -31,9 +32,11 @@ function ModalRejectArtwork(props) {
 
 
     const onFinish =  (values) => {
-        console.log(values.coders);
-        showConfirm(values.coders)
+        showConfirm(values.admin_description)
     };
+
+    let list_id_homeAuciton_suggestions = [];
+    props.listSuggestionHomeAuctions?.map(item => list_id_homeAuciton_suggestions.push(item?.id) )
 
 
     function showConfirm(description) {
@@ -46,23 +49,33 @@ function ModalRejectArtwork(props) {
             console.log('OK');
 
             let payload = {
-                "title" : props.detailsArtwork?.artwork_title,
-                "category": props.detailsArtwork?.category,
-                "description": props.detailsArtwork?.description,
-                "is_approve":"False",
+                // "title" : props.detailsArtwork?.artwork_title,
+                // "category": props.detailsArtwork?.category,
+                // "description": props.detailsArtwork?.description,
+                // "is_approve":"False",
+                // "admin_description": description
+
+                "is_approve": "reject",
+                "auction_houses": props.detailsArtwork?.owner?.role !== "home_auction" ?  list_id_homeAuciton_suggestions : [],
                 "admin_description": description
             }
     
             axios.put(`${BASE_URL}/panel/product/approve/${props.ARTWORK_Id}/`, payload).then(res => {
+
+              if(res.data.data.statusCode !== 400){
+                openNotification('topLeft')
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 300);
+              }else{
+                failNotification("خطا" , res.data.message)
+              }
     
             }).catch(err => {
                 console.log(err);
             })
 
-            openNotification('topLeft')
-            setTimeout(() => {
-                window.location.reload();
-            }, 700);
+
           },
           onCancel() {
             console.log('Cancel');
@@ -78,7 +91,7 @@ function ModalRejectArtwork(props) {
 
                 <Form form={form} layout="horizontal" onFinish={onFinish}>
                     <Form.Item
-                        name="coders"
+                        name="admin_description"
                         label="توضیحات"
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}

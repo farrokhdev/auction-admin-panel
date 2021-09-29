@@ -1,8 +1,10 @@
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import { Menu, Dropdown , Collapse  , Input , Image  } from 'antd';
 import { CaretDownOutlined , FilterFilled , DownOutlined} from '@ant-design/icons';
 import {Link , NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
+import axios from "../../utils/request";
+import { BASE_URL } from '../../utils';
 import momentJalaali from 'moment-jalaali';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
@@ -13,6 +15,25 @@ function TableArtworkList({artworkList , handleFilterArtwork , params }) {
     const { Search } = Input;
     const { Panel } = Collapse;
     const onSearch = value => console.log(value);
+
+
+const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
+
+    useEffect(() => {
+        getHomeAuciton()
+    }, [])
+
+    const getHomeAuciton = () => {
+        axios.get(`${BASE_URL}/account/home-auction/`)
+        .then(res => {
+            console.log("res -->>" , res.data.data.result);
+            setListSuggestionHomeAuctions(res.data.data.result)
+        }).catch({
+
+        })
+
+    
+    }
 
     const menu=(id) => (
 
@@ -298,12 +319,14 @@ function TableArtworkList({artworkList , handleFilterArtwork , params }) {
                             isModalVisibleAccept={isModalVisibleAccept}
                             ARTWORK_Id={ARTWORK_Id}
                             detailsArtwork={detailsArtwork}
+                            listSuggestionHomeAuctions={listSuggestionHomeAuctions}
                         />
                         <ModalRejectArtwork
                             setIsModalVisibleReject={setIsModalVisibleReject}
                             isModalVisibleReject={isModalVisibleReject}
                             ARTWORK_Id={ARTWORK_Id}
                             detailsArtwork={detailsArtwork}
+                            listSuggestionHomeAuctions={listSuggestionHomeAuctions}
                         />
 
             </tbody>
