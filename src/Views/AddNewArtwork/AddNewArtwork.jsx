@@ -43,9 +43,10 @@ function AddNewArtwork(props) {
 
     useEffect(() => {
         setLoading(true)
-       axios.get(`${BASE_URL}/sale/category/`).then( res => {
+       axios.get(`${BASE_URL}/sale/category/?title=آثار`).then( res => {
            setLoading(false)
-           setCategories(res.data.data.result)
+           
+           setCategories(res.data.data.result[0].children)
            
        }
        ).catch(err => {
@@ -256,7 +257,7 @@ function AddNewArtwork(props) {
 
                                                     {houseAuctionsList.length >=1 ? houseAuctionsList.map(houseAuction => (
                                                         <React.Fragment key={houseAuction?.id}>
-                                                            <Option value={houseAuction?.id}>{houseAuction?.first_name}{" "}{houseAuction?.last_name}</Option>
+                                                            <Option className="text-right" value={houseAuction?.id}>{houseAuction?.first_name}{" "}{houseAuction?.last_name}</Option>
                                                         </React.Fragment>
                                                     ) ) : <Option value=""></Option>}
                                                 
@@ -293,7 +294,7 @@ function AddNewArtwork(props) {
 
                                                     {auctionsList.length >=1 ? auctionsList.map(auction => (
                                                         <React.Fragment key={auction?.id}>
-                                                            <Option value={auction?.id}>{auction?.title}</Option>
+                                                            <Option className="text-right" value={auction?.id}>{auction?.title}</Option>
                                                         </React.Fragment>
                                                     ) ) : <Option value=""></Option>}
 
@@ -327,10 +328,10 @@ function AddNewArtwork(props) {
                                                     className="" mode="multiple"
                                                     placeholder="انتخاب دسته‌بندی">
 
-                                                    {categories.length >= 1 ? categories.map(category => (
+                                                    {categories?.length >= 1 ? categories?.map(category => (
 
                                                         <React.Fragment key={category?.id}>
-                                                            <Option value={category?.id}>{category?.title}</Option>
+                                                            <Option className="text-right" value={category?.id}>{category?.title}</Option>
                                                         </React.Fragment>
                                                     )) : <Option value=""></Option>}
                                                         
