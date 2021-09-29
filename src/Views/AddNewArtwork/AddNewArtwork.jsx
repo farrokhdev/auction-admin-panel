@@ -45,6 +45,7 @@ function AddNewArtwork(props) {
         setLoading(true)
        axios.get(`${BASE_URL}/sale/category/?title=آثار`).then( res => {
            setLoading(false)
+           
            setCategories(res.data.data.result[0].children)
            
        }
