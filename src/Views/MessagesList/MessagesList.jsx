@@ -1,10 +1,10 @@
-import React , {useState , useEffect , useRef} from 'react';
-import {Breadcrumb , Mentions, Form, Pagination} from 'antd';
-import { NavLink} from 'react-router-dom';
-import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
-import {connect} from 'react-redux';
-import {BASE_URL} from '../../utils';
-import {fetcher} from '../../utils/common';
+import React, { useState, useEffect, useRef } from 'react';
+import { Breadcrumb, Mentions, Form, Pagination } from 'antd';
+import { NavLink } from 'react-router-dom';
+import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
+import { connect } from 'react-redux';
+import { BASE_URL } from '../../utils';
+import { fetcher } from '../../utils/common';
 import axios from "../../utils/request";
 import Loading from '../../components/Loading';
 import TableInboxMessage from './TableInboxMessage';
@@ -25,9 +25,9 @@ function MessagesList(props) {
     const [form] = Form.useForm();
 
     const onReset = () => {
-      form.resetFields();
+        form.resetFields();
     };
-  
+
     // const onFinish = async () => {
     //   try {
     //     const values = await form.validateFields();
@@ -36,10 +36,10 @@ function MessagesList(props) {
     //     console.log('Error:', errInfo);
     //   }
     // };
-  
+
     // const checkMention = async (_, value) => {
     //   const mentions = getMentions(value);
-  
+
     //   if (mentions.length < 2) {
     //     throw new Error('More than one must be selected!');
     //   }
@@ -48,15 +48,16 @@ function MessagesList(props) {
     const [loading, setLoading] = useState(false);
 
     const [messageList, setMessageList] = useState([]);
-    const [countMessages , setCountMessages] = useState(0);
-    const [currentPage , setcurrentPage] = useState(1);
-    const [params , setParams] = useState(
+    const [countMessages, setCountMessages] = useState(0);
+    const [currentPage, setcurrentPage] = useState(1);
+    const [params, setParams] = useState(
         {
-            page : 1, 
-            page_size : 5 , 
+            page: 1,
+            page_size: 10,
         });
 
-    useEffect(() => {
+    console.log("countMessages==>>", countMessages)
+    const getData = () => {
         setLoading(true)
         const queries = queryString.stringify(params);
         axios.get(`${BASE_URL}/panel/message/?${queries}`).then(res => {
@@ -69,20 +70,22 @@ function MessagesList(props) {
             setLoading(false)
         })
 
-
+    }
+    useEffect(() => {
+        getData()
     }, [params]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
         setcurrentPage(e)
-        setParams({...params , page : e})
+        setParams({ ...params, page: e })
     }
 
-    
+
 
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Loading loading={loading} />
             <div className="container-fluid px-0 container-pages">
 
                 <div className="row m-0">
@@ -94,9 +97,9 @@ function MessagesList(props) {
                                         <div className="d-flex">
                                             <Breadcrumb>
                                                 <Breadcrumb.Item>
-                                                    <NavLink 
+                                                    <NavLink
                                                         key="1"
-                                                        onClick={ e => props.toggleActiveNavDrawer("1")}
+                                                        onClick={e => props.toggleActiveNavDrawer("1")}
                                                         to="/">
                                                         خانه
                                                     </NavLink>
@@ -108,24 +111,24 @@ function MessagesList(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4 ">
 
                                         <div className="row px-3 mb-5">
-                                            <TableInboxMessage messageList={messageList}/>
+                                            <TableInboxMessage messageList={messageList} />
                                         </div>
 
                                         <div className="row  mx-0">
 
                                             <div className="col  px-2  px-md-4  ">
-                                                <PaginationComponent count={countMessages} handeSelectPage={handeSelectPage}/>
+                                                <PaginationComponent count={countMessages} handeSelectPage={handeSelectPage} />
                                             </div>
 
                                         </div>
 
                                         <div className="d-flex d-lg-none justify-content-end mb-3 ml-3">
-                                            <NavLink to= "/send-message">
+                                            <NavLink to="/send-message">
                                                 <button className="btn-scroll-to-send-message" >ارسال پیام</button>
                                             </NavLink>
                                         </div>
@@ -146,14 +149,14 @@ function MessagesList(props) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        toggleActiveNavDrawer : (data) => dispatch(toggleActiveNavDrawer(data)),
+        toggleActiveNavDrawer: (data) => dispatch(toggleActiveNavDrawer(data)),
     }
-  }
-  
-  const mapStateToProps = (store) => {
+}
+
+const mapStateToProps = (store) => {
     return {
         panel: store.panelReducer
     }
-  }
-  
-  export default connect(mapStateToProps , mapDispatchToProps)(MessagesList)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagesList)
