@@ -1,13 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {Mentions, Form, Button, Select, Breadcrumb, message} from 'antd';
-import {NavLink} from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react'
+import { Mentions, Form, Button, Select, Breadcrumb, message } from 'antd';
+import { NavLink } from 'react-router-dom';
 import axios from '../../utils/request';
-import {BASE_URL} from '../../utils';
-import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
-import {connect} from 'react-redux';
+import { BASE_URL } from '../../utils';
+import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
+import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 
-const {Option, getMentions} = Mentions;
+// const {Option, getMentions} = Mentions;
+const { Option } = Select;
 const scrollToRef = (ref) => window.scrollTo(20, ref.current.offsetTop)
 
 function SendMessagePage(props) {
@@ -142,7 +143,7 @@ function SendMessagePage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <Loading loading={loading}/>
+                                <Loading loading={loading} />
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
 
@@ -161,7 +162,8 @@ function SendMessagePage(props) {
                                                     },
                                                 ]}
                                             >
-                                                <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                                <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید" mode="multiple"
+                                                    optionLabelProp="label">
                                                     <React.Fragment key={"allUsers"}>
                                                         <Option value={`allUsers`}>همه کاربران</Option>
                                                     </React.Fragment>
@@ -191,12 +193,12 @@ function SendMessagePage(props) {
                                                 //     validator: checkMention
                                                 // }
                                                 // ]}
-                                                rules={[{required: true, message: 'ورودی عنوان خالی است!'}]}
+                                                rules={[{ required: true, message: 'ورودی عنوان خالی است!' }]}
 
                                             >
-                                                <Mentions style={{borderRadius: '38px', minHeight: '38px'}}
-                                                          placeholder="عنوان پیام را وارد کنید" rows={1}
-                                                          className="text-right">
+                                                <Mentions style={{ borderRadius: '38px', minHeight: '38px' }}
+                                                    placeholder="عنوان پیام را وارد کنید" rows={1}
+                                                    className="text-right">
 
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
@@ -213,12 +215,12 @@ function SendMessagePage(props) {
                                                 wrapperCol={{
                                                     span: 16
                                                 }}
-                                                rules={[{required: true, message: 'ورودی متن پیام خالی است!'}]}
+                                                rules={[{ required: true, message: 'ورودی متن پیام خالی است!' }]}
 
                                             >
-                                                <Mentions style={{borderRadius: '10px', minHeight: '38px'}}
-                                                          className="text-right" rows={4}
-                                                          placeholder="متن پیام را وارد کنید">
+                                                <Mentions style={{ borderRadius: '10px', minHeight: '38px' }}
+                                                    className="text-right" rows={4}
+                                                    placeholder="متن پیام را وارد کنید">
                                                     {/* <Option value="afc163">afc163</Option>
                                                     <Option value="zombieJ">zombieJ</Option>
                                                     <Option value="yesmeck">yesmeck</Option> */}
@@ -235,7 +237,7 @@ function SendMessagePage(props) {
                                                 </Button>
                                                 &nbsp;&nbsp;&nbsp;
                                                 <Button htmlType="button" className="btn-reset-message"
-                                                        onClick={onReset}>
+                                                    onClick={onReset}>
                                                     پاک کردن
                                                 </Button>
                                             </Form.Item>
