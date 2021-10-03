@@ -69,7 +69,7 @@ function CheckMembershipAuctionPage(props) {
             
         // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
             
-        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
+        fetcher(`${BASE_URL}/panel/users/${props.match.params.id}/`,{method:"GET",data:"",header:{}}).then(res => {
             setMember(res.data.result)
             // setCountMember(res.data.count)
             setBankAccountInfo(res.data.result.bankaccount)
@@ -342,7 +342,7 @@ function CheckMembershipAuctionPage(props) {
 
                             <TableInfoBankCheckMembership bankAccountInfo={bankAccountInfo}/>
 
-                        <div className="d-flex my-4">
+                        {/* <div className="d-flex my-4">
                             <h3>محصولات مورد علاقه</h3>
                         </div>
 
@@ -357,7 +357,7 @@ function CheckMembershipAuctionPage(props) {
                             <div style={{minWidth : '100px'}} className="col bg-danger">1</div>
                             <div style={{minWidth : '100px'}} className="col bg-danger">1</div>
                 
-                        </div>
+                        </div> */}
 
                         <div className="d-flex my-4">
                             <h3>شارژ کیف پول</h3>
