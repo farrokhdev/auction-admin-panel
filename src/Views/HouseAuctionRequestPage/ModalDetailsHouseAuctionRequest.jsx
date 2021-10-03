@@ -133,7 +133,7 @@ const layout = {
                        </Form.Item>
                        </div>
                     </div>
-                    <div className="d-block d-md-flex align-items-center">
+                    {/* <div className="d-block d-md-flex align-items-center">
                        <div className="col-12 col-md-4 pb-md-4 mb-2 mb-md-0">
                            <p className="text-right mb-0 h-100">تعداد خانه حراج</p>
                        </div>
@@ -149,7 +149,7 @@ const layout = {
                            />
                        </Form.Item>
                        </div>
-                    </div>                
+                    </div>                 */}
                     
                     <div className="d-block d-md-flex align-items-center">
                        <div className="col-12 col-md-4 pb-md-4 mb-2 mb-md-0">
