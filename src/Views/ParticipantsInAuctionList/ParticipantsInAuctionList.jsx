@@ -28,7 +28,7 @@ function ParticipantsInAuctionList(props) {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/join-auction/`).then(res => {
             setLoading(false)
-            setParticipantsList(res.data.data.result.results)
+            setParticipantsList(res.data.data.result)
         }).catch(err => {
             console.log(err);
             setLoading(false)
