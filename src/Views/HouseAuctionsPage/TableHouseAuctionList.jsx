@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 
 function TableHouseAuctionList({houseAuctionsList}) {
-
+ 
 
     const menu = (id , home_auction_name) => (
         <Menu>

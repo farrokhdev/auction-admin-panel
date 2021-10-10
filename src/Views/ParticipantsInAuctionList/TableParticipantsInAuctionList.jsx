@@ -1,26 +1,26 @@
 import React from 'react'
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
-import {convertTypePersian} from '../../utils/converTypePersion';
+import { convertTypePersian } from '../../utils/converTypePersion';
+import EmptyPlaceholder from '../../components/EmptyPlaceholder/EmptyPlaceholder';
+
+function TableParticipantsInAuctionList({ participantsList }) {
 
 
-function TableParticipantsInAuctionList({participantsList}) {
-
-
-    const menu=(id) => (
+    const menu = (id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to = {`/check-membership-auctions/${id}`} >
+                <Link to={`/check-membership-auctions/${id}`} >
                     بررسی عضویت در حراج
                 </Link>
             </Menu.Item >
         </Menu>
     );
 
-    
+
     return (
         <div collapse className="table-responsive ">
             <table className="table ">
@@ -57,71 +57,69 @@ function TableParticipantsInAuctionList({participantsList}) {
 
                 <tbody>
                     {participantsList ? participantsList.map((participant, index) =>
-                        <> 
+                        <>
                             <tr className="spaceRow row-messages">
 
-                            <td   className="">
-                                <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
-                                </div>
-                            </td>
-
-                            <td   className="">
-                                <div   className="my-2 content-td">
-                                    <div className=" text-center"> {participant?.applicant?.first_name}</div>
-
-                                </div>
-                            </td>
-                            <td  className="">
-
-                                <div   className=" ">
-                                    <div className="my-2 content-td">
-                                        <div className=" text-center"> {participant?.applicant?.email}</div>
+                                <td className="">
+                                    <div className="my-2 content-td" >
+                                        <div className="text-center">{++index}</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {participant?.applicant?.mobile}</div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> {momentJalaali(participant?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
-                                </div>
-                            </td>
-                     
-                            <td className="">
-                                <div
-                              
-                                    className="my-2 content-td">
-                                        {/* {convertTypePersian(participant?.role)} */}
-                                </div>
-                            </td>
-                            <td className=" text-center">
-                                <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(participant?.id)}>
-                                        <a className="">
-                                            <img src={icon_more} alt=""/>
-                                            {/* <DownOutlined/> */}
-                                        </a>
-                                    </Dropdown>
-                                    {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+                                </td>
 
-                                </div>
-                            </td>
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" text-center"> {participant?.applicant?.first_name}</div>
+
+                                    </div>
+                                </td>
+                                <td className="">
+
+                                    <div className=" ">
+                                        <div className="my-2 content-td">
+                                            <div className=" text-center"> {participant?.applicant?.email}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center"> {participant?.applicant?.mobile}</div>
+                                    </div>
+                                </td>
+                                <td className="">
+                                    <div
+                                        className=" my-2 content-td">
+                                        <div className=" w-100 text-center"> {momentJalaali(participant?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
+                                    </div>
+                                </td>
+
+                                <td className="">
+                                    <div
+
+                                        className="my-2 content-td">
+                                        {/* {convertTypePersian(participant?.role)} */}
+                                    </div>
+                                </td>
+                                <td className=" text-center">
+                                    <div className="my-2 content-td">
+                                        <Dropdown overlay={menu(participant?.id)}>
+                                            <a className="">
+                                                <img src={icon_more} alt="" />
+                                                {/* <DownOutlined/> */}
+                                            </a>
+                                        </Dropdown>
+                                        {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+
+                                    </div>
+                                </td>
                             </tr>
 
-                            </>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        </>
+                    ) : ''}
+                </tbody>
+            </table>
 
-                   
-
-            </tbody>
-        </table>
-
-    </div>
+            {!participantsList?.length && <EmptyPlaceholder />}
+        </div>
     )
 }
 
