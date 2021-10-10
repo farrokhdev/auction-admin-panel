@@ -1128,6 +1128,42 @@ color: $white-color;
     }
 }
 
+
+.content-td a{
+    color: $pink-color !important;
+}
+
+.content-td a:hover{
+    transform: scale(1.5) !important;
+}
+
+
+input.default-input {
+    padding: 0 20px;
+  }
+  
+  input.default-input::placeholder{
+    color: var(--gray80) !important ;
+  }
+  
+  select.default-input{
+    padding: 0 20px !important;
+    background-color: var(--gray95) !important;
+    outline: none !important;
+    border: none !important;
+    height: 34px !important;
+    cursor: pointer !important;
+  }
+
+  .btn-create-user{
+      @include purpelBtn;
+  }
+
+  .btn-create-user:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
 // ------- Message page -------
 
 .btn-send-message{

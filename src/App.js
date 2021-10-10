@@ -49,6 +49,7 @@ import AuctionParticipantsListPage from "./Views/AuctionParticipantsListPage/Auc
 import AddNewQuestionCategory from "./Views/AddNewQuestionCategory";
 import HouseAuctionRequestPage from "./Views/HouseAuctionRequestPage";
 import CreateContentPage from "./Views/CreateContentPage";
+import AddNewMember from "./Views/AddNewMember/AddNewMember";
 
 
 
@@ -113,6 +114,7 @@ function App(props) {
                             <Route exact path="/artworks/:id" component={SingleViewArtworkPage}/>
                             <Route exact path="/artworks" component={ArtworksPage}/> */}
                             <Route exact path="/members/:id" render={props=><Main {...props} ><SingleMemberInfoPage {...props}/></Main>}/>
+                            <Route exact path="/add-new-member" render={props=><Main {...props} ><AddNewMember {...props}/></Main>}/>
                             <Route exact path="/members" render={props=><Main {...props}><MembersPage {...props} /></Main>}/>
                             <Route exact path="/artworks" render={props=><Main {...props}><ArtworkListPage {...props} /></Main>}/>
                             <Route exact path="/artworks/:id" render={props=><Main {...props}><SingleViewArtworkPage {...props} /></Main>}/>
