@@ -7,38 +7,74 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
-function TableMemberList({memberList , params ,  countMember , visibleBidsMember , setVisibleBidsMember}) {
+function TableMemberList(props) {
+ const {
+    memberList , 
+    params ,  
+    setIs_call_service_auctions , 
+    setIs_call_service_favoriteArtwork , 
+    setIs_call_service_bids , 
+    setVisibleParticipantAuctions , 
+    setVisibleBidsMember , 
+    setMemberId , 
+    setVisibleFavoriteArtwork
+} = props
 
 
-    const menu=(id) => (
+    const menu=(id , wallet_id) => (
         <Menu>
             <Menu.Item className="text-center">
                 <Link to={`/members/${id}/`} >
                     مشاهده
                 </Link>
             </Menu.Item >
-            <Menu.Item  onClick={()=>setVisibleBidsMember(true)} className="text-center">
-                
+            <Menu.Item  onClick={()=>handleClickBids(id)} className="text-center">
                 بیدها
-               
+            </Menu.Item>
+            <Menu.Item onClick={()=>handleClickAucitons(id)} className="text-center">
+               حراج‌ها
+            </Menu.Item>
+            <Menu.Item onClick={()=> handleClickArtworkFavorite(id)} className="text-center">
+                آثار مورد علاقه
             </Menu.Item>
             <Menu.Item className="text-center">
-                <Link to="/house-auctions" >
-                    حراج‌ها
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link >
-                    آثار مورد علاقه
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link>
+                <Link to={`/wallets/${wallet_id}/`}>
                     کیف پول
                 </Link>
             </Menu.Item>
         </Menu>
     );
+
+    const handleClickBids = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_bids(true)
+            // set variable to 'true', for show  modal
+            setVisibleBidsMember(true)
+        }, 300);
+    } 
+
+
+    const handleClickAucitons = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_auctions(true)
+            // set variable to 'true', for show  modal
+            setVisibleParticipantAuctions(true)
+        }, 300);
+    }   
+    
+    const handleClickArtworkFavorite = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_favoriteArtwork(true)
+            // set variable to 'true', for show  modal
+            setVisibleFavoriteArtwork(true)
+        }, 300);
+    }
 
     
     return (
@@ -130,7 +166,7 @@ function TableMemberList({memberList , params ,  countMember , visibleBidsMember
                             </td>
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(member?.id)}>
+                                    <Dropdown overlay={menu(member?.id , member?.wallet_id)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                             {/* <DownOutlined/> */}

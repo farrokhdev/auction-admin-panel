@@ -94,20 +94,40 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
+                <SubMenu id={2}  key={2} icon={<TeamOutlined />} title="اعضا">
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={2.1}
+                        >
+                      <NavLink 
+                          id={2.1}
+                          to={"/members"} 
+                          className="mr-2" 
+                          onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                      >
+                          لیست اعضا 
+                      </NavLink>
+                    </Menu.Item>
 
-                  <Menu.Item 
-                      className="d-flex align-items-center" 
-                      key={2} 
-                      icon={<TeamOutlined />}>
-                    <NavLink 
-                        id={2}
-                        to={"/members"} 
-                        className="mr-2" 
-                        onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
-                    >
-                        اعضا
-                    </NavLink>
-                  </Menu.Item>
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={2.2} 
+                              >
+                        <NavLink 
+                            id={2.2}
+                            to={"/add-new-member"}
+                            className="mr-2" 
+                            onClick={ e=> {
+                                toggleActiveNavDrawer(e.currentTarget.id)
+                            }}
+                        >
+                            افزودن کاربر 
+                        </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
+
+                  
 
                   <Menu.Item 
                       className="d-flex align-items-center" 
