@@ -9,6 +9,7 @@ import momentJalaali from 'moment-jalaali';
 import EmptyComponent from '../../components/EmptyComponent';
 import queryString from 'query-string';
 import PaginationComponent from '../../components/PaginationComponent';
+import { separatorCurrency } from '../../utils/separator';
 
 function ModalBidsMember({setVisibleBidsMember , visibleBidsMember , memberId , setIs_call_service_bids}) {
 
@@ -18,19 +19,19 @@ function ModalBidsMember({setVisibleBidsMember , visibleBidsMember , memberId , 
     const [params, setParams] = useState({
         page : 1, 
         page_size : 10 , 
-        enrolled_user : memberId
+        user__id : memberId
     })
-    
+
     useEffect(() => {
         getBidsUser()
-        setParams({...params , enrolled_user : memberId})
-    }, [memberId]);
-
+    }, [params]);
+    
+  
     // function for get list of bids by a user 
     const getBidsUser = () => {
         setLoading(true)
         const queries = queryString.stringify(params);
-        axios.get(`${BASE_URL}/sale/auctions/?${queries}`).then(res => {
+        axios.get(`${BASE_URL}/panel/bidding/?${queries}`).then(res => {
             console.log(res.data);
             setBids(res.data.data.result)
             setCountBids(res.data.data.count)
@@ -80,20 +81,22 @@ function ModalBidsMember({setVisibleBidsMember , visibleBidsMember , memberId , 
                                             <div className=" px-3 text-center">ردیف</div>
                                         </th>
                              
+                                        <th className="  px-0 ">
+                                            <div className=" px-3 text-center">اثر</div>
+                                        </th>
+
+                                        <th className="  px-0 minWidth-date">
+                                            <div className=" px-3 text-center">نام حراج</div>
+                                        </th>  
 
                                         <th className="  px-0 minWidth-date">
                                             <div className=" px-3 text-center">تاریخ و ساعت</div>
-                                        </th>     
+                                        </th> 
                                         
-                                        <th className="  px-0 minWidth-description">
-                                            <div className=" px-3 text-center">توضیحات</div>
-                                        </th>
-
                                         <th className="  px-0 minWidth--price">
                                             <div className=" px-3 text-center">قیمت</div>
                                         </th>
 
-                                        
                                     </tr>
                                 </thead>
 
@@ -108,32 +111,49 @@ function ModalBidsMember({setVisibleBidsMember , visibleBidsMember , memberId , 
                                         </div>
                                     </td>
 
-    
-                                    <td  className="">
-
-                                        <div   className=" ">
-                                            <div className="my-2 content-td">
-                                                <div className=" text-center"> 
-                                                {bid?.creation_time ? `${momentJalaali(bid?.creation_time).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>         
-                                    
-                                    <td  className="text-right">
+                                    <td  className="text-center">
                                         <div  className=" ">
                                             <div className="my-2 content-td float-right w-100">
-                                                <div className=" text-right w-100"> 
-                                                {/* {bid?.description ? bid?.description : ''} */}
+                                                <div className=" text-center w-100"> 
+                                                    <Link to={`/artworks/${bid?.product_auction?.product_id}`}>
+                                                        {bid?.product_auction?.product ? bid?.product_auction?.product?.artwork_title : ''}
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
 
+                                    <td  className="">
+                                        <div  className=" ">
+                                            <div className="my-2 content-td">
+                                                <div className=" text-center"> 
+                                                    <Link to={`/auctions/${bid?.product_auction?.auction_id}`}>
+                                                        {bid?.product_auction ? bid?.product_auction?.auction_name : ''}
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>  
+
+    
+                                    <td  className="">
+                                        <div  className=" ">
+                                            <div className="my-2 content-td">
+                                                <div className=" text-center"> 
+                                                    {bid?.creation_date ? `${momentJalaali(bid?.creation_date).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>       
+                                    
+                                 
+                                    
+                                    
+
                                     <td className="">
                                         <div className="my-2 content-td">
                                             <div className=" w-100 text-center"> 
-                                                {/* {bid?.applicant?.mobile} */}
+                                                {bid?.price ? separatorCurrency(bid?.price) : ''}
                                             </div>
                                         </div>
                                     </td>

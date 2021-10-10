@@ -22,12 +22,11 @@ function ModalParticipantAuctions({setVisibleParticipantAuctions , visiblePartic
         enrolled_user : memberId
     })
 
+
     useEffect(() => {
-        if(is_call_service_auctions){
-            getListParticipantAuctions()
-            setParams({...params , enrolled_user : memberId})
-        }
-    }, [memberId]);
+        getListParticipantAuctions()
+    }, [params]) 
+
 
     // function for get list of auctions participant by a user 
     const getListParticipantAuctions = () => {

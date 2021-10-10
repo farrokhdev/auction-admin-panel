@@ -21,11 +21,9 @@ function ModalFavoriteArtwork({visibleFavoriteArtwork , setVisibleFavoriteArtwor
         enrolled_user : memberId
     })
 
-
     useEffect(() => {
         getListFavoriteArtworkUser()
-        setParams({...params , enrolled_user : memberId})
-    }, [memberId]);
+    }, [params]);
 
     // function for get list of favorite artworks by a user 
     const getListFavoriteArtworkUser = () => {
