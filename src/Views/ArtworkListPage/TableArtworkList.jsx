@@ -9,6 +9,7 @@ import momentJalaali from 'moment-jalaali';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 import { separatorCurrency } from '../../utils/separator';
+import EmptyComponent from '../../components/EmptyComponent';
 
 function TableArtworkList({artworkList , handleFilterArtwork , params }) {
     
@@ -93,14 +94,6 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
     }
 
 
-//   const onChangeFrom = (value) =>{
-//     handleFilterDateFrom(value.format('jYYYY-jM-jD'))
-
-//   }
-
-//   const onChangeTo = (value) => {
-//     handleFilterDateTo(value.format('jYYYY-jM-jD'))
-//   }
     
     return (
         <React.Fragment>
@@ -222,7 +215,7 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
                 </thead>
 
                 <tbody>
-                    {artworkList ? artworkList.map((artwork, index) =>
+                    {artworkList?.length ? artworkList.map((artwork, index) =>
                         <React.Fragment key={artwork?.id}> 
                             <tr className="spaceRow row-messages">
 
@@ -311,7 +304,7 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
                             </td>
                             </tr>
                             </React.Fragment>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        ) : <div className="d-flex text-center w-100"></div>}
 
                    
                         <ModalAcceptArtwork 
@@ -332,7 +325,12 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
             </tbody>
         </table>
 
+
+
     </div>
+        <div className="d-flex justify-content-center w-100">
+            {!artworkList?.length  && <EmptyComponent text={"اثری موجود نیست"}/>}
+        </div>
         </React.Fragment>
     )
 }

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali, {now} from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
-
+import EmptyComponent from '../../components/EmptyComponent';
 
 function TableSalesConsuler({salesConsulerList, page}) {
 
@@ -29,7 +29,7 @@ function TableSalesConsuler({salesConsulerList, page}) {
                         <div className=" px-3 text-center">ردیف</div>
                     </th>
                     <th className="  px-0 minWidth-name">
-                        <div className=" px-3 text-center">نام کاربر</div>
+                        <div className=" px-3 text-center">تصویر</div>
                     </th>
                     <th className="  px-0 minWidth-name">
                         <div className=" px-3 text-center">نام کاربر</div>
@@ -63,7 +63,7 @@ function TableSalesConsuler({salesConsulerList, page}) {
                             </td>
                             <td>
                                 <div className="my-2 content-td">
-                                <Image height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
+                                <Image style={{width : '40px'}} height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
                                 </div>
                             </td>
                             <td className="">
@@ -109,12 +109,12 @@ function TableSalesConsuler({salesConsulerList, page}) {
                         </tr>
 
                     </>
-                ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                ) : <div className="d-flex text-center w-100"></div>}
 
 
                 </tbody>
             </table>
-
+                        {!salesConsulerList?.length  && <EmptyComponent text={"مشاوره فروشی موجود نیست"}/>}
         </div>
     )
 }
