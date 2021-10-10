@@ -1203,24 +1203,6 @@ input.default-input {
     text-align: right !important;
 }
 
-.input-message-send-to{
-    padding-left: 8.5% !important;
-}
-
-@media(max-width : '575px'){
-    .input-message-send-to{
-        padding-left: 0% !important;
-    } 
-}
-
-.input-message-send-to .ant-form-item-label{
-    // max-width: 765px !important;
-    // right: 200px !important;
-
-    // margin-left: 90px;
-    // margin-left: 20% !important;
-}
-
 .row-messages .contentTd {
     border-top: 1px solid $gray2-color !important;
     border-bottom: 1px solid $gray2-color !important;
