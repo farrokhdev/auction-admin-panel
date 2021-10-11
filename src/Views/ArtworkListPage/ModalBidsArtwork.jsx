@@ -11,7 +11,14 @@ import queryString from 'query-string';
 import PaginationComponent from '../../components/PaginationComponent';
 import { separatorCurrency } from '../../utils/separator';
 
-function ModalBidsArtwork({setvisibleShowBidsArtwork , visibleShowBidsArtwork , product_id , setIsCall_service_get_bids_product}) {
+function ModalBidsArtwork(props) {
+
+    const {
+        setvisibleShowBidsArtwork , 
+        visibleShowBidsArtwork , 
+        product_id , 
+        setIsCall_service_get_bids_product
+    } = props
 
     const [bids, setBids] = useState([]);
     const [countBids, setCountBids] = useState(0);
