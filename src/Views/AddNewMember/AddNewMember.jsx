@@ -21,11 +21,12 @@ function AddNewMember(props) {
   const sendData = (values) => {
     setLoading(true);
     axios
-      .put(`${BASE_URL}/account/profile/`, {
-        ...values,
-        home_auction_location: {
+      .post(`${BASE_URL}/panel/users/`, {
+          ...values,
+          home_auction_location: {
           address: values?.address || "",
         },
+        role : 'user'
       })
       .then((resp) => {
         setLoading(false);
@@ -136,7 +137,7 @@ function AddNewMember(props) {
                                     name="mobile"
                                     rules={[
                                       {
-                                        required: true,
+                                        required: false,
                                         message: "تکمیل این فیلد ضروری است",
                                       },
                                       {
@@ -164,7 +165,7 @@ function AddNewMember(props) {
                                     name="email"
                                     rules={[
                                       {
-                                        required: true,
+                                        required: false,
                                         message: "تکمیل این فیلد ضروری است",
                                       },
                                       {
