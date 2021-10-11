@@ -1,14 +1,13 @@
 import React , {useState , useEffect} from 'react';
-import { Upload , Empty, InputNumber , Alert} from 'antd';
+import { Form , Spin, InputNumber , Alert , Breadcrumb , Image , Input , Button , Space} from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, Button, Space , Breadcrumb , Image} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
 import axios from "../../utils/request";
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
-import {MinusCircleOutlined} from '@ant-design/icons';
+import {MinusCircleOutlined , LoadingOutlined} from '@ant-design/icons';
 import UploadImage from '../AddAuction/uploadImage';
 import { failNotification, successNotification } from '../../utils/notification';
 import classnames from 'classnames';
@@ -43,9 +42,6 @@ function SingleViewArtworkPage(props) {
 
     const [form] = Form.useForm();
 
-   console.log("ARTWORK -->> " , artwork);
-   console.log("MIN -->> " , artwork?.min_price);
-   console.log("MAX -->> " , artwork?.max_price);
 
     useEffect(() => {
         if(artwork){
@@ -185,9 +181,11 @@ function SingleViewArtworkPage(props) {
         // dispatch(setAUCTION({media:value}))
     }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
     return (
         <React.Fragment>
-<Loading loading={loading}/>
+        <Spin indicator={antIcon} spinning={loading}  >
             <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages">
 
                 <div  className="row m-0">
@@ -926,7 +924,7 @@ function SingleViewArtworkPage(props) {
                         </div>
                 </div>
             </div>
-
+        </Spin>
     </React.Fragment>
     )
 }
