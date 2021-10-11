@@ -13,7 +13,8 @@ import {
   FileTextOutlined,
   NotificationOutlined, 
   BorderRightOutlined, 
-  ProfileOutlined
+  ProfileOutlined,
+  UnorderedListOutlined
 } from '@ant-design/icons';
 // import {FaUsers} from "react-icons/fa";
 // import iconUsers from '../../images/svg/icon-more.svg'
@@ -329,12 +330,27 @@ function Main(props) {
                         </Menu.Item>
 
                         <Menu.Item
-                            icon={<QuestionOutlined />}
+                            icon={<UnorderedListOutlined />}
                             className="d-flex align-items-center" 
                             key={11} 
                             >
                           <NavLink 
                               id={11}
+                              to={"/create-new-category"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              ایجاد دسته‌بندی  
+                          </NavLink>
+                        </Menu.Item> 
+
+                        <Menu.Item
+                            icon={<QuestionOutlined />}
+                            className="d-flex align-items-center" 
+                            key={12} 
+                            >
+                          <NavLink 
+                              id={12}
                               to={"/frequently-asked-questions"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
@@ -342,21 +358,24 @@ function Main(props) {
                               سوالات متداول  
                           </NavLink>
                         </Menu.Item>
+                        
 
                         <Menu.Item
                             icon={<BorderRightOutlined />}
                             className="d-flex align-items-center" 
-                            key={12} 
+                            key={13} 
                             >
                           <NavLink 
-                              id={12}
+                              id={13}
                               to={"/create-content"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
                           >
                               ایجاد محتوا  
                           </NavLink>
-                        </Menu.Item>                  
+                        </Menu.Item>                    
+                        
+                    
                         
                         {/* <Menu.Item
                             icon={<ProfileOutlined />}

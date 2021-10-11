@@ -48,7 +48,7 @@ function TicketPage(props) {
     const [countTickets , setCountTickets] = useState(0);
     const [params, setParams] = useState({
         page : 1 , 
-        page_size : 5
+        page_size : 10
     })
 
     const getTickets = () => {

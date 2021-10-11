@@ -49,6 +49,7 @@ import AuctionParticipantsListPage from "./Views/AuctionParticipantsListPage/Auc
 import AddNewQuestionCategory from "./Views/AddNewQuestionCategory";
 import HouseAuctionRequestPage from "./Views/HouseAuctionRequestPage";
 import CreateContentPage from "./Views/CreateContentPage";
+import AddNewCategory from "./Views/AddNewCategory";
 import AddNewMember from "./Views/AddNewMember/AddNewMember";
 
 
@@ -106,6 +107,7 @@ function App(props) {
                             <Route exact path="/frequently-asked-questions" render={props=><Main {...props}><FrequentlyAskedQuestions {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions/:id" render={props=><Main {...props}><SingleFrequentlyAskedQuestions {...props} /></Main>}/>
                             <Route exact path="/create-content" render={props=><Main {...props}><CreateContentPage {...props} /></Main>}/>
+                            <Route exact path="/create-new-category" render={props=><Main {...props}><AddNewCategory {...props} /></Main>}/>
                             {/* <Route exact path="/send-ticket" render={props=><Main {...props}><SendNewTicket {...props} /></Main>}/> */}
                             {/* <Route exact path="/auctions/:id" render={props=><Main {...props} ><SingleAuctionPage {...props}/></Main>}/> */}
                             {/* <Route exact path="/auctions-members/:id" component={MemberAuctionInfo}/>
