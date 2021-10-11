@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import TableArtworkList from './TableArtworkList';
 import PaginationComponent from '../../components/PaginationComponent';
 import queryString from 'query-string';
+import ModalBidsArtwork from './ModalBidsArtwork';
+import ModalAuctionsArtwork from './ModalAuctionsArtwork';
 
 function ArtWorkListPage(props) {
 
@@ -16,6 +18,12 @@ function ArtWorkListPage(props) {
     const [countArtwork , setCountArtwork] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
     const [loading , setLoading] = useState(false);
+    const [visibleShowBidsArtwork, setvisibleShowBidsArtwork] = useState(false)
+    const [visibleShowAuctionsArtwork, setvisibleShowAuctionsArtwork] = useState(false)
+    const [isCall_service_get_bids_product, setIsCall_service_get_bids_product] = useState(null)
+    const [isCall_service_get_auctions_product, setIsCall_service_get_auctions_product] = useState(null)
+    const [product_id, setProduct_id] = useState()
+    const [singleArtwork, setSingleArtwork] = useState()
     const [params , setParams] = useState(
         {
             page : 1 , 
@@ -93,6 +101,12 @@ function ArtWorkListPage(props) {
                                                     artworkList={artworkList} 
                                                     countArtwork={countArtwork} 
                                                     handleFilterArtwork={handleFilterArtwork}
+                                                    setvisibleShowBidsArtwork={setvisibleShowBidsArtwork}
+                                                    setIsCall_service_get_bids_product={setIsCall_service_get_bids_product}
+                                                    setvisibleShowAuctionsArtwork={setvisibleShowAuctionsArtwork}
+                                                    setIsCall_service_get_auctions_product={setIsCall_service_get_auctions_product}
+                                                    setProduct_id={setProduct_id}
+                                                    setSingleArtwork={setSingleArtwork}
                                                 />
                                             </div>
 
@@ -104,6 +118,22 @@ function ArtWorkListPage(props) {
                         </div>
                     </div>
                 </div>
+
+                    {!!isCall_service_get_bids_product && <ModalBidsArtwork
+                        setvisibleShowBidsArtwork={setvisibleShowBidsArtwork}
+                        visibleShowBidsArtwork={visibleShowBidsArtwork}
+                        setIsCall_service_get_bids_product={setIsCall_service_get_bids_product}
+                        product_id={product_id}
+                    />}    
+                    
+                    {!!isCall_service_get_auctions_product && <ModalAuctionsArtwork
+                        setvisibleShowAuctionsArtwork={setvisibleShowAuctionsArtwork}
+                        visibleShowAuctionsArtwork={visibleShowAuctionsArtwork}
+                        setIsCall_service_get_auctions_product={setIsCall_service_get_auctions_product}
+                        product_id={product_id}
+                        singleArtwork={singleArtwork}
+                    />}
+
             </div>
             </Spin>
         </React.Fragment>
