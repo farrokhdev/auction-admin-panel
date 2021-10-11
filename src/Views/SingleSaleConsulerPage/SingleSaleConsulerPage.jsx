@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {Input, Breadcrumb, Image, Table} from 'antd';
+import {Input, Breadcrumb, Image, Table , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink, Link} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
 import axios from "../../utils/request";
@@ -9,7 +10,6 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import Loading from '../../components/Loading';
 import {faCheck, faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
 function SingleSaleConsulerPage(props) {
 
     const {TextArea} = Input;
@@ -33,7 +33,6 @@ function SingleSaleConsulerPage(props) {
     const getData = () => {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/product/${props.match.params.id}/`).then(res => {
-            // axios.get(`${BASE_URL}/auction-house/suggest?product__id=${props.match.params.id}`).then(res => {
             if(res.data.data.result)
             setArtwork(res.data.data.result)
             setLoading(false)
@@ -53,10 +52,13 @@ function SingleSaleConsulerPage(props) {
         })
     }
     const {Column, ColumnGroup} = Table;
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
     return (
         <div>
             <React.Fragment>
-
+            <Spin indicator={antIcon} spinning={loading}  >
                 <div
                     style={{
                         marginTop: '30px'
@@ -76,7 +78,6 @@ function SingleSaleConsulerPage(props) {
                                             </Breadcrumb.Item>
                                             <Breadcrumb.Item></Breadcrumb.Item>
                                             <Breadcrumb.Item>
-                                                {/* {`مشاوره فروش ${props.match.params.name}`} */}
                                                 {`مشاوره فروش`}
                                             </Breadcrumb.Item>
                                         </Breadcrumb>
@@ -99,7 +100,6 @@ function SingleSaleConsulerPage(props) {
                                                     width={200}
                                                     height={200}
                                                     src={artwork?.media?.exact_url}
-                                                    // fallback="data:image/png;base64,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"/>
                                                     fallback={artwork?.media?.media_path}/>
                                             </div>
                                         </div>
@@ -211,10 +211,10 @@ function SingleSaleConsulerPage(props) {
 
                                     <div className="d-block d-lg-flex mt-4">
                                         <div className="col col-lg-4">
-                                            <p className="mb-2 mb-lg-0 text-right">توضیحات</p>
+                                            <p className="mb-2 mb-lg-0 text-right ">توضیحات</p>
                                         </div>
                                         <div className="col">
-                                            <TextArea value={artwork?.persian_description} style={{minHeight: '150px'}}
+                                            <TextArea  value={artwork?.persian_description} style={{minHeight: '150px'}}
                                                       rows={8}
                                                 // value={artwork?.persian_description ? artwork?.persian_description : ''}
                                             />
@@ -225,6 +225,7 @@ function SingleSaleConsulerPage(props) {
                                     </div>
 
 
+                                 <Spin indicator={antIcon} spinning={loading || loadingSuggest}  >
                                     { artwork?.owner?.role !== "home_auction" ? <>
                                         <div className="d-block d-lg-flex mt-4">
                                             <div className="col">
@@ -259,7 +260,6 @@ function SingleSaleConsulerPage(props) {
                                     </> : null}
                                     
 
-                                    <Loading loading={loading || loadingSuggest}/>
                                     <div className="d-block d-sm-flex mt-5">
                                         <div className="col px-0">
                                             <div
@@ -279,6 +279,7 @@ function SingleSaleConsulerPage(props) {
                                             </div>
                                         </div>
                                     </div>
+                                </Spin>
 
                                 </div>
                             </div>
@@ -291,6 +292,8 @@ function SingleSaleConsulerPage(props) {
                     getSuggest={getSuggest}
                     visibleSendToHouseAuction={visibleSendToHouseAuction}
                     setVisibleSendToHouseAuction={setVisibleSendToHouseAuction}/>
+
+                </Spin>
             </React.Fragment>
         </div>
     )

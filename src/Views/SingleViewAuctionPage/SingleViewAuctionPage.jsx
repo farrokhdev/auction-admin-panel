@@ -81,7 +81,7 @@ console.log("auctionInfo ",auctionInfo);
                                     </NavLink>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                    <Link to="/members">لیست اعضا</Link>
+                                    <Link to="/members"> جزئیات حراج</Link>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     {/* <Link to="/members">{`${member?.first_name}${' '}${member?.last_name}`}</Link> */}

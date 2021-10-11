@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
-import {Breadcrumb} from 'antd';
+import {Breadcrumb , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableArtworkList from './TableArtworkList';
-import Loading from '../../components/Loading';
 import PaginationComponent from '../../components/PaginationComponent';
 import queryString from 'query-string';
 
@@ -20,17 +20,10 @@ function ArtWorkListPage(props) {
         {
             page : 1 , 
             page_size : 10 , 
-            search : ''
+            search : '',
+            offer_home_auction : "unrequired"
         });
 
-
-    // const handleFilterDateFrom = (date) => {
-    //     setParams({...params , date_after : date})
-    // }
-
-    // const handleFilterDateTo = (date) => {
-    //     setParams({...params , date_befor : date})
-    // }
 
 
     const handleFilterArtwork = (value) => {
@@ -62,9 +55,12 @@ function ArtWorkListPage(props) {
         })
     }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    
+
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+             <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -97,9 +93,6 @@ function ArtWorkListPage(props) {
                                                     artworkList={artworkList} 
                                                     countArtwork={countArtwork} 
                                                     handleFilterArtwork={handleFilterArtwork}
-                                                    // handleFilterDateFrom={handleFilterDateFrom}
-                                                    // handleFilterDateTo={handleFilterDateTo}
-                                                
                                                 />
                                             </div>
 
@@ -112,6 +105,7 @@ function ArtWorkListPage(props) {
                     </div>
                 </div>
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

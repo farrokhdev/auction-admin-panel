@@ -10,18 +10,19 @@ const { Option, getMentions } = Mentions;
 
 const layout = {
     labelCol: {
-        span: 16
+      span: 24,
     },
     wrapperCol: {
-        span: 24
-    }
-};
-const tailLayout = {
-    wrapperCol: {
-        offset: 16,
-        span: 24
-    }
-};
+      span: 24,
+    },
+  };
+
+// const tailLayout = {
+//     wrapperCol: {
+//         offset: 24,
+//         span: 24
+//     }
+// };
 
 function ModalSendToHouseAuction(props) {
 
@@ -30,6 +31,7 @@ function ModalSendToHouseAuction(props) {
 
     const [houseAuctionList, setHouseAuctionList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [acceptState, setAcceptState] = useState(false)
 
 
     useEffect(() => {
@@ -94,9 +96,9 @@ function ModalSendToHouseAuction(props) {
                 onOk={() => props.setVisibleSendToHouseAuction(false)}
                 onCancel={() => props.setVisibleSendToHouseAuction(false)}
                 width={800}>
-<Spin spinning={loading}>
+                <Spin spinning={loading}>
                     <div className="d-flex">
-                        <div className="col">
+                        <div className="col px-0">
 
                             <Form  
                             {...layout}
@@ -111,11 +113,11 @@ function ModalSendToHouseAuction(props) {
 
                                 <div className="col">
                                     <div className="d-flex">
-                                        <p>تایید </p>
+                                        {!!acceptState ? <p>تایید محصول </p> : <p>رد محصول </p>}
                                     </div>
-                                    <div className="d-flex mr-2">
+                                    <div className="d-flex ">
                                         <Form.Item name="is_approve">
-                                            <Switch />
+                                            <Switch  onChange={(e) => setAcceptState(e)}/>
                                         </Form.Item>
                                     </div>
                                 </div>
@@ -132,13 +134,13 @@ function ModalSendToHouseAuction(props) {
                                         
                                         rules={[
                                         {
-                                            required: true,
+                                            required: !!acceptState ? true : false,
                                             message: 'خانه حراجی انتخاب نکرده‌اید!',
                                             type: 'array',
                                         },
                                         ]}
                                     >
-                                        <Select  className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
+                                        <Select disabled={!acceptState} className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
                                             {houseAuctionList?.length >= 1 ? houseAuctionList?.map(houseAuction => (
                                                 <React.Fragment key={houseAuction?.id}>
                                                     <Option value={`${houseAuction?.id}`}>{houseAuction?.home_auction_name}</Option>
@@ -148,17 +150,18 @@ function ModalSendToHouseAuction(props) {
                                         </Select>
                                     </Form.Item>
 
-                                    <div className="col">
                                         <div className="d-flex">
                                             <p className="mb-2">توضیحات</p>    
                                         </div>
-                                        <div className="d-flex">
-                                            <Form.Item 
-                                                name="admin_description" >
-                                                <Input.TextArea style={{minHeight : '150px' , minWidth : '300px' }} rows={8} />
-                                            </Form.Item>
+                                        <div className="d-flex ">
+                                            <div className="col px-0">
+                                                <Form.Item 
+                                                    name="admin_description" >
+                                                    <Input.TextArea disabled={!acceptState} className=" w-100"  rows={8} />
+                                                </Form.Item>
+                                            </div>
                                         </div>
-                                    </div>
+                                  
                                     
                                     </div>
                                 </div>
@@ -167,7 +170,7 @@ function ModalSendToHouseAuction(props) {
                             <div className="d-block d-sm-flex mt-5">
                                 <div className="col px-0">
                                     <div className="d-flex justify-content-center justify-content-sm-end ml-sm-3">
-                                        <button htmlType="submit" className="btn-send-to-house-auctions">ارسال پیشنهاد</button>
+                                        <button htmlType="submit" className="btn-send-to-house-auctions">{ !!acceptState ? "تایید محصول و ارسال پیشنهاد" : "رد محصول"}</button>
                                     </div>
                                 </div>
                                 <div className="col px-0">

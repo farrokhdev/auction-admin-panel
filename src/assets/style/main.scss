@@ -1128,6 +1128,42 @@ color: $white-color;
     }
 }
 
+
+.content-td a{
+    color: $pink-color !important;
+}
+
+.content-td a:hover{
+    transform: scale(1.5) !important;
+}
+
+
+input.default-input {
+    padding: 0 20px;
+  }
+  
+  input.default-input::placeholder{
+    color: var(--gray80) !important ;
+  }
+  
+  select.default-input{
+    padding: 0 20px !important;
+    background-color: var(--gray95) !important;
+    outline: none !important;
+    border: none !important;
+    height: 34px !important;
+    cursor: pointer !important;
+  }
+
+  .btn-create-user{
+      @include purpelBtn;
+  }
+
+  .btn-create-user:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
 // ------- Message page -------
 
 .btn-send-message{
@@ -1165,24 +1201,6 @@ color: $white-color;
 
 .ant-form-item-label{
     text-align: right !important;
-}
-
-.input-message-send-to{
-    padding-left: 8.5% !important;
-}
-
-@media(max-width : '575px'){
-    .input-message-send-to{
-        padding-left: 0% !important;
-    } 
-}
-
-.input-message-send-to .ant-form-item-label{
-    // max-width: 765px !important;
-    // right: 200px !important;
-
-    // margin-left: 90px;
-    // margin-left: 20% !important;
 }
 
 .row-messages .contentTd {
@@ -1815,6 +1833,16 @@ color: $white-color;
 .modal-confirm-delete-question button:nth-child(1):hover{
     background-color:  $darkGray-color !important;
     color: $white-color;
+}
+
+// ------------- add new sub category  ------------
+.ant-btn-dashed {
+    height: 30px !important;
+    width: 120px !important;
+
+
+    
+    
 }
 
 
