@@ -7,9 +7,11 @@ import axios from "../../utils/request";
 import {connect} from 'react-redux';
 import ModalSendToHouseAuction from './ModalSendToHouseAuction';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
+import {setUserForSaleConsulerResponse} from '../../redux/reducers/user/user.actions';
 import Loading from '../../components/Loading';
 import {faCheck, faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 function SingleSaleConsulerPage(props) {
 
     const {TextArea} = Input;
@@ -51,6 +53,20 @@ function SingleSaleConsulerPage(props) {
             console.log(err);
         })
     }
+
+
+    const handleRedirectToSendMessage = (label , value) => {
+        console.log("lable : " , label , "id : " , value);
+        props.setUserForSaleConsulerResponse({label : label , value : value})
+        setTimeout(() => {
+            window.location.href = "#/send-message"
+        }, 300);
+    }
+
+
+
+
+
     const {Column, ColumnGroup} = Table;
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -273,9 +289,9 @@ function SingleSaleConsulerPage(props) {
                                         <div className="col px-0">
                                             <div
                                                 className="d-flex justify-content-center justify-content-sm-start mt-2 mt-sm-0">
-                                                <Link to="/tickets">
-                                                    <button className="btn-response-to-user">پاسخ به کاربر</button>
-                                                </Link>
+                                               
+                                                <button onClick={()=>handleRedirectToSendMessage(`${artwork?.owner?.first_name} ${artwork?.owner?.last_name}` , artwork?.owner?.id)} className="btn-response-to-user">پاسخ به کاربر</button>
+                                             
                                             </div>
                                         </div>
                                     </div>
@@ -303,12 +319,14 @@ function SingleSaleConsulerPage(props) {
 const mapDispatchToProps = (dispatch) => {
     return {
         toggleActiveNavDrawer: (data) => dispatch(toggleActiveNavDrawer(data)),
+        setUserForSaleConsulerResponse: (data) => dispatch(setUserForSaleConsulerResponse(data)),
     }
 }
 
 const mapStateToProps = (store) => {
     return {
-        panel: store.panelReducer
+        panel: store.panelReducer,
+        user : store.userReducer
     }
 }
 
