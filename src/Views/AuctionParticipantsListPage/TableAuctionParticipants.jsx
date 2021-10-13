@@ -1,7 +1,9 @@
 import React from 'react';
 import { Tooltip} from 'antd';
+import { convertBtnBystateParticipantsAuction } from '../../utils/converTypePersion';
+import EmptyComponent from '../../components/EmptyComponent';
 
-function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsAuction , setParticipant_id , params}) {
+function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsAuction , setParticipant_id , params , loading , setLoading}) {
 
 
     const handleClickShowDetails = (id) => {
@@ -48,7 +50,7 @@ function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsA
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {item?.applicant?.last_name}{" "}{item?.applicant?.first_name}</div>
+                                    <div className=" text-center"> {item?.applicant?.first_name}{" "}{item?.applicant?.last_name}</div>
 
                                 </div>
                             </td>
@@ -56,8 +58,7 @@ function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsA
                
                             <td className="">
                                 <div className="my-2 content-td">
-                                    {console.log("item?.applicant?.is_approve ---" , item?.is_approve)}
-                                    {!!item?.is_approve ? <button className="btn-status-accept">تایید شده</button> : <button className="btn-status-reject"> رد شده</button>}
+                                    { convertBtnBystateParticipantsAuction(item?.is_approve)}
                                 </div>
                             </td>
 
@@ -75,6 +76,8 @@ function TableAuctionParticipants({auctionParticipants , setVisibleParticipantsA
             </tbody>
         </table>
 
+
+            {(!auctionParticipants?.length && !loading) &&  <EmptyComponent text={'این حراجی شرکت کننده ای ندارد'}/>}
     </div>
     )
 }

@@ -1,8 +1,8 @@
 import React , {useState , useEffect} from 'react'
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
-import Loading from '../../components/Loading';
-import {Breadcrumb} from 'antd';
+import {Breadcrumb , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -47,13 +47,12 @@ function AuctionsPage(props) {
         }
 
 
-        console.log("auctionParticipants ---" ,  auctionParticipants);
 
-
+        const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -69,6 +68,11 @@ function AuctionsPage(props) {
                                                             onClick={ e => props.toggleActiveNavDrawer("1")}
                                                             to="/">
                                                             خانه
+                                                        </NavLink>
+                                                    </Breadcrumb.Item>
+                                                    <Breadcrumb.Item>
+                                                        <NavLink to="/auctions">
+                                                            حراج‌ها
                                                         </NavLink>
                                                     </Breadcrumb.Item>
                                                     <Breadcrumb.Item>
@@ -91,6 +95,8 @@ function AuctionsPage(props) {
                                                     setVisibleParticipantsAuction={setVisibleParticipantsAuction}
                                                     setParticipant_id={setParticipant_id}
                                                     params={params}
+                                                    setLoading={setLoading}
+                                                    loaging={loading}
                                                 />
                                             </div>
 
@@ -113,6 +119,7 @@ function AuctionsPage(props) {
                 /> : null}
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

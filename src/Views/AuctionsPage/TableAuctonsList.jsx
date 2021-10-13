@@ -12,17 +12,22 @@ import {DELETE_AUCTION, EDIT_AUCTION} from "../../utils/constant";
 import {faPen, faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {BASE_URL} from "../../utils";
 import axios from "../../utils/request";
+import PaginationComponent from '../../components/PaginationComponent';
 
-function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisibleAuctionProduct , setAuctionProduct_id}) {
+function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisibleAuctionProduct , setAuctionProduct_id , setLoading }) {
     const [Auctions, setAuctions] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [pageSize, setPageSize] = useState(30);
+    const [pageSize, setPageSize] = useState(10);
+    const [countAuction, setCountAuction] = useState(0);
+    const [params, setParams] = useState({
+        page : 1, 
+        page_size : 10
+    })
 
     const {confirm} = Modal;
     useEffect(() => {
         getProducts()
 
-    }, [])
+    }, [params])
 
     function showDeleteConfirm(id) {
 
@@ -61,11 +66,12 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
 
     const getProducts = (page_size = pageSize) => {
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/auctions/?page_size=${page_size}`)
+        axios.get(`${BASE_URL}/sale/auctions/?page=${params?.page}&page_size=${page_size}`)
             .then(resp => {
                 setLoading(false)
                 if (resp.data.code === 200) {
                     setAuctions(resp.data.data.result)
+                    setCountAuction(resp.data.data.count)
                 }
 
             })
@@ -119,7 +125,15 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
     }
 
 
+    const handeSelectPage = (e) => {
+        setParams({
+            ...params , page : e
+        })
+    }
+
+
     return (
+        <React.Fragment>
         <div collapse className="table-responsive ">
             <table className="table ">
                 <thead>
@@ -135,7 +149,7 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                         <div className=" px-3 text-center">خانه حراج</div>
                     </th>
 
-                    <th className="  px-0 minWidth-mobile">
+                    <th className="  px-0 minWidth-typeAuction">
                         <div className=" px-3 text-center">نوع حراج</div>
                     </th>
 
@@ -232,11 +246,18 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                         </tr>
 
                     </>
-                ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                ) : <div className="d-flex text-center w-100"></div>}
                 </tbody>
             </table>
 
+
+
         </div>
+            <div className="d-flex justify-content-center w-100">
+                <PaginationComponent count={countAuction} handeSelectPage={handeSelectPage}/>
+            </div>
+
+    </React.Fragment>
     )
 }
 

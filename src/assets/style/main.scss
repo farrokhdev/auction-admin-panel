@@ -854,6 +854,10 @@ table  tbody tr td {
     min-width: 10rem !important;
 }
 
+.minWidth-typeAuction{
+    min-width: 15rem !important;
+}
+
 .minWidth-winner{
     min-width: 15rem !important;
 }
@@ -1635,14 +1639,15 @@ input.default-input {
     color: $white-color !important;
 }
 
-.btn-show-detail-participant{
-    @include pinkBtn ;
-    width: 140px;
 
+.btn-show-detail-participant{
+    @include pinkBtn;
+    background-color: $primary-TextColor !important;
+    width: 100px !important
 }
+
 .btn-show-detail-participant:hover{
-    background-color: $pink-color !important;
-    color:$white-color !important ;
+    background-color : $dark-color !important;
 }
 
 .btn-status-accept{
@@ -1655,6 +1660,10 @@ input.default-input {
 .btn-status-reject{
     @include warningBtn;
     min-width: 80px !important;
+}
+
+span.ant-tag {
+    border-radius: 10px !important;
 }
 
 // ------------ Sales Consuler Page --------------
