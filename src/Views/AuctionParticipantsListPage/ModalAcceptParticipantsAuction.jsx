@@ -15,7 +15,7 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
     
     useEffect(() => {
         getParticipant()
-    }, []);
+    }, [participant_id]);
 
     // fuction call api service for get participant details
     const getParticipant = () => {
@@ -35,13 +35,13 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
         let payload = {"is_approve": 'False'}
         axios.patch(`${BASE_URL}/sale/join-auction/${participant_id}/` , payload)
         .then(res => {
-            if(res.data.data.statusCode !== 400){
+            if(res.data.data.statusCode !== 400 , res.data.data.statusCode !== 403){
                 successNotification("رد شرکت‌کننده" , "رد شرکت‌کننده با موفقیت انجام شد")
             }else{
                 failNotification("خطا" , res.data.data.error_message)
             }
         }).catch(err => {
-            
+            failNotification("خطا" ,err.response.data.data.error_message)
         })
 
         setParticipant_id(null)
@@ -56,13 +56,13 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
         let payload = {"is_approve": 'True'}
         axios.patch(`${BASE_URL}/sale/join-auction/${participant_id}/` , payload)
         .then(res => {
-            if(res.data.data.statusCode !== 400){
+            if(res.data.data.statusCode !== 400 , res.data.data.statusCode !== 403){
                 successNotification("تایید شرکت‌کننده" , "تایید شرکت‌کننده با موفقیت انجام شد")
             }else{
                 failNotification("خطا" , res.data.data.error_message)
             }
         }).catch(err => {
-            
+            failNotification("خطا" ,err.response.data.data.error_message)
         })
         setParticipant_id(null)
         setTimeout(() => {
@@ -84,7 +84,7 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
             visible={visibleParticipantsAuction}
             onOk={() => setVisibleParticipantsAuction(false)}
             onCancel={() => setVisibleParticipantsAuction(false)}
-            width={700}>
+            width={900}>
 
                 <div className="d-flex ">
                     <div className="col ">
@@ -115,17 +115,18 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
                         <div className="d-flex"> آثار انتخاب شده</div>
                     </div>
                     <div className="col ">
-                        <div className="d-flex"> {participant?.product ? participant?.product?.map((item, key) => {
-                        return (
-                            <div className="d-flex" key={key}>
-                                <Link to={`/artworks/${item.id}`}>
-                                    <div className="col">
-                                        <img width={50} src={item?.media?.exact_url}/>
-                                        <p className="text-right">{item.artwork_title}</p>
-                                    </div>
-                                </Link>
-                            </div>
-                        )
+                        <div className="d-block "> {participant?.product ? participant?.product?.map((item, key) => {
+                            return (
+                                <div className="d-flex justify-content-start" key={key}>
+                                    <Link to={`/artworks/${item.id}`}>
+                                        <div className="col text-right">
+                                            <img className="text-right" style={{width : '50px' , height : '50px' }} width={50} src={item?.media?.exact_url}/>
+                                            <p className="text-right">{item.artwork_title}</p>
+                                        </div>
+                                    </Link>
+                                    
+                                </div>
+                            )
                     }) : ""}</div>
                     </div>
                 </div>
@@ -146,7 +147,7 @@ function ModalAcceptParticipantsAuction({visibleParticipantsAuction , setVisible
                     </div>
                 </div>
 
-                <div className="d-flex">
+                <div className="d-flex mt-5">
                     <button onClick={handleAcceptParticipantAuction} className="btn-accept-participant">تایید </button>
                     <button onClick={handleRejetParticipantAuction} className="btn-reject-participant mx-2">رد </button>
                     <button onClick={handleCancel} className="btn-cancel-participant">انصراف </button>

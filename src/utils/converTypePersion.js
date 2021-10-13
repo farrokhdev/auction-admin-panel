@@ -1,3 +1,6 @@
+import { Tag } from 'antd';
+
+
 export function convertTypePersian(value) {
     
     switch (value) {
@@ -75,3 +78,22 @@ export function messageStatusTypePersian(value) {
             return ''
     }
 }
+
+
+
+export function convertBtnBystateParticipantsAuction(value) {
+
+    switch(value){
+        case true:
+            return <Tag className="rounded" color="green">تایید شده</Tag>
+        case false:
+            return <Tag className="rounded" color="magenta">رد شده</Tag>
+        case null :
+            return <Tag className="rounded" color="#c0bfbf">در حال انتظار</Tag>
+
+        default:
+            return ''
+    }
+}
+
+
