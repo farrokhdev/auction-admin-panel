@@ -7,7 +7,6 @@ import { BASE_URL } from '../../utils';
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { setUserForSaleConsulerResponse } from '../../redux/reducers/user/user.actions';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loading';
 import queryString from 'query-string';
 import { messageSuccess , messageFailed } from '../../utils/message';
 
@@ -23,6 +22,7 @@ function SendMessagePage(props) {
 
     const onReset = () => {
         form.resetFields();
+        props.setUserForSaleConsulerResponse(null)
     };
 
     const [memberList, setMemberList] = useState([]);
@@ -50,7 +50,7 @@ function SendMessagePage(props) {
 
             setTimeout(() => {
                 setMemberList( [{label : "همه کاربران" , value : "allUsers" } , ...(res.data.data.result).map( item => 
-                ({label : `${item?.first_name} ${item?.last_name}` , value : item?.id })) ])
+                ({label : `${item?.first_name} ${item?.last_name}${' '}(${item?.mobile})` , value : item?.id })) ])
             }, 200);
 
         }).catch(err => {
@@ -173,12 +173,13 @@ function SendMessagePage(props) {
                                                 ]}
                                             >
                                                 <Select 
-                                                    className="" 
+                                                    className="text-right" 
                                                     mode="multiple" 
                                                     placeholder="مخاطب را انتخاب کنید" 
                                                     mode="multiple"
                                                     optionFilterProp='label'
                                                     onSearch={(e)=>getMembers({search : e})}
+                                                    maxTagCount = 'responsive'
                                                     options={memberList}
                                                     disabled={!!props?.user?.user_to_saleconsuler_response?.value}
                                                     defaultValue={!!props?.user?.user_to_saleconsuler_response?.value  ?  props?.user?.user_to_saleconsuler_response?.value :  []}
