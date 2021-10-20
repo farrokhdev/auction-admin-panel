@@ -242,7 +242,7 @@ function SingleSaleConsulerPage(props) {
 
 
                                  <Spin indicator={antIcon} spinning={loading || loadingSuggest}  >
-                                    { artwork?.owner?.role !== "home_auction" ? <>
+                                    { artwork?.product?.offer_home_auction !== "required" ? <>
                                         <div className="d-block d-lg-flex mt-4">
                                             <div className="col">
                                                 <p className="mb-2 mb-lg-0 text-right">لیست پیشنهادات به خانه حراج</p>

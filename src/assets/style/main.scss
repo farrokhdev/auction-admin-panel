@@ -1912,5 +1912,33 @@ span.ant-tag {
     background-color: #eee;
 }
 
+// ---------- house-auction ----------
+
+.btn-edit-house-auction{
+    @include purpelBtn;
+}
+
+.btn-edit-house-auction:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+.ant-table-cell{
+    min-width: 150px !important;
+}
+
+
 
 

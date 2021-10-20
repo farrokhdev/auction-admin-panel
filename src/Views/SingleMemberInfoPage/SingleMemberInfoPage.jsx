@@ -11,6 +11,7 @@ import {Link , NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import axios from '../../utils/request';
+import { successNotification , failNotification} from '../../utils/notification';
 
 const layout = {
     labelCol: {
@@ -27,6 +28,8 @@ function SingleMemberInfoPage(props) {
 
     const [member, setMember] = useState();
     const [role, setRole] = useState();
+    const [loading, setLoading] = useState(false)
+
 
 
     // const normFile = (e) => {
@@ -39,19 +42,57 @@ function SingleMemberInfoPage(props) {
     //     return e && e.fileList;
     //   };
 
+
+
     const onFinish = (values) => {
         console.log(values);
-      };
+        setLoading(true)
 
+        let payload = {
+            
+            "first_name": values?.first_name,
+            "last_name": values?.last_name,
+            "first_name_en" : values?.first_name_en,
+            "last_name_en" : values?.last_name_en,
+            "postal_code": values?.postal_code,
+            "national_code": values?.national_code,
+            // "home_auction_location": {
+            //     "point": {
+            //         "latitude": point?.latitude,
+            //         "longitude": point?.longitude
+            //     },
+            //     "address": values?.address
+            // },
+            // "role": "home_auction",
+            "bankaccount": member?.bankAccountInfo,
+              
+        }
+
+        axios.put(`${BASE_URL}/panel/users/${props.match.params.id}/` , payload).then(res => {
+            if(res.data.data.statusCode !== 400  && res.data.data.statusCode !== 403){
+                setLoading(false)
+                successNotification("ویرایش اطلاعات" , "ویرایش اطلاعات با موفقیت انجام شد")
+            }else{
+                failNotification("خطا" , res.data.data.error_message[0])
+            }
+        }).catch(err => {
+            console.error(err)
+            setLoading(false)
+            console.log("err.response.error_message[0] ---" , err.response.data.data.error_message[0]);
+            failNotification("خطا" , err.response.data.data.error_message[0])
+        })
+
+
+
+
+    }
     //   const onFinishFailed = (error) => {
     //     console.log(error);
     //   };
 
 
       useEffect(() => {
-            
-        // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
-            
+                        
         axios.get(`${BASE_URL}/panel/users/${props.match.params.id}/`).then(res => {
             setMember(res.data.data.result)
             setRole(res.data.result.role)
@@ -155,8 +196,8 @@ function SingleMemberInfoPage(props) {
 
 
                        <div  className="d-block d-md-flex align-items-center ">
-                            <div  className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
-                                <p className="text-right mb-0 h-100">نام </p>
+                            <div  className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                                <p className="text-right mb-0 h-100">نام فارسی </p>
                             </div>
                             <div  className="col ">
                                 <div style={{verticalAlign : 'middle'}} className="d-flex h-100 align-items-center">
@@ -175,8 +216,8 @@ function SingleMemberInfoPage(props) {
                        </div>
 
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
-                                <p className="text-right mb-0 h-100">نام خانوادگی</p>
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                                <p className="text-right mb-0 h-100">نام خانوادگی فارسی</p>
                             </div>
                             <div className="col ">
                                 <Form.Item
@@ -191,8 +232,46 @@ function SingleMemberInfoPage(props) {
                             </Form.Item>
                             </div>
                        </div>
+
+                       <div  className="d-block d-md-flex align-items-center ">
+                            <div  className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                                <p className="text-right mb-0 h-100">نام انگلیسی </p>
+                            </div>
+                            <div  className="col ">
+                                <div style={{verticalAlign : 'middle'}} className="d-flex h-100 align-items-center">
+                                    <Form.Item
+                                        className="w-100  h-100"
+                                        name="first_name_en"
+                                        rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
+                                    >
+                                        <Input 
+                                            // defaultValue = {member?.first_name}
+                                            size="large"
+                                        />
+                                    </Form.Item>
+                                </div>
+                            </div>
+                       </div>
+
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                                <p className="text-right mb-0 h-100">نام خانوادگی انگلیسی</p>
+                            </div>
+                            <div className="col ">
+                                <Form.Item
+                                    className="w-100  h-100"
+                                    name="last_name_en"
+                                    rules={[{ required: true, message: 'ورودی نام خانوادگی خالی است!' }]}
+                                >
+                                <Input 
+                                    
+                                    size="large"
+                                />
+                            </Form.Item>
+                            </div>
+                       </div>
+                       <div className="d-block d-md-flex align-items-center">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                                 <p className="text-right mb-0 h-100">شماره تماس</p>
                             </div>
                             <div className="col ">
@@ -203,14 +282,14 @@ function SingleMemberInfoPage(props) {
                                     rules={[{ required: true, message: 'ورودی موبایل خالی است!' }]}
                                 >
                                 <Input 
-                                    
+                                    readOnly
                                     size="large"
                                 />
                             </Form.Item>
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                                 <p className="text-right mb-0 h-100">ایمیل</p>
                             </div>
                             <div className="col">
@@ -220,14 +299,14 @@ function SingleMemberInfoPage(props) {
                                     rules={[{ required: true, message: 'ورودی ایمیل خالی است!' }]}
                                 >
                                 <Input 
-                                    
+                                    readOnly
                                     size="large"
                                 />
                             </Form.Item>
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                                 <p className="text-right mb-0 h-100">کد ملی</p>
                             </div>
                             <div className="col">
@@ -237,14 +316,14 @@ function SingleMemberInfoPage(props) {
                                     rules={[{ required: true, message: 'ورودی کد ملی خالی است!' }]}
                                 >
                                 <Input 
-                                    
+                                    readOnly
                                     size="large"
                                 />
                             </Form.Item>
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                                 <p className="text-right mb-0 h-100">آدرس</p>
                             </div>
                             <div className="col">
@@ -252,7 +331,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100"
                                     name="address"
-                                    rules={[{ required: true, message: 'ورودی آدرس خالی است!' }]}
+                                    rules={[{ required: false, message: 'ورودی آدرس خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -262,7 +341,7 @@ function SingleMemberInfoPage(props) {
                             </div>
                        </div>
                        <div className="d-block d-md-flex align-items-center">
-                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                            <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                                 <p className="text-right mb-0 h-100">کد پستی</p>
                             </div>
                             <div className="col">
@@ -270,7 +349,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100"
                                     name="postal_code"
-                                    rules={[{ required: true, message: 'ورودی کد پستی خالی است!' }]}
+                                    rules={[{ required: false, message: 'ورودی کد پستی خالی است!' }]}
                                 >
                                 <Input 
                                     
@@ -284,182 +363,14 @@ function SingleMemberInfoPage(props) {
                             <h3>اطلاعات حساب بانکی</h3>
                         </div>
 
-                        <TableBankInfo  member={member}  />
+                        <TableBankInfo  
+                            member={member}
+                        />
 
 
-              { role === 'home_auction' ? <>
-                <div className="d-flex my-4">
-                                <h3>اطلاعات خانه حراج</h3>
-                            </div>
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">نام خانه حراج</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                            name="home_auction_name"
-                                            // label="نام خانه حراج"
-                                            rules={[
-                                            {
-                                                required: false,
-                                            },
-                                            ]}
-                                        >
-                                            <Input 
-                                                // defaultValue={member?.home_auction_name}
-                                            />
-                                        </Form.Item> 
-                                </div>
-                                
-                            </div>
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0 text-right">حوزه‌های فعالیت</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="home_auction_type"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-
-                            
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0 text-right">تعداد محصولات جهت فروش</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="3"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">آدرس</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="4"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-                    
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">لوکیشن</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="5"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-                        
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">شماره تماس خانه حراج</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                    <Form.Item
-                                        name="6"
-                                        // label="حوزه‌های فعالیت"
-                                        rules={[
-                                        {
-                                            // type: 'email',
-                                        },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </div>
-                                
-                            </div>
-
-                            <div className="d-block d-md-flex align-items-center">
-                                <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
-                                    <div className="d-flex">
-                                        <p className="mb-0">فایل قرارداد</p>
-                                    </div>
-                                </div>
-                                <div className="col">
-
-                                {/* <Form.Item
-                                    name="upload"
-                                    valuePropName="fileList"
-                                    getValueFromEvent={normFile}
-                                    // extra="longgggggggggggggggggggggggggggggggggg"
-                                >
-                                    <Upload name="logo" action="/upload.do" listType="picture">
-                                    <Button icon={<UploadOutlined />}>Click to upload</Button>
-                                    </Upload>
-                                </Form.Item> */}
-                                </div>
-                                
-                            </div>
-              </> :  ''}
-
-                        {/* <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button> */}
+                        <div className="d-flex justify-content-end">
+                            <button className="btn-edit-house-auction mt-5" htmlType="submit">ویرایش اطلاعات</button>
+                        </div>
 
                         </Form>
                     </div>
