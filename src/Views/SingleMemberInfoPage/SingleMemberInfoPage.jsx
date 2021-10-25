@@ -1,10 +1,7 @@
 import React, {useEffect , useState} from 'react';
-import DrawerMenu from '../../components/DrawerMenu';
-import Header from '../../components/Header';
 import TableBankInfo from './TableBankInfo';
-import { Form, Input, Breadcrumb, Button , Upload} from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-import  {fetcher} from '../../utils/common';
+import { Form, Input, Breadcrumb, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { BASE_URL } from '../../utils';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import {Link , NavLink} from 'react-router-dom';
@@ -27,22 +24,8 @@ function SingleMemberInfoPage(props) {
     const [form] = Form.useForm();
 
     const [member, setMember] = useState();
-    const [role, setRole] = useState();
     const [loading, setLoading] = useState(false)
-
-
-
-    // const normFile = (e) => {
-    //     console.log('Upload event:', e);
-      
-    //     if (Array.isArray(e)) {
-    //       return e;
-    //     }
-      
-    //     return e && e.fileList;
-    //   };
-
-
+    const [bankAccountInfo, setBankAccountInfo] = useState([]);
 
     const onFinish = (values) => {
         console.log(values);
@@ -56,15 +39,10 @@ function SingleMemberInfoPage(props) {
             "last_name_en" : values?.last_name_en,
             "postal_code": values?.postal_code,
             "national_code": values?.national_code,
-            // "home_auction_location": {
-            //     "point": {
-            //         "latitude": point?.latitude,
-            //         "longitude": point?.longitude
-            //     },
-            //     "address": values?.address
-            // },
-            // "role": "home_auction",
-            "bankaccount": member?.bankAccountInfo,
+            "home_auction_location": {
+                "address": values?.address
+            }
+
               
         }
 
@@ -72,30 +50,26 @@ function SingleMemberInfoPage(props) {
             if(res.data.data.statusCode !== 400  && res.data.data.statusCode !== 403){
                 setLoading(false)
                 successNotification("ویرایش اطلاعات" , "ویرایش اطلاعات با موفقیت انجام شد")
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1200);
             }else{
                 failNotification("خطا" , res.data.data.error_message[0])
             }
         }).catch(err => {
             console.error(err)
             setLoading(false)
-            console.log("err.response.error_message[0] ---" , err.response.data.data.error_message[0]);
             failNotification("خطا" , err.response.data.data.error_message[0])
         })
-
-
-
-
     }
-    //   const onFinishFailed = (error) => {
-    //     console.log(error);
-    //   };
+
 
 
       useEffect(() => {
                         
         axios.get(`${BASE_URL}/panel/users/${props.match.params.id}/`).then(res => {
             setMember(res.data.data.result)
-            setRole(res.data.result.role)
+            setBankAccountInfo(res.data.data.result.bankaccount);
         }).catch(err => {
             console.log(err);
         })
@@ -108,27 +82,29 @@ function SingleMemberInfoPage(props) {
         form.setFieldsValue({
             first_name : member?.first_name,
             last_name : member?.last_name,
+            first_name_en: member?.first_name_en,
+            last_name_en: member?.last_name_en,
             mobile : member?.mobile,
             email : member?.email,
             national_code : member?.national_code,
             address : member?.home_auction_location?.address,
             postal_code : member?.postal_code,
-            id : member?.id,
 
             card_number : member?.bankaccount[0]?.card_number ,
             account_number : member?.bankaccount[0]?.account_number,
             sheba_number : member?.bankaccount[0]?.sheba_number,
             bank_name : convertTypePersian(member?.bankaccount[0]?.bank_name),
-
             home_auction_name : member?.home_auction_name,
             home_auction_type : member?.home_auction_type,
         })
     }, [member]);
 
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
     return (
         <React.Fragment>
-
+            <Spin indicator={antIcon} spinning={loading}>
             <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages">
 
                 <div  className="row m-0">
@@ -165,29 +141,7 @@ function SingleMemberInfoPage(props) {
                         name="nest-messages" 
                         form={form}
                         onFinish={onFinish}
-                        initialValues={{
-                            first_name : member?.first_name,
-                            // last_name : "last_name",
-                            // mobile : "mobile",
-                            // email : "email",
-                            // national_code : "national_code",
-                            // address : "address",
-                            // postal_code : "postal_code",
-                            id : "id",
-                            card_number : "card_number",
-                            account_number : "account_number",
-                            sheba_number : "sheba_number",
-                            bank_name : "bank_name",
-                            home_auction_name : "home_auction_name",
-
-                            // first_name : member?.first_name,
-                            last_name : member?.last_name,
-                            mobile : member?.mobile,
-                            email : member?.email,
-                            national_code : member?.national_code,
-                            address : member?.adderss,
-                            postal_code : member?.postal_code,
-                          }}
+                        
                     >
 
                         <div className="d-flex my-4">
@@ -204,10 +158,19 @@ function SingleMemberInfoPage(props) {
                                     <Form.Item
                                         className="w-100  h-100"
                                         name="first_name"
-                                        rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
+                                        rules={[
+                                        {
+                                            required: false,
+                                            message: "ورودی نام خالی است!",
+                                        },
+
+                                        {
+                                            pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                            message: "کاراکتر انگلیسی مجاز نیست!",
+                                        },
+                                        ]}
                                     >
                                         <Input 
-                                            // defaultValue = {member?.first_name}
                                             size="large"
                                         />
                                     </Form.Item>
@@ -223,7 +186,17 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100  h-100"
                                     name="last_name"
-                                    rules={[{ required: true, message: 'ورودی نام خانوادگی خالی است!' }]}
+                                    rules={[
+                                      {
+                                        required: false,
+                                        message: "ورودی نام خانوادگی خالی است!",
+                                      },
+          
+                                      {
+                                        pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                        message: "کاراکتر انگلیسی مجاز نیست!",
+                                      },
+                                    ]}
                                 >
                                 <Input 
                                     
@@ -242,10 +215,19 @@ function SingleMemberInfoPage(props) {
                                     <Form.Item
                                         className="w-100  h-100"
                                         name="first_name_en"
-                                        rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
+                                        rules={[
+                                            { 
+                                                required: false,
+                                                message: 'ورودی نام انگلیسی خالی است!' 
+                                            },
+                                            {
+                                              pattern:
+                                                /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                              message: "کاراکتر فارسی مجاز نیست!",
+                                            },
+                                        ]}
                                     >
                                         <Input 
-                                            // defaultValue = {member?.first_name}
                                             size="large"
                                         />
                                     </Form.Item>
@@ -261,7 +243,17 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100  h-100"
                                     name="last_name_en"
-                                    rules={[{ required: true, message: 'ورودی نام خانوادگی خالی است!' }]}
+                                    rules={[    
+                                        { 
+                                            required: false, 
+                                            message: 'ورودی نام خانوادگی انگلیسی خالی است!' 
+                                        } ,
+                                        {
+                                          pattern:
+                                            /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                          message: "کاراکتر فارسی مجاز نیست!",
+                                        }, 
+                                ]}
                                 >
                                 <Input 
                                     
@@ -279,7 +271,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100  h-100"
                                     name="mobile"
-                                    rules={[{ required: true, message: 'ورودی موبایل خالی است!' }]}
+                                    rules={[{ required: false, message: 'ورودی موبایل خالی است!' }]}
                                 >
                                 <Input 
                                     readOnly
@@ -296,7 +288,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100  h-100"
                                     name="email"
-                                    rules={[{ required: true, message: 'ورودی ایمیل خالی است!' }]}
+                                    rules={[{ required: false, message: 'ورودی ایمیل خالی است!' }]}
                                 >
                                 <Input 
                                     readOnly
@@ -313,7 +305,7 @@ function SingleMemberInfoPage(props) {
                                 <Form.Item
                                     className="w-100"
                                     name="national_code"
-                                    rules={[{ required: true, message: 'ورودی کد ملی خالی است!' }]}
+                                    rules={[{ required: false, message: 'ورودی کد ملی خالی است!' }]}
                                 >
                                 <Input 
                                     readOnly
@@ -365,6 +357,8 @@ function SingleMemberInfoPage(props) {
 
                         <TableBankInfo  
                             member={member}
+                            setBankAccountInfo={setBankAccountInfo}
+                            bankAccountInfo={bankAccountInfo}
                         />
 
 
@@ -382,7 +376,7 @@ function SingleMemberInfoPage(props) {
                         </div>
                 </div>
             </div>
-
+        </Spin>
     </React.Fragment>
     )
 }
