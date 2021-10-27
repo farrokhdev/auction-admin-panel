@@ -3,9 +3,7 @@ import { Modal , Form , Divider , Input , notification} from 'antd';
 import {BASE_URL} from '../../utils';
 import axios from '../../utils/request';
 import TicketContentDetails from './TicketContentDetails';
-
-
-
+import { successNotification } from '../../utils/notification';
 
 const layout = {
     labelCol: {
@@ -26,20 +24,6 @@ const layout = {
 function ModalShowDetailTicket(props) {
 
     const [form] = Form.useForm();
-
-
-    const openNotification = () => {
-      notification.success({
-        message: 'ارسال تیکت',
-        description:`تیکت با موفقیت ارسال شد`,
-          duration: 0,
-          className: 'custom-class',
-          style : {
-              backgroundColor : '#f9faf5'
-          }
-      });
-    };
-
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -62,12 +46,13 @@ function ModalShowDetailTicket(props) {
     
               props.setVisibleDetailTicket(false);
               setTimeout(() => {
-                openNotification()
+                successNotification("ارسال تیکت" , "ارسال تیکت با موفقیت ارسال شد")
               }, 500);
-    
-            //   setTimeout(() => {
-            //     // window.location.reload()
-            // }, 1000);
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 1200);
+  
             }
     
              
@@ -86,20 +71,7 @@ function ModalShowDetailTicket(props) {
     
       const handleCancel = ()=>{
         props.setVisibleDetailTicket(false)
-        // window.location.reload();
       }
-
-    // const handleCloseTicket = (e) => {
-    //     e.preventDefault()
-    //       axios.get(`${BASE_URL}/ticketing/${props.ticketDetails?.id}/close`).then(res => {
-    //           }).catch(err => {
-    //               console.log(err);
-    //           })
-    //       props.setVisibleDetailTicket(false)
-    //       setTimeout(() => {
-    //         window.location.reload();
-    //       }, 500);
-    //     };
 
     return (
         <Modal
@@ -143,7 +115,6 @@ function ModalShowDetailTicket(props) {
                       
                     <div className="d-flex justify-content-end  pt-3 ">
                           <button type="button" onClick={handleCancel} className="btn-cancel-send-ticket ml-2"> انصراف</button>
-                          {/* <button className="btn-close-ticket" onClick={handleCloseTicket}>بستن تیکت</button> */}
                           <button htmlType="submit" className="btn-send-new-ticket mr-2" >ارسال تیکت</button>  
                     </div>
                 </Form>
