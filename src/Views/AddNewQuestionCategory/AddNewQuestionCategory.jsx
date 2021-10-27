@@ -1,7 +1,9 @@
 import React , {useState } from 'react'
 import {Breadcrumb , Form , Input} from 'antd';
 import {NavLink} from 'react-router-dom';
-
+import {BASE_URL} from '../../utils';
+import axios from '../../utils/request';
+import {successNotification , failNotification} from '../../utils/notification';
 
 const layout = {
     labelCol: {
@@ -17,9 +19,31 @@ function AddNewQuestionCategory(props) {
 
     const [form] = Form.useForm();
     const [formLayout, setFormLayout] = useState('horizontal');
+    const [loading, setLoading] = useState(false);
+
 
     const onFinish = (values) => {
         console.log(values);
+
+        let payload = {
+            "title_fa": values?.title_fa,
+            "title_en": values?.title_en
+        }
+        setLoading(true)
+        axios.post(`${BASE_URL}/panel/faq-categories/` , payload).then(res => {
+            if(res.data.data.statusCode !== 400){
+                successNotification("افزودن دسته‌بندی" , "افزودن دسته‌بندی با موفقیت انجام شد")
+                setLoading(false)
+                setTimeout(() => {
+                    window.location.href = "#/frequently-asked-questions";
+                }, 1200);
+            }else{
+                failNotification('خطا' , res.data.data.error_message)
+            }
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
     }
 
     const onFormLayoutChange = ({ layout }) => {
@@ -91,7 +115,7 @@ function AddNewQuestionCategory(props) {
                                         </div>
                                         <div className="col">
                                             <Form.Item 
-                                                name="category_fa"
+                                                name="title_fa"
                                                 rules={[{
                                                     required: true,
                                                     message: 'نام دسته‌بندی فارسی را وارد نکرده‌اید!'
@@ -103,7 +127,7 @@ function AddNewQuestionCategory(props) {
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="نام دسته‌بندی فارسی" />
+                                                <Input placeholder="نام دسته‌بندی فارسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>                         
@@ -116,19 +140,19 @@ function AddNewQuestionCategory(props) {
                                         </div>
                                         <div className="col">
                                             <Form.Item 
-                                                name="category_en"
+                                                name="title_en"
                                                 rules={[{
                                                     required: true,
                                                     message: 'نام دسته‌بندی انگلیسی را وارد نکرده‌اید!'
                                                 },
-                                                ,
+                                                
                                                 {
                                                     pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
                                                     message: "کاراکتر فارسی مجاز نیست!",
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="نام دسته‌بندی انگلیسی" />
+                                                <Input placeholder="نام دسته‌بندی انگلیسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>
