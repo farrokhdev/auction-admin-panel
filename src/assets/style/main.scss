@@ -1828,8 +1828,8 @@ span.ant-tag {
 }
 
 .modal-confirm-delete-question .ant-btn-primary:hover{
-    background-color:  $warning-color !important;
-    color: $white-color;
+    background-color:  $tertiary-color !important;
+    color: $white-color !important;
 }
 
 .modal-confirm-delete-question button:nth-child(1){
@@ -1837,11 +1837,12 @@ span.ant-tag {
     width: 100px !important;
     margin-left: 10px !important;
     color: $dark-color;
+    border-color: blue !important;
 }
 
 .modal-confirm-delete-question button:nth-child(1):hover{
     background-color:  $darkGray-color !important;
-    color: $white-color;
+    color: $white-color !important;
 }
 
 // ------------- add new sub category  ------------
