@@ -45,7 +45,7 @@ function SingleSaleConsulerPage(props) {
     }
     const getSuggest = () => {
         setLoadingSuggest(true)
-        axios.get(`${BASE_URL}/auction-house/suggest/?product__id=${props.match.params.id}`).then(res => {
+        axios.get(`${BASE_URL}/panel/suggest/home-auction/?product__id=${props.match.params.id}`).then(res => {
             setSuggestHomeAuction(res.data.data.result)
             setLoadingSuggest(false)
         }).catch(err => {
