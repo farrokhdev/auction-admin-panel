@@ -1,11 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
-import { convertTypePersian } from '../../utils/converTypePersion';
-import EmptyPlaceholder from '../../components/EmptyPlaceholder/EmptyPlaceholder';
+import EmptyComponent from '../../components/EmptyComponent';
 
 function TableParticipantsInAuctionList({ participantsList }) {
 
@@ -118,7 +116,7 @@ function TableParticipantsInAuctionList({ participantsList }) {
                 </tbody>
             </table>
 
-            {!participantsList?.length && <EmptyPlaceholder />}
+            {!participantsList?.length && <EmptyComponent text="شرکننده‌ای برای این خانه حراجی ثبت نشده" />}
         </div>
     )
 }

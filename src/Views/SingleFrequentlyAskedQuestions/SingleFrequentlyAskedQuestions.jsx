@@ -22,9 +22,11 @@ function SingleFrequentlyAskedQuestions(props) {
 
 
     const [visibleEditQuestion , setVisibleEditQuestion] = useState(false);
+    const [isCallServiceGetQuestion, setIsCallServiceGetQuestion] = useState(null)
     const [loading, setLoading] = useState(false);
     const [frequentlyCount, setfrequentlyCount] = useState(0);
     const [questionList , setQuestionList] = useState([]);
+    const [question_id, setQuestion_id] = useState()
     const [params , setParams] = useState(
         {
             page : 1, 
@@ -261,8 +263,12 @@ function SingleFrequentlyAskedQuestions(props) {
                                     <TableQuestionsCategory 
                                         setVisibleEditQuestion={setVisibleEditQuestion}
                                         visibleEditQuestion={visibleEditQuestion}
+                                        setIsCallServiceGetQuestion={setIsCallServiceGetQuestion}
+                                        isCallServiceGetQuestion={isCallServiceGetQuestion}
                                         questionList={questionList}
                                         params={params}
+                                        setQuestion_id={setQuestion_id}
+                                        question_id={question_id}
                                     />
                                 </div>
 

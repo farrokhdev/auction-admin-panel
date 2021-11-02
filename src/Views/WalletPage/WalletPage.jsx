@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../../utils';
-import { Pagination, Breadcrumb } from 'antd';
+import { Pagination, Breadcrumb , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
@@ -42,10 +43,11 @@ function WalletPage(props) {
         setParams({ ...params, page: e })
     }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            <Loading loading={loading} />
+            <Spin indicator={antIcon} spinning={loading}  >
             <div className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -86,6 +88,7 @@ function WalletPage(props) {
                 </div>
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

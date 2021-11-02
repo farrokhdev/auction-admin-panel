@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useState} from 'react'
 import { Menu, Dropdown} from 'antd';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
@@ -14,7 +14,9 @@ import EmptyComponent from '../../components/EmptyComponent';
 
 function TableQuestionsCategory(props) {
 
-   const {setVisibleEditQuestion , visibleEditQuestion , questionList , params} = props
+   const {setVisibleEditQuestion , visibleEditQuestion , questionList , params , setQuestion_id , question_id , setIsCallServiceGetQuestion , isCallServiceGetQuestion} = props
+
+   
 
     const { confirm } = Modal; 
     const menu=(id , name) => (
@@ -31,7 +33,14 @@ function TableQuestionsCategory(props) {
 
 
     const handleShowModalEditQuestion = (id) => {
-        setVisibleEditQuestion(true)
+        setQuestion_id(id)
+        setTimeout(() => {
+            setIsCallServiceGetQuestion(true)
+            setVisibleEditQuestion(true)
+        }, 300);
+
+
+        
     }
 
     const handleِDeleteQuestion = (id) =>{
@@ -174,11 +183,14 @@ function TableQuestionsCategory(props) {
 
                         </>
                     ) : <div className="d-flex text-center w-100"></div>} 
-
-                    <ModalEditFrequentlyAskedQuestion
+{console.log("isCallServiceGetQuestion --->>>" , isCallServiceGetQuestion)}
+                    {!!isCallServiceGetQuestion && <ModalEditFrequentlyAskedQuestion
                         setVisibleEditQuestion={setVisibleEditQuestion}
                         visibleEditQuestion={visibleEditQuestion}
-                    />
+                        question_id={question_id}
+                        setIsCallServiceGetQuestion={setIsCallServiceGetQuestion}
+
+                    />}
 
                 </tbody>
             </table>
@@ -190,4 +202,4 @@ function TableQuestionsCategory(props) {
     )
 }
 
-export default TableQuestionsCategory
+export default TableQuestionsCategory;

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import momentJalaali from 'moment-jalaali';
-import { convertTypePersian } from '../../utils/converTypePersion';
 import icon_more from '../../images/svg/icon-more.svg';
-import EmptyPlaceholder from '../../components/EmptyPlaceholder/EmptyPlaceholder';
+import EmptyComponent from '../../components/EmptyComponent';
 
-function TableApplicantsMembershipAuciton({ applicantsList }) {
+function TableApplicantsMembershipAuciton({ applicantsList ,  params }) {
 
     const menu = (id) => (
         <Menu>
@@ -18,7 +17,6 @@ function TableApplicantsMembershipAuciton({ applicantsList }) {
         </Menu>
     );
 
-    console.log("applicantsList ", applicantsList);
 
     return (
         <div collapse className="table-responsive ">
@@ -55,19 +53,19 @@ function TableApplicantsMembershipAuciton({ applicantsList }) {
                 </thead>
 
                 <tbody>
-                    {applicantsList ? applicantsList.map((applicant, index) =>
+                    {applicantsList?.length ? applicantsList.map((applicant, index) =>
                         <>
                             <tr className="spaceRow row-messages">
 
                                 <td className="">
                                     <div className="my-2 content-td" >
-                                        <div className="text-center">{++index}</div>
+                                        <div className="text-center">{params?.page == 1 ? index + 1 : (params?.page_size * (params?.page - 1)) + index + 1}</div>
                                     </div>
                                 </td>
 
                                 <td className="">
                                     <div className="my-2 content-td">
-                                        <div className=" text-center"> {applicant?.applicant?.first_name}</div>
+                                        <div className=" text-center"> {applicant?.applicant?.first_name} {' '} {applicant?.applicant?.last_name}</div>
 
                                     </div>
                                 </td>
@@ -126,7 +124,7 @@ function TableApplicantsMembershipAuciton({ applicantsList }) {
                 </tbody>
             </table>
 
-            {!applicantsList?.length && <EmptyPlaceholder />}
+            {!applicantsList?.length && <EmptyComponent text ="درخواستی برای این خانه حراجی ثبت نشده است" />}
         </div>
     )
 }

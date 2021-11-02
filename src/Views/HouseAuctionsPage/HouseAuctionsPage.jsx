@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Breadcrumb , Input } from 'antd';
+import {Breadcrumb , Input , Spin } from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import TableHouseAuctionList from './TableHouseAuctionList';
 import {BASE_URL} from '../../utils';
@@ -42,7 +43,6 @@ function HouseAuctionsPage(props) {
             search : '' , 
         });
 
-        console.log("params " , params);
 
         useEffect(() => {
             setLoading(true)
@@ -66,20 +66,19 @@ function HouseAuctionsPage(props) {
         }
         
 
-        // const handleSetState = (valuState) => {
-        //     setParams({...params , house_status : valuState })
-        // }
     
         const handleSetMemberFilter = (value) => {
             setParams({...params , search : value })
         }
 
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+
     return (
 
-
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -143,6 +142,7 @@ function HouseAuctionsPage(props) {
                 </div>
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

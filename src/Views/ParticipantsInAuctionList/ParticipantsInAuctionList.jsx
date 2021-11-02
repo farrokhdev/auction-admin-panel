@@ -1,8 +1,8 @@
 import React , {useState , useEffect} from 'react'
 import Loading from '../../components/Loading';
 import TableParticipantsInAuctionList from './TableParticipantsInAuctionList';
-import { Breadcrumb , Pagination } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Breadcrumb , Pagination , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
@@ -35,10 +35,12 @@ function ParticipantsInAuctionList(props) {
         })
 
     }, [currentPage]);
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
      
     return (
         <React.Fragment>
-            <Loading loading={loading} />
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -79,6 +81,7 @@ function ParticipantsInAuctionList(props) {
                     </div>
                 </div>
             </div>
+            </Spin>
         </React.Fragment>
     )
 }
