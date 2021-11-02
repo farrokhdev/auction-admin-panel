@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
-import {Menu, Dropdown, Breadcrumb , Pagination} from 'antd';
+import {Menu, Dropdown, Breadcrumb , Pagination , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg';
 import TableAuctionOfHouseAuctionsPage from './TableAuctionOfHouseAuctionsPage';
@@ -46,12 +47,12 @@ function AuctionsOfHouseAuctionPage(props) {
             })
         }
 
+        const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
 
-
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -112,6 +113,7 @@ function AuctionsOfHouseAuctionPage(props) {
                 </div>
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

@@ -5,6 +5,7 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import { Menu, Dropdown } from 'antd';
 import classnames from 'classnames';
+import EmptyComponent from '../../components/EmptyComponent';
 
 
 function TableHouseAuctionList({houseAuctionsList}) {
@@ -89,7 +90,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                 </thead>
 
                 <tbody>
-                    {houseAuctionsList ? houseAuctionsList.map((houseAuction, index) =>
+                    {houseAuctionsList?.length ? houseAuctionsList.map((houseAuction, index) =>
                         <React.Fragment key={houseAuction?.id}> 
                             <tr 
                              
@@ -165,12 +166,12 @@ function TableHouseAuctionList({houseAuctionsList}) {
                             </tr>
 
                             </React.Fragment>
-                       ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
-
-                   
+                       ) : <div className="d-flex text-center w-100"></div>} 
 
             </tbody>
         </table>
+
+        {!houseAuctionsList?.length && <EmptyComponent text="درخواستی برای این خانه حراجی ثبت نشده است"/>}
 
     </div>
         </React.Fragment>

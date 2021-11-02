@@ -72,17 +72,17 @@ function Header(props) {
                 <div className="d-none d-lg-block">
                     <h5 className="text-right mb-0 mr-3">پنل ادمین حراجی آنلاین</h5>
                 </div>
-                <div className=" col-3 col-sm-3  d-lg-none px-0">
+                <div className="col-1  d-lg-none px-0">
                     <div className="d-flex">
                         <DrawerResponsive/>
                     </div>
                 </div>
-                <div className="col-9 col-sm-9 col-lg-4">
-                    <div  className="d-flex justify-content-end">
+                <div className="col-11 col-lg-5 pl-lg-4">
+                    <div  className="d-flex justify-content-end ">
                         <div className="col px-0">
-                            <div className="d-flex justify-content-start align-items-center">
+                            <div className="d-flex justify-content-end align-items-center ">
 
-                            <Badge size="small" count={countUnReadTickets} className="ml-4">
+                            <Badge size="small" count={countUnReadTickets} className="ml-2 ml-sm-5">
                                 <NavLink onClick={ e => props.toggleActiveNavDrawer("4")} to="/inbox-messages">
                                 <WechatOutlined  className="icon-bell-header"/>
                                 </NavLink>
@@ -95,9 +95,10 @@ function Header(props) {
                                     
                                 {props.auth.is_logged_in ? 
                                     <Dropdown className="mr-2" overlay={menu}>
-                                        <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                            {props.auth?.mobile ? props.auth?.mobile : props.auth?.username } 
-                                            <DownOutlined  className="mr-3"/>
+                                        <a className="ant-dropdown-link username-avatar" onClick={e => e.preventDefault()}>
+                                            {console.log("length ::" , props.auth?.username?.length)}
+                                            {`${props.auth?.mobile ? props.auth?.mobile?.slice(0 , 20) : props.auth?.username?.slice(0 ,20)} ${props.auth?.username?.length > 20 ? '...' : ''}`} 
+                                            <DownOutlined  className="mr-1"/>
                                         </a>
                                 </Dropdown>
 

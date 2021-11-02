@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import {MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled , QuestionCircleFilled , NotificationFilled , SnippetsFilled , FileTextFilled} from '@ant-design/icons';
+import {BorderRightOutlined , UnorderedListOutlined , MenuFoldOutlined , HomeFilled , MessageFilled , PictureFilled , TeamOutlined , BankFilled , WechatFilled , WalletFilled , QuestionCircleFilled , NotificationFilled , SnippetsFilled , FileTextFilled} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import NavItemComponent from './NavItemComponent';
+import { Menu, Switch, Divider } from 'antd';
+import {
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
+  LinkOutlined,
+} from '@ant-design/icons';
 
+const { SubMenu } = Menu;
 
 function DrawerResponsive() {
 
@@ -28,6 +37,12 @@ function DrawerResponsive() {
                 closable={false}
                 onClose={onClose}
                 visible={visible}>
+
+
+
+
+
+            
                 
                
                     <NavItemComponent setVisible={setVisible}  icon={<HomeFilled/>}  title ={"خانه"}  link={"/home"}/>
@@ -40,10 +55,27 @@ function DrawerResponsive() {
                     <NavItemComponent setVisible={setVisible}  icon={<FileTextFilled />}  title ={"سفارشات"}  link={"/orders"}/>
                     <NavItemComponent setVisible={setVisible}  icon={<MessageFilled />}  title ={"پیام‌ها"}  link={"/inbox-messages"}/>
                     <NavItemComponent setVisible={setVisible}  icon={<WechatFilled />}  title ={"تیکت‌ها"}  link={"/tickets"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<UnorderedListOutlined />}  title ={"ایجاد دسته‌بندی"}  link={"/create-new-category"}/>
                     <NavItemComponent setVisible={setVisible}  icon={<QuestionCircleFilled />}  title ={"سوالات متداول"}  link={"/frequently-asked-questions"}/>
+                    <NavItemComponent setVisible={setVisible}  icon={<BorderRightOutlined />}  title ={"ایجاد محتوا"}  link={"/create-content"}/>
                 
                     
             </Drawer>
+
+
+
+
+           
+
+
+
+
+
+
+
+
+
+
         </React.Fragment>
     )
 }

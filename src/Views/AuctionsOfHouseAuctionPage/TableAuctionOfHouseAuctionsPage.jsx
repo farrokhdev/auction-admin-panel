@@ -4,7 +4,7 @@ import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import { convertTypePersian } from '../../utils/converTypePersion';
 import { Menu, Dropdown } from 'antd';
-import EmptyPlaceholder from '../../components/EmptyPlaceholder/EmptyPlaceholder'
+import EmptyComponent from '../../components/EmptyComponent';
 
 function TableAuctionOfHouseAuctionsPage({ auctionsInHouseAuction, houseAuciton, params }) {
 
@@ -167,7 +167,7 @@ function TableAuctionOfHouseAuctionsPage({ auctionsInHouseAuction, houseAuciton,
                     </tbody>
                 </table>
 
-                {!auctionsInHouseAuction?.length && <EmptyPlaceholder />}
+                {!auctionsInHouseAuction?.length && <EmptyComponent text="حراج فعالی موجود نیست" />}
 
             </div>
         </React.Fragment>

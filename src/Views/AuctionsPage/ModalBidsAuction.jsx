@@ -6,6 +6,7 @@ import {BASE_URL} from '../../utils';
 import Loading from '../../components/Loading';
 import momentJalaali from 'moment-jalaali';
 import { separatorCurrency } from '../../utils/separator';
+import EmptyComponent from '../../components/EmptyComponent';
 
 function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuction_id , setBidsAuction_id}) {
 
@@ -94,15 +95,6 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
                                         </div>
                                     </td>
 
-                                    {/* <td  className="">
-                                        <div   className=" ">
-                                            <div className="my-2 content-td">
-                                                <div className=" text-center"> 
-                                                {bid?.creation_date ? `${momentJalaali(bid?.creation_date).format(`HH:mm  -   jYYYY/jMM/jDD`)}` : ''}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td> */}
                                     <td className="">
                                         <div className="my-2 content-td">
                                             <div className=" w-100 text-center"> 
@@ -118,7 +110,11 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
 
                             </tbody>
                         </table>
+
+                        {!bids?.length ? <EmptyComponent text="هیچی بیدی برای این حراجی ثبت نشده است"/> : null}
                         </div>
+
+
                     </div>
                 </div>
         </Modal>

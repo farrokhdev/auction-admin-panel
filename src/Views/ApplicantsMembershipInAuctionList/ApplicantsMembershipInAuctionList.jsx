@@ -2,10 +2,11 @@ import React , {useState , useEffect} from 'react'
 import TableApplicantsMembershipAuciton from './TableApplicantsMembershipAuciton'
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils/index';
-import Loading from '../../components/Loading';
-import { Form, Input, Breadcrumb, Pagination} from 'antd';
+import { Spin , Breadcrumb} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import PaginationComponent from '../../components/PaginationComponent';
+import queryString from 'query-string';
 
 function ApplicantsMembershipInAuctionList(props) {
 
@@ -14,27 +15,37 @@ function ApplicantsMembershipInAuctionList(props) {
     const [countApplicants, setCountApplicants] = useState(0);
     const [currentPage,setcurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 10 , 
+            is_approve : "True" 
+        });
 
         useEffect(() => {
-            axios.get(`${BASE_URL}/sale/join-auction/`).then(res => {
+            const queries = queryString.stringify(params);
+            axios.get(`${BASE_URL}/sale/join-auction/?${queries}`).then(res => {
                 setLoading(false)
-                setApplicantsList(res.data.data.result.results)
-                setCountApplicants(res.data.data.result.count)
+                setApplicantsList(res.data.data.result)
+                setCountApplicants(res.data.data.count)
             }).catch(err => {
                 console.log(err);
                 setLoading(false)
             })
-        }, []);
+        }, [params]);
 
 
         const handeSelectPage = (e) => {
-            console.log("Log Of Pagination", e);
-            setcurrentPage(e)
+            setParams({
+                ...params , page : e
+            })
         }
+
+        const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-        <Loading loading={loading} />
+        <Spin indicator={antIcon} spinning={loading}  >
         <div  className="container-fluid px-0 container-pages">
             <div className="row m-0">
                 <div className="col">
@@ -62,7 +73,7 @@ function ApplicantsMembershipInAuctionList(props) {
                                     <div className="col content-page p-4  ">
                                         
                                         <div className="row px-0 mx-0">
-                                            <TableApplicantsMembershipAuciton applicantsList={applicantsList}/>
+                                            <TableApplicantsMembershipAuciton applicantsList={applicantsList} params={params}/>
                                         </div>
 
                                        <PaginationComponent count={countApplicants} handeSelectPage={handeSelectPage}/>
@@ -73,9 +84,8 @@ function ApplicantsMembershipInAuctionList(props) {
                     </div>
                 </div>
             </div>
-            
-
         </div>
+        </Spin>
     </React.Fragment>
     )
 }

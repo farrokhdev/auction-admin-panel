@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import { separatorCurrency } from '../../utils/separator';
+import EmptyComponent from '../../components/EmptyComponent';
 
 function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct , auctionProduct_id , setBidsAuction_id , setAuctionProduct_id}) {
 
@@ -89,7 +90,8 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
                                                     <div className="text-center">
 
                                                     <Image
-                                                        width={200}
+                                                        width={40}
+                                                        style={{height : '30px' , marginTop : '8px'}}
                                                         src={product?.product?.media?.exact_url}
                                                     />
 
@@ -132,6 +134,7 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
 
                             </tbody>
                         </table>
+                        {!auctionProducts?.length ? <EmptyComponent text="هیچی محصولی برای این حراجی ثبت نشده است"/> : null}
                         </div>
                     </div>
                 </div>
