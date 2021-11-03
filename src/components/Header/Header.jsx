@@ -9,9 +9,10 @@ import {clearActiveNavDrawer , toggleActiveNavDrawer} from '../../redux/reducers
 import DrawerResponsive from '../DrawerResponsive/DrawerResponsive';
 import ModalChangePassword from './ModalChangePassword';
 import classnames from 'classnames';
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
+import logo from "../../images/logo.svg"
 
 function Header(props) {
 
@@ -70,7 +71,10 @@ function Header(props) {
             
             <div className="row justify-content-between align-items-center w-100">
                 <div className="d-none d-lg-block">
-                    <h5 className="text-right mb-0 mr-3">پنل ادمین حراجی آنلاین</h5>
+                    <Link to="/home"> 
+                    <img src={logo} className="text-right mb-0 mr-3" alt="" />
+                    </Link>
+                    {/* <h5 className="text-right mb-0 mr-3">پنل ادمین حراجی آنلاین</h5> */}
                 </div>
                 <div className="col-1  d-lg-none px-0">
                     <div className="d-flex">

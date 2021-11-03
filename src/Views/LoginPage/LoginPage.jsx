@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
-import { Form, Input, Checkbox } from 'antd';
+import { Form, Input, Checkbox, Spin } from 'antd';
 import { fetcher } from '../../utils/common';
 import { setToken, Token } from '../../utils/utils'
 import { BASE_URL } from '../../utils';
@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import { setProfile, loginSuccess, setPhoneNumber } from '../../redux/reducers/auth/auth.actions';
 import GoogleLogin from 'react-google-login';
 import Loading from '../../components/Loading';
+import {LoadingOutlined} from '@ant-design/icons';
+
 
 
 const layout = {
@@ -110,9 +112,11 @@ const LoginPage = (props) => {
 
     // }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
     return (
         <React.Fragment>
-            <Loading loading={loading} />
+            <Spin indicator={antIcon} spinning={loading}  >
             <div className="containerLoginPage">
                 <div className="row">
                     <div className="col">
@@ -251,6 +255,7 @@ const LoginPage = (props) => {
                 </div>
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

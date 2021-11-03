@@ -1951,5 +1951,43 @@ span.ant-tag {
 }
 
 
+.default-input {
+    background: var(--bgcolor);
+    border: 1px solid var(--border-input);
+    height: 40px;
+    border-radius: 20px;
+    width: 100%;
+    outline : 0px !important
+}
 
+.btn-search {
+    background: url("../../images/search-gray.svg") no-repeat center;
+    /* background: url("../img/search-gray.svg") no-repeat center; */
+    height: 16px;
+    width: 16px;
+    display: block;
+    border: none;
+    outline : 0px !important
+  }
 
+  .search-input .btn-search {
+    position: absolute;
+    left: 2rem;
+    top: .75rem;
+  }
+
+  .search-box .btn-searchby {
+    max-width: 180px;
+    margin-top: 0;
+    margin-left: 10px;
+  }
+
+  .custom-create-auction .btn-gray {
+    background: var(--gray90) !important;
+    padding: 7px 15px !important;
+    min-width: 100px !important;
+    color: var(--gray50) !important;
+    border-radius: 25px !important;
+    font-size: 13px !important;
+    outline: 0 !important;
+}
