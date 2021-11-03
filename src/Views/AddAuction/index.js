@@ -305,7 +305,7 @@ function Index() {
                         </Spin>
                         <div className="text-left">
                             {selectComponent !== 1 ?
-                                <Button type="button" className="btn btn-warning mt-4" loading={loading}
+                                <Button type="button" className="btn btn-warning btn-warn-custom mt-4" loading={loading}
                                         onClick={() => {
                                             dispatch(removeAUCTION())
                                         }}>انصراف و حذف اطلاعات

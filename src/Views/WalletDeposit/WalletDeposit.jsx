@@ -1,48 +1,69 @@
 import React, {useState, useEffect} from 'react';
 import {BASE_URL} from '../../utils';
-import {Form, Breadcrumb, Select, Input, message} from 'antd';
+import {Form, Breadcrumb, Select, InputNumber, Spin} from 'antd';
+import { LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import axios from '../../utils/request';
 import ModalConfirmDeposit from './ModalConfirmDeposit';
-
+import queryString from 'query-string';
+import { messageFailed , messageSuccess } from '../../utils/message';
 
 
 function WalletDeposit(props) {
 
-    const [members, setMembers] = useState([]);
-    const [visibleCofirmDeposit, setVisibleCofirmDeposit] = useState(false);
-    const [giftAmount, setGiftAmount] = useState(0);
-    const [usersSelect, setUsersSelect] = useState([]);
-
-
-    const [form] = Form.useForm();
-    useEffect(() => {
-       axios.get(`${BASE_URL}/panel/users/`).then(res => {
-           setMembers(res.data.data.result)
-       }).catch(err => {
-           console.error(err);
-       })
-    }, []);
-
     const { Option } = Select;
 
-    const onFinish = (values) => {
-        // console.log(values);
-        // setGiftAmount(values.gift_credit)
-        // setUsersSelect(values.user)
-        // setTimeout(() => {
-        //     setVisibleCofirmDeposit(true)
-        // }, 1000);
-        axios.post(`${BASE_URL}/panel/credit/gift`,values).then(res => {
-            // setMembers(res.data.data.result)
-            message.success("شارژ هدیه با موفقیت اضافه شد");
-            props.history.push("/wallets")
+    const [members, setMembers] = useState([]);
+    const [visibleCofirmDeposit, setVisibleCofirmDeposit] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [params, setParams] = useState({search : ''})
+
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        getMembers()
+    }, []);
+
+
+    const getMembers = () => {
+        setLoading(true)
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/panel/users/?${queries}`).then(res => {
+            setLoading(false)
+            setTimeout(() => {
+                setMembers( [ ...(res.data.data.result).map( item => 
+                ({label : `${item?.first_name} ${item?.last_name}${' '}(${item?.mobile})` , value : item?.id })) ])
+            }, 200);
+
         }).catch(err => {
             console.error(err);
-            message.error("دوباره تلاش کنید");
+            setLoading(false)
+        })
+    }
+
+    
+
+    const onFinish = (values) => {
+        setLoading(true)
+        axios.post(`${BASE_URL}/panel/credit/gift`,values).then(res => {
+            setLoading(false)
+
+            if(res.data.data.statusCode !== 400){
+                messageSuccess("شارژ هدیه با موفقیت اضافه شد");
+                setTimeout(() => {
+                    props.history.push("/wallets")
+                }, 1000);
+            }else{
+                messageFailed(res.data.data.error_message[0]);
+            }
+           
+        }).catch(err => {
+            setLoading(false)
+            console.error(err);
+            messageFailed(err?.response?.data?.data?.error_message[0]);
         })
     }   
     
@@ -50,10 +71,11 @@ function WalletDeposit(props) {
         console.log(values);
     }
     
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            {/* <Loading loading={loading} /> */}
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -106,20 +128,28 @@ function WalletDeposit(props) {
                                                         className="text-right w-100"
                                                         name="user"
                                                         rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'کاربر را انتخاب نکرده‌اید!',
-                                                            type: 'array',
-                                                        },
+                                                            {
+                                                                required: true,
+                                                                message: 'کاربر را انتخاب نکرده‌اید!',
+                                                                type: 'array',
+                                                            },
                                                         ]}
                                                         >
-                                                        <Select className="" mode="multiple" placeholder="مخاطب را انتخاب کنید">
-                                                            {members.length >= 1 ? members.map(member => (
+                                                        <Select 
+                                                            className="" 
+                                                            mode="multiple" 
+                                                            placeholder="مخاطب را انتخاب کنید"
+                                                            optionFilterProp='label'
+                                                            options={members}
+                                                            onSearch={(e)=>getMembers({search : e})}
+                                                            maxTagCount = 'responsive'
+                                                        >
+                                                            {/* {members.length >= 1 ? members.map(member => (
 
                                                                 <React.Fragment key={member?.id}>
-                                                                    <Option value={`${member?.id}`}>{member?.first_name}</Option>
+                                                                    <Option value={`${member?.id}`}>{`${member?.first_name} ${member?.last_name}${' '}(${member?.mobile})`}</Option>
                                                                 </React.Fragment>
-                                                            )) : <Option value=""></Option>}
+                                                            )) : <Option value=""></Option>} */}
                                                         
                                                         </Select>
                                                     </Form.Item>
@@ -144,19 +174,15 @@ function WalletDeposit(props) {
                                                         {
                                                             pattern: /^[\u06F0-\u06F90-9]+$/,
                                                             message: "تنها کاراکتر عدد معتبر می‌باشد!",
-                                                        },
-
-                                                        {
-                                                            message: "حداکثر تعداد کاراکترها 10 رقم می‌باشد!",
                                                         }
-                                                        
+
                                                     ]}>
-                                                    <Input
-                                                        
-                                                        // placeholder="Select a option and change input text above"
-                                                    >
-                                                        
-                                                    </Input>
+                                                   <InputNumber
+                                                        className="default-input w-100"
+                                                        formatter={value => ` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        // parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                                        // onChange={onChange}
+                                                        />
                                                 </Form.Item>
                                                     </div>
                                                     <div className="col"></div>
@@ -177,12 +203,8 @@ function WalletDeposit(props) {
                 </div>
             </div>
 
-            <ModalConfirmDeposit 
-                setVisibleCofirmDeposit={setVisibleCofirmDeposit}
-                visibleCofirmDeposit = {visibleCofirmDeposit}
-                giftAmount={giftAmount}
-                usersSelect={usersSelect}
-            />
+
+            </Spin>
         </React.Fragment>
     )
 }

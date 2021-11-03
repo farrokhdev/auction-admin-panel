@@ -480,6 +480,16 @@ table  tbody tr td {
     font-size: 20px;
 }
 
+.username-avatar {
+    font-size: 0.65rem !important;
+}
+
+@media (min-width : 575px){
+    .username-avatar {
+        font-size: 1rem !important;
+    }
+}
+
 .boxImageLoginPage {
     margin-top: 27px !important;
     @include FlexContent;
@@ -854,6 +864,10 @@ table  tbody tr td {
     min-width: 10rem !important;
 }
 
+.minWidth-typeAuction{
+    min-width: 15rem !important;
+}
+
 .minWidth-winner{
     min-width: 15rem !important;
 }
@@ -1128,6 +1142,42 @@ color: $white-color;
     }
 }
 
+
+.content-td a{
+    color: $pink-color !important;
+}
+
+.content-td a:hover{
+    transform: scale(1.5) !important;
+}
+
+
+input.default-input {
+    padding: 0 20px;
+  }
+  
+  input.default-input::placeholder{
+    color: var(--gray80) !important ;
+  }
+  
+  select.default-input{
+    padding: 0 20px !important;
+    background-color: var(--gray95) !important;
+    outline: none !important;
+    border: none !important;
+    height: 34px !important;
+    cursor: pointer !important;
+  }
+
+  .btn-create-user{
+      @include purpelBtn;
+  }
+
+  .btn-create-user:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
+
 // ------- Message page -------
 
 .btn-send-message{
@@ -1165,24 +1215,6 @@ color: $white-color;
 
 .ant-form-item-label{
     text-align: right !important;
-}
-
-.input-message-send-to{
-    padding-left: 8.5% !important;
-}
-
-@media(max-width : '575px'){
-    .input-message-send-to{
-        padding-left: 0% !important;
-    } 
-}
-
-.input-message-send-to .ant-form-item-label{
-    // max-width: 765px !important;
-    // right: 200px !important;
-
-    // margin-left: 90px;
-    // margin-left: 20% !important;
 }
 
 .row-messages .contentTd {
@@ -1617,14 +1649,15 @@ color: $white-color;
     color: $white-color !important;
 }
 
-.btn-show-detail-participant{
-    @include pinkBtn ;
-    width: 140px;
 
+.btn-show-detail-participant{
+    @include pinkBtn;
+    background-color: $primary-TextColor !important;
+    width: 100px !important
 }
+
 .btn-show-detail-participant:hover{
-    background-color: $pink-color !important;
-    color:$white-color !important ;
+    background-color : $dark-color !important;
 }
 
 .btn-status-accept{
@@ -1637,6 +1670,10 @@ color: $white-color;
 .btn-status-reject{
     @include warningBtn;
     min-width: 80px !important;
+}
+
+span.ant-tag {
+    border-radius: 10px !important;
 }
 
 // ------------ Sales Consuler Page --------------
@@ -1801,8 +1838,8 @@ color: $white-color;
 }
 
 .modal-confirm-delete-question .ant-btn-primary:hover{
-    background-color:  $warning-color !important;
-    color: $white-color;
+    background-color:  $tertiary-color !important;
+    color: $white-color !important;
 }
 
 .modal-confirm-delete-question button:nth-child(1){
@@ -1810,11 +1847,22 @@ color: $white-color;
     width: 100px !important;
     margin-left: 10px !important;
     color: $dark-color;
+    border-color: blue !important;
 }
 
 .modal-confirm-delete-question button:nth-child(1):hover{
     background-color:  $darkGray-color !important;
-    color: $white-color;
+    color: $white-color !important;
+}
+
+// ------------- add new sub category  ------------
+.ant-btn-dashed {
+    height: 30px !important;
+    width: 120px !important;
+
+
+    
+    
 }
 
 
@@ -1875,5 +1923,71 @@ color: $white-color;
     background-color: #eee;
 }
 
+// ---------- house-auction ----------
+
+.btn-edit-house-auction{
+    @include purpelBtn;
+}
+
+.btn-edit-house-auction:hover{
+    background-color: $quaternary-color !important;
+    color: $white-color !important;
+}
 
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+.ant-table-cell{
+    min-width: 150px !important;
+}
+
+
+.default-input {
+    background: var(--bgcolor);
+    border: 1px solid var(--border-input);
+    height: 40px;
+    border-radius: 20px;
+    width: 100%;
+    outline : 0px !important
+}
+
+.btn-search {
+    background: url("../../images/search-gray.svg") no-repeat center;
+    /* background: url("../img/search-gray.svg") no-repeat center; */
+    height: 16px;
+    width: 16px;
+    display: block;
+    border: none;
+    outline : 0px !important
+  }
+
+  .search-input .btn-search {
+    position: absolute;
+    left: 2rem;
+    top: .75rem;
+  }
+
+  .search-box .btn-searchby {
+    max-width: 180px;
+    margin-top: 0;
+    margin-left: 10px;
+  }
+
+  .custom-create-auction .btn-gray {
+    background: var(--gray90) !important;
+    padding: 7px 15px !important;
+    min-width: 100px !important;
+    color: var(--gray50) !important;
+    border-radius: 25px !important;
+    font-size: 13px !important;
+    outline: 0 !important;
+}

@@ -1,11 +1,12 @@
 import React from 'react'
-import {Menu, Dropdown, Image} from 'antd';
+import {Menu, Dropdown, Image , Tooltip} from 'antd';
 import {DownOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali, {now} from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
-
+import EmptyComponent from '../../components/EmptyComponent';
+import { FcCheckmark  , FcDisapprove } from "react-icons/fc";
 
 function TableSalesConsuler({salesConsulerList, page}) {
 
@@ -29,10 +30,14 @@ function TableSalesConsuler({salesConsulerList, page}) {
                         <div className=" px-3 text-center">ردیف</div>
                     </th>
                     <th className="  px-0 minWidth-name">
-                        <div className=" px-3 text-center">نام کاربر</div>
+                        <div className=" px-3 text-center">تصویر</div>
                     </th>
                     <th className="  px-0 minWidth-name">
                         <div className=" px-3 text-center">نام کاربر</div>
+                    </th> 
+                    
+                    <th className="  px-0 minWidth-name">
+                        <div className=" px-3 text-center">نام محصول</div>
                     </th>
 
                     <th className="  px-0 minWidth-email">
@@ -63,13 +68,22 @@ function TableSalesConsuler({salesConsulerList, page}) {
                             </td>
                             <td>
                                 <div className="my-2 content-td">
-                                <Image height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
+                                <Image style={{width : '40px'}} height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
                                 </div>
                             </td>
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" text-center">
                                         {salesConsuler?.owner?.first_name ? salesConsuler?.owner?.first_name : 'علی'}{' '}{salesConsuler?.owner?.last_name ? salesConsuler?.owner?.last_name : 'صابری'}
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td className="">
+                                <div className="my-2 content-td">
+                                    <div className=" text-center">
+                                        {salesConsuler?.artwork_title ? salesConsuler?.artwork_title : ''}
                                     </div>
 
                                 </div>
@@ -88,7 +102,9 @@ function TableSalesConsuler({salesConsulerList, page}) {
                                 <div
 
                                     className="my-2 content-td">
-                                    {salesConsuler?.is_approve === true ? "تایید شده" : "تایید نشده"}
+                                    {salesConsuler?.is_approve === "accept" ?  
+                                    <Tooltip title="تایید شده" color="green" ><FcCheckmark size={25}/></Tooltip> : 
+                                    <Tooltip title="تایید نشده" color="orange" ><FcDisapprove size={25}/></Tooltip>}
                                 </div>
                             </td>
                             <td className=" text-center">
@@ -109,12 +125,12 @@ function TableSalesConsuler({salesConsulerList, page}) {
                         </tr>
 
                     </>
-                ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                ) : <div className="d-flex text-center w-100"></div>}
 
 
                 </tbody>
             </table>
-
+                        {!salesConsulerList?.length  && <EmptyComponent text={"مشاوره فروشی موجود نیست"}/>}
         </div>
     )
 }

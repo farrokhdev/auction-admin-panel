@@ -4,23 +4,71 @@ import {Link} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import Loading from '../../components/Loading';
+import { successNotification , failNotification} from '../../utils/notification';
 
 
-function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQuestion}) {
+function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQuestion , question_id , setIsCallServiceGetQuestion}) {
 
     const [form] = Form.useForm();
+    const [singleQuestion, setSingleQuestion] = useState()
+    useEffect(() => {
+        getSingleQuestion()
+    }, [])
+
+
+
+
+    const getSingleQuestion = () => {
+        axios.get(`${BASE_URL}/panel/faq/${question_id}/`).then(res => {
+            setSingleQuestion(res.data.data.result)
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
+    }
 
    
-    const [qfa, ] = useState("");
-    const [rfa, ] = useState("");
-    const [qen, ] = useState("");
-    const [ren, ] = useState("");
+    useEffect(() => {
+        form.setFieldsValue({
+            question_en : singleQuestion?.question_en,
+            question_fa : singleQuestion?.question_fa,
+            answer_en : singleQuestion?.answer_en,
+            answer_fa : singleQuestion?.answer_fa,
+            category : singleQuestion?.category
+        })
+    }, [singleQuestion]);
 
 
     const [formLayout, setFormLayout] = useState('horizontal');
+    const [loading, setLoading] = useState(false);
+
 
     const onFinish = (values) => {
         console.log(values);
+        let payload = {
+            "question_en": values.question_en,
+            "question_fa": values.question_fa,
+            "answer_en": values.answer_en,
+            "answer_fa": values.answer_fa,
+            "category": singleQuestion?.category
+        }
+        setLoading(true)
+        axios.put(`${BASE_URL}/panel/faq/${question_id}/` , payload).then(res => {
+            if(res.data.data.statusCode !== 400){
+                successNotification("ویرایش سوال" , "ویرایش سوال با موفقیت انجام شد")
+                setLoading(false)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+            }else{
+                failNotification('خطا' , res.data.data.error_message)
+            }
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
+
+
     }
 
     const onFormLayoutChange = ({ layout }) => {
@@ -40,8 +88,8 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
         : null;
 
     const handleCloseModal =() => {
+        setIsCallServiceGetQuestion(false)
         setVisibleEditQuestion(false)
-
     }
 
     return (
@@ -50,8 +98,8 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                 centered
                 className="modal-edit-questions"
                 visible={visibleEditQuestion}
-                onOk={() => setVisibleEditQuestion(false)}
-                onCancel={() => setVisibleEditQuestion(false)}
+                onOk={handleCloseModal}
+                onCancel={handleCloseModal}
                 width={800}>
 
                     <div className="d-flex">
@@ -61,13 +109,7 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                 {...formItemLayout}
                                 layout={formLayout}
                                 form={form}
-                                initialValues={{
-                                    layout: formLayout,
-                                    question_fa : qfa,
-                                    reply_fa : rfa,
-                                    question_en : qen,
-                                    reply_en : ren,
-                                }}
+                                onFinish={onFinish}
                                 onValuesChange={onFormLayoutChange}
                             >
                            
@@ -87,6 +129,11 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                                 rules={[{
                                                     required: true,
                                                     message: 'سوال فارسی را وارد نکرده‌اید!'
+                                                },
+
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
                                                 }
                                             ]}
                                                 >
@@ -103,10 +150,15 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                         </div>
                                         <div className="col">
                                             <Form.Item 
-                                                name="reply_fa"
+                                                name="answer_fa"
                                                 rules={[{
                                                     required: true,
                                                     message: 'پاسخ فارسی را وارد نکرده‌اید!'
+                                                },
+
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
                                                 }
                                             ]}
                                                 >
@@ -128,10 +180,15 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                                 rules={[{
                                                     required: true,
                                                     message: 'سوال انگلیسی را وارد نکرده‌اید!'
+                                                },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+    
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="سوال انگلیسی" />
+                                                <Input style={{direction : 'ltr'}} placeholder="سوال انگلیسی" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -144,14 +201,19 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                         </div>
                                         <div className="col">
                                             <Form.Item 
-                                            name="reply_en"
+                                            name="answer_en"
                                             rules={[{
                                                 required: true,
                                                 message: 'پاسخ انگلیسی را وارد نکرده‌اید!'
+                                            },
+                                            {
+                                                pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                message: "کاراکتر فارسی مجاز نیست!",
+
                                             }
                                         ]}
                                             >
-                                                <Input placeholder="پاسخ انگلیسی" />
+                                                <Input style={{direction : 'ltr'}} placeholder="پاسخ انگلیسی" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -168,7 +230,6 @@ function ModalEditFrequentlyAskedQuestion({setVisibleEditQuestion , visibleEditQ
                                 </div>
                                 <div className="col px-0">
                                     <div className="d-flex justify-content-center justify-content-sm-start mt-2 mt-sm-0">
-                                        {/* <Link to="/tickets"><button  className="btn-response-to-user">پاسخ به کاربر</button></Link> */}
                                         <button onClick={handleCloseModal} className="btn-close-send-to-house-auction">بستن</button>
                                     </div>
                                 </div>

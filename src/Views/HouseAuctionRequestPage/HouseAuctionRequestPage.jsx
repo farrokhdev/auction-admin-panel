@@ -2,7 +2,7 @@ import React , {useState , useEffect} from 'react'
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import Loading from '../../components/Loading';
-import {Pagination , Breadcrumb} from 'antd';
+import {Pagination , Breadcrumb , Spin} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -12,6 +12,7 @@ import ModalDetailsHouseAuctionRequest from './ModalDetailsHouseAuctionRequest';
 import { REQUESTS_HOUSE_AUCTION } from '../../utils/constant';
 import ModalAcceptHouseAcution from './ModalAcceptHouseAcution';
 import ModalRejectHouseAuction from './ModalRejectHouseAuciton';
+import {LoadingOutlined} from '@ant-design/icons';
 
 function HouseAuctionRequestPage(props) {
 
@@ -95,10 +96,12 @@ function HouseAuctionRequestPage(props) {
             setcurrentPage(e)
         }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
 
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+      <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -171,6 +174,7 @@ function HouseAuctionRequestPage(props) {
                         requestHouseAuction={requestHouseAuctionList[detail_Id]}
                     />
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

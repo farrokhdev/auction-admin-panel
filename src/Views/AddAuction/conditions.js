@@ -73,7 +73,7 @@ const Conditions = (props) => {
                                             message: "حداکثر 500کاراکتر",
                                         },
                                     ]}>
-                               <textarea rows="3" className="default-input"
+                               <textarea rows="3" className=""
                                          placeholder="شرایط پرداخت را وارد نمایید."/>
                                 </Form.Item>
                             </div>
@@ -90,7 +90,7 @@ const Conditions = (props) => {
                                             message: "حداکثر 500کاراکتر",
                                         },
                                     ]}>
-                               <textarea rows="3" className="default-input"
+                               <textarea rows="3" className=""
                                          placeholder="قوانین بازگشت را وارد نمایید."/>
                                 </Form.Item>
                             </div>
@@ -107,7 +107,7 @@ const Conditions = (props) => {
                                             message: "حداکثر 500کاراکتر",
                                         },
                                     ]}>
-                               <textarea rows="3" className="default-input"
+                               <textarea rows="3" className=""
                                          placeholder="نحوه‌ی انتقال اثر را وارد نمایید."/>
                                 </Form.Item>
                             </div>

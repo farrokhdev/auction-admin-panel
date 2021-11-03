@@ -7,38 +7,74 @@ import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 
 
-function TableMemberList({memberList , params ,  countMember , visibleBidsMember , setVisibleBidsMember}) {
+function TableMemberList(props) {
+ const {
+    memberList , 
+    params ,  
+    setIs_call_service_auctions , 
+    setIs_call_service_favoriteArtwork , 
+    setIs_call_service_bids , 
+    setVisibleParticipantAuctions , 
+    setVisibleBidsMember , 
+    setMemberId , 
+    setVisibleFavoriteArtwork
+} = props
 
 
-    const menu=(id) => (
+    const menu=(id , wallet_id , role) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/members/${id}/`} >
+                <Link to={ role !== "home_auction" ?   `/members/${id}/` : `/house-auctions/${id}/`} >
                     مشاهده
                 </Link>
             </Menu.Item >
-            <Menu.Item  onClick={()=>setVisibleBidsMember(true)} className="text-center">
-                
+            <Menu.Item  onClick={()=>handleClickBids(id)} className="text-center">
                 بیدها
-               
+            </Menu.Item>
+            <Menu.Item onClick={()=>handleClickAucitons(id)} className="text-center">
+               حراج‌ها
+            </Menu.Item>
+            <Menu.Item onClick={()=> handleClickArtworkFavorite(id)} className="text-center">
+                آثار مورد علاقه
             </Menu.Item>
             <Menu.Item className="text-center">
-                <Link to="/house-auctions" >
-                    حراج‌ها
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link >
-                    آثار مورد علاقه
-                </Link>
-            </Menu.Item>
-            <Menu.Item className="text-center">
-                <Link>
+                <Link to={`/wallets/${wallet_id}/`}>
                     کیف پول
                 </Link>
             </Menu.Item>
         </Menu>
     );
+
+    const handleClickBids = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_bids(true)
+            // set variable to 'true', for show  modal
+            setVisibleBidsMember(true)
+        }, 300);
+    } 
+
+
+    const handleClickAucitons = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_auctions(true)
+            // set variable to 'true', for show  modal
+            setVisibleParticipantAuctions(true)
+        }, 300);
+    }   
+    
+    const handleClickArtworkFavorite = (id) => {
+        setMemberId(id)
+        setTimeout(() => {
+            // set variable to 'true', for check that api call service or not
+            setIs_call_service_favoriteArtwork(true)
+            // set variable to 'true', for show  modal
+            setVisibleFavoriteArtwork(true)
+        }, 300);
+    }
 
     
     return (
@@ -65,9 +101,6 @@ function TableMemberList({memberList , params ,  countMember , visibleBidsMember
                             <div className=" px-3 text-center">تاریخ عضویت</div>
                         </th>
 
-                        {/* <th className="  px-0 minWidth-typeRegister">
-                            <div className=" px-3 text-center">نوع عضویت</div>
-                        </th> */}
                         <th className="  px-0 minWidth-typeUser">
                             <div className=" px-3 text-center">نوع کاربر</div>
                         </th>
@@ -79,71 +112,64 @@ function TableMemberList({memberList , params ,  countMember , visibleBidsMember
                 </thead>
 
                 <tbody>
-                    {memberList ? memberList.map((member, index) =>
-                        <> 
+                    {memberList?.length ? memberList.map((member, index) =>
+                        <React.Fragment key={member?.id}> 
                             <tr className="spaceRow row-messages">
 
-                            <td   className="">
-                                <div  className="my-2 content-td" >
-                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
-                                </div>
-                            </td>
-
-                            <td   className="">
-                                <div   className="my-2 content-td">
-                                    <div className=" text-center"> {member?.first_name}{' '}{member?.last_name}</div>
-
-                                </div>
-                            </td>
-                            <td  className="">
-
-                                <div   className=" ">
-                                    <div className="my-2 content-td">
-                                        <div className=" text-center"> {member?.email}</div>
+                                <td   className="">
+                                    <div  className="my-2 content-td" >
+                                        <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> {member?.mobile}</div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> {momentJalaali(member?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
-                                </div>
-                            </td>
-                            {/* <td className="">
-                                <div
-                            
-                                    className=" my-2 content-td">
+                                </td>
 
-                                </div>
-                            </td> */}
-                            <td className="">
-                                <div
-                              
-                                    className="my-2 content-td">
-                                        {convertTypePersian(member?.role)}
-                                </div>
-                            </td>
-                            <td className=" text-center">
-                                <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(member?.id)}>
-                                        <a className="">
-                                            <img src={icon_more} alt=""/>
-                                            {/* <DownOutlined/> */}
-                                        </a>
-                                    </Dropdown>
-                                    {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+                                <td   className="">
+                                    <div   className="my-2 content-td">
+                                        <div className=" text-center"> {member?.first_name}{' '}{member?.last_name}</div>
 
-                                </div>
-                            </td>
+                                    </div>
+                                </td>
+                                <td  className="">
+                                    <div   className=" ">
+                                        <div className="my-2 content-td">
+                                            <div className=" text-center"> {member?.email}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center"> {member?.mobile}</div>
+                                    </div>
+                                </td>
+                                <td className="">
+                                    <div
+                                        className=" my-2 content-td">
+                                        <div className=" w-100 text-center"> {momentJalaali(member?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
+                                    </div>
+                                </td>
+
+                                <td className="">
+                                    <div
+                                
+                                        className="my-2 content-td">
+                                            {convertTypePersian(member?.role)}
+                                    </div>
+                                </td>
+                                <td className=" text-center">
+                                    <div className="my-2 content-td">
+                                        <Dropdown overlay={menu(member?.id , member?.wallet_id , member?.role)}>
+                                            <a className="">
+                                                <img src={icon_more} alt=""/>
+                                                {/* <DownOutlined/> */}
+                                            </a>
+                                        </Dropdown>
+                                        {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+
+                                    </div>
+                                </td>
                             </tr>
 
-                            </>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                            </React.Fragment>
+                        ) : <div className="d-flex text-center w-100"></div>}
 
                    
 

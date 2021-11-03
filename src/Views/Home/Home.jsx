@@ -1,26 +1,26 @@
 import React from 'react'
-import { Result, Button , Breadcrumb} from 'antd';
-import {Link} from 'react-router-dom';
-import {ShoppingOutlined} from '@ant-design/icons';
-import {connect} from 'react-redux';
-
+import { Result, Button, Breadcrumb } from 'antd';
+import { Link } from 'react-router-dom';
+import { ShoppingOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import logo from '../../images/logo.svg'
 
 function Home(props) {
     return (
         <React.Fragment>
-            
 
 
 
-<React.Fragment>
-            <div className="container-fluid px-0">
 
-                
+            <React.Fragment>
+                <div className="container-fluid px-0">
 
-                <div className="row m-0">
-                    <div className="col">
-                        <div className="row ">
-                            <div className="col content-panel-pages px-0 mx-0">
+
+
+                    <div className="row m-0">
+                        <div className="col">
+                            <div className="row ">
+                                <div className="col content-panel-pages px-0 mx-0">
                                     <div className="row px-0 mx-0 ">
                                         {/* <Header/> */}
                                     </div>
@@ -32,49 +32,51 @@ function Home(props) {
                                                 </Breadcrumb>
                                             </div>
                                         </div>
-                                            </div>
+                                    </div>
                                     <div className="row px-0  ">
                                         <div className="col content-page p-4 mx-2 mx-lg-3">
-                                            
-                                        {props.auth.is_logged_in ? 
-                                        
-                                        <Result
-                                            icon={<ShoppingOutlined />}
-                                            style={{ color: 'hotpink' }}
-                                                title="به پنل حراجی آنلاین خوش آمدید"
-                                                extra={[
-                                                    
-                                                    <Link to="/artworks">
-                                                        <Button className="btn-view-artworks-home"
-                                                        // key="console"
-                                                        >
-                                                        آثار هنری
-                                                        </Button>
-                                                    </Link>
-                                                ]}
-                                        />
-                                        : <Result
-                                        icon={<ShoppingOutlined />}
-                                        style={{ color: 'hotpink' }}
-                                            title="به پنل حراجی آنلاین خوش آمدید"
-                                            extra={[
-                                                
-                                                <Link to="/login">
-                                                    <Button  className="btn-enter-login-home"
-                                                    // key="console"
-                                                    >
-                                                    ورود به پنل
-                                                    </Button>
-                                                </Link>
-                                            ]}
-                                    /> }
+
+                                            {props.auth.is_logged_in ?
+                                                <>
+                                                    <img src={logo} className="d-flex mx-auto mt-5" alt="" />
+                                                    <Result
+                                                    className="pt-4"
+                                                        style={{ color: 'hotpink' }}
+                                                        title="به پنل حراجی آنلاین خوش آمدید"
+                                                        extra={[
+
+                                                            <Link to="/artworks">
+                                                                <Button className="btn-view-artworks-home mt-5"
+                                                                // key="console"
+                                                                >
+                                                                    آثار هنری
+                                                                </Button>
+                                                            </Link>
+                                                        ]}
+                                                    />
+                                                </>
+                                                : <Result
+                                                    style={{ color: 'hotpink' }}
+                                                    title="به پنل حراجی آنلاین خوش آمدید"
+                                                    extra={[
+
+                                                        <Link to="/login">
+                                                            <Button className="btn-enter-login-home"
+                                                            // key="console"
+                                                            >
+                                                                ورود به پنل
+                                                            </Button>
+                                                        </Link>
+                                                    ]}
+                                                />
+                                            }
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* <div className="row">
+                    {/* <div className="row">
                     <div style={{maxWidth : '300px'}} className="col-2 box-drawer-panel px-0">
                         <DrawerMenu/>
                     </div>
@@ -91,8 +93,8 @@ function Home(props) {
                     </div>
                 </div> */}
 
-            </div>
-        </React.Fragment>
+                </div>
+            </React.Fragment>
         </React.Fragment>
     )
 }
@@ -100,9 +102,9 @@ function Home(props) {
 // export default Home;
 const mapStateToProps = (store) => {
     return {
-        auth : store.authReducer
+        auth: store.authReducer
     }
 }
 
 
-export default connect(mapStateToProps , null)(Home)
+export default connect(mapStateToProps, null)(Home)

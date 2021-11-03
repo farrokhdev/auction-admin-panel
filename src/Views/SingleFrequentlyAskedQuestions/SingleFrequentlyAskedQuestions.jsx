@@ -1,9 +1,13 @@
-import React , {useState } from 'react'
+import React , {useState , useEffect} from 'react'
 import {Breadcrumb , Form , Input} from 'antd';
 import {NavLink} from 'react-router-dom';
 import ModalEditFrequentlyAskedQuestion from './ModalEditFrequentlyAskedQuestion';
+import {BASE_URL} from '../../utils';
+import axios from '../../utils/request';
 import TableQuestionsCategory from './TableQuestionsCategory';
-
+import PaginationComponent from '../../components/PaginationComponent'
+import { failNotification, successNotification } from '../../utils/notification';
+import queryString from 'query-string';
 
 const layout = {
     labelCol: {
@@ -16,49 +20,66 @@ const layout = {
 
 function SingleFrequentlyAskedQuestions(props) {
 
-    // const [qfa, ] = useState("...سوال");
-    // const [rfa, ] = useState("...پاسخ فارسی");
-    // const [qen, ] = useState("...سوال انگلیسی");
-    // const [ren, ] = useState("...پاسخ انگلیسی");
 
     const [visibleEditQuestion , setVisibleEditQuestion] = useState(false);
-    const [questionList , setQuestionList] = useState([
+    const [isCallServiceGetQuestion, setIsCallServiceGetQuestion] = useState(null)
+    const [loading, setLoading] = useState(false);
+    const [frequentlyCount, setfrequentlyCount] = useState(0);
+    const [questionList , setQuestionList] = useState([]);
+    const [question_id, setQuestion_id] = useState()
+    const [params , setParams] = useState(
         {
-            q_persion : "سوال فارسی",
-            q_english : "question",
-            r_persion : "پاسخ فارسی",
-            r_english : "response",
-        },
-        {
-            q_persion : "سوال فارسی",
-            q_english : "question",
-            r_persion : "پاسخ فارسی",
-            r_english : "response",
-        },
-        {
-            q_persion : "سوال فارسی",
-            q_english : "question",
-            r_persion : "پاسخ فارسی",
-            r_english : "response",
-        },
-        {
-            q_persion : "سوال فارسی",
-            q_english : "question",
-            r_persion : "پاسخ فارسی",
-            r_english : "response",
-        },
-    ]);
+            page : 1, 
+            page_size : 10 , 
+            category__id : props.match.params.id
+        });
 
-    const [qfa, ] = useState("");
-    const [rfa, ] = useState("");
-    const [qen, ] = useState("");
-    const [ren, ] = useState("");
 
     const [form] = Form.useForm();
     const [formLayout, setFormLayout] = useState('horizontal');
 
+
+      useEffect(() => {
+        setLoading(true)
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/panel/faq/?${queries}`).then(res => {
+            setLoading(false)
+            setQuestionList(res.data.data.result)
+            setfrequentlyCount(res.data.data.count)
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
+
+    }, [params]);
+
+
+
     const onFinish = (values) => {
         console.log(values);
+
+        let payload = {
+            "question_en": values.question_en,
+            "question_fa": values.question_fa,
+            "answer_en": values.answer_en,
+            "answer_fa": values.answer_fa,
+            "category": props.match.params.id
+        }
+        setLoading(true)
+        axios.post(`${BASE_URL}/panel/faq/` , payload).then(res => {
+            if(res.data.data.statusCode !== 400){
+                successNotification("افزودن سوال" , "افزودن سوال با موفقیت انجام شد")
+                setLoading(false)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+            }else{
+                failNotification('خطا' , res.data.data.error_message)
+            }
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+        })
     }
 
     const onFormLayoutChange = ({ layout }) => {
@@ -76,6 +97,13 @@ function SingleFrequentlyAskedQuestions(props) {
             },
           }
         : null;
+
+
+        const handeSelectPage = (e) => {
+            setParams({
+                ...params , page : e
+            })
+        }
 
     return (
         <React.Fragment>
@@ -115,13 +143,6 @@ function SingleFrequentlyAskedQuestions(props) {
                                 layout={formLayout}
                                 onFinish={onFinish}
                                 form={form}
-                                initialValues={{
-                                    layout: formLayout,
-                                    question_fa : qfa,
-                                    reply_fa : rfa,
-                                    question_en : qen,
-                                    reply_en : ren,
-                                }}
                                 onValuesChange={onFormLayoutChange}
                             >
                            
@@ -141,10 +162,14 @@ function SingleFrequentlyAskedQuestions(props) {
                                                 rules={[{
                                                     required: true,
                                                     message: 'سوال فارسی را وارد نکرده‌اید!'
+                                                },
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="سوال فارسی" />
+                                                <Input placeholder="سوال فارسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -157,14 +182,18 @@ function SingleFrequentlyAskedQuestions(props) {
                                         </div>
                                         <div className="col">
                                             <Form.Item 
-                                                name="reply_fa"
+                                                name="answer_fa"
                                                 rules={[{
                                                     required: true,
                                                     message: 'پاسخ فارسی را وارد نکرده‌اید!'
+                                                },
+                                                {
+                                                    pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                    message: "کاراکتر انگلیسی مجاز نیست!",
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="پاسخ فارسی" />
+                                                <Input placeholder="پاسخ فارسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -182,10 +211,15 @@ function SingleFrequentlyAskedQuestions(props) {
                                                 rules={[{
                                                     required: true,
                                                     message: 'سوال انگلیسی را وارد نکرده‌اید!'
+                                                },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+    
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="سوال انگلیسی" />
+                                                <Input style={{direction : 'ltr'}} className="text-left" placeholder="سوال انگلیسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -196,16 +230,21 @@ function SingleFrequentlyAskedQuestions(props) {
                                                 <p className="mb-2 mb-lg-0 text-right">پاسخ انگلیسی</p>
                                             </div>
                                         </div>
-                                        <div className="col">
+                                        <div className="col text-left">
                                             <Form.Item 
-                                                name="reply_en"
+                                                name="answer_en"
                                                 rules={[{
                                                     required: true,
                                                     message: 'پاسخ انگلیسی را وارد نکرده‌اید!'
+                                                },
+                                                {
+                                                    pattern: /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                    message: "کاراکتر فارسی مجاز نیست!",
+    
                                                 }
                                             ]}
                                                 >
-                                                <Input placeholder="پاسخ انگلیسی" />
+                                                <Input style={{direction : 'ltr'}} className="text-left" placeholder="پاسخ انگلیسی را وارد نمایید" />
                                             </Form.Item>
                                         </div>
                                     </div>
@@ -224,13 +263,20 @@ function SingleFrequentlyAskedQuestions(props) {
                                     <TableQuestionsCategory 
                                         setVisibleEditQuestion={setVisibleEditQuestion}
                                         visibleEditQuestion={visibleEditQuestion}
+                                        setIsCallServiceGetQuestion={setIsCallServiceGetQuestion}
+                                        isCallServiceGetQuestion={isCallServiceGetQuestion}
                                         questionList={questionList}
-                                        />
+                                        params={params}
+                                        setQuestion_id={setQuestion_id}
+                                        question_id={question_id}
+                                    />
                                 </div>
 
                             </div>
 
-
+                            <div className="d-flex justify-content-center w-100 mt-4">
+                                <PaginationComponent count ={frequentlyCount} handeSelectPage={handeSelectPage} />
+                            </div>
 
                         </div>
 

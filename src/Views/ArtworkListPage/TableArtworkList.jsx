@@ -9,15 +9,28 @@ import momentJalaali from 'moment-jalaali';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 import { separatorCurrency } from '../../utils/separator';
+import EmptyComponent from '../../components/EmptyComponent';
 
-function TableArtworkList({artworkList , handleFilterArtwork , params }) {
+function TableArtworkList(props) {
     
+    const {
+        artworkList , 
+        handleFilterArtwork , 
+        params , 
+        setvisibleShowBidsArtwork , 
+        setIsCall_service_get_bids_product , 
+        setProduct_id , 
+        setIsCall_service_get_auctions_product , 
+        setvisibleShowAuctionsArtwork,
+        setSingleArtwork
+    } = props
+
     const { Search } = Input;
     const { Panel } = Collapse;
     const onSearch = value => console.log(value);
 
 
-const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
+    const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
 
     useEffect(() => {
         getHomeAuciton()
@@ -26,7 +39,6 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
     const getHomeAuciton = () => {
         axios.get(`${BASE_URL}/account/home-auction/`)
         .then(res => {
-            console.log("res -->>" , res.data.data.result);
             setListSuggestionHomeAuctions(res.data.data.result)
         }).catch({
 
@@ -62,6 +74,12 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
                     مشاهده اثر
                 </Link>
             </Menu.Item >
+            <Menu.Item onClick={()=>handleShowModalBidsArtwork(id) } className="text-center">
+                بیدها
+            </Menu.Item >       
+            <Menu.Item onClick={()=>handleShowModalAuctionsArtwork(id , artwork) } className="text-center">
+                آخرین حراج
+            </Menu.Item >
             <Menu.Item  className="text-center">
                 <div onClick={()=>handleShowModalAsseptArtwork(id , artwork)} >
                 تایید اثر هنری
@@ -93,14 +111,24 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
     }
 
 
-//   const onChangeFrom = (value) =>{
-//     handleFilterDateFrom(value.format('jYYYY-jM-jD'))
+    const handleShowModalBidsArtwork = (id) => {
+        setProduct_id(id)
+        setTimeout(() => {
+            setIsCall_service_get_bids_product(true)
+            setvisibleShowBidsArtwork(true)
+        }, 300);
+    }   
+    
+    const handleShowModalAuctionsArtwork = (id , artwork) => {
+        setProduct_id(id)
+        setSingleArtwork(artwork)
+        setTimeout(() => {
+            setIsCall_service_get_auctions_product(true)
+            setvisibleShowAuctionsArtwork(true)
+        }, 300);
+    }
 
-//   }
 
-//   const onChangeTo = (value) => {
-//     handleFilterDateTo(value.format('jYYYY-jM-jD'))
-//   }
     
     return (
         <React.Fragment>
@@ -222,7 +250,7 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
                 </thead>
 
                 <tbody>
-                    {artworkList ? artworkList.map((artwork, index) =>
+                    {artworkList?.length ? artworkList.map((artwork, index) =>
                         <React.Fragment key={artwork?.id}> 
                             <tr className="spaceRow row-messages">
 
@@ -311,7 +339,7 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
                             </td>
                             </tr>
                             </React.Fragment>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        ) : <div className="d-flex text-center w-100"></div>}
 
                    
                         <ModalAcceptArtwork 
@@ -332,7 +360,12 @@ const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
             </tbody>
         </table>
 
+
+
     </div>
+        <div className="d-flex justify-content-center w-100">
+            {!artworkList?.length  && <EmptyComponent text={"اثری موجود نیست"}/>}
+        </div>
         </React.Fragment>
     )
 }

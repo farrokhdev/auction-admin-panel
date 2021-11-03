@@ -12,3 +12,10 @@ export const getStatusMessages = () => (
         type : types.STATUS_MESSAGE ,
     }
 )
+
+export const setUserForSaleConsulerResponse = (payload) => (
+    {
+        type : types.SET_USER_FOR_SALSE_CONSULER_RESPONSE ,
+        payload : payload
+    }
+)
