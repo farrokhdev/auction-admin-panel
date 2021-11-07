@@ -14,12 +14,13 @@ function TableOrdersList({ ordersList, params }) {
     const menu = (id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link  >
+                <Link to={`/orders/${id}`}>
                     مشاهده
                 </Link>
             </Menu.Item >
         </Menu>
     );
+    
 
     // {
     //     image : '',
@@ -180,6 +181,7 @@ function TableOrdersList({ ordersList, params }) {
                                     <div className="my-2 content-td">
                                         <Dropdown overlay={menu(order?.id)}>
                                             <a className="">
+
                                                 <img src={icon_more} alt="" />
                                                 {/* <DownOutlined/> */}
                                             </a>

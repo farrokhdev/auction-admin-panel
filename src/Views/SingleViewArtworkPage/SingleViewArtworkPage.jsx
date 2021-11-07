@@ -23,6 +23,9 @@ function SingleViewArtworkPage(props) {
           span: 200,
         },
       };
+
+    const [CoreUpload, setCoreUpload] = useState("");
+
     const [artwork, setArtwork] = useState({});
     const [loading, setLoading] = useState(false);
     const [media, setMedia] = useState(null)
@@ -136,7 +139,13 @@ function SingleViewArtworkPage(props) {
             "persian_description" : values.persian_description,
             "english_description" : values.english_description,
             "price" :values.price,
-            "media" : values.media ,
+            "media": {
+                "media_path": is_upload ? CoreUpload.upload_url : "",
+                "type": "image",
+                "bucket_name": "image",
+                "file_key": is_upload ? CoreUpload.file_key : ""
+            },
+            // "media" : values.media ,
             "category_id": [
                 2
             ],
@@ -151,6 +160,7 @@ function SingleViewArtworkPage(props) {
         
         axios.put(`${BASE_URL}/sale/product/${props.match.params.id}/` , payload).then(res => {
             console.log(res.data);
+            window.location = "#/artworks"
             successNotification("ویرایش اطلاعات" , "ویرایش اطلاعات با موفقیت انجام شد")
         }).catch(err => {
             console.log(err);
@@ -178,6 +188,7 @@ function SingleViewArtworkPage(props) {
       const handleResultUpload = (value) => {
         if (value?.media_path)
             setMedia(value)
+            setCoreUpload(value)
         // dispatch(setAUCTION({media:value}))
     }
 
@@ -274,7 +285,7 @@ function SingleViewArtworkPage(props) {
                                         })}  message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                 <div className="d-flex">
 
-                                        <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload = {setIs_upload}/>
+                                        <UploadImage setCoreUpload={setCoreUpload} handleResultUpload={handleResultUpload} initialImage={media} setIs_upload = {setIs_upload}/>
                                     
                                         {/* <Form.Item
                                             name="media"

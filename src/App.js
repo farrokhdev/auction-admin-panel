@@ -51,6 +51,7 @@ import HouseAuctionRequestPage from "./Views/HouseAuctionRequestPage";
 import CreateContentPage from "./Views/CreateContentPage";
 import AddNewCategory from "./Views/AddNewCategory";
 import AddNewMember from "./Views/AddNewMember/AddNewMember";
+import SingleViewOrderList from "./Views/OrdersListPage/SingleViewOrderList";
 
 
 
@@ -103,6 +104,7 @@ function App(props) {
                             <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/>
                             {/* <Route exact path="/wallet-withdrawal" render={props=><Main {...props}><WalletWithdrawal {...props} /></Main>}/> */}
                             <Route exact path="/orders" render={props=><Main {...props}><OrdersListPage {...props} /></Main>}/>
+                            <Route exact path="/orders/:id" render={props=><Main {...props}><SingleViewOrderList {...props} /></Main>}/>
                             <Route exact path="/add-question-category" render={props=><Main {...props}><AddNewQuestionCategory {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions" render={props=><Main {...props}><FrequentlyAskedQuestions {...props} /></Main>}/>
                             <Route exact path="/frequently-asked-questions/:id" render={props=><Main {...props}><SingleFrequentlyAskedQuestions {...props} /></Main>}/>
