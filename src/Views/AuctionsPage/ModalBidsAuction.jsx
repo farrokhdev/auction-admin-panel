@@ -11,7 +11,6 @@ import EmptyComponent from '../../components/EmptyComponent';
 function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuction_id , setBidsAuction_id}) {
 
     const [bids, setBids] = useState([]);
-    console.log("setBidsAuction_id ###### " , bidsAuction_id);
 
     useEffect(() => {
         axios.get(`${BASE_URL}/bidding/?auction=${bidsAuction_id}`).then(res => {
@@ -30,6 +29,7 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
         setBidsAuction_id(null)
     }
 
+    console.log("bids --->>>" , bids);
 
     return (
         <React.Fragment>
@@ -90,7 +90,7 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
                                     <td className="">
                                         <div   className="my-2 content-td">
                                             <div className=" text-center"> 
-                                                {bid?.product_auction?.product?.artwork_title}
+                                                <Link to={`/artworks/${bid?.product_auction?.product?.id}`}>{bid?.product_auction?.product?.artwork_title}</Link>
                                             </div>
                                         </div>
                                     </td>

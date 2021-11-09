@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {Menu, Dropdown, message, Modal, Spin} from 'antd';
-import {DownOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
+import {Menu, Dropdown, message, Modal, Spin , Tooltip} from 'antd';
+import {DownOutlined, ExclamationCircleOutlined , DiffFilled , DeleteFilled} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
@@ -13,19 +13,25 @@ import {faPen, faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {BASE_URL} from "../../utils";
 import axios from "../../utils/request";
 import PaginationComponent from '../../components/PaginationComponent';
+import queryString from 'query-string';
 
-function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisibleAuctionProduct , setAuctionProduct_id , setLoading }) {
+
+function TableAuctonsList(props) {
+
+    const { setBidsAuction_id , setVisibleBidsAuction , setVisibleAuctionProduct , setAuctionProduct_id , setLoading } = props
+
     const [Auctions, setAuctions] = useState("");
     const [pageSize, setPageSize] = useState(10);
     const [countAuction, setCountAuction] = useState(0);
     const [params, setParams] = useState({
         page : 1, 
-        page_size : 10
+        page_size : 10 ,
+        ordering : 'start_time'
     })
 
     const {confirm} = Modal;
     useEffect(() => {
-        getProducts()
+        getAuctionsList()
 
     }, [params])
 
@@ -44,7 +50,7 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                     .then(resp => {
                         setLoading(false)
                         message.success("حذف حراجی با موفقیت انجام شد")
-                        getProducts()
+                        getAuctionsList()
                     })
                     .catch(err => {
                         setLoading(false)
@@ -64,9 +70,10 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
     }
 
 
-    const getProducts = (page_size = pageSize) => {
+    const getAuctionsList = () => {
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/auctions/?page=${params?.page}&page_size=${page_size}`)
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/sale/auctions/?${queries}`)
             .then(resp => {
                 setLoading(false)
                 if (resp.data.code === 200) {
@@ -160,23 +167,24 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                     <th className="  px-0 minWidth-typeUser">
                         <div className=" px-3 text-center">وضعیت</div>
                     </th>
-                    <th className="  px-0 minWidth-action"></th>
-                    <th className="  px-0 minWidth-action">
+                    <th className="px-0 minWidth-action">
                         <div className="px-3 text-center">عملیات</div>
                     </th>
                     <th className="  px-0 minWidth-action text-center">نمایش درسایت</th>
+                    <th className="px-0 text-center minWidth-action">حذف و اضافه محصول </th>
+                    <th className="px-0 text-center minWidth-action">حذف حراجی </th>
 
                 </tr>
                 </thead>
 
                 <tbody>
-                {Auctions ? Auctions.map((auction, index) =>
+                {Auctions ? Auctions?.map((auction, index) =>
                     <>
                         <tr className="spaceRow row-messages">
 
                             <td className="">
                                 <div className="my-2 content-td">
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
 
@@ -214,20 +222,7 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                                     {convertTypePersian(auction?.status)}
                                 </div>
                             </td>
-                            <td>
-                                <div className="my-2 content-td">
-                                    {auction.status !== "CLOSED" ? <>
-                                        <Link onClick={() => dispatch(removeAUCTION())}
-                                              to={`/add-new-auction/${auction.id}`} type="button">
-                                            <FontAwesomeIcon icon={faPen} style={{color: '#007268'}}/>
-                                        </Link>
-                                        <button className="btn " type="button" style={{color: 'red'}}
-                                                onClick={() => showDeleteConfirm(auction.id)}>
-                                            <FontAwesomeIcon icon={faTimes}/>
-                                        </button>
-                                    </> : ''}
-                                </div>
-                            </td>
+                            
                             <td className=" text-center">
                                 <div className="my-2 content-td">
                                     <Dropdown overlay={menu(auction?.id)}>
@@ -241,6 +236,31 @@ function TableAuctonsList({ setBidsAuction_id , setVisibleBidsAuction , setVisib
                             </td>
                             <td className="text-center">
                                 <ShowCheckbox visible_in_site={auction?.visible_in_site} auctionId={auction?.id}/>
+                            </td>
+
+                            <td className="text-center">
+                                <div className="my-2 content-td d-flex justify-content-around">
+                                    <Link   
+                                        onClick={() => dispatch(removeAUCTION())}
+                                        to={auction?.status === "PREPARING" ? `/add-new-auction/${auction.id}` : '#'} 
+                                        type="button"
+                                    >
+                                        <Tooltip placement="rightTop" title={auction?.status === "PREPARING" ? "حذف/اضافه محصول در ویرایش حراجی" : "امکان حذف و اضافه محصول وجود ندارد"} color={'pink'} >
+                                                <DiffFilled className="icon-add" />
+                                        </Tooltip>
+                                    </Link>
+                                </div>
+                            </td>    
+                            
+                            <td className="text-center">
+                                <div className="my-2 content-td d-flex justify-content-around">
+                                    <Tooltip placement="rightTop" title={auction?.status === "PREPARING" ? "حذف حراجی" : "امکان حذف وجود ندارد"} color={'pink'} >
+                                        <button disabled={auction?.status !== "PREPARING"} className="btn " type="button" style={{border: 'none'}}
+                                            onClick={() => showDeleteConfirm(auction.id)}>
+                                                <DeleteFilled className="icon-delete"/>
+                                        </button>
+                                    </Tooltip>
+                                </div>
                             </td>
 
                         </tr>
