@@ -5,8 +5,8 @@ import {BASE_URL} from "../../utils";
 import {Image} from "antd";
 
 const UploadImage = (props) => {
-    const {handleResultUpload,initialImage='', setCoreUpload} = props;
-    // const [CoreUpload, setCoreUpload] = useState("");
+    const {handleResultUpload,initialImage=''} = props;
+    const [CoreUpload, setCoreUpload] = useState("");
     const [Uploaded, setUploaded] = useState(false);
     const [Uploading, setUploading] = useState(false);
     const handleUpload = (e) => {

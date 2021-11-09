@@ -11,5 +11,7 @@ module.exports={
     UPLOAD_EXEL_AUCTION:name=>`/sale/upload/${name}/`,
     DELETE_AUCTION:id=>`/sale/auctions/${id}/`,
     ACCEPT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/approve/`,
-    REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`
+    REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`,
+
+    DELETE_PRODUCT : id =>  `/sale/product/${id}/` ,
 }

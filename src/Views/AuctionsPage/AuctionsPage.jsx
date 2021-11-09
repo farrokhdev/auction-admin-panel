@@ -9,6 +9,8 @@ import ModalBidsAuction from './ModalBidsAuction';
 import ModalAuctionProducts from './ModalAuctionProducts';
 
 function AuctionsPage(props) {
+
+   
     
     const [auctionsList , setAuctionsList] = useState([]);
     const [countAuction, setCountAuction] = useState(0);
@@ -22,6 +24,7 @@ function AuctionsPage(props) {
         {
             page : 1, 
             page_size : 10 , 
+            ordering : 'start_time'
 
         });
     
@@ -77,7 +80,6 @@ function AuctionsPage(props) {
                                                     visibleAuctionProduct={visibleAuctionProduct}
                                                     setVisibleAuctionProduct={setVisibleAuctionProduct}
                                                     countAuction={countAuction}
-                                                    params={params}
                                                     setLoading={setLoading}
                                                     
                                                 />

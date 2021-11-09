@@ -879,6 +879,10 @@ table  tbody tr td {
     min-width: 9rem !important;
 }
 
+.minWidth-extra-action{
+    min-width: 15rem !important;
+}
+
 .minWidth--price{
     min-width: 11rem !important;
 }
@@ -1674,6 +1678,27 @@ input.default-input {
 
 span.ant-tag {
     border-radius: 10px !important;
+}
+
+.icon-delete{
+    color: $darkGray-color;
+    
+}
+.icon-delete:hover{
+    color: $pink-color;
+    transform: scale(1.2);
+}
+.icon-add{
+    color: $darkGray-color;
+}
+
+.icon-add:hover{
+    color: $primary3-color;
+    transform: scale(1.01);
+}
+
+button[disabled]  {
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 
 // ------------ Sales Consuler Page --------------
