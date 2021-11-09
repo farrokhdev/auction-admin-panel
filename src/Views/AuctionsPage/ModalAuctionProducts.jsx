@@ -1,14 +1,18 @@
 import React , {useState , useEffect} from 'react'
-import {Modal , Image  } from 'antd';
+import {Modal , Image , message } from 'antd';
+import {DeleteFilled , ExclamationCircleOutlined} from '@ant-design/icons'
 import {Link} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import { separatorCurrency } from '../../utils/separator';
 import EmptyComponent from '../../components/EmptyComponent';
+import {  DELETE_PRODUCT } from '../../utils/constant';
 
 function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct , auctionProduct_id , setBidsAuction_id , setAuctionProduct_id}) {
 
     const [auctionProducts, setAuctionProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const {confirm} = Modal;
 
     useEffect(() => {
         getAuctionProductList()
@@ -27,10 +31,45 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
     }
 
 
+
+
     // fuction for close modal when ok modal and cancel modal that set amount auction product id is null
     const handleCloseModal = () => {
         setVisibleAuctionProduct(false)
         setAuctionProduct_id(null)
+    }
+
+    const handleDeleteProduct = (id) => {
+        confirm({
+            title: 'آیا قصد حذف کردن این اثر را دارید؟',
+            icon: <ExclamationCircleOutlined/>,
+            content: '',
+            okText: 'بله',
+            okType: 'danger',
+            cancelText: 'خیر',
+            onOk() {
+                setLoading(true)
+                axios.delete(`${BASE_URL}${DELETE_PRODUCT(id)}`)
+                    .then(resp => {
+                        setLoading(false)
+                        message.success("حذف اثر با موفقیت انجام شد")
+                        getAuctionProductList()
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        console.error(err);
+                        if (err?.response?.data?.message)
+                            message.error(err.response.data.message)
+                        else if (err?.response?.data?.data?.result)
+                            message.error(err.response.data.message)
+                        else
+                            message.error("دوباره تلاش کنید")
+                    })
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
 
@@ -66,7 +105,9 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
 
                                         <th className="  px-0 minWidth-mobile">
                                             <div className=" px-3 text-center">قیمت</div>
-                                        </th>
+                                        </th> 
+                                        
+                                   
 
                                         
                                     </tr>
@@ -104,7 +145,7 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
                                         <td className="">
                                             <div   className="my-2 content-td">
                                                 <div className=" text-center"> 
-                                                    {product?.product?.artwork_title} 
+                                                <Link to={`/artworks/${product?.product?.id}`}>{product?.product?.artwork_title}</Link>
                                                 </div>
                                             </div>
                                         </td>              
@@ -113,15 +154,6 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
                                             <div   className="my-2 content-td">
                                                 <div className=" text-center"> 
                                                     {product?.base_price ? separatorCurrency(product?.base_price) : ''}
-                                                </div>
-                                            </div>
-                                        </td>
-
-                    
-                                        <td className="">
-                                            <div className="my-2 content-td">
-                                                <div className=" w-100 text-center"> 
-                                                    {product?.price ? separatorCurrency(product?.price) : ''}
                                                 </div>
                                             </div>
                                         </td>

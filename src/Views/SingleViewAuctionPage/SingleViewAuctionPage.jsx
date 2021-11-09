@@ -240,6 +240,15 @@ function SingleViewAuctionPage(props) {
                             </Form.Item>
                             </div>
                        </div>
+                       
+                       <div className="d-flex justify-content-end">
+                            <button
+                                className="btn-edit-house-auction mt-5"
+                                htmlType="submit"
+                            >
+                            ویرایش اطلاعات
+                        </button>
+                    </div>
 
                         </Form>
                     </div>
