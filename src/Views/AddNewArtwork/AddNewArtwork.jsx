@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin } from 'antd';
+import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin , Upload , message} from 'antd';
+import {PictureOutlined , StarOutlined} from "@ant-design/icons";
 import { NavLink, Link } from 'react-router-dom';
 import { BASE_URL } from '../../utils';
+import {PRE_UPLOAD} from '../../utils/constant';
 import axios from '../../utils/request';
+import UploadAxios from "../../utils/uploadRequest";
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
@@ -21,13 +23,15 @@ const layout = {
         span: 200,
     },
 };
+
+const { Dragger } = Upload;
+
 function AddNewArtwork(props) {
 
     // let numeral = require('numeral');
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
     const [auctionsList, setAuctionsList] = useState([])
     const [houseAuctionsList, setHouseAuctionsList] = useState([])
 
@@ -37,10 +41,13 @@ function AddNewArtwork(props) {
     const [media, setMedia] = useState(null)
     const [is_upload, setIs_upload] = useState(true)
 
+    const [uploadList, setUploadList] = useState([])
+    const [newArtwork, setNewArtwork] = useState({ category_id : []})
+
     const [minPrice, setMinPrice] = useState()
 
     const { Option } = Select;
-
+  
     useEffect(() => {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/category/?title=آثار`).then(res => {
@@ -86,6 +93,8 @@ function AddNewArtwork(props) {
 
     })
 
+    
+
 
     const onFinish = (values) => {
         setLoading(true)
@@ -111,7 +120,16 @@ function AddNewArtwork(props) {
             "category_id": values.category_id,
             "persion_description": values.persion_description,
             "english_description": values.english_description,
-            "media": media,
+            "media": uploadList,
+            
+            // [{
+            //     "media_path": is_upload ? CoreUpload.upload_url : "",
+            //     "type": "image",
+            //     "bucket_name": "image",
+            //     "file_key": is_upload ? CoreUpload.file_key : "",
+            //     "is_default" : false
+            // }],
+            // "media": media,
             "price": values.price,
             "price_max": values.price_max,
             "price_min": values.price_min,
@@ -147,6 +165,47 @@ function AddNewArtwork(props) {
             setMedia(value)
         // dispatch(setAUCTION({media:value}))
     }
+
+
+    const propsUpload = {
+        listType: "picture",
+    
+        onChange(info) {
+          const { status } = info.file;
+          if (status !== "uploading") {
+    
+          }
+          if (status === "done" && !!uploadList.url) {
+              console.log("info_file --->>" , info.file);
+            setUploadList([...uploadList , info.file])
+            message.success(`${info.file.name} با موفقیت آپلود شد.`);
+          } else if (status === "error") {
+            message.error(`آپلود ${info.file.name} با خطا مواجه شد.`);
+          }
+    
+        },
+        progress: {
+            strokeColor: {
+              '0%': '#e6007e',
+              '100%': '#e6007e',
+            },
+            strokeWidth: 3,
+            format: percent => `${parseFloat(percent.toFixed(2))}%`,
+          },
+
+          showUploadList: {
+            showDownloadIcon: false,
+            downloadIcon: 'download ',
+            showRemoveIcon: true,
+            // removeIcon: <StarOutlined onClick={e => console.log(e, 'custom removeIcon event')} />,
+            removeIcon: <input type="checkbox"/>,
+          },
+        
+    
+      };
+
+
+      console.log("uploadList ---->" , uploadList);
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -184,6 +243,14 @@ function AddNewArtwork(props) {
 
                                 <div className="col pt-5">
 
+                                    <div className="d-flex mb-4">
+                                        <div className="col">
+                                            <div className="d-flex">
+                                                بارگذاری تصاویر    
+                                            </div> 
+                                        </div>
+                                    </div>
+
                                     <Form
                                         {...layout}
                                         name="nest-messages"
@@ -198,36 +265,89 @@ function AddNewArtwork(props) {
                                             })} message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                         </div>
 
+                                        <Dragger
+                                                {...propsUpload}
+                                                className="upload-list-inline"
+                                                // maxCount={1}
+                                                //   onRemove={()=>setUploadList([...uploadList])}
+                                                  onRemove={()=>alert('delete')}
+                                                customRequest={async (e) => {
+                                                    const { file, onSuccess, onError } = e;
+
+                                                    await axios
+                                                    .post(`${BASE_URL}${PRE_UPLOAD}`, {
+                                                        content_type: "image",
+                                                    }).then((res) => {
+                                                        onSuccess({ status: "success" });
+                                                        setUploadList([
+                                                            ...uploadList , 
+                                                            { 
+                                                                file_key : res.data.data.result.file_key,
+                                                                media_path : res.data.data.result.upload_url,
+                                                                type : "image",
+                                                                bucket_name : "image",
+                                                                is_default : false
+                                                            }
+                                                        ])
+
+                                                        setNewArtwork({
+                                                        ...newArtwork,
+                                                        
+                                                        });
+
+                                                        if (
+                                                        res.data.data.result.upload_url &&
+                                                        file?.type.split("/")[0] === "image"
+                                                        ) {
+
+                                                        UploadAxios.put(res.data.data.result.upload_url, file)
+                                                        .then((res) => {
+
+
+                                      
+
+                                                            }).catch((err) => {
+                                                            console.error(err);
+                                                            });
+                                                        } else {
+                                                            // setImageList([]);
+                                                        }
+                                                    })
+                                                    .catch((err) => {
+                                                        console.error(err);
+                                                        onError({ status: "error" });
+                                                    });
+                                                }}
+                                                >
+                                                <p className="ant-upload-drag-icon">
+                                                    <PictureOutlined className="img-icon-upload-add-new-artwork" />
+                                                </p>
+                                                <p className="ant-upload-text">
+                                                    تصاویر خود را در اینجا رها کنید
+                                                </p>
+                                                </Dragger>
+                                        
+
                                         <div className="d-block d-lg-flex justify-content-start my-3">
                                             <div className="col-12 col-lg-2">
 
-                                                <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p>
+                                                {/* <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p> */}
                                             </div>
-                                            <div className="col">
+                                            <div className="d-block">
 
-                                                <div className="row mb-5">
+                                                {/* <div className="row mb-5">
                                                     <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload={setIs_upload} />
-                                                </div>
+                                                </div> */}
 
-                                                {/* <ImgCrop rotate>
-                                        <Upload
-                                            beforeUpload={(file, fileList) => {
-                                                handleUpload(file)
-                                                return false
-                                            }}
-                                            listType="picture-card"
-                                            onPreview={onPreview}
-                                            showUploadList={false}
 
-                                        >
-                                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> :
-                                                <div>
-                                                    {Uploading ? <LoadingOutlined /> : <PlusOutlined />}
-                                                    <div style={{ marginTop: 8 }}>Upload</div>
-                                                </div>
-                                            }
-                                        </Upload>
-                                    </ImgCrop> */}
+                                          
+                                                
+                                            
+
+
+
+
+ 
                                             </div>
                                         </div>
 

@@ -2016,3 +2016,46 @@ button[disabled]  {
     font-size: 13px !important;
     outline: 0 !important;
 }
+
+.ant-upload-list-item-info {
+    height: 100%;
+    padding: 20px;
+    transition: background-color 0.3s;
+}
+
+.ant-upload-list-item-info {
+    height: 51%;
+    padding: 0 4px;
+    transition: background-color 0.3s;
+}
+
+.ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+    display: block;
+    width: 48px;
+    height: 75px;
+    overflow: hidden;
+}
+
+.ant-upload-list-item-card-actions .anticon {
+    color: rgba(0, 0, 0, 0.45);
+    margin-top: 15px;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+
+.ant-upload-list-item-card-actions-btn:focus, .ant-upload-list-item-card-actions.picture .ant-upload-list-item-card-actions-btn {
+    opacity: 1;
+    background-color: transparent;
+}
+
+
+/* tile uploaded pictures */
+.upload-list-inline .ant-upload-list-item {
+    float: left !important;
+    width: 200px !important;
+    margin-right: 8px !important;
+  }
+  
+  .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+    float: right !important;
+  }

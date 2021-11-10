@@ -139,12 +139,13 @@ function SingleViewArtworkPage(props) {
             "persian_description" : values.persian_description,
             "english_description" : values.english_description,
             "price" :values.price,
-            "media": {
+            "media": [{
                 "media_path": is_upload ? CoreUpload.upload_url : "",
                 "type": "image",
                 "bucket_name": "image",
-                "file_key": is_upload ? CoreUpload.file_key : ""
-            },
+                "file_key": is_upload ? CoreUpload.file_key : "",
+                "is_default" : false
+            }],
             // "media" : values.media ,
             "category_id": [
                 2
