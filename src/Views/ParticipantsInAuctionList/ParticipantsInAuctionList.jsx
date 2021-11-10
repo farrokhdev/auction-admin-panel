@@ -7,7 +7,7 @@ import {NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 import PaginationComponent from '../../components/PaginationComponent';
-
+import queryString from 'query-string';
 
 function ParticipantsInAuctionList(props) {
 
@@ -15,26 +15,39 @@ function ParticipantsInAuctionList(props) {
     const [loading , setLoading] = useState(false);
     const [currentPage , setcurrentPage] = useState(1);
     const [countParticipants , setCountParticipants] = useState();
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 10 , 
 
+        });
 
-    const handeSelectPage = (e) => {
-        console.log("Log Of Pagination", e);
-        setcurrentPage(e)
-    }
+        const handeSelectPage = (e) => {
+            setParams({
+                ...params , page : e
+            })
+        }
 
 
     useEffect(() => {
+        getListParicipants()
+    }, [params]);
 
+
+    const getListParicipants = () => {
         setLoading(true)
-        axios.get(`${BASE_URL}/sale/join-auction/`).then(res => {
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/sale/join-auction/?${queries}`).then(res => {
             setLoading(false)
             setParticipantsList(res.data.data.result)
+            setCountParticipants(res.data.data.count)
         }).catch(err => {
             console.log(err);
             setLoading(false)
         })
+    }
 
-    }, [currentPage]);
+
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
      
@@ -69,10 +82,12 @@ function ParticipantsInAuctionList(props) {
                                         <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
-                                                <TableParticipantsInAuctionList participantsList={participantsList} />
+                                                <TableParticipantsInAuctionList getListParicipants={getListParicipants} participantsList={participantsList} params={params} />
                                             </div>
 
-                                            <PaginationComponent count={countParticipants} handeSelectPage={handeSelectPage}/>
+                                            <div className="d-flex mt-4 justify-content-center">
+                                                <PaginationComponent count={countParticipants} handeSelectPage={handeSelectPage}/>
+                                            </div>
 
                                         </div>
                                     </div>
