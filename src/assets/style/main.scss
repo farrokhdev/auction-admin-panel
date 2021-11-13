@@ -2032,7 +2032,7 @@ button[disabled]  {
 .ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
     display: block;
     width: 48px;
-    height: 75px;
+    height: 65px;
     overflow: hidden;
 }
 
@@ -2050,12 +2050,59 @@ button[disabled]  {
 
 
 /* tile uploaded pictures */
-.upload-list-inline .ant-upload-list-item {
-    float: left !important;
-    width: 200px !important;
-    margin-right: 8px !important;
-  }
+// .upload-list-inline .ant-upload-list-item {
+//     float: left !important;
+//     width: 200px !important;
+//     margin-right: 8px !important;
+//   }
   
-  .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
-    float: right !important;
+//   .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+//     float: right !important;
+//   }
+
+.ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item {
+    position: relative;
+    height: 56px;
+    padding: 8px;
+   border: 1px solid #d9d9d9; 
+    border-radius: 2px;
+}
+
+
+.default-checkbox-image-upload.d-flex.justify-content-end {
+    position: relative;
+    top: -52px;
+    left: 30px;
+}
+span.ant-upload-list-item-name {
+    position: relative;
+    left: 80px;
+    font-size: 0.9rem !important;
+}
+
+.ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+    display: block;
+    margin-top: 12px;
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    overflow: hidden;
+}
+
+input[type="radio"]{
+    position: relative !important;
+    width: 12px !important;
+    height: 12px !important;
+    -webkit-appearance : none !important;
+    border-radius: 2px !important;
+    border : 1px solid gray !important;
+    outline: none !important;
+
+
+  }
+
+input[type="radio"]:checked{
+    background-color: $dark-color !important;
+
   }
