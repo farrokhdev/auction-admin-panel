@@ -2017,11 +2017,13 @@ button[disabled]  {
     outline: 0 !important;
 }
 
-.ant-upload-list-item-info {
-    height: 100%;
-    padding: 20px;
-    transition: background-color 0.3s;
-}
+// ---------- multiple upload style ---------------
+
+// .ant-upload-list-item-info {
+//     height: 100%;
+//     padding: 20px;
+//     transition: background-color 0.3s;
+// }
 
 .ant-upload-list-item-info {
     height: 51%;
@@ -2029,12 +2031,12 @@ button[disabled]  {
     transition: background-color 0.3s;
 }
 
-.ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
-    display: block;
-    width: 48px;
-    height: 65px;
-    overflow: hidden;
-}
+// .ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+//     display: block;
+//     width: 40px;
+//     height: 65px;
+//     overflow: hidden;
+// }
 
 .ant-upload-list-item-card-actions .anticon {
     color: rgba(0, 0, 0, 0.45);
@@ -2046,49 +2048,65 @@ button[disabled]  {
 .ant-upload-list-item-card-actions-btn:focus, .ant-upload-list-item-card-actions.picture .ant-upload-list-item-card-actions-btn {
     opacity: 1;
     background-color: transparent;
+    margin-top: 13px !important;
 }
 
-
-/* tile uploaded pictures */
-// .upload-list-inline .ant-upload-list-item {
-//     float: left !important;
-//     width: 200px !important;
-//     margin-right: 8px !important;
-//   }
-  
-//   .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
-//     float: right !important;
-//   }
 
 .ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item {
     position: relative;
     height: 56px;
     padding: 8px;
-   border: 1px solid #d9d9d9; 
+    border: 1px solid #d9d9d9; 
     border-radius: 2px;
 }
 
 
+span.anticon.anticon-delete {
+    margin: 0px !important;
+}
+
+.ant-upload-list-picture-container {
+    height: 66px;
+}
+
 .default-checkbox-image-upload.d-flex.justify-content-end {
+    display: flex !important;
+    justify-content: start !important;
     position: relative;
-    top: -52px;
-    left: 30px;
+    top: -28px;
+    margin-right: 65px !important;
 }
 span.ant-upload-list-item-name {
+    display: flex !important;
+    justify-content: start !important;
     position: relative;
-    left: 80px;
+    right: 10px;
     font-size: 0.9rem !important;
 }
 
-.ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
-    display: block;
-    margin-top: 12px;
-    min-width: 40px;
-    max-width: 40px;
-    min-height: 40px;
-    max-height: 40px;
+// .ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+
+//     min-width: 40px;
+//     max-width: 40px;
+//     min-height: 40px;
+//     max-height: 40px;
+//     overflow: hidden;
+// }
+
+
+a.ant-upload-list-item-thumbnail {
+    display: flex !important;
+    align-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin-top: 20px !important;
+  }
+  
+  a.ant-upload-list-item-thumbnail img {
+    width: 100% !important;
+    height: 100% !important;
     overflow: hidden;
-}
+  }
 
 input[type="radio"]{
     position: relative !important;
@@ -2098,11 +2116,8 @@ input[type="radio"]{
     border-radius: 2px !important;
     border : 1px solid gray !important;
     outline: none !important;
-
-
-  }
+}
 
 input[type="radio"]:checked{
     background-color: $dark-color !important;
-
-  }
+}

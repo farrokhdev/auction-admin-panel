@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import ImgCrop from 'antd-img-crop';
-import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin , Upload , message} from 'antd';
-import {PictureOutlined , DeleteOutlined} from "@ant-design/icons";
-import { NavLink, Link } from 'react-router-dom';
+import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin } from 'antd';
+import { NavLink } from 'react-router-dom';
 import { BASE_URL } from '../../utils';
-import {PRE_UPLOAD} from '../../utils/constant';
 import axios from '../../utils/request';
-import UploadAxios from "../../utils/uploadRequest";
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loading';
 import { Redirect } from 'react-router-dom'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import UploadImage from '../AddAuction/uploadImage';
+import { LoadingOutlined } from '@ant-design/icons';
 import classnames from 'classnames';
+import MultipleUpload from './MultipleUpload';
 
 const layout = {
     labelCol: {
@@ -24,25 +19,15 @@ const layout = {
     },
 };
 
-const { Dragger } = Upload;
 
 function AddNewArtwork(props) {
-
-    // let numeral = require('numeral');
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [auctionsList, setAuctionsList] = useState([])
     const [houseAuctionsList, setHouseAuctionsList] = useState([])
-
-    const [CoreUpload, setCoreUpload] = useState([]);
-    const [Uploading, setUploading] = useState(false);
-    const [media, setMedia] = useState(null)
     const [is_upload, setIs_upload] = useState(true)
-
     const [uploadList, setUploadList] = useState([])
-    // const [newArtwork, setNewArtwork] = useState({ category_id : []})
-    const [statusDefaultImage, setStatusDefaultImage] = useState(false)
     const [minPrice, setMinPrice] = useState()
 
     const { Option } = Select;
@@ -87,12 +72,8 @@ function AddNewArtwork(props) {
 
 
     form.setFieldsValue({
-
         price_min: minPrice
-
     })
-
-
 
     const onFinish = (values) => {
         setLoading(true)
@@ -149,75 +130,6 @@ function AddNewArtwork(props) {
     };
 
 
-    const propsUpload = {
-        listType: "picture",
-    
-        onChange(info) {
-          const { status } = info.file;
-          if (status !== "uploading") {
-    
-          }
-          if (status === "done" ) {
-       
-          } else if (status === "error") {
-                info.fileList.filter(item => item.uid !== info.file.uid)
-                setUploadList(uploadList.filter(item => item.uid !== info.file.uid));
-
-          }
-
-          return info
-    
-        },
-        progress: {
-            strokeColor: {
-              '0%': '#e6007e',
-              '100%': '#e6007e',
-            },
-            width : '50%',
-            strokeWidth: 3,
-            format: percent => `${parseFloat(percent.toFixed(2))}%`,
-          },
-
-
-          onRemove : (file)=> {
-            setUploadList(uploadList.filter(item => item.uid !== file.uid));
-          },
-
-          showUploadList: {
-            showDownloadIcon: false,
-            downloadIcon: 'download ',
-            showRemoveIcon: true,
-            // removeIcon: <DeleteOutlined onClick={e => handleRemoveUploadImage(e)} />,
-          },
-
-          itemRender : (OriginNode , file , fileList , actions ) => {
-
-            return (
-      
-                [OriginNode , 
-                    <div  className="default-checkbox-image-upload d-flex justify-content-end" >
-                        <input onClick={(e )=>defaultImageHandler(e , file.uid)} name="is_default" className="ml-1  mt-2" type="radio"/>
-                        <span className="pb-2 ml-2">پیش‌فرض</span>
-                    </div>
-                ]
-            )
-          }
-
-      };
-
-
-    const defaultImageHandler = (e , uid) => {
-
-       let newList =  uploadList?.map(item => item.uid === uid  ? {...item , is_default : true} : {...item , is_default : false})
-
-        setUploadList(newList)
-
-    }
-
-
-  
-
-      console.log("uploadList ---->" , uploadList);
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -277,86 +189,11 @@ function AddNewArtwork(props) {
                                             })} message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                         </div>
 
-                                        <Dragger
-                                                {...propsUpload}
-                                                className="upload-list-inline"
-                                                customRequest={async (e) => {
-                                                    const { file, onSuccess, onError } = e;
-
-                                                    await axios
-                                                    .post(`${BASE_URL}${PRE_UPLOAD}`, {
-                                                        content_type: "image",
-                                                    }).then((res) => {
-                                                        onSuccess(
-                                                            { status: "success" }
-                                                        );
-
-                                                        let uploadImage;
-                                                        uploadImage = { 
-                                                                file_key : res.data.data.result.file_key,
-                                                                media_path : res.data.data.result.upload_url,
-                                                                type : "image",
-                                                                bucket_name : "image",
-                                                                is_default : false,
-                                                                uid : file.uid
-                                                            }
-
-                                                        if (
-                                                            res.data.data.result.upload_url &&
-                                                            file?.type.split("/")[0] === "image"
-                                                        ) {
-
-                                                        UploadAxios.put(res.data.data.result.upload_url, file).then((res) => {
-
-
-                                                            setUploadList([...uploadList ,  uploadImage])
-                                                                message.success(` با موفقیت بازگذاری شد.`);
-                                                            }).catch((err) => {
-                                                                console.error(err);
-                                                                onError({ status: "error" });
-                                                                message.error(`بارگذاری  با خطا مواجه شد.`);
-                                                            });
-
-                                                        } else {
-                                                           
-                                                        }
-                                                    })
-                                                    .catch((err) => {
-                                                        console.error(err);
-                                                        onError({ status: "error" });
-                                                    });
-                                                }}
-                                                >
-                                                <p className="ant-upload-drag-icon">
-                                                    <PictureOutlined className="img-icon-upload-add-new-artwork" />
-                                                </p>
-                                                <p className="ant-upload-text">
-                                                    تصاویر خود را در اینجا رها کنید
-                                                </p>
-                                                </Dragger>
-                                        
+                                         <MultipleUpload uploadList={uploadList} setUploadList={setUploadList}/>
 
                                         <div className="d-block d-lg-flex justify-content-start my-3">
-                                            <div className="col-12 col-lg-2">
-
-                                                {/* <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p> */}
-                                            </div>
-                                            <div className="d-block">
-
-                                                {/* <div className="row mb-5">
-                                                    <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload={setIs_upload} />
-                                                </div> */}
-
-
-                                          
-                                                
-                                            
-
-
-
-
- 
-                                            </div>
+                                            <div className="col-12 col-lg-2"></div>
+                                            <div className="d-block"></div>
                                         </div>
 
                                         <div className="d-block d-md-flex">
@@ -467,20 +304,6 @@ function AddNewArtwork(props) {
                                                         </Select>
                                                     </Form.Item>
 
-
-
-                                                    {/* <Form.Item
-                                            name="category_id"
-                                            className="w-100 "
-                                            rules={[{
-                                                required: false,
-                                                message: 'ورودی دسته‌بندی محصول خالی است!'
-                                            },
-                                  
-                                        ]}
-                                            >
-                                            <Input />
-                                    </Form.Item> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -1067,11 +890,11 @@ function AddNewArtwork(props) {
                                                                                                 />
 
                                                                                                 {/* <ModalConfirmRemove 
-                                                                        handleRemove={()=>remove(field.name)}
-                                                                        field = {field.name}
-                                                                        setConfirmRemoveModal = {setConfirmRemoveModal}
-                                                                        confirmRemoveModal = {confirmRemoveModal}
-                                                                    /> */}
+                                                                                                    handleRemove={()=>remove(field.name)}
+                                                                                                    field = {field.name}
+                                                                                                    setConfirmRemoveModal = {setConfirmRemoveModal}
+                                                                                                    confirmRemoveModal = {confirmRemoveModal}
+                                                                                                /> */}
                                                                                             </div>
 
                                                                                         </div>
