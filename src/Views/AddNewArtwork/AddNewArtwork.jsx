@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Upload } from 'antd';
-import ImgCrop from 'antd-img-crop';
 import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin } from 'antd';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { BASE_URL } from '../../utils';
 import axios from '../../utils/request';
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loading';
 import { Redirect } from 'react-router-dom'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import UploadImage from '../AddAuction/uploadImage';
+import { LoadingOutlined } from '@ant-design/icons';
 import classnames from 'classnames';
+import MultipleUpload from './MultipleUpload';
 
 const layout = {
     labelCol: {
@@ -21,26 +18,20 @@ const layout = {
         span: 200,
     },
 };
-function AddNewArtwork(props) {
 
-    // let numeral = require('numeral');
+
+function AddNewArtwork(props) {
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
     const [auctionsList, setAuctionsList] = useState([])
     const [houseAuctionsList, setHouseAuctionsList] = useState([])
-
-    const [CoreUpload, setCoreUpload] = useState([]);
-    const [Uploaded, setUploaded] = useState(false);
-    const [Uploading, setUploading] = useState(false);
-    const [media, setMedia] = useState(null)
     const [is_upload, setIs_upload] = useState(true)
-
+    const [uploadList, setUploadList] = useState([])
     const [minPrice, setMinPrice] = useState()
 
     const { Option } = Select;
-
+  
     useEffect(() => {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/category/?title=آثار`).then(res => {
@@ -81,16 +72,13 @@ function AddNewArtwork(props) {
 
 
     form.setFieldsValue({
-
         price_min: minPrice
-
     })
-
 
     const onFinish = (values) => {
         setLoading(true)
 
-        if (media === null) {
+        if (!uploadList.length) {
             setIs_upload(false)
         }
 
@@ -111,7 +99,7 @@ function AddNewArtwork(props) {
             "category_id": values.category_id,
             "persion_description": values.persion_description,
             "english_description": values.english_description,
-            "media": media,
+            "media": uploadList,
             "price": values.price,
             "price_max": values.price_max,
             "price_min": values.price_min,
@@ -142,11 +130,6 @@ function AddNewArtwork(props) {
     };
 
 
-    const handleResultUpload = (value) => {
-        if (value?.media_path)
-            setMedia(value)
-        // dispatch(setAUCTION({media:value}))
-    }
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -184,6 +167,14 @@ function AddNewArtwork(props) {
 
                                 <div className="col pt-5">
 
+                                    <div className="d-flex mb-4">
+                                        <div className="col">
+                                            <div className="d-flex">
+                                                بارگذاری تصاویر    
+                                            </div> 
+                                        </div>
+                                    </div>
+
                                     <Form
                                         {...layout}
                                         name="nest-messages"
@@ -198,37 +189,11 @@ function AddNewArtwork(props) {
                                             })} message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                         </div>
 
+                                         <MultipleUpload uploadList={uploadList} setUploadList={setUploadList}/>
+
                                         <div className="d-block d-lg-flex justify-content-start my-3">
-                                            <div className="col-12 col-lg-2">
-
-                                                <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p>
-                                            </div>
-                                            <div className="col">
-
-                                                <div className="row mb-5">
-                                                    <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload={setIs_upload} />
-                                                </div>
-
-                                                {/* <ImgCrop rotate>
-                                        <Upload
-                                            beforeUpload={(file, fileList) => {
-                                                handleUpload(file)
-                                                return false
-                                            }}
-                                            listType="picture-card"
-                                            onPreview={onPreview}
-                                            showUploadList={false}
-
-                                        >
-                                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> :
-                                                <div>
-                                                    {Uploading ? <LoadingOutlined /> : <PlusOutlined />}
-                                                    <div style={{ marginTop: 8 }}>Upload</div>
-                                                </div>
-                                            }
-                                        </Upload>
-                                    </ImgCrop> */}
-                                            </div>
+                                            <div className="col-12 col-lg-2"></div>
+                                            <div className="d-block"></div>
                                         </div>
 
                                         <div className="d-block d-md-flex">
@@ -339,20 +304,6 @@ function AddNewArtwork(props) {
                                                         </Select>
                                                     </Form.Item>
 
-
-
-                                                    {/* <Form.Item
-                                            name="category_id"
-                                            className="w-100 "
-                                            rules={[{
-                                                required: false,
-                                                message: 'ورودی دسته‌بندی محصول خالی است!'
-                                            },
-                                  
-                                        ]}
-                                            >
-                                            <Input />
-                                    </Form.Item> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -939,11 +890,11 @@ function AddNewArtwork(props) {
                                                                                                 />
 
                                                                                                 {/* <ModalConfirmRemove 
-                                                                        handleRemove={()=>remove(field.name)}
-                                                                        field = {field.name}
-                                                                        setConfirmRemoveModal = {setConfirmRemoveModal}
-                                                                        confirmRemoveModal = {confirmRemoveModal}
-                                                                    /> */}
+                                                                                                    handleRemove={()=>remove(field.name)}
+                                                                                                    field = {field.name}
+                                                                                                    setConfirmRemoveModal = {setConfirmRemoveModal}
+                                                                                                    confirmRemoveModal = {confirmRemoveModal}
+                                                                                                /> */}
                                                                                             </div>
 
                                                                                         </div>

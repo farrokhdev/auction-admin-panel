@@ -14,4 +14,5 @@ module.exports={
     REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`,
 
     DELETE_PRODUCT : id =>  `/sale/product/${id}/` ,
+    PRE_UPLOAD: "/core/upload/",
 }

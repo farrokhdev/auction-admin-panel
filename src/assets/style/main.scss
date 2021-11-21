@@ -2016,3 +2016,108 @@ button[disabled]  {
     font-size: 13px !important;
     outline: 0 !important;
 }
+
+// ---------- multiple upload style ---------------
+
+// .ant-upload-list-item-info {
+//     height: 100%;
+//     padding: 20px;
+//     transition: background-color 0.3s;
+// }
+
+.ant-upload-list-item-info {
+    height: 51%;
+    padding: 0 4px;
+    transition: background-color 0.3s;
+}
+
+// .ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+//     display: block;
+//     width: 40px;
+//     height: 65px;
+//     overflow: hidden;
+// }
+
+.ant-upload-list-item-card-actions .anticon {
+    color: rgba(0, 0, 0, 0.45);
+    margin-top: 15px;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+
+.ant-upload-list-item-card-actions-btn:focus, .ant-upload-list-item-card-actions.picture .ant-upload-list-item-card-actions-btn {
+    opacity: 1;
+    background-color: transparent;
+    margin-top: 13px !important;
+}
+
+
+.ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item {
+    position: relative;
+    height: 56px;
+    padding: 8px;
+    border: 1px solid #d9d9d9; 
+    border-radius: 2px;
+}
+
+
+span.anticon.anticon-delete {
+    margin: 0px !important;
+}
+
+.ant-upload-list-picture-container {
+    height: 66px;
+}
+
+.default-checkbox-image-upload.d-flex.justify-content-end {
+    display: flex !important;
+    justify-content: start !important;
+    position: relative;
+    top: -28px;
+    margin-right: 65px !important;
+}
+span.ant-upload-list-item-name {
+    display: flex !important;
+    justify-content: start !important;
+    position: relative;
+    right: 10px;
+    font-size: 0.9rem !important;
+}
+
+// .ant-upload-list-picture .ant-upload-list-item-thumbnail img, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+
+//     min-width: 40px;
+//     max-width: 40px;
+//     min-height: 40px;
+//     max-height: 40px;
+//     overflow: hidden;
+// }
+
+
+a.ant-upload-list-item-thumbnail {
+    display: flex !important;
+    align-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin-top: 20px !important;
+  }
+  
+  a.ant-upload-list-item-thumbnail img {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden;
+  }
+
+input[type="radio"]{
+    position: relative !important;
+    width: 12px !important;
+    height: 12px !important;
+    -webkit-appearance : none !important;
+    border-radius: 2px !important;
+    border : 1px solid gray !important;
+    outline: none !important;
+}
+
+input[type="radio"]:checked{
+    background-color: $dark-color !important;
+}
