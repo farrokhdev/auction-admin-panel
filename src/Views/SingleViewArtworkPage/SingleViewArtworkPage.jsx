@@ -196,10 +196,10 @@ function SingleViewArtworkPage(props) {
 
 
                         <div className="d-block d-lg-flex ">
-                            <div className="col-12 col-lg-2">
+                            <div className="col-12 col-lg-2 ">
                                 <p className="text-right">تصویر اصلی</p>
                             </div>
-                            <div  className="col-12 col-lg-8">
+                            <div  className="col-12 col-lg-8 mb-5">
                                 {/* <div className="box-main-image-artwork"> */}
                                 <div className="d-flex">
 
@@ -217,10 +217,19 @@ function SingleViewArtworkPage(props) {
                             </div>
                         </div>
 
-                            <MultipleUpload  
-                                formDataArtwork={artwork}
-                                setFormDataArtwork={setArtwork} 
-                            />
+                        <div className="d-block">
+                            <div  className="col-12 col-lg-7 mb-4">
+                                <div className="d-flex">
+                                    <p className="text-right mb-2 mb-lg-0">بارگذاری تصاویر</p>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <MultipleUpload  
+                                    formDataArtwork={artwork}
+                                    setFormDataArtwork={setArtwork} 
+                                />
+                            </div>
+                        </div>
 
                         <div className="d-block d-lg-flex mt-5">
                             <div  className="col-12 col-lg-3">
