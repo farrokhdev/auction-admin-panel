@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAUCTION } from "../../redux/reducers/auction/auction.actions";
 import { DeleteColumnOutlined, DeleteFilled } from '@ant-design/icons';
+import { handleShowImage } from '../../utils/showImageProduct';
 
 const Products = (props) => {
     const { id } = props;
@@ -79,9 +80,16 @@ const Products = (props) => {
                                 style={{ width: "100%" }}
                                 cover={
                                     <img
+                                        src={products[item] && handleShowImage(products[item])}
                                         alt="بدون تصویر"
-                                        src={products[item]?.media?.exact_url}
+                                        // src={products[item]?.media?.exact_url}
                                     />
+                                    // <div className="image-custom-back" style={{
+                                    //     backgroundImage: `url(${products[item] && handleShowImage(products[item])})`,
+                                    //     // height: "7rem",
+                                    //     // width: "7rem"
+                                    // }}>
+                                    // </div>
                                 }
                                 actions={[
                                     <DeleteFilled key="ellipsis" onClick={() => {
@@ -125,6 +133,24 @@ const Products = (props) => {
                                                         }}
                                                     /><small className="pe-2">تومان</small></div>
                                             </div> : ''}
+                                            <div className="d-flex align-items-center justify-content-between pt-2">
+
+                                                <input type="number" className="default-input"
+                                                    defaultValue={products[item]?.lot_num || 0}
+                                                    placeholder="شماره لت محصول"
+                                                    onChange={e => {
+                                                        let val = e.target.value;
+
+                                                        // if () {
+                                                        let p = products;
+                                                        p[item]["lot_num"] = (val || 0);
+                                                        dispatch(setAUCTION({ products: p }))
+                                                        // }
+
+                                                        // dispatch(setAUCTION({ ...props.state , lot_num : e.target.value}))
+                                                    }}
+                                                />
+                                                <small className="pe-2">شماره لت</small></div>
                                         </div>}
                                 />
                             </Card>

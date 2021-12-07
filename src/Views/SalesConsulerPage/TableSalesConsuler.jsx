@@ -7,6 +7,8 @@ import momentJalaali, {now} from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import EmptyComponent from '../../components/EmptyComponent';
 import { FcCheckmark  , FcDisapprove } from "react-icons/fc";
+import {handleShowImage} from '../../utils/showImageProduct'
+
 
 function TableSalesConsuler({salesConsulerList, page}) {
 
@@ -68,7 +70,7 @@ function TableSalesConsuler({salesConsulerList, page}) {
                             </td>
                             <td>
                                 <div className="my-2 content-td">
-                                <Image style={{width : '40px'}} height={30} className="image-thumbnail" src={salesConsuler?.media?.exact_url}/>
+                                <Image style={{width : '40px'}} height={30} className="image-thumbnail" src={handleShowImage(salesConsuler)}/>
                                 </div>
                             </td>
                             <td className="">
@@ -93,7 +95,7 @@ function TableSalesConsuler({salesConsulerList, page}) {
                                 <div
                                     className=" my-2 content-td">
                                     <div className=" w-100 text-center">
-                                        {momentJalaali(salesConsuler?.date_joined ? salesConsuler?.date_joined : new Date()).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                        {momentJalaali(salesConsuler?.latest_auction?.start_time ? salesConsuler?.latest_auction?.start_time : new Date()).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                     </div>
                                 </div>
                             </td>
