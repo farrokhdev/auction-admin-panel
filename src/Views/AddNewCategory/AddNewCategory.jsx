@@ -42,31 +42,45 @@ function AddNewCategory(props) {
 
         // set values of multi input sub_categories entered, and create array list of that for send to backend
         let list_sub_categories = values.sub_categories?.map(item => item.sub_categories)
+        let list_sub_categories_en = values.sub_categories_en?.map(item => item.sub_categories_en)
 
-        let payload = {
-            "sub_categories": list_sub_categories
-        }
+        console.log("list_sub_categories  , list_sub_categories_en " , list_sub_categories.length , list_sub_categories_en.length);
 
-        // check user entered sub_category, then update subcategories of category, otherwise show error notification
-        if(!!values.sub_categories){
-            axios.put(`${BASE_URL}/sale/category/${categoryId}/` , payload).then(res => {
-
-                if(res.data.data.result.statusCode !== 400){
-                    successNotification("افزودن زیرعنوان دسته‌بندی" ,"زیرعنوان با موفقیت اضافه شد")
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
-                }else{
-                    failNotification("خطا" , res.data.data.error_message)
+        if(list_sub_categories?.length !== list_sub_categories_en?.length){
+            form.setFields([
+                {
+                    name: 'category_title',
+                    errors: ['زیر دسته‌بندی‌های فارسی و انگلیسی باید متناظر هم باشند!']
                 }
-    
-            }).catch(err => {
-                console.log(err);
-                failNotification("خطا" , err.response.data.data.error_message)
-            })
+            ])
         }else{
-            failNotification("خطا" , "زیرعنوانی را وارد نکرده اید!")
-        } 
+            let payload = {
+                "sub_categories": list_sub_categories,
+                "sub_categories_en": list_sub_categories_en
+            }
+    
+            // check user entered sub_category, then update subcategories of category, otherwise show error notification
+            if(!!values.sub_categories){
+                axios.put(`${BASE_URL}/sale/category/${categoryId}/` , payload).then(res => {
+    
+                    if(res.data.data.result.statusCode !== 400){
+                        successNotification("افزودن زیرعنوان دسته‌بندی" ,"زیرعنوان با موفقیت اضافه شد")
+                        setTimeout(() => {
+                            // window.location.reload();
+                        }, 1500);
+                    }else{
+                        failNotification("خطا" , res.data.data.error_message)
+                    }
+        
+                }).catch(err => {
+                    console.log(err);
+                    failNotification("خطا" , err.response.data.data.error_message)
+                })
+            }else{
+                failNotification("خطا" , "زیرعنوانی را وارد نکرده اید!")
+            } 
+        }
+ 
     }
 
       const formItemLayout = formLayout === 'horizontal' ? {
@@ -172,15 +186,15 @@ function AddNewCategory(props) {
                                             </div>
                                         </div>
 
-                                        <div className="d-block d-lg-flex">
-                                            <div className="col col-lg-3">
-                                                <div className="d-flex">
-                                                    <p className="mb-2 mb-lg-0 text-right">زیر عنوان دسته‌بندی </p>
-                                                </div>
+                                        <div className="d-block ">
+
+
+                                        <div className="d-block ">
+                                            <div className="col col-lg-3"> 
+                                                <div className="d-flex mb-4">زیر عنوان دسته‌بندی فارسی</div>
                                             </div>
                                             <div className="col">
-
-                                                <Form.List name="sub_categories">
+                                            <Form.List name="sub_categories">
                                                         {(fields, { add, remove }) => (
                                                         <>
                                                             {fields.map(field => (
@@ -209,7 +223,15 @@ function AddNewCategory(props) {
                                                                     {...field}
                                                                     name={[field.name, 'sub_categories']}
                                                                     fieldKey={[field.fieldKey, 'sub_categories']}
-                                                                    rules={[{ required: true, message: 'زیرعنوان وارد نشده است' }]}
+                                                                    rules={[
+                                                                        { 
+                                                                            required: true, message: 'زیر‌عنوان فارسی وارد نشده است' 
+                                                                        },
+                                                                        {
+                                                                            pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
+                                                                            message: "کاراکتر انگلیسی مجاز نیست!",
+                                                                        }
+                                                                    ]}
                                                                 >
                                                                 <Input onChange={(e)=>handleChange(e.target.value)}/>
                                                                 </Form.Item>
@@ -220,30 +242,80 @@ function AddNewCategory(props) {
 
                                                             <Form.Item>
                                                             <Button className="px-4 mt-3" type="dashed" onClick={() => add()} block >
-                                                                افزودن زیرعنوان
+                                                                افزودن زیرعنوان فارسی
                                                             </Button>
                                                             </Form.Item>
                                                         </>
                                                         )}
                                                     </Form.List>
-
-                                                {/* <Form.Item 
-                                                    name="sub_categories"
-                                                    rules={[{
-                                                        required: true,
-                                                        message: 'زیر عنوان دسته‌بندی را انتخاب نکرده‌اید!'
-                                                    },
-                                                    {
-                                                        // pattern: /~[a-zA-Z0-9]/g,
-                                                        pattern: /^[^a-zA-Z][^a-zA-Z]*$/g,
-                                                        message: "کاراکتر انگلیسی مجاز نیست!",
-                                                    }
-                                                ]}
-                                                    >
-                                                    <Input placeholder="زیر عنوان دسته‌بندی را وارد کنید" />
-                                                </Form.Item> */}
-
                                             </div>
+                                        </div>
+
+                                        <div className="d-block ">
+                                            <div className="col col-lg-3"> 
+                                                <div className="d-flex mb-4">زیر عنوان دسته‌بندی انگلیسی</div>
+                                            </div>
+                                            <div className="col">
+                                            <Form.List name="sub_categories_en">
+                                                        {(fields, { add, remove }) => (
+                                                        <>
+                                                            {fields.map(field => (
+                                                            <Space key={field.key} align="baseline">
+                                                                <Form.Item
+                                                                    noStyle
+                                                                    
+                                                                    shouldUpdate={(prevValues, curValues) =>
+                                                                    prevValues.area !== curValues.area || prevValues.sub_categories_en !== curValues.sub_categories_en
+                                                                }
+                                                                >
+                                                                {() => (
+                                                                    <Form.Item
+                                                                        {...field}
+                                                                        // label="Sight"
+                                                                        
+                                                                        name={[field.name, 'sub_categories_en']}
+                                                                        fieldKey={[field.fieldKey, 'sub_categories_en']}
+                                                                        rules={[
+                                                                            { required: false, message: 'Missing sight' }
+                                                                        ]}
+                                                                    >
+                                                   
+                                                                    </Form.Item>
+                                                                )}
+                                                                </Form.Item>
+                                                                <Form.Item
+                                                                    {...field}
+                                                                    name={[field.name, 'sub_categories_en']}
+                                                                    fieldKey={[field.fieldKey, 'sub_categories_en']}
+                                                                    rules={[
+                                                                        { 
+                                                                            required: true, message: 'زیر‌عنوان انگلیسی وارد نشده است!' 
+                                                                        },
+                                                                        {
+                                                                          pattern:
+                                                                            /^[a-zA-Z0-9/)/(\\÷×'":;|}{=`~,<>/\-$@$!%*?&#^_. +]+$/,
+                                                                          message: "کاراکتر فارسی مجاز نیست!",
+                                                                        }
+                                                                    ]}
+                                                                >
+                                                                <Input onChange={(e)=>handleChange(e.target.value)}/>
+                                                                </Form.Item>
+
+                                                                <MinusCircleOutlined onClick={() => remove(field.name)} />
+                                                            </Space>
+                                                            ))}
+
+                                                            <Form.Item>
+                                                            <Button className="px-4 mt-3" type="dashed" onClick={() => add()} block >
+                                                                افزودن زیرعنوان انگلیسی
+                                                            </Button>
+                                                            </Form.Item>
+                                                        </>
+                                                        )}
+                                                    </Form.List>
+                                            </div>
+                                        </div>
+
                                         </div>                         
                                     </div>
                                 </div>

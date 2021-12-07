@@ -10,6 +10,7 @@ import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 import { separatorCurrency } from '../../utils/separator';
 import EmptyComponent from '../../components/EmptyComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
 
 function TableArtworkList(props) {
     
@@ -25,6 +26,8 @@ function TableArtworkList(props) {
         setSingleArtwork
     } = props
 
+
+    console.log("artworkList==>>" , artworkList)
     const { Search } = Input;
     const { Panel } = Collapse;
     const onSearch = value => console.log(value);
@@ -251,7 +254,9 @@ function TableArtworkList(props) {
 
                 <tbody>
                     {artworkList?.length ? artworkList.map((artwork, index) =>
+                    
                         <React.Fragment key={artwork?.id}> 
+                        
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
@@ -267,7 +272,7 @@ function TableArtworkList(props) {
                                         className="box-image-product-list"
                                         width={40}
                                         preview ={artwork?.media?.exact_url ? artwork?.media?.exact_url : ''}
-                                        src={artwork?.media?.exact_url}
+                                        src={handleShowImage(artwork)}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -304,7 +309,7 @@ function TableArtworkList(props) {
                                     <div
                                         className=" my-2 content-td">
                                         <div className=" w-100 text-center"> 
-                                        {momentJalaali(artwork?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                        {momentJalaali(artwork?.latest_auction?.start_time).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                         </div>
                                     </div>
                                 </td>

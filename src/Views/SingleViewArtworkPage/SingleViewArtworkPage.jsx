@@ -1,16 +1,13 @@
 import React , {useState , useEffect} from 'react';
-import { Form , Spin, InputNumber , Alert , Breadcrumb , Image , Input , Button , Space} from 'antd';
-import ImgCrop from 'antd-img-crop';
+import { Form , Spin, InputNumber , Alert , Breadcrumb , Image , Input , Button , Space , Select} from 'antd';
 import {NavLink} from 'react-router-dom';
 import {BASE_URL} from '../../utils';
 import axios from "../../utils/request";
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
-import Loading from '../../components/Loading';
 import {MinusCircleOutlined , LoadingOutlined} from '@ant-design/icons';
-import UploadImage from '../AddAuction/uploadImage';
 import { failNotification, successNotification } from '../../utils/notification';
-import classnames from 'classnames';
+import MultipleUpload from './MultipleUpload';
 
 
 function SingleViewArtworkPage(props) {
@@ -24,34 +21,58 @@ function SingleViewArtworkPage(props) {
         },
       };
 
-    const [CoreUpload, setCoreUpload] = useState("");
-
-    const [artwork, setArtwork] = useState({});
+    const [artwork, setArtwork] = useState();
     const [loading, setLoading] = useState(false);
-    const [media, setMedia] = useState(null)
     const [is_upload, setIs_upload] = useState(true)
+    const [categories, setCategories] = useState([])
+    const [artworkCategories, setArtworkCategories] = useState([])
 
       useEffect(() => {
+        getArtwork()
+        getCategoriesProduct();
+    }, []);
+
+    const getArtwork = () => {
         setLoading(true)
         axios.get(`${BASE_URL}/sale/product/${props.match.params.id}/`).then(res => {
             setLoading(false)
-            setArtwork(res.data.data.result)
+            setArtwork(res.data.data.result);
+            setArtworkCategories(
+                res.data.data.result.category.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                }))
+            );
         }).catch(err => {
             console.log(err);
             setLoading(false)
         })
+    }
 
-    }, []);
+
+    const getCategoriesProduct = () => {
+        axios
+          .get(`${BASE_URL}/sale/category/?title=آثار`)
+          .then((res) => {
+            setCategories(
+              res.data.data.result[0].children.map((item) => ({
+                value: item?.id,
+                label: item?.title,
+              }))
+            );
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      };
 
     const [form] = Form.useForm();
-
 
     useEffect(() => {
         if(artwork){
 
             form.setFieldsValue({
-
-                media : artwork?.media?.exact_url,
+                media : artwork?.media,
                 artwork_height : artwork?.artwork_height,
                 artwork_length : artwork?.artwork_length,
                 artwork_link : artwork?.artwork_link,
@@ -73,59 +94,15 @@ function SingleViewArtworkPage(props) {
                 artwork_owner_name : artwork?.owner?.first_name ,
                 artwork_owner_house_auction_name :  artwork?.latest_auction?.house?.first_name ? artwork?.latest_auction?.house?.first_name : '',
                 artwork_auction_name : artwork?.latest_auction?.title ? artwork?.latest_auction?.title : '',
-                artwork_category : artwork?.category ? artwork?.category[0]?.title : ''
-
+                category_id : artworkCategories?.map(item => item.value) 
             })
         }
 
-    }, [artwork]);
+    }, [artwork , artworkCategories]);
 
-// console.log("Category",artwork?.category);
-
-
-    //  const [mainPic, setMainPic] = useState(); 
-
-    //  const onChangeMainPic = (newFile) => {
-    //     setMainPic(newFile);
-    //   };
-
-    const [fileList, setFileList] = useState([
-        // {
-        //   uid: '-1',
-        //   name: 'image.png',
-        //   status: 'done',
-        //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        // },
-      ]);
-
-     
-    
-    //   const onChange = ({ fileList: newFileList }) => {
-    //     setFileList(newFileList);
-    //   };
-    
-    //   const onPreview = async file => {
-    //     let src = file.url;
-    //     if (!src) {
-    //       src = await new Promise(resolve => {
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(file.originFileObj);
-    //         reader.onload = () => resolve(reader.result);
-    //       });
-    //     }
-    //     const image = new Image();
-    //     image.src = src;
-    //     const imgWindow = window.open(src);
-    //     imgWindow.document.write(image.outerHTML);
-    //   };
 
 
       const onFinish = (values) => {
-        console.log(values);
-
-        if(media === null){
-            setIs_upload(false)
-        }
 
         let payload = {
             "artwork_title" : values.artwork_title,
@@ -139,31 +116,19 @@ function SingleViewArtworkPage(props) {
             "persian_description" : values.persian_description,
             "english_description" : values.english_description,
             "price" :values.price,
-            "media": {
-                "media_path": is_upload ? CoreUpload.upload_url : "",
-                "type": "image",
-                "bucket_name": "image",
-                "file_key": is_upload ? CoreUpload.file_key : ""
-            },
-            // "media" : values.media ,
-            "category_id": [
-                2
-            ],
+            "media" : artwork?.media ,
+            "category_id": values.category_id ,
             "artwork_link": values.artwork_link,
             "min_price": values.price_min,
             "max_price": values.price_max,
-
-
-
         }
     
         
         axios.put(`${BASE_URL}/sale/product/${props.match.params.id}/` , payload).then(res => {
-            console.log(res.data);
             window.location = "#/artworks"
             successNotification("ویرایش اطلاعات" , "ویرایش اطلاعات با موفقیت انجام شد")
         }).catch(err => {
-            console.log(err);
+            console.error(err);
             failNotification("ویرایش ناموفق" , "خطا در ویرایش اطلاعات")
 
         })
@@ -173,24 +138,6 @@ function SingleViewArtworkPage(props) {
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
-    // const normFile = (e) => {
-    //     console.log('Upload event:', e);
-      
-    //     if (Array.isArray(e)) {
-    //       return e;
-    //     }
-      
-    //     return e && e.fileList;
-    //   };
-
- 
-      const handleResultUpload = (value) => {
-        if (value?.media_path)
-            setMedia(value)
-            setCoreUpload(value)
-        // dispatch(setAUCTION({media:value}))
-    }
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -249,69 +196,42 @@ function SingleViewArtworkPage(props) {
 
 
                         <div className="d-block d-lg-flex ">
-                            <div className="col-12 col-lg-2">
+                            <div className="col-12 col-lg-2 ">
                                 <p className="text-right">تصویر اصلی</p>
                             </div>
-                            <div  className="col-12 col-lg-8">
+                            <div  className="col-12 col-lg-8 mb-5">
                                 {/* <div className="box-main-image-artwork"> */}
                                 <div className="d-flex">
 
                                 <Image
                                     width={200}
                                     height={200}
-                                    // src={artwork?.media ? artwork?.media?.exact_url : 'error'}
-                                    src={artwork?.media ? artwork?.media?.exact_url : 'error'}
-                                    
-                                    // fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBobtQPdLciLEVJYzMPBHMDBsayhILEqEO4DxG0txmrERhM29nYGBddr//5/DGRjYNRkY/l7////39v///y4Dmn+LgeHANwDrkl1AuO+pmgAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAwqADAAQAAAABAAAAwwAAAAD9b/HnAAAHlklEQVR4Ae3dP3PTWBSGcbGzM6GCKqlIBRV0dHRJFarQ0eUT8LH4BnRU0NHR0UEFVdIlFRV7TzRksomPY8uykTk/zewQfKw/9znv4yvJynLv4uLiV2dBoDiBf4qP3/ARuCRABEFAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghgg0Aj8i0JO4OzsrPv69Wv+hi2qPHr0qNvf39+iI97soRIh4f3z58/u7du3SXX7Xt7Z2enevHmzfQe+oSN2apSAPj09TSrb+XKI/f379+08+A0cNRE2ANkupk+ACNPvkSPcAAEibACyXUyfABGm3yNHuAECRNgAZLuYPgEirKlHu7u7XdyytGwHAd8jjNyng4OD7vnz51dbPT8/7z58+NB9+/bt6jU/TI+AGWHEnrx48eJ/EsSmHzx40L18+fLyzxF3ZVMjEyDCiEDjMYZZS5wiPXnyZFbJaxMhQIQRGzHvWR7XCyOCXsOmiDAi1HmPMMQjDpbpEiDCiL358eNHurW/5SnWdIBbXiDCiA38/Pnzrce2YyZ4//59F3ePLNMl4PbpiL2J0L979+7yDtHDhw8vtzzvdGnEXdvUigSIsCLAWavHp/+qM0BcXMd/q25n1vF57TYBp0a3mUzilePj4+7k5KSLb6gt6ydAhPUzXnoPR0dHl79WGTNCfBnn1uvSCJdegQhLI1vvCk+fPu2ePXt2tZOYEV6/fn31dz+shwAR1sP1cqvLntbEN9MxA9xcYjsxS1jWR4AIa2Ibzx0tc44fYX/16lV6NDFLXH+YL32jwiACRBiEbf5KcXoTIsQSpzXx4N28Ja4BQoK7rgXiydbHjx/P25TaQAJEGAguWy0+2Q8PD6/Ki4R8EVl+bzBOnZY95fq9rj9zAkTI2SxdidBHqG9+skdw43borCXO/ZcJdraPWdv22uIEiLA4q7nvvCug8WTqzQveOH26fodo7g6uFe/a17W3+nFBAkRYENRdb1vkkz1CH9cPsVy/jrhr27PqMYvENYNlHAIesRiBYwRy0V+8iXP8+/fvX11Mr7L7ECueb/r48eMqm7FuI2BGWDEG8cm+7G3NEOfmdcTQw4h9/55lhm7DekRYKQPZF2ArbXTAyu4kDYB2YxUzwg0gi/41ztHnfQG26HbGel/crVrm7tNY+/1btkOEAZ2M05r4FB7r9GbAIdxaZYrHdOsgJ/wCEQY0J74TmOKnbxxT9n3FgGGWWsVdowHtjt9Nnvf7yQM2aZU/TIAIAxrw6dOnAWtZZcoEnBpNuTuObWMEiLAx1HY0ZQJEmHJ3HNvGCBBhY6jtaMoEiJB0Z29vL6ls58vxPcO8/zfrdo5qvKO+d3Fx8Wu8zf1dW4p/cPzLly/dtv9Ts/EbcvGAHhHyfBIhZ6NSiIBTo0LNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiEC/wGgKKC4YMA4TAAAAABJRU5ErkJggg=="
-                                    // fallback="https://box.amnmoj.ir/image/d30da840-dd21-443e-9a21-8b973a2ebdbb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XAS8PG1BHSATZE09C25C%2F20210502%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210502T145642Z&X-Amz-Expires=18000&X-Amz-SignedHeaders=host&X-Amz-Signature=4e7b975ef0a594e18ad0589bd7947cd8569206ce72db22ffb8c6b5b4347b81d8"
-                                    // fallback="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                    src={
+                                        artwork?.media?.filter(item => item?.is_default === true)[0]?.exact_url ? 
+                                        artwork?.media?.filter(item => item?.is_default === true)[0]?.exact_url : 
+                                        artwork?.media?.exact_url 
+                                    }
                                 />
 
-                             
-                      
                                 </div>
                             </div>
                         </div>
-                        <div className="d-block d-lg-flex justify-content-start my-3">
-                            {/* <div className="col-12 col-lg-2">
-                                <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصویر</p>
-                            </div> */}
-                            <div className="col">
-                                    <Alert className={classnames("text-right", {
-                                            "d-flex" : !is_upload ,
-                                            "d-none" : is_upload  ,
 
-                                           
-                                        })}  message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
+                        <div className="d-block">
+                            <div  className="col-12 col-lg-7 mb-4">
                                 <div className="d-flex">
-
-                                        <UploadImage setCoreUpload={setCoreUpload} handleResultUpload={handleResultUpload} initialImage={media} setIs_upload = {setIs_upload}/>
-                                    
-                                        {/* <Form.Item
-                                            name="media"
-                                            // label="Upload"
-                                            valuePropName="fileList"
-                                            getValueFromEvent={normFile}
-                                            // extra="longgggggggggggggggggggggggggggggggggg"
-                                            >
-                                            <ImgCrop rotate>
-                                                <Upload
-                                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                                    listType="picture-card"
-                                                    fileList={fileList}
-                                                    onChange={onChange}
-                                                    onPreview={onPreview}
-                                                >
-                                                    {fileList.length < 20 && '+ Upload'}
-                                                </Upload>
-                                                </ImgCrop>
-                                            </Form.Item> */}
-
+                                    <p className="text-right mb-2 mb-lg-0">بارگذاری تصاویر</p>
                                 </div>
+                            </div>
+                            <div className="col">
+                                <MultipleUpload  
+                                    formDataArtwork={artwork}
+                                    setFormDataArtwork={setArtwork} 
+                                />
                             </div>
                         </div>
 
-                        <div className="d-block d-lg-flex">
+                        <div className="d-block d-lg-flex mt-5">
                             <div  className="col-12 col-lg-3">
                                 <div className="d-flex">
                                     <p className="text-right mb-2 mb-lg-0">حراج دار</p>
@@ -322,7 +242,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_owner_house_auction_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,
@@ -346,7 +265,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_auction_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,
@@ -368,9 +286,8 @@ function SingleViewArtworkPage(props) {
                             <div className="col">
                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                     <Form.Item
-                                            name="artwork_category"
+                                            name="category_id"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -378,7 +295,18 @@ function SingleViewArtworkPage(props) {
                                                 },
                                             ]}
                                             >
-                                            <Input />
+                                            <Select
+                                                mode="multiple"
+                                                allowClear
+                                                style={{ width: "100%" }}
+                                                placeholder=""
+                                                optionFilterProp="label"
+                                                defaultValue={artworkCategories}
+                                                className="multiple-select"
+                                                maxTagCount="responsive"
+                                                options={categories}
+                                                dropdownClassName="text-right"
+                                            ></Select>
                                     </Form.Item>
                                 </div>
                             </div>
@@ -395,7 +323,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_field"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,
@@ -419,7 +346,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="persian_artist_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -444,8 +370,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="english_artist_name"
                                             className="w-100 "
-                                            // label="حراج دار"
-                                            // value={artwork?.english_artist_name}
                                             rules={[
                                                 {
                                                     required: true,
@@ -470,7 +394,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_title"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -495,7 +418,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_title_en"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,
@@ -519,7 +441,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_owner_name"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -545,7 +466,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="artwork_length"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -695,7 +615,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="price_max"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -704,7 +623,6 @@ function SingleViewArtworkPage(props) {
                                             ]}
                                             >
                                             <InputNumber 
-                                                // className="ant-input w-100"
                                                 maxLength={20}
                                                 formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                 className="ant-input custom-input-number w-100 pr-0"
@@ -724,7 +642,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="price_sale"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: true,
@@ -734,7 +651,6 @@ function SingleViewArtworkPage(props) {
                                             >
                                             <InputNumber 
                                                 className="ant-input w-100"
-                                                // defaultValue={}
                                                 formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             />
                                     </Form.Item>
@@ -753,7 +669,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="persian_description"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,
@@ -777,7 +692,6 @@ function SingleViewArtworkPage(props) {
                                     <Form.Item
                                             name="english_description"
                                             className="w-100 "
-                                            // label="حراج دار"
                                             rules={[
                                                 {
                                                     required: false,

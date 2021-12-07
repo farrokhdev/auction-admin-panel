@@ -10,10 +10,10 @@ import { convertTypePersian } from '../../utils/converTypePersion';
 import { Link, NavLink } from 'react-router-dom';
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
-import TableInfoBankCheckMembership from './TableInfoBankCheckMembership';
 import ModalConfirmAcceptMembership from './ModalConfirmAcceptMembership';
 import ModalRejectMembership from './ModalRejectMembership';
 import { LoadingOutlined } from '@ant-design/icons';
+import TableBankInfo from './TableBankInfo';
 
 
 const layout = {
@@ -70,12 +70,10 @@ function CheckMembershipAuctionPage(props) {
 
     useEffect(() => {
 
-        // fetcher(`${BASE_URL}/panel/users/${props.match.params.id}`,{method:"GET",data:"",header:{}}).then(res => {
-            setLoading(true)
+        setLoading(true)
         fetcher(`${BASE_URL}/panel/users/${props.match.params.id}/`, { method: "GET", data: "", header: {} }).then(res => {
             setLoading(false)
             setMember(res.data.result)
-            // setCountMember(res.data.count)
             setBankAccountInfo(res.data.result.bankaccount)
         }).catch(err => {
             setLoading(false)
@@ -84,6 +82,8 @@ function CheckMembershipAuctionPage(props) {
 
     }, []);
 
+
+
     useEffect(() => {
         form.setFieldsValue({
             first_name: member?.first_name,
@@ -91,7 +91,7 @@ function CheckMembershipAuctionPage(props) {
             mobile: member?.mobile,
             email: member?.email,
             national_code: member?.national_code,
-            address: member?.adderss,
+            address: member?.home_auction_location?.address,
             postal_code: member?.postal_code,
             id: member?.id,
             card_number: member?.bankaccount[0]?.card_number,
@@ -108,42 +108,7 @@ function CheckMembershipAuctionPage(props) {
     const [visibleReject, setVisibleReject] = useState(false);
 
 
-    function handleShowConfirm(state) {
 
-        confirm({
-            title: state ? 'از تایید عضویت اطمینان دارید؟' : 'از رد عضویت اطمینان دارید؟',
-            icon: <ExclamationCircleOutlined />,
-            content: state ? `تایید عضویت ` : `رد عضویت `,
-            className: "confirm-accept-membership",
-            okText: state ? "تایید عضویت" : "رد عضویت",
-            cancelText: "انصراف",
-
-            onOk() {
-                console.log('تایید');
-
-                let payload = {
-                    "is_approve": state ? "True" : "False"
-                }
-
-
-                axios.patch(`${BASE_URL}/sale/join-auction/${props.match.params.id}/`, payload).then(res => {
-
-                }).catch(err => {
-                    console.log(err);
-                })
-
-                openNotification(state)
-                setTimeout(() => {
-                    window.location.reload();
-                }, 700);
-            },
-            onCancel() {
-                console.log('انصراف');
-            },
-
-
-        });
-    }
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -347,7 +312,11 @@ function CheckMembershipAuctionPage(props) {
                                             <h3>اطلاعات حساب بانکی</h3>
                                         </div>
 
-                                        <TableInfoBankCheckMembership bankAccountInfo={bankAccountInfo} />
+                                        <TableBankInfo
+                                            setBankAccountInfo={setBankAccountInfo}
+                                            bankAccountInfo={bankAccountInfo}
+                                        />
+
 
                                         {/* <div className="d-flex my-4">
                             <h3>محصولات مورد علاقه</h3>
@@ -447,13 +416,13 @@ function CheckMembershipAuctionPage(props) {
                                     <div className="d-flex justify-content-center">
 
                                         {/* <button onClick={()=> handleShowAcceptModal()} className="ml-2 btn-accept-membership-auction">تایید عضویت</button>  */}
-                                        <button onClick={() => handleShowConfirm(true)} className="ml-2 btn-accept-membership-auction">تایید عضویت</button>
-                                        <button onClick={() => handleShowConfirm(false)} className="btn-eject-membership-auction"> رد عضویت</button>
+                                        {/* <button onClick={() => handleShowConfirm(true)} className="ml-2 btn-accept-membership-auction">تایید عضویت</button>
+                                        <button onClick={() => handleShowConfirm(false)} className="btn-eject-membership-auction"> رد عضویت</button> */}
 
                                         {/* <ModalConfirmAcceptMembership 
-                                setVisibleAccept={setVisibleAccept}
-                                visibleAccept={visibleAccept}
-                            />  */}
+                                            setVisibleAccept={setVisibleAccept}
+                                            visibleAccept={visibleAccept}
+                                        />  */}
 
                                         <ModalRejectMembership
                                             setVisibleReject={setVisibleReject}

@@ -163,24 +163,29 @@ function Index() {
         let auction_product = []
         let auctions_date = []
         if (choose_product_daily) {
-            await Object.keys(productsDate).map(t => {
-                let p = []
-                Object.keys(productsDate[t]).map(c => p.push(productsDate[t][c]?.id))
-                auctions_date.push({date: t, products_id: p})
-            })
-            auction_product = await productsArrayDate.map(t => ({
-                base_price: (t?.base_price || 0),
-                reserve_price: (Number(t?.reserve_price) || 0),
-                product_id: t?.id
-            }))
-        } else {
-            await Object.keys(products).map(t => (auction_product.push({
-                base_price: (products[t]?.base_price || 0),
-                reserve_price: (Number(products[t]?.reserve_price) || 0),
-                product_id: products[t]?.id
-            })))
-            // delete allDataMain["dates_auction"]
-        }
+
+            Object.keys(productsDate).map(t => {
+               let p = []
+               Object.keys(productsDate[t]).map(c => p.push(productsDate[t][c]?.id))
+               auctions_date.push({date: moment(t,"jYYYY-jMM-jDD").format("YYYY-MM-DD ")
+                   , products_id: p})
+           })
+           auction_product = await productsArrayDate.map(t => ({
+               base_price: (t?.base_price || 0),
+               reserve_price: (Number(t?.reserve_price) || 0),
+               product_id: t?.id,
+               lot_num:(t?.lot_num || 0)
+
+           }))
+       } else {
+            Object.keys(products).map(t => (auction_product.push({
+               base_price: (products[t]?.base_price || 0),
+               reserve_price: (Number(products[t]?.reserve_price) || 0),
+               product_id: products[t]?.id,
+               lot_num:( products[t]?.lot_num || 0)
+           })))
+           // delete allDataMain["dates_auction"]
+       }
         let getDate = new Date();
         getDate = await moment(getDate).format("YYYY-MM-DDThh:mm")
         let file_name = await is_send_invitation ? allData?.title + getDate : "";

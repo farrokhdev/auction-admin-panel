@@ -22,7 +22,6 @@ function ModalConfirmAcceptMembership(props) {
         });
       };
 
-    console.log("details =>>> ", props.detailsArtwork?.category);
     const handleOk = () => {
       props.setVisibleAccept(false);
     };
@@ -65,9 +64,9 @@ function ModalConfirmAcceptMembership(props) {
             })
 
             openNotification('topLeft')
-            setTimeout(() => {
-                window.location.reload();
-            }, 700);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 1000);
           },
           onCancel() {
             console.log('انصراف');

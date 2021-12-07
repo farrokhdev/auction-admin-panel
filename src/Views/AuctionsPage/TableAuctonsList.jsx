@@ -213,7 +213,7 @@ function TableAuctonsList(props) {
                                 <div
                                     className=" my-2 content-td">
                                     <div
-                                        className=" w-100 text-center"> {momentJalaali(auction?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
+                                        className=" w-100 text-center"> {momentJalaali(auction?.start_time).format(`HH:mm  -   jYYYY/jMM/jDD`)}</div>
                                 </div>
                             </td>
 

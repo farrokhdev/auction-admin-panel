@@ -7,6 +7,8 @@ import {BASE_URL} from '../../utils';
 import { separatorCurrency } from '../../utils/separator';
 import EmptyComponent from '../../components/EmptyComponent';
 import {  DELETE_PRODUCT } from '../../utils/constant';
+import { DEFAULT_URL_IMAGE } from '../../utils/defaultImage';
+
 
 function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct , auctionProduct_id , setBidsAuction_id , setAuctionProduct_id}) {
 
@@ -72,6 +74,13 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
         });
     }
 
+    const handleShowImage = (item) => {
+        return (
+            (item?.product?.media?.length && item?.product?.media?.filter(item => item?.is_default === true)[0]?.exact_url) ?
+                item?.product?.media?.filter(item => item?.is_default === true)[0]?.exact_url :
+                DEFAULT_URL_IMAGE
+        )
+    }
 
     return (
         <React.Fragment>
@@ -133,7 +142,7 @@ function ModalAuctionProducts({setVisibleAuctionProduct , visibleAuctionProduct 
                                                     <Image
                                                         width={40}
                                                         style={{height : '30px' , marginTop : '8px'}}
-                                                        src={product?.product?.media?.exact_url}
+                                                        src={product && handleShowImage(product)}
                                                     />
 
                                                     </div>
