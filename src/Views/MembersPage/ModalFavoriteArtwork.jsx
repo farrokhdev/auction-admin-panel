@@ -9,6 +9,7 @@ import momentJalaali from 'moment-jalaali';
 import { separatorCurrency } from '../../utils/separator';
 import EmptyComponent from '../../components/EmptyComponent';
 import PaginationComponent from '../../components/PaginationComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
 
 function ModalFavoriteArtwork({visibleFavoriteArtwork , setVisibleFavoriteArtwork , memberId , setIs_call_service_favoriteArtwork}) {
 
@@ -114,7 +115,8 @@ function ModalFavoriteArtwork({visibleFavoriteArtwork , setVisibleFavoriteArtwor
                                                     <Image
                                                         width={40}
                                                         style={{height : '30px' , marginTop : '8px'}}
-                                                        src={favoriteArtwork?.media?.exact_url}
+                                                        src={handleShowImage(favoriteArtwork)}
+
                                                     />
                                                 }
                                                 </div>

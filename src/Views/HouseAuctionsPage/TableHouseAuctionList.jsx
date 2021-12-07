@@ -107,7 +107,7 @@ function TableHouseAuctionList({houseAuctionsList}) {
                             <td   className="">
                                 <div   className="my-2 content-td">
                                     <div className=" text-center"> 
-                                    {houseAuction?.first_name}
+                                    {houseAuction?.first_name  + " " + houseAuction?.last_name}
                                     </div>
 
                                 </div>

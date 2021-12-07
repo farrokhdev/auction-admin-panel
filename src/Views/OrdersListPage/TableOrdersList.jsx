@@ -7,6 +7,8 @@ import { convertTypePersian } from '../../utils/converTypePersion';
 import { separatorCurrency } from '../../utils/separator';
 import moment from 'moment-jalaali';
 import EmptyComponent from '../../components/EmptyComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
+
 
 function TableOrdersList({ ordersList, params }) {
 
@@ -110,9 +112,8 @@ function TableOrdersList({ ordersList, params }) {
                                                 className="box-image-product-list"
                                                 width={40}
                                                 preview={order?.image_url}
-                                                src={order?.media?.exact_url}
+                                                src={handleShowImage(order)} 
                                             />
-                                            {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                         </div>
                                     </div>
                                 </td>
@@ -137,7 +138,7 @@ function TableOrdersList({ ordersList, params }) {
                                 <td className="">
                                     <div className="my-2 content-td">
                                         <div className=" w-100 text-center">
-                                            {order?.owner?.first_name}
+                                            {order?.owner?.first_name + " " + order?.owner?.last_name}
                                         </div>
                                     </div>
                                 </td>
@@ -145,14 +146,14 @@ function TableOrdersList({ ordersList, params }) {
                                 <td className="">
                                     <div className="my-2 content-td">
                                         <div className=" w-100 text-center">
-                                            {`${moment(order?.end_time).format("jYYYY/jMM/jDD ")}  -  ${moment(order?.start_time).format("jYYYY/jMM/jDD")}`}
+                                            {`${moment(order?.latest_auction?.end_time).format("jYYYY/jMM/jDD ")}  -  ${moment(order?.latest_auction?.start_time).format("jYYYY/jMM/jDD")}`}
                                         </div>
                                     </div>
                                 </td>
                                 <td className="">
                                     <div className="my-2 content-td">
                                         <div className=" w-100 text-center">
-                                            {order?.bidding_details?.winner ? <p>{order?.bidding_details?.winner?.first_name}{' '}{order?.bidding_details?.winner?.last_name}</p> : ''}
+                                            {order?.bidding_details?.winner ? <p>{order?.bidding_details?.winner?.first_name}{' '}{order?.bidding_details?.winner?.last_name}</p> : '__'}
                                         </div>
                                     </div>
                                 </td>

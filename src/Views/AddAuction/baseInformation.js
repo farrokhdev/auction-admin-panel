@@ -8,6 +8,8 @@ import { setAUCTION } from "../../redux/reducers/auction/auction.actions";
 import UploadImage from "./uploadImage";
 import locale from "antd/es/date-picker/locale/de_DE";
 import ChooseHouseAuction from "./ChooseHouseAuction";
+import momentJalaali from "moment-jalaali"
+
 const listAuctionType = [
     { name: "SECOND_HIDDEN", value: "دومین قیمت پیشنهاد با حراج (مخفی)" },
     { name: "HIDDEN", value: "قیمت پیشنهاد با حراج (مخفی)" },
@@ -201,6 +203,7 @@ const BaseInformation = (props) => {
                                                     }}
                                                     name="start_time"
                                                     id="start_time"
+                                                    min={momentJalaali().add(-1,'days')}
                                                 />
                                             </Form.Item>
                                         </div>
