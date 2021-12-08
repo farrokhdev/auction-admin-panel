@@ -24,7 +24,7 @@ function Chooseartwork(props) {
     page: 1,
     page_size: 10,
     auction_houses__id: house_id,
-    owner__id: house_id,
+    // owner__id: house_id,
     product_assign: false
   })
 
