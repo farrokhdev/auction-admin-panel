@@ -65,6 +65,7 @@ const layout = {
                    initialValues={{
 
                         home_auction_name : requestDetails?.home_auction_name,
+                        home_auction_name_en : requestDetails?.home_auction_name_en,
                         home_auction_type : requestDetails?.home_auction_type,
                         activity_type : requestDetails?.activity_type[0]?.title,
                         count : requestDetails?.count,
@@ -80,7 +81,7 @@ const layout = {
 
                     <div className="d-block d-md-flex align-items-center mt-5">
                        <div  className="col-12 col-md-4 pb-md-4 mb-2 mb-md-0">
-                           <p className="text-right mb-0 h-100">نام خانه حراج </p>
+                           <p className="text-right mb-0 h-100"> نام خانه حراج فارسی</p>
                        </div>
                        <div  className="col ">
                            <div style={{verticalAlign : 'middle'}} className="d-flex h-100 align-items-center">
@@ -95,6 +96,23 @@ const layout = {
                                    />
                                </Form.Item>
                            </div>
+                       </div>
+                    </div>
+                    <div className="d-block d-md-flex align-items-center">
+                       <div className="col-12 col-md-4 pb-md-4 mb-2 mb-md-0">
+                           <p className="text-right mb-0 h-100">نام خانه حراج انگلیسی</p>
+                       </div>
+                       <div className="col ">
+                           <Form.Item
+                               className="w-100  h-100"
+                               name="home_auction_name_en"
+                               rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
+                           >
+                           <Input 
+                               size="large"
+
+                           />
+                       </Form.Item>
                        </div>
                     </div>
 
