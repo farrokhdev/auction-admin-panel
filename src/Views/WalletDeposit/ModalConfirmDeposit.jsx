@@ -12,7 +12,7 @@ function ModalConfirmDeposit({visibleCofirmDeposit , setVisibleCofirmDeposit , g
 
     const handleCloseModal = () => {
         setVisibleCofirmDeposit(false);
-        window.location.reload()
+        // window.location.reload()
     }
 
     const handleCharge = () => {
@@ -25,8 +25,10 @@ function ModalConfirmDeposit({visibleCofirmDeposit , setVisibleCofirmDeposit , g
 
         axios.post(`${BASE_URL}/panel/credit/gift/` , payload).then(res => {
             console.log(res.data);
+            
         }).catch(err => {
             console.log(err);
+            
         })
     }
 

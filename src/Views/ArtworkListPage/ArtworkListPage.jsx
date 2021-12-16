@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
-import {Breadcrumb} from 'antd';
+import {Breadcrumb , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import TableArtworkList from './TableArtworkList';
-import Loading from '../../components/Loading';
 import PaginationComponent from '../../components/PaginationComponent';
 import queryString from 'query-string';
+import ModalBidsArtwork from './ModalBidsArtwork';
+import ModalAuctionsArtwork from './ModalAuctionsArtwork';
 
 function ArtWorkListPage(props) {
 
@@ -16,21 +18,20 @@ function ArtWorkListPage(props) {
     const [countArtwork , setCountArtwork] = useState(0);
     const [currentPage , setcurrentPage] = useState(1);
     const [loading , setLoading] = useState(false);
+    const [visibleShowBidsArtwork, setvisibleShowBidsArtwork] = useState(false)
+    const [visibleShowAuctionsArtwork, setvisibleShowAuctionsArtwork] = useState(false)
+    const [isCall_service_get_bids_product, setIsCall_service_get_bids_product] = useState(null)
+    const [isCall_service_get_auctions_product, setIsCall_service_get_auctions_product] = useState(null)
+    const [product_id, setProduct_id] = useState()
+    const [singleArtwork, setSingleArtwork] = useState()
     const [params , setParams] = useState(
         {
             page : 1 , 
-            page_size : 5 , 
-            search : ''
+            page_size : 10 , 
+            search : '',
+            offer_home_auction : "unrequired"
         });
 
-
-    // const handleFilterDateFrom = (date) => {
-    //     setParams({...params , date_after : date})
-    // }
-
-    // const handleFilterDateTo = (date) => {
-    //     setParams({...params , date_befor : date})
-    // }
 
 
     const handleFilterArtwork = (value) => {
@@ -62,9 +63,12 @@ function ArtWorkListPage(props) {
         })
     }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    
+
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+             <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -92,11 +96,17 @@ function ArtWorkListPage(props) {
                                         <div className="col content-page px-2  px-md-4 py-4 ">
                                          
                                             <div className="row px-0 mx-0">
-                                                <TableArtworkList  artworkList={artworkList} countArtwork={countArtwork} 
+                                                <TableArtworkList 
+                                                    params={params} 
+                                                    artworkList={artworkList} 
+                                                    countArtwork={countArtwork} 
                                                     handleFilterArtwork={handleFilterArtwork}
-                                                    // handleFilterDateFrom={handleFilterDateFrom}
-                                                    // handleFilterDateTo={handleFilterDateTo}
-                                                
+                                                    setvisibleShowBidsArtwork={setvisibleShowBidsArtwork}
+                                                    setIsCall_service_get_bids_product={setIsCall_service_get_bids_product}
+                                                    setvisibleShowAuctionsArtwork={setvisibleShowAuctionsArtwork}
+                                                    setIsCall_service_get_auctions_product={setIsCall_service_get_auctions_product}
+                                                    setProduct_id={setProduct_id}
+                                                    setSingleArtwork={setSingleArtwork}
                                                 />
                                             </div>
 
@@ -108,7 +118,24 @@ function ArtWorkListPage(props) {
                         </div>
                     </div>
                 </div>
+
+                    {!!isCall_service_get_bids_product && <ModalBidsArtwork
+                        setvisibleShowBidsArtwork={setvisibleShowBidsArtwork}
+                        visibleShowBidsArtwork={visibleShowBidsArtwork}
+                        setIsCall_service_get_bids_product={setIsCall_service_get_bids_product}
+                        product_id={product_id}
+                    />}    
+                    
+                    {!!isCall_service_get_auctions_product && <ModalAuctionsArtwork
+                        setvisibleShowAuctionsArtwork={setvisibleShowAuctionsArtwork}
+                        visibleShowAuctionsArtwork={visibleShowAuctionsArtwork}
+                        setIsCall_service_get_auctions_product={setIsCall_service_get_auctions_product}
+                        product_id={product_id}
+                        singleArtwork={singleArtwork}
+                    />}
+
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

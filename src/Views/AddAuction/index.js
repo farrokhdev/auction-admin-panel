@@ -18,7 +18,7 @@ import Suggest from "./suggest";
 import Currency from "./currency";
 import Validate from "./validate";
 import {UrlQuery} from "../../utils/utils";
-
+// import  '../../assets/style/mainFront.scss'
 const listComponent = [
     {name: "اطلاعات پایه", value: 1, thisComponent: BaseInformation},
     {name: "انتخاب محصول", value: 2, thisComponent: Products},
@@ -58,8 +58,8 @@ function Index() {
     const checkData = useSelector((state) => state.auctionReducer)
 
     useEffect(() => {
-        // if (auctionId !== "new")
-        //     getData()
+        if (auctionId !== "new")
+            getData()
         if (!id)
             dispatch(getProfile())
     }, [])
@@ -111,6 +111,7 @@ function Index() {
                         end_clock: moment(end_clock, "HH:mm"),
                         gallery_start_clock:gallery_start_clock,
                         gallery_end_clock:gallery_end_clock,
+                        house_id:res?.house?.id
                     }))
                     // setData(res)
                     // setDataCount(resp.data?.data?.count)
@@ -162,24 +163,29 @@ function Index() {
         let auction_product = []
         let auctions_date = []
         if (choose_product_daily) {
-            await Object.keys(productsDate).map(t => {
-                let p = []
-                Object.keys(productsDate[t]).map(c => p.push(productsDate[t][c]?.id))
-                auctions_date.push({date: t, products_id: p})
-            })
-            auction_product = await productsArrayDate.map(t => ({
-                base_price: (t?.base_price || 0),
-                reserve_price: (Number(t?.reserve_price) || 0),
-                product_id: t?.id
-            }))
-        } else {
-            await Object.keys(products).map(t => (auction_product.push({
-                base_price: (products[t]?.base_price || 0),
-                reserve_price: (Number(products[t]?.reserve_price) || 0),
-                product_id: products[t]?.id
-            })))
-            // delete allDataMain["dates_auction"]
-        }
+
+            Object.keys(productsDate).map(t => {
+               let p = []
+               Object.keys(productsDate[t]).map(c => p.push(productsDate[t][c]?.id))
+               auctions_date.push({date: moment(t,"jYYYY-jMM-jDD").format("YYYY-MM-DD ")
+                   , products_id: p})
+           })
+           auction_product = await productsArrayDate.map(t => ({
+               base_price: (t?.base_price || 0),
+               reserve_price: (Number(t?.reserve_price) || 0),
+               product_id: t?.id,
+               lot_num:(t?.lot_num || 0)
+
+           }))
+       } else {
+            Object.keys(products).map(t => (auction_product.push({
+               base_price: (products[t]?.base_price || 0),
+               reserve_price: (Number(products[t]?.reserve_price) || 0),
+               product_id: products[t]?.id,
+               lot_num:( products[t]?.lot_num || 0)
+           })))
+           // delete allDataMain["dates_auction"]
+       }
         let getDate = new Date();
         getDate = await moment(getDate).format("YYYY-MM-DDThh:mm")
         let file_name = await is_send_invitation ? allData?.title + getDate : "";
@@ -251,7 +257,7 @@ function Index() {
     }
     // console.log(productsDate, productsArrayDate)
     if (next) {
-        return <Redirect to="/auctions-list"/>
+        return <Redirect to="/auctions"/>
     }
 
     const setData = (data) => {
@@ -269,7 +275,7 @@ function Index() {
 
 
     return (
-        <div className="text-right">
+        <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages text-right custom-create-auction">
 
 
                     <div className="panel-container newauction">
@@ -302,9 +308,9 @@ function Index() {
                                 })
                             }
                         </Spin>
-                        <div className="text-start">
+                        <div className="text-left">
                             {selectComponent !== 1 ?
-                                <Button type="button" className="btn-warn-custom mt-4" loading={loading}
+                                <Button type="button" className="btn btn-warning btn-warn-custom mt-4" loading={loading}
                                         onClick={() => {
                                             dispatch(removeAUCTION())
                                         }}>انصراف و حذف اطلاعات

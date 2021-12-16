@@ -6,5 +6,13 @@ module.exports={
     EDIT_AUCTION:id=>`/sale/auctions/${id}/`,
     EDIT_PROFILE:"/account/profile/",
     LIST_PRODUCTS:"/sale/product/",
+    LIST_AUCTIONS:"/sale/auctions/",
+    LIST_HOUSE_AUCTIONS:"/account/home-auction/",
+    UPLOAD_EXEL_AUCTION:name=>`/sale/upload/${name}/`,
+    DELETE_AUCTION:id=>`/sale/auctions/${id}/`,
+    ACCEPT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/approve/`,
+    REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`,
 
+    DELETE_PRODUCT : id =>  `/sale/product/${id}/` ,
+    PRE_UPLOAD: "/core/upload/",
 }

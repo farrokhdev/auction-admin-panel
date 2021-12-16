@@ -1,8 +1,8 @@
 import React, {useEffect , useState} from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
-import { Form, Input, Breadcrumb, Button , Upload} from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { Form, Input, Breadcrumb, Button , Upload , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import  {fetcher} from '../../utils/common';
 import { BASE_URL } from '../../utils';
 import {convertTypePersian} from '../../utils/converTypePersion';
@@ -26,8 +26,7 @@ function SingleViewAuctionPage(props) {
 
     const [form] = Form.useForm();
     const [auctionInfo , setAuctionInfo] = useState({})
-
-console.log("auctionInfo ",auctionInfo);
+    const [loading, setLoading] = useState(false);
 
     const onFinish = (values) => {
         console.log(values);
@@ -39,11 +38,14 @@ console.log("auctionInfo ",auctionInfo);
 
 
       useEffect(() => {
-                        
+        setLoading(true)  
         axios.get(`${BASE_URL}/sale/auctions/${props.match.params.id}/`).then(res => {
+            setLoading(false)
             setAuctionInfo(res.data.data.result)
+
         }).catch(err => {
             console.log(err);
+            setLoading(false)
         })
 
     }, []);
@@ -61,9 +63,11 @@ console.log("auctionInfo ",auctionInfo);
     }, [auctionInfo]);
 
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
     return (
         <React.Fragment>
-
+            <Spin indicator={antIcon} spinning={loading}  >
             <div style={{marginTop : '30px'}} className="container-fluid px-0 container-pages">
 
                 <div  className="row m-0">
@@ -81,7 +85,7 @@ console.log("auctionInfo ",auctionInfo);
                                     </NavLink>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                    <Link to="/members">لیست اعضا</Link>
+                                    <Link to="/members"> جزئیات حراج</Link>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     {/* <Link to="/members">{`${member?.first_name}${' '}${member?.last_name}`}</Link> */}
@@ -236,6 +240,15 @@ console.log("auctionInfo ",auctionInfo);
                             </Form.Item>
                             </div>
                        </div>
+                       
+                       <div className="d-flex justify-content-end">
+                            <button
+                                className="btn-edit-house-auction mt-5"
+                                htmlType="submit"
+                            >
+                            ویرایش اطلاعات
+                        </button>
+                    </div>
 
                         </Form>
                     </div>
@@ -247,7 +260,7 @@ console.log("auctionInfo ",auctionInfo);
                         </div>
                 </div>
             </div>
-
+            </Spin>
     </React.Fragment>
     )
 }

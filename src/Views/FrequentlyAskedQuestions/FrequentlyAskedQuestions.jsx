@@ -1,7 +1,8 @@
 import React , {useState , useEffect} from 'react'
 import TableFrequentlyAskedQuestions from './TableFrequentlyAskedQuestions';
 import {NavLink} from 'react-router-dom';
-import {Breadcrumb} from 'antd';
+import {Breadcrumb , Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import {BASE_URL} from '../../utils';
@@ -9,54 +10,45 @@ import Loading from '../../components/Loading';
 import axios from '../../utils/request';
 import PaginationComponent from '../../components/PaginationComponent';
 import {Link} from 'react-router-dom';
-
+import queryString from 'query-string';
 
 function FrequentlyAskedQuestions(props) {
 
-    const [frequentlyAskedQuestions , setFrequentlyAskedQuestions] = useState([
-        {
-            persion_category : '1دسته‌بندی فارسی  ',
-            english_category : ' english category1',
-        },
-        {
-            persion_category : 'دسته‌بندی فارسی2  ', 
-            english_category : ' english category2',
-        },
-        {
-            persion_category : 'دسته‌بندی فارسی3',
-            english_category : ' english category3',
-        }
-    ]);
+    const [frequentlyAskedQuestions , setFrequentlyAskedQuestions] = useState([]);
     const [frequentlyCount, setfrequentlyCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [params , setParams] = useState(
+        {
+            page : 1, 
+            page_size : 10 , 
+        });
 
     useEffect(() => {
       setLoading(true)
-      axios.get(`${BASE_URL}/sale/product/?page=${currentPage}&page_size=5`).then(res => {
+      const queries = queryString.stringify(params);
+      axios.get(`${BASE_URL}/panel/faq-categories/?${queries}`).then(res => {
         setLoading(false)
-        // setFrequentlyAskedQuestions(res.data.results)
+        setFrequentlyAskedQuestions(res.data.data.result)
         setfrequentlyCount(res.count)
     }).catch(err => {
         console.log(err);
         setLoading(false)
     })
  
-    }, []);
+    }, [params]);
 
     const handeSelectPage = (e) => {
         console.log("Log Of Pagination", e);
         setCurrentPage(e)
     }
 
-    // const handleRedirect = () => {
-    //     window.location.href = ""
-    // }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            <Loading loading={loading} />
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -90,7 +82,10 @@ function FrequentlyAskedQuestions(props) {
                                             </Link>
                                         </div>
 
-                                            <TableFrequentlyAskedQuestions frequentlyAskedQuestions={frequentlyAskedQuestions}/>
+                                            <TableFrequentlyAskedQuestions 
+                                                frequentlyAskedQuestions={frequentlyAskedQuestions}
+                                                params={params}
+                                            />
                                             <PaginationComponent count ={frequentlyCount} handeSelectPage={handeSelectPage} />
                                         </div>
                                     </div>
@@ -100,7 +95,7 @@ function FrequentlyAskedQuestions(props) {
                 </div>
             </div>
 
-            
+            </Spin>
         </React.Fragment>
     )
 }

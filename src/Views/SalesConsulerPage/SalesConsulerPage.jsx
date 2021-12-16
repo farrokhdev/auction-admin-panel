@@ -1,9 +1,9 @@
 import React , {useState , useEffect} from 'react';
 import TableSalesConsuler from './TableSalesConsuler';
-import {Pagination , Breadcrumb} from 'antd';
+import {Spin , Breadcrumb} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
-import Loading from '../../components/Loading';
 import {NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -19,13 +19,15 @@ function SalesConsulerPage(props) {
     const [params , setParams] = useState(
         {
             page : 1, 
-            page_size : 5 , 
+            page_size : 10 ,
+            offer_home_auction : "required"
         });
 
     useEffect(() => {
         setLoading(true)
         const queries = queryString.stringify(params);
         axios.get(`${BASE_URL}/sale/product/?${queries}`).then(res => {
+        // axios.get(`${BASE_URL}/auction-house/suggest/?${queries}`).then(res => {
             setLoading(false)
             setsalesConsulerList(res.data.data.result)
             setCountSalesConsuler(res.data.data.count)
@@ -42,10 +44,11 @@ function SalesConsulerPage(props) {
         setParams({...params , page : e})
     }
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            <Loading loading={loading} />
+            <Spin indicator={antIcon} spinning={loading}  >
             <div  className="container-fluid px-0 container-pages">
                 <div className="row m-0">
                     <div className="col">
@@ -73,7 +76,7 @@ function SalesConsulerPage(props) {
                                         <div className="col content-page p-4  ">
                                             
                                             <div className="row px-0 mx-0">
-                                                <TableSalesConsuler salesConsulerList={salesConsulerList} />
+                                                <TableSalesConsuler page={params.page}  salesConsulerList={salesConsulerList} />
                                             </div>
 
                                             <PaginationComponent count={countSalesConsuler} handeSelectPage={handeSelectPage}/>
@@ -85,6 +88,7 @@ function SalesConsulerPage(props) {
                     </div>
                 </div>
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

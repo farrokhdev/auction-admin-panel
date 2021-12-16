@@ -1,24 +1,28 @@
 import React from 'react'
-import { Menu, Dropdown , Image} from 'antd';
+import { Menu, Dropdown, Image } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
-import momentJalaali from 'moment-jalaali';
-import {convertTypePersian} from '../../utils/converTypePersion';
+import { convertTypePersian } from '../../utils/converTypePersion';
+import { separatorCurrency } from '../../utils/separator';
+import moment from 'moment-jalaali';
+import EmptyComponent from '../../components/EmptyComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
 
 
-function TableOrdersList({ordersList}) {
+function TableOrdersList({ ordersList, params }) {
 
 
-    const menu=(id) => (
+    const menu = (id) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link  >
+                <Link to={`/orders/${id}`}>
                     مشاهده
                 </Link>
             </Menu.Item >
         </Menu>
     );
+    
 
     // {
     //     image : '',
@@ -32,7 +36,7 @@ function TableOrdersList({ordersList}) {
 
     // }
 
-    
+
     return (
         <div collapse className="table-responsive ">
             <table className="table ">
@@ -61,7 +65,7 @@ function TableOrdersList({ordersList}) {
                             <div className=" px-3 text-center">تاریخ حراج</div>
                         </th>
 
-                        <th className="  px-0 minWidth-typeUser">
+                        <th className="  px-0 minWidth-winner">
                             <div className=" px-3 text-center">خریدار</div>
                         </th>
 
@@ -80,18 +84,18 @@ function TableOrdersList({ordersList}) {
                 </thead>
 
                 <tbody>
-                    {ordersList ? ordersList.map((order, index) =>
-                        <> 
+                    {ordersList?.length ? ordersList.map((order, index) =>
+                        <>
                             <tr className="spaceRow row-messages">
 
-                            <td   className="">
-                                <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
-                                </div>
-                            </td>
+                                <td className="">
+                                    <div className="my-2 content-td" >
+                                        <div className="text-center">{params?.page == 1 ? ++index : (params?.page_size * (params?.page - 1)) + ++index}</div>
+                                    </div>
+                                </td>
 
-                            <td   className="">
-                                {/* <div   className="my-2 content-td">
+                                <td className="">
+                                    {/* <div   className="my-2 content-td">
                                     <div className=" text-center"> 
                                         {order?.image_url}
                                     </div>
@@ -101,101 +105,104 @@ function TableOrdersList({ordersList}) {
 
 
 
-                                <div  className="my-2 content-td" >
-                                    <div className="text-center">
-                                    <Image
-                                        style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
-                                        className="box-image-product-list"
-                                        width={40}
-                                        preview ={order?.image_url}
-                                        src={order?.image_url}
-                                    />
-                                        {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
-                                    </div>
-                                </div>
-                            </td>
-                            <td  className="">
-
-                                <div   className=" ">
-                                    <div className="my-2 content-td">
-                                        <div className=" text-center"> 
-                                            {order?.artwork_name}
+                                    <div className="my-2 content-td" >
+                                        <div className="text-center">
+                                            <Image
+                                                style={{ width: '40px', height: '30px', cursor: 'pointer' }}
+                                                className="box-image-product-list"
+                                                width={40}
+                                                preview={order?.image_url}
+                                                src={handleShowImage(order)} 
+                                            />
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {order?.artist_name}
-                                    </div>
-                                </div>
-                            </td>
+                                </td>
+                                <td className="">
 
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {order?.auction_owner}
+                                    <div className=" ">
+                                        <div className="my-2 content-td">
+                                            <div className=" text-center">
+                                                {order?.artwork_title}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center">
+                                            {order?.persian_artist_name}
+                                        </div>
+                                    </div>
+                                </td>
 
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {order?.date_auction}
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center">
+                                            {order?.owner?.first_name + " " + order?.owner?.last_name}
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div className="my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {order?.buyer_name}
+                                </td>
+
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center">
+                                            {`${moment(order?.latest_auction?.end_time).format("jYYYY/jMM/jDD ")}  -  ${moment(order?.latest_auction?.start_time).format("jYYYY/jMM/jDD")}`}
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td className="">
-                                <div
-                                    className=" my-2 content-td">
-                                    <div className=" w-100 text-center"> 
-                                        {/* {momentJalaali(order?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
-                                        {order?.sale_price}
+                                </td>
+                                <td className="">
+                                    <div className="my-2 content-td">
+                                        <div className=" w-100 text-center">
+                                            {order?.bidding_details?.winner ? <p>{order?.bidding_details?.winner?.first_name}{' '}{order?.bidding_details?.winner?.last_name}</p> : '__'}
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                     
-                            <td className="">
-                                <div
-                                    className="my-2 content-td">
+                                </td>
+
+                                {console.log("order -->> ", order)}
+                                <td className="">
+                                    <div
+                                        className=" my-2 content-td">
+                                        <div className=" w-100 text-center">
+                                            {/* {momentJalaali(order?.sale.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)} */}
+                                            {order?.price ? separatorCurrency(order?.price) : ''}
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td className="">
+                                    <div
+                                        className="my-2 content-td">
                                         {/* {convertTypePersian(participant?.role)} */}
-                                        {(order?.status)}
+                                        {order?.sale_status ? <p className="mb-0">فروخته شد</p> : <p className="mb-0">فروخته نشد</p>}
 
-                                </div>
-                            </td>
+                                    </div>
+                                </td>
 
-                            <td className=" text-center">
-                                <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(order?.id)}>
-                                        <a className="">
-                                            <img src={icon_more} alt=""/>
-                                            {/* <DownOutlined/> */}
-                                        </a>
-                                    </Dropdown>
-                                    {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+                                <td className=" text-center">
+                                    <div className="my-2 content-td">
+                                        <Dropdown overlay={menu(order?.id)}>
+                                            <a className="">
 
-                                </div>
-                            </td>
+                                                <img src={icon_more} alt="" />
+                                                {/* <DownOutlined/> */}
+                                            </a>
+                                        </Dropdown>
+                                        {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
+
+                                    </div>
+                                </td>
                             </tr>
 
-                            </>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        </>
+                    ) : <div className="d-flex text-center w-100"></div>}
+                </tbody>
+            </table>
+            
+            <div className="d-flex justify-content-center w-100">
+                {!ordersList?.length && <EmptyComponent text={"اثری موجود نیست"} />}
+            </div>
 
-                   
-
-            </tbody>
-        </table>
-
-    </div>
+        </div>
     )
 }
 

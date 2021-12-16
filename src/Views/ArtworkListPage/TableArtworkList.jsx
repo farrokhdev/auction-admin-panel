@@ -1,17 +1,54 @@
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import { Menu, Dropdown , Collapse  , Input , Image  } from 'antd';
 import { CaretDownOutlined , FilterFilled , DownOutlined} from '@ant-design/icons';
 import {Link , NavLink} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
+import axios from "../../utils/request";
+import { BASE_URL } from '../../utils';
 import momentJalaali from 'moment-jalaali';
 import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
+import { separatorCurrency } from '../../utils/separator';
+import EmptyComponent from '../../components/EmptyComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
 
-function TableArtworkList({artworkList , handleFilterArtwork }) {
+function TableArtworkList(props) {
     
+    const {
+        artworkList , 
+        handleFilterArtwork , 
+        params , 
+        setvisibleShowBidsArtwork , 
+        setIsCall_service_get_bids_product , 
+        setProduct_id , 
+        setIsCall_service_get_auctions_product , 
+        setvisibleShowAuctionsArtwork,
+        setSingleArtwork
+    } = props
+
+
+    console.log("artworkList==>>" , artworkList)
     const { Search } = Input;
     const { Panel } = Collapse;
     const onSearch = value => console.log(value);
+
+
+    const [listSuggestionHomeAuctions, setListSuggestionHomeAuctions] = useState([])
+
+    useEffect(() => {
+        getHomeAuciton()
+    }, [])
+
+    const getHomeAuciton = () => {
+        axios.get(`${BASE_URL}/account/home-auction/`)
+        .then(res => {
+            setListSuggestionHomeAuctions(res.data.data.result)
+        }).catch({
+
+        })
+
+    
+    }
 
     const menu=(id) => (
 
@@ -39,6 +76,12 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                 <Link to={`/artworks/${id}`} >
                     مشاهده اثر
                 </Link>
+            </Menu.Item >
+            <Menu.Item onClick={()=>handleShowModalBidsArtwork(id) } className="text-center">
+                بیدها
+            </Menu.Item >       
+            <Menu.Item onClick={()=>handleShowModalAuctionsArtwork(id , artwork) } className="text-center">
+                آخرین حراج
             </Menu.Item >
             <Menu.Item  className="text-center">
                 <div onClick={()=>handleShowModalAsseptArtwork(id , artwork)} >
@@ -71,14 +114,24 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
     }
 
 
-//   const onChangeFrom = (value) =>{
-//     handleFilterDateFrom(value.format('jYYYY-jM-jD'))
+    const handleShowModalBidsArtwork = (id) => {
+        setProduct_id(id)
+        setTimeout(() => {
+            setIsCall_service_get_bids_product(true)
+            setvisibleShowBidsArtwork(true)
+        }, 300);
+    }   
+    
+    const handleShowModalAuctionsArtwork = (id , artwork) => {
+        setProduct_id(id)
+        setSingleArtwork(artwork)
+        setTimeout(() => {
+            setIsCall_service_get_auctions_product(true)
+            setvisibleShowAuctionsArtwork(true)
+        }, 300);
+    }
 
-//   }
 
-//   const onChangeTo = (value) => {
-//     handleFilterDateTo(value.format('jYYYY-jM-jD'))
-//   }
     
     return (
         <React.Fragment>
@@ -200,13 +253,15 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                 </thead>
 
                 <tbody>
-                    {artworkList ? artworkList.map((artwork, index) =>
+                    {artworkList?.length ? artworkList.map((artwork, index) =>
+                    
                         <React.Fragment key={artwork?.id}> 
+                        
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
                                 <div  className="my-2 content-td" >
-                                    <div className="text-center">{++index}</div>
+                                    <div className="text-center">{params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }</div>
                                 </div>
                             </td>
                             <td   className="">
@@ -217,7 +272,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                         className="box-image-product-list"
                                         width={40}
                                         preview ={artwork?.media?.exact_url ? artwork?.media?.exact_url : ''}
-                                        src={artwork?.media?.exact_url}
+                                        src={handleShowImage(artwork)}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -245,7 +300,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {artwork?.email}
+                                        {artwork?.latest_auction?.house?.first_name}{' '}{artwork?.latest_auction?.house?.last_name}
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +309,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                     <div
                                         className=" my-2 content-td">
                                         <div className=" w-100 text-center"> 
-                                        {momentJalaali(artwork?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                        {momentJalaali(artwork?.latest_auction?.start_time).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                         </div>
                                     </div>
                                 </td>
@@ -263,7 +318,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                            {artwork?.email}
+                                            {artwork?.max_price ? separatorCurrency(artwork?.max_price) : 0}{' - '}{artwork?.min_price ? separatorCurrency(artwork?.min_price) : 0}
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +326,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                             <td className="">
                                 <div className="my-2 content-td">
                                     <div className=" w-100 text-center"> 
-                                    {artwork?.price}
+                                    {artwork?.price ? separatorCurrency(artwork?.price) : 0}
                                     </div>
                                 </div>
                             </td>
@@ -289,7 +344,7 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                             </td>
                             </tr>
                             </React.Fragment>
-                        ) : <div className="d-flex text-center w-100">لیست خالی</div>}
+                        ) : <div className="d-flex text-center w-100"></div>}
 
                    
                         <ModalAcceptArtwork 
@@ -297,18 +352,25 @@ function TableArtworkList({artworkList , handleFilterArtwork }) {
                             isModalVisibleAccept={isModalVisibleAccept}
                             ARTWORK_Id={ARTWORK_Id}
                             detailsArtwork={detailsArtwork}
+                            listSuggestionHomeAuctions={listSuggestionHomeAuctions}
                         />
                         <ModalRejectArtwork
                             setIsModalVisibleReject={setIsModalVisibleReject}
                             isModalVisibleReject={isModalVisibleReject}
                             ARTWORK_Id={ARTWORK_Id}
                             detailsArtwork={detailsArtwork}
+                            listSuggestionHomeAuctions={listSuggestionHomeAuctions}
                         />
 
             </tbody>
         </table>
 
+
+
     </div>
+        <div className="d-flex justify-content-center w-100">
+            {!artworkList?.length  && <EmptyComponent text={"اثری موجود نیست"}/>}
+        </div>
         </React.Fragment>
     )
 }

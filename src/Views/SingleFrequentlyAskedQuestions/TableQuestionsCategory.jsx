@@ -1,18 +1,23 @@
-import React from 'react'
-import { Menu, Dropdown } from 'antd';
+import React , {useState} from 'react'
+import { Menu, Dropdown} from 'antd';
 import {Link} from 'react-router-dom';
 import icon_more from '../../images/svg/icon-more.svg'
 import momentJalaali from 'moment-jalaali';
 import {convertTypePersian} from '../../utils/converTypePersion';
 import ModalEditFrequentlyAskedQuestion from './ModalEditFrequentlyAskedQuestion';
 import { ExclamationCircleOutlined , DownOutlined } from '@ant-design/icons';
-import { Modal, notification } from 'antd';
+import { Modal } from 'antd';
 import axios from "../../utils/request";
 import { BASE_URL } from '../../utils';
+import { successNotification } from '../../utils/notification';
+import EmptyComponent from '../../components/EmptyComponent';
 
-function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , questionList}) {
+function TableQuestionsCategory(props) {
 
-    
+   const {setVisibleEditQuestion , visibleEditQuestion , questionList , params , setQuestion_id , question_id , setIsCallServiceGetQuestion , isCallServiceGetQuestion} = props
+
+   
+
     const { confirm } = Modal; 
     const menu=(id , name) => (
         <Menu>
@@ -25,24 +30,20 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , 
         </Menu>
     );
 
-    const openNotification = () => {
-        notification.success({
-          message: 'حذف سوال',
-          description:` سوال با موفقیت حذف شد`,
-            duration: 1,
-            className: 'custom-class',
-            style : {
-                backgroundColor : '#f9faf5'
-            }
-        });
-      };
+
 
     const handleShowModalEditQuestion = (id) => {
-        setVisibleEditQuestion(true)
+        setQuestion_id(id)
+        setTimeout(() => {
+            setIsCallServiceGetQuestion(true)
+            setVisibleEditQuestion(true)
+        }, 300);
+
+
+        
     }
 
     const handleِDeleteQuestion = (id) =>{
-        // alert("Delete Question")
 
    
             confirm({
@@ -56,28 +57,21 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , 
               onOk() {
                 console.log('OK');
     
-                let payload = {
-                    // "title" : props.detailsArtwork?.title,
-                    // "category": props.detailsArtwork?.category,
-                    // "description": props.detailsArtwork?.description,
-                    // "is_approve":"True",
-                    // "admin_description": description
-                }
+  
         
-                axios.put(`${BASE_URL}/panel/product/approve/1/`, payload).then(res => {
-        
+                axios.delete(`${BASE_URL}/panel/faq/${id}/`).then(res => {
+                    successNotification('حذف سوال' , 'حذف سوال با موفقیت انجام شد')
                 }).catch(err => {
                     console.log(err);
                 })
     
-                openNotification('topLeft')
                 setTimeout(() => {
                     window.location.reload();
-                }, 700);
+                }, 1000);
               },
-            //   onCancel() {
-            //     console.log('Cancel');
-            //   },
+                //   onCancel() {
+                //     console.log('Cancel');
+                //   },
             });
 
     }
@@ -108,13 +102,14 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , 
                         <div className=" px-3 text-center">سوال فارسی</div>
                     </th>
 
+                    <th className="  px-0 minWidth-description">
+                        <div className=" px-3 text-center">پاسخ فارسی</div>
+                    </th>
+
                     <th className="  px-0 minWidth-email">
                         <div className=" px-3 text-center">سوال انگلیسی</div>
                     </th>
 
-                    <th className="  px-0 minWidth-description">
-                        <div className=" px-3 text-center">پاسخ فارسی</div>
-                    </th>
                     
                     <th className="  px-0 minWidth-description">
                         <div className=" px-3 text-center">پاسخ انگلیسی</div>
@@ -127,14 +122,14 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , 
             </thead>
 
             <tbody>
-                {questionList ? questionList.map((offer, index) =>
+                {questionList?.length ? questionList?.map((question, index) =>
                     <> 
                         <tr className="spaceRow row-messages">
 
                         <td   className="">
                             <div  className="my-2 content-td" >
                                 <div className="text-center">
-                                    {++index}
+                                {params?.page == 1 ?  ++index : ( params?.page_size * (params?.page - 1) ) + ++index }
                                    
                                 </div>
                             </div>
@@ -143,63 +138,68 @@ function TableQuestionsCategory({setVisibleEditQuestion , visibleEditQuestion , 
                         <td   className="">
                             <div   className="my-2 content-td">
                                 <div className=" text-center"> 
-                                {offer?.q_persion}
-                            </div>
+                                    {question?.question_fa}
+                                </div>
 
+                            </div>
+                        </td>
+
+                        <td className="">
+                            <div
+                                className=" my-2 content-td">
+                                <div style={{direction : 'ltr'}} className=" w-100 text-center"> 
+                                {question?.answer_fa}
+                                </div>
                             </div>
                         </td>
                  
                         <td className="">
                             <div
                                 className=" my-2 content-td">
-                                <div className=" w-100 text-center"> 
-                                {offer?.q_english}
+                                <div style={{direction : 'ltr'}} className=" w-100 text-center"> 
+                                    {question?.question_en}
                                 </div>
                             </div>
                         </td>
                         
-                        <td className="">
-                            <div
-                                className=" my-2 content-td">
-                                <div className=" w-100 text-center"> 
-                                {offer?.r_persion}
-                                </div>
-                            </div>
-                        </td>
-                
+                    
                         <td className="">
                             <div
                           
                                 className="my-2 content-td">
-                                    {offer?.r_english}
+                                    {question?.answer_en}
                             </div>
                         </td>
                         <td className=" text-center">
                             <div className="my-2 content-td">
-                                <Dropdown overlay={menu(1)}>
+                                <Dropdown overlay={menu(question?.id)}>
                                     <a className="">
                                         <img src={icon_more} alt=""/>
                                     </a>
                                 </Dropdown>
-                                {/* <button onClick={()=>handleClickShowDetailsMessage(ticket?.id) }>جزییات</button> */}
-
                             </div>
                         </td>
                         </tr>
 
                         </>
-                    ) : <div className="d-flex text-center w-100">لیست خالی</div>} 
-
-                    <ModalEditFrequentlyAskedQuestion
+                    ) : <div className="d-flex text-center w-100"></div>} 
+{console.log("isCallServiceGetQuestion --->>>" , isCallServiceGetQuestion)}
+                    {!!isCallServiceGetQuestion && <ModalEditFrequentlyAskedQuestion
                         setVisibleEditQuestion={setVisibleEditQuestion}
                         visibleEditQuestion={visibleEditQuestion}
-            />
+                        question_id={question_id}
+                        setIsCallServiceGetQuestion={setIsCallServiceGetQuestion}
 
-        </tbody>
-    </table>
+                    />}
 
-</div>
+                </tbody>
+            </table>
+
+                <div className="d-flex justify-content-center w-100">
+                    {!questionList?.length  && <EmptyComponent text={"سوالی موجود نیست"}/>}
+                </div>
+            </div>
     )
 }
 
-export default TableQuestionsCategory
+export default TableQuestionsCategory;

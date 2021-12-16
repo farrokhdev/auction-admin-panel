@@ -1,5 +1,6 @@
 import React , {useState , useEffect , useRef} from 'react';
-import {Breadcrumb , Mentions, Form, Pagination} from 'antd';
+import {Breadcrumb , Mentions, Form, Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import { NavLink} from 'react-router-dom';
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
@@ -48,15 +49,19 @@ function TicketPage(props) {
     const [countTickets , setCountTickets] = useState(0);
     const [params, setParams] = useState({
         page : 1 , 
-        page_size : 5
+        page_size : 10
     })
 
     const getTickets = () => {
         const queries = queryString.stringify(params);
+        setLoading(true)
+
         axios.get(`${BASE_URL}${GET_TICKETS}?${queries}`).then(res => {
+            setLoading(false)
             setTicketList(res.data.data.result)
             setCountTickets(res.data.data.count)
         }).catch(err => {
+            setLoading(false)
             console.log(err);
         })
     }
@@ -69,11 +74,11 @@ function TicketPage(props) {
         setParams({...params , page : e})
     }
 
-    
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
-            <Loading loading={loading}/>
+            <Spin indicator={antIcon} spinning={loading}  >
             <div className="container-fluid px-0 container-pages">
 
                 <div className="row m-0">
@@ -99,7 +104,6 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div className="row  mx-0">
                                     <div className="col content-page p-4  ">
                                         <div className="row px-3 ">
@@ -122,12 +126,14 @@ function TicketPage(props) {
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
             </div>
+            </Spin>
         </React.Fragment>
     )
 }

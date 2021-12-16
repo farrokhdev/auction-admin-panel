@@ -11,7 +11,10 @@ import {
   QuestionOutlined,
   TeamOutlined,
   FileTextOutlined,
-  NotificationOutlined
+  NotificationOutlined, 
+  BorderRightOutlined, 
+  ProfileOutlined,
+  UnorderedListOutlined
 } from '@ant-design/icons';
 // import {FaUsers} from "react-icons/fa";
 // import iconUsers from '../../images/svg/icon-more.svg'
@@ -20,10 +23,10 @@ import {
 import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {NavLink} from 'react-router-dom';
 import Header from '../../components/Header';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import classnames from 'classnames';
 import MenuItemComponent from './MenuItemComponent';
-
+import {removeAUCTION, setAUCTION} from "../../redux/reducers/auction/auction.actions";
 const {  Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -31,7 +34,7 @@ function Main(props) {
 
     const [collapsed, setCollapsed] = useState(false);
     // const [marginRightSider, setMarginRightSider] = useState(0);
-
+    const dispatch = useDispatch();
     const onCollapse = (collapsed) => {
         console.log(collapsed);
         setCollapsed(collapsed );
@@ -92,20 +95,40 @@ function Main(props) {
                     </NavLink>
                   </Menu.Item>
 
+                <SubMenu id={2}  key={2} icon={<TeamOutlined />} title="اعضا">
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={2.1}
+                        >
+                      <NavLink 
+                          id={2.1}
+                          to={"/members"} 
+                          className="mr-2" 
+                          onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                      >
+                          لیست اعضا 
+                      </NavLink>
+                    </Menu.Item>
 
-                  <Menu.Item 
-                      className="d-flex align-items-center" 
-                      key={2} 
-                      icon={<TeamOutlined />}>
-                    <NavLink 
-                        id={2}
-                        to={"/members"} 
-                        className="mr-2" 
-                        onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
-                    >
-                        اعضا
-                    </NavLink>
-                  </Menu.Item>
+                    <Menu.Item 
+                        className="d-flex align-items-center" 
+                        key={2.2} 
+                              >
+                        <NavLink 
+                            id={2.2}
+                            to={"/add-new-member"}
+                            className="mr-2" 
+                            onClick={ e=> {
+                                toggleActiveNavDrawer(e.currentTarget.id)
+                            }}
+                        >
+                            افزودن کاربر 
+                        </NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
+
+                  
 
                   <Menu.Item 
                       className="d-flex align-items-center" 
@@ -142,9 +165,12 @@ function Main(props) {
                               >
                         <NavLink 
                             id={4.2}
-                            to={"/add-new-auction"} 
+                            to={"/add-new-auction/new"}
                             className="mr-2" 
-                            onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                            onClick={ e=> {
+                                toggleActiveNavDrawer(e.currentTarget.id)
+                            dispatch(removeAUCTION())
+                            }}
                         >
                             ایجاد حراجی 
                         </NavLink>
@@ -165,13 +191,27 @@ function Main(props) {
                               لیست کیف پول‌ها 
                           </NavLink>
                         </Menu.Item>
-                        
+
                         <Menu.Item 
                             className="d-flex align-items-center" 
                             key={5.2}
                             >
                           <NavLink 
                               id={5.2}
+                              to={"/wallet-withdrawal"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              لیست درخواست برداشت 
+                          </NavLink>
+                        </Menu.Item>
+                        
+                        <Menu.Item 
+                            className="d-flex align-items-center" 
+                            key={5.3}
+                            >
+                          <NavLink 
+                              id={5.3}
                               to={"/wallet-deposit"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
@@ -290,12 +330,27 @@ function Main(props) {
                         </Menu.Item>
 
                         <Menu.Item
-                            icon={<QuestionOutlined />}
+                            icon={<UnorderedListOutlined />}
                             className="d-flex align-items-center" 
                             key={11} 
                             >
                           <NavLink 
                               id={11}
+                              to={"/create-new-category"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              ایجاد دسته‌بندی  
+                          </NavLink>
+                        </Menu.Item> 
+
+                        <Menu.Item
+                            icon={<QuestionOutlined />}
+                            className="d-flex align-items-center" 
+                            key={12} 
+                            >
+                          <NavLink 
+                              id={12}
                               to={"/frequently-asked-questions"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
@@ -303,6 +358,39 @@ function Main(props) {
                               سوالات متداول  
                           </NavLink>
                         </Menu.Item>
+                        
+
+                        <Menu.Item
+                            icon={<BorderRightOutlined />}
+                            className="d-flex align-items-center" 
+                            key={13} 
+                            >
+                          <NavLink 
+                              id={13}
+                              to={"/create-content"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              ایجاد محتوا  
+                          </NavLink>
+                        </Menu.Item>                    
+                        
+                    
+                        
+                        {/* <Menu.Item
+                            icon={<ProfileOutlined />}
+                            className="d-flex align-items-center" 
+                            key={13} 
+                            >
+                          <NavLink 
+                              id={13}
+                              to={"/create-categories"} 
+                              className="mr-2" 
+                              onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
+                          >
+                              دسته‌بندی‌ها 
+                          </NavLink>
+                        </Menu.Item> */}
 
                     
                                   {/* <SubMenu  key="5" icon={<SnippetsOutlined />} title="مشاوره فروش">
