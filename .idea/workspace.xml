@@ -31,7 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +78,7 @@
       <workItem from="1627793389540" duration="5882000" />
       <workItem from="1627820027471" duration="643000" />
       <workItem from="1627821015765" duration="11000" />
-      <workItem from="1627821246366" duration="6815000" />
+      <workItem from="1627821246366" duration="6986000" />
     </task>
     <servers />
   </component>
