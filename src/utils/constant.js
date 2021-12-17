@@ -12,7 +12,9 @@ module.exports={
     DELETE_AUCTION:id=>`/sale/auctions/${id}/`,
     ACCEPT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/approve/`,
     REJECT_WITHDRAWAL : id =>  `/accounting/transaction/${id}/reject/`,
-
+    WEB_SOCKET_BID: id => `/price/${id}`,
+    BID:`/bidding/`,
+    UPDATE_STAGE_PRODUCT:id=>`/sale/auctions/${id}/update_stage/`,
     DELETE_PRODUCT : id =>  `/sale/product/${id}/` ,
     PRE_UPLOAD: "/core/upload/",
 }
