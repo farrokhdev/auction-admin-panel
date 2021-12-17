@@ -89,10 +89,10 @@ function TableAuctonsList(props) {
     }
 
     const dispatch = useDispatch();
-    const menu = (id) => (
+    const menu = (id,type) => (
         <Menu>
             <Menu.Item className="text-center">
-                <Link to={`/auctions/${id}`}>
+                <Link to={type==="LIVE" ? `/auctions/live/${id}` :`/auctions/${id}` }>
                     مشاهده
                 </Link>
             </Menu.Item>
@@ -225,7 +225,7 @@ function TableAuctonsList(props) {
                             
                             <td className=" text-center">
                                 <div className="my-2 content-td">
-                                    <Dropdown overlay={menu(auction?.id)}>
+                                    <Dropdown overlay={menu(auction?.id,auction?.type)}>
                                         <a className="">
                                             <img src={icon_more} alt=""/>
                                             {/* <DownOutlined/> */}
