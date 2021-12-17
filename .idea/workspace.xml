@@ -31,14 +31,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AuctionsPage/TableAuctonsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AuctionsPage/TableAuctonsList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +151,7 @@
       <workItem from="1630306402381" duration="3271000" />
       <workItem from="1630383676845" duration="57000" />
       <workItem from="1630383757100" duration="1020000" />
-      <workItem from="1639723880091" duration="13655000" />
+      <workItem from="1639723880091" duration="13919000" />
     </task>
     <servers />
   </component>

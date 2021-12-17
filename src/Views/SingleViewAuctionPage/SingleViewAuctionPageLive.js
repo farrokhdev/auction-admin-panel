@@ -34,6 +34,7 @@ function SingleViewAuctionPageLive(props) {
     const [prevProductSelected, setPrevProductSelected] = useState({});
     const [nextProductSelected, setNextProductSelected] = useState({});
     const [lastPrice, setLastPrice] = useState(0);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
     // const [lastPrice, setLastPrice] = useState(0);
     // const { is_logged_in } = useSelector((state) => state.authReducer)
     const onFinish = (values) => {
@@ -132,7 +133,7 @@ function SingleViewAuctionPageLive(props) {
             })
     }
     const updateStage = (value) => {
-        setLoading(true)
+        setLoadingUpdate(true)
         let payload = {"product_sold": value};
 
         axios.put(`${BASE_URL}${UPDATE_STAGE_PRODUCT(props.match.params.id)}`, payload)
@@ -141,14 +142,14 @@ function SingleViewAuctionPageLive(props) {
                     // message.success("Your request has been sent successfully")
                     getListProducts();
                 }
-                setLoading(false)
+                setLoadingUpdate(false)
             })
             .catch(err => {
                 // if (err.response?.data?.message)
                 // message.error(err.response?.data?.message)
                 // else
                 // message.error("An error occurred")
-                setLoading(false)
+                setLoadingUpdate(false)
             })
     }
     useEffect(() => {
@@ -458,7 +459,7 @@ function SingleViewAuctionPageLive(props) {
                                                         </Form.Item>
                                                     </div>
                                                 </div>
-                                                {(productSelected?.product_status === "on_stage") &&
+                                                {(productSelected?.product_status === "on_stage" ) &&
                                                 <>
                                                     <div className="d-block d-md-flex align-items-center ">
                                                         <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
@@ -489,6 +490,7 @@ function SingleViewAuctionPageLive(props) {
                                                             className="btn-edit-house-auction mt-5 mr-2"
                                                             htmlType="button"
                                                             onClick={() => updateStage(true)}
+                                                            disabled={loadingUpdate}
                                                         >
                                                             فروخته شد
                                                         </button>
@@ -496,6 +498,7 @@ function SingleViewAuctionPageLive(props) {
                                                             className="btn-edit-house-auction mt-5 mr-2"
                                                             htmlType="button"
                                                             onClick={() => updateStage(false)}
+                                                            disabled={loadingUpdate}
                                                         >
                                                             فروخته نشد
                                                         </button>
