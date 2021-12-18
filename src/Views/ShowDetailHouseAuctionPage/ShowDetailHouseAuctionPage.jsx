@@ -70,6 +70,7 @@ function ShowDetailHouseAuctionPage(props) {
           "longitude": point?.longitude,
         },
         "address": values?.address,
+        "address_en": values?.address_en,
       },
       "role": "home_auction",
       "bankaccount": bankAccountInfo,
@@ -143,6 +144,7 @@ function ShowDetailHouseAuctionPage(props) {
       email: member?.email,
       national_code: member?.national_code,
       address: member?.home_auction_location?.address,
+      address_en: member?.home_auction_location?.address_en,
       count: member?.count,
       postal_code: member?.postal_code,
       id: member?.id,
@@ -522,6 +524,19 @@ function ShowDetailHouseAuctionPage(props) {
                       </div>
                       <div className="col">
                         <Form.Item name="address" rules={[]}>
+                          <Input />
+                        </Form.Item>
+                      </div>
+                    </div>
+
+                    <div className="d-block d-md-flex align-items-center">
+                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                        <div className="d-flex">
+                          <p className="mb-0">آدرس انگلیسی</p>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <Form.Item name="address_en" rules={[]}>
                           <Input />
                         </Form.Item>
                       </div>
