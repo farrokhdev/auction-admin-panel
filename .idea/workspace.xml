@@ -32,7 +32,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../frontAuction" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -151,7 +151,9 @@
       <workItem from="1630306402381" duration="3271000" />
       <workItem from="1630383676845" duration="57000" />
       <workItem from="1630383757100" duration="1020000" />
-      <workItem from="1639723880091" duration="13919000" />
+      <workItem from="1639723880091" duration="14340000" />
+      <workItem from="1639806629157" duration="1064000" />
+      <workItem from="1639827933101" duration="521000" />
     </task>
     <servers />
   </component>
