@@ -322,7 +322,7 @@ function SingleViewAuctionPageLive(props) {
                                                                 {
                                                                     productList.map((item, index) => (
                                                                         <Select.Option value={item.id}
-                                                                                       key={index}>{item.artwork_title}</Select.Option>
+                                                                                       key={index}>{item.latest_auction.lot_num}</Select.Option>
                                                                     ))
                                                                 }
                                                             </Select>
