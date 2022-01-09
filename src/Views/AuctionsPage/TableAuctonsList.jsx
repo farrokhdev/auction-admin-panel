@@ -26,7 +26,7 @@ function TableAuctonsList(props) {
     const [params, setParams] = useState({
         page: 1,
         page_size: 10,
-        ordering: 'start_time'
+        ordering: '-start_time'
     })
 
     const { confirm } = Modal;
