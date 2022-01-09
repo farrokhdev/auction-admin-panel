@@ -12,7 +12,7 @@ import classnames from 'classnames';
 import {Link, NavLink} from 'react-router-dom';
 import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
-import logo from "../../images/logo.svg"
+import logo from "../../images/logo1.png"
 
 function Header(props) {
 

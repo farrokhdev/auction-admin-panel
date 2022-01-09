@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DrawerMenu from '../../components/DrawerMenu';
 import Header from '../../components/Header';
-import {Form, Input, Breadcrumb, Button, Upload, Spin, Select} from 'antd';
-import {LoadingOutlined} from '@ant-design/icons';
-import {fetcher} from '../../utils/common';
-import {BASE_URL, WEB_SOCKET_BASE_URL} from '../../utils';
-import {convertTypePersian} from '../../utils/converTypePersion';
-import {Link, NavLink} from 'react-router-dom';
-import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
-import {connect, useSelector} from 'react-redux';
+import { Form, Input, Breadcrumb, Button, Upload, Spin, Select } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { fetcher } from '../../utils/common';
+import { BASE_URL, WEB_SOCKET_BASE_URL } from '../../utils';
+import { convertTypePersian } from '../../utils/converTypePersion';
+import { Link, NavLink } from 'react-router-dom';
+import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
+import { connect, useSelector } from 'react-redux';
 import axios from '../../utils/request';
 import momentJalaali from 'moment-jalaali';
-import {WEB_SOCKET_BID, BID, UPDATE_STAGE_PRODUCT} from "../../utils/constant";
-import {w3cwebsocket as W3CWebSocket} from "websocket";
-import {faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import { WEB_SOCKET_BID, BID, UPDATE_STAGE_PRODUCT } from "../../utils/constant";
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 const layout = {
     labelCol: {
@@ -134,7 +134,7 @@ function SingleViewAuctionPageLive(props) {
     }
     const updateStage = (value) => {
         setLoadingUpdate(true)
-        let payload = {"product_sold": value};
+        let payload = { "product_sold": value };
 
         axios.put(`${BASE_URL}${UPDATE_STAGE_PRODUCT(props.match.params.id)}`, payload)
             .then(resp => {
@@ -223,12 +223,12 @@ function SingleViewAuctionPageLive(props) {
 
     }, [])
 
-    const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
         <React.Fragment>
             <Spin indicator={antIcon} spinning={loading}>
-                <div style={{marginTop: '30px'}} className="container-fluid px-0 container-pages">
+                <div style={{ marginTop: '30px' }} className="container-fluid px-0 container-pages">
 
                     <div className="row m-0">
                         <div className="col">
@@ -280,12 +280,12 @@ function SingleViewAuctionPageLive(props) {
                                                 <p className="text-right mb-0 h-100">عنوان </p>
                                             </div>
                                             <div className="col ">
-                                                <div style={{verticalAlign: 'middle'}}
-                                                     className="d-flex h-100 align-items-center">
+                                                <div style={{ verticalAlign: 'middle' }}
+                                                    className="d-flex h-100 align-items-center">
                                                     <Form.Item
                                                         className="w-100  h-100"
                                                         name="title"
-                                                        rules={[{required: true, message: 'ورودی نام خالی است!'}]}
+                                                        rules={[{ required: true, message: 'ورودی نام خالی است!' }]}
                                                     >
                                                         <Input
                                                             // defaultValue = {auctionInfo?.title}
@@ -300,8 +300,8 @@ function SingleViewAuctionPageLive(props) {
                                                 <p className="text-right mb-0 h-100">شماره اثر </p>
                                             </div>
                                             <div className="col ">
-                                                <div style={{verticalAlign: 'middle'}}
-                                                     className="d-flex h-100 align-items-center">
+                                                <div style={{ verticalAlign: 'middle' }}
+                                                    className="d-flex h-100 align-items-center">
                                                     <div className="input-group">
                                                         <Form.Item
                                                             className="w-100"
@@ -319,10 +319,17 @@ function SingleViewAuctionPageLive(props) {
                                                                 placeholder="اثر را انتخاب کنید"
                                                                 onChange={changeProduct}
                                                             >
-                                                                {
+                                                                {/* {
                                                                     productList.map((item, index) => (
                                                                         <Select.Option value={item.id}
                                                                                        key={index}>{item.latest_auction.lot_num}</Select.Option>
+                                                                    ))
+                                                                } */}
+
+                                                                {
+                                                                     auctionInfo?.auction_product?.map((item, index) => (
+                                                                        <Select.Option value={item.auction_id}
+                                                                            key={index}>{item?.lot_num}</Select.Option>
                                                                     ))
                                                                 }
                                                             </Select>
@@ -340,7 +347,7 @@ function SingleViewAuctionPageLive(props) {
                                                     <div className="col ">
                                                         <Form.Item
                                                             className="w-100  h-100"
-                                                            // name="text"
+                                                        // name="text"
                                                         >
                                                             <Input
                                                                 size="large"
@@ -355,13 +362,13 @@ function SingleViewAuctionPageLive(props) {
                                                             <p className="text-right mb-0 h-100"> لت قبلی </p>
                                                         </div>
                                                         <div className="col ">
-                                                            <div style={{verticalAlign: 'middle'}}
-                                                                 className="d-flex h-100 align-items-center">
+                                                            <div style={{ verticalAlign: 'middle' }}
+                                                                className="d-flex h-100 align-items-center">
                                                                 <img
                                                                     src={prevProductSelected?.media[0]?.exact_url || ""}
                                                                     className="img-thumbnail"
-                                                                    style={{maxWidth: "100px"}}
-                                                                    alt=""/>
+                                                                    style={{ maxWidth: "100px" }}
+                                                                    alt="" />
                                                             </div>
                                                         </div>
                                                     </div> : ''}
@@ -370,12 +377,12 @@ function SingleViewAuctionPageLive(props) {
                                                         <p className="text-right mb-0 h-100">تصویر فعلی </p>
                                                     </div>
                                                     <div className="col ">
-                                                        <div style={{verticalAlign: 'middle'}}
-                                                             className="d-flex h-100 align-items-center">
+                                                        <div style={{ verticalAlign: 'middle' }}
+                                                            className="d-flex h-100 align-items-center">
                                                             <img
                                                                 src={productSelected?.media[0]?.exact_url || ''}
-                                                                className="img-thumbnail" style={{maxWidth: "200px"}}
-                                                                alt=""/>
+                                                                className="img-thumbnail" style={{ maxWidth: "200px" }}
+                                                                alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -385,13 +392,13 @@ function SingleViewAuctionPageLive(props) {
                                                             <p className="text-right mb-0 h-100"> لت بعدی </p>
                                                         </div>
                                                         <div className="col ">
-                                                            <div style={{verticalAlign: 'middle'}}
-                                                                 className="d-flex h-100 align-items-center">
+                                                            <div style={{ verticalAlign: 'middle' }}
+                                                                className="d-flex h-100 align-items-center">
                                                                 <img
                                                                     src={nextProductSelected?.media[0]?.exact_url || ""}
                                                                     className="img-thumbnail"
-                                                                    style={{maxWidth: "100px"}}
-                                                                    alt=""/>
+                                                                    style={{ maxWidth: "100px" }}
+                                                                    alt="" />
                                                             </div>
                                                         </div>
                                                     </div> : ''}
@@ -402,7 +409,7 @@ function SingleViewAuctionPageLive(props) {
                                                     <div className="col ">
                                                         <Form.Item
                                                             className="w-100  h-100"
-                                                            // name="text"
+                                                        // name="text"
                                                         >
                                                             <Input
                                                                 size="large"
@@ -418,7 +425,7 @@ function SingleViewAuctionPageLive(props) {
                                                     <div className="col ">
                                                         <Form.Item
                                                             className="w-100  h-100"
-                                                            // name="text"
+                                                        // name="text"
                                                         >
                                                             <Input
                                                                 size="large"
@@ -434,7 +441,7 @@ function SingleViewAuctionPageLive(props) {
                                                     <div className="col ">
                                                         <Form.Item
                                                             className="w-100  h-100"
-                                                            // name="text"
+                                                        // name="text"
                                                         >
                                                             <Input
                                                                 size="large"
@@ -450,7 +457,7 @@ function SingleViewAuctionPageLive(props) {
                                                     <div className="col ">
                                                         <Form.Item
                                                             className="w-100  h-100"
-                                                            // name="text"
+                                                        // name="text"
                                                         >
                                                             <Input
                                                                 size="large"
@@ -459,51 +466,51 @@ function SingleViewAuctionPageLive(props) {
                                                         </Form.Item>
                                                     </div>
                                                 </div>
-                                                {(productSelected?.product_status === "on_stage" ) &&
-                                                <>
-                                                    <div className="d-block d-md-flex align-items-center ">
-                                                        <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
-                                                            <p className="text-right mb-0 h-100"> بید بعدی </p>
-                                                        </div>
-                                                        <div className="col ">
-                                                            <Form.Item
-                                                                className="w-100  h-100"
+                                                {(productSelected?.product_status === "on_stage") &&
+                                                    <>
+                                                        <div className="d-block d-md-flex align-items-center ">
+                                                            <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">
+                                                                <p className="text-right mb-0 h-100"> بید بعدی </p>
+                                                            </div>
+                                                            <div className="col ">
+                                                                <Form.Item
+                                                                    className="w-100  h-100"
                                                                 // name="text"
-                                                            >
-                                                                <Input
-                                                                    size="large"
-                                                                    value={handleIncrease(lastPrice) + lastPrice}
-                                                                />
-                                                            </Form.Item>
+                                                                >
+                                                                    <Input
+                                                                        size="large"
+                                                                        value={handleIncrease(lastPrice) + lastPrice}
+                                                                    />
+                                                                </Form.Item>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className="d-flex justify-content-end">
-                                                        <button
-                                                            className="btn-edit-house-auction mt-5"
-                                                            htmlType="button"
-                                                            onClick={sendBid}
-                                                        >
-                                                            ثبت بید
-                                                        </button>
-                                                        <button
-                                                            className="btn-edit-house-auction mt-5 mr-2"
-                                                            htmlType="button"
-                                                            onClick={() => updateStage(true)}
-                                                            disabled={loadingUpdate}
-                                                        >
-                                                            فروخته شد
-                                                        </button>
-                                                        <button
-                                                            className="btn-edit-house-auction mt-5 mr-2"
-                                                            htmlType="button"
-                                                            onClick={() => updateStage(false)}
-                                                            disabled={loadingUpdate}
-                                                        >
-                                                            فروخته نشد
-                                                        </button>
-                                                    </div>
-                                                </>}
+                                                        <div className="d-flex justify-content-end">
+                                                            <button
+                                                                className="btn-edit-house-auction mt-5"
+                                                                htmlType="button"
+                                                                onClick={sendBid}
+                                                            >
+                                                                ثبت بید
+                                                            </button>
+                                                            <button
+                                                                className="btn-edit-house-auction mt-5 mr-2"
+                                                                htmlType="button"
+                                                                onClick={() => updateStage(true)}
+                                                                disabled={loadingUpdate}
+                                                            >
+                                                                فروخته شد
+                                                            </button>
+                                                            <button
+                                                                className="btn-edit-house-auction mt-5 mr-2"
+                                                                htmlType="button"
+                                                                onClick={() => updateStage(false)}
+                                                                disabled={loadingUpdate}
+                                                            >
+                                                                فروخته نشد
+                                                            </button>
+                                                        </div>
+                                                    </>}
                                             </>
                                             : ""}
                                     </Form>
