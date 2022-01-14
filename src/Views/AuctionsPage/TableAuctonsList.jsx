@@ -242,7 +242,7 @@ function TableAuctonsList(props) {
                                         <div className="my-2 content-td d-flex justify-content-around">
                                             <Link
                                                 onClick={() => dispatch(removeAUCTION())}
-                                                to={auction?.status !== "PREPARING" ? `/add-new-auction/${auction.id}` : '#'}
+                                                to={auction?.status == "PREPARING" ? `/add-new-auction/${auction?.id}` : `/auctions/${auction?.id}`}
                                                 type="button"
                                             >
                                                 <Tooltip placement="rightTop" title={auction?.status === "PREPARING" ? "ویرایش در حراجی" : "امکان ویرایش حراج وجود ندارد"} color={'pink'} >
@@ -255,7 +255,7 @@ function TableAuctonsList(props) {
                                     <td className="text-center">
                                         <div className="my-2 content-td d-flex justify-content-around">
                                             <Tooltip placement="rightTop" title={auction?.status === "PREPARING" ? "حذف حراجی" : "امکان حذف حراج وجود ندارد"} color={'pink'} >
-                                                <button disabled={auction?.status !== "PREPARING"} className="btn " type="button" style={{ border: 'none' }}
+                                                <button disabled={auction?.status == "PREPARING"} className="btn " type="button" style={{ border: 'none' }}
                                                     onClick={() => showDeleteConfirm(auction.id)}>
                                                     <DeleteFilled className="icon-delete" />
                                                 </button>
