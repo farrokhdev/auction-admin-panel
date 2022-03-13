@@ -5,6 +5,8 @@ import { BASE_URL } from '../../utils';
 import {PRE_UPLOAD} from '../../utils/constant';
 import axios from '../../utils/request';
 import UploadAxios from "../../utils/uploadRequest";
+import {axios as upload_ax} from "axios"
+
 
 const { Dragger } = Upload;
 
