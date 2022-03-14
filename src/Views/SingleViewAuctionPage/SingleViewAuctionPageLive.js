@@ -49,12 +49,17 @@ function SingleViewAuctionPageLive(props) {
         // let onStage = [];
         let lot = 0;
         list = productList.filter((t, i) => {
-            if (t.id === value)
+            
+            if (t.id  === value){
+
                 lot = i;
-            return t.id === value
+                return t.id === value
+            }
+
         })
         // onStage = productList.filter((t, i) => (t.product_status === "on_stage"))
         if (list.length > 0) {
+         
             setProductSelected(list[0])
             setLastPrice(list[0]?.bidding_details?.max_bid)
             if (lot > 0) {

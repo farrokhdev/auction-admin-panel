@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import icon_more from "../../images/svg/icon-more.svg";
 import momentJalaali from "moment-jalaali";
 import { convertTypePersian } from "../../utils/converTypePersion";
-import { Menu, Dropdown, Tooltip } from "antd";
+import { Menu, Dropdown, Tooltip,Image } from "antd";
 import classnames from "classnames";
 import EmptyComponent from "../../components/EmptyComponent";
 import { DiffFilled } from "@ant-design/icons";
+import { handleShowImage } from "../../utils/showImageProduct";
+
 
 function TableHouseAuctionList({ houseAuctionsList }) {
   const menu = (id, home_auction_name) => (
@@ -45,6 +47,7 @@ function TableHouseAuctionList({ houseAuctionsList }) {
     }
   }
 
+
   return (
     <React.Fragment>
       <div collapse className="table-responsive ">
@@ -57,6 +60,9 @@ function TableHouseAuctionList({ houseAuctionsList }) {
               >
                 <div className=" px-3 text-center">ردیف</div>
               </th>
+              <th className=" px-0 minWidth-row" style={{ minWidth: "3rem" }}>
+                            <div className=" px-3 text-center">تصویر</div>
+                        </th>
               <th
                 style={{ minWidth: "10rem" }}
                 className="  px-0 minWidth-DateMessage"
@@ -110,6 +116,8 @@ function TableHouseAuctionList({ houseAuctionsList }) {
           <tbody>
             {houseAuctionsList?.length ? (
               houseAuctionsList.map((houseAuction, index) => {
+
+
                 const fullname =
                   houseAuction?.first_name + " " + houseAuction?.last_name;
                 return (
@@ -120,7 +128,22 @@ function TableHouseAuctionList({ houseAuctionsList }) {
                           <div className="text-center">{++index}</div>
                         </div>
                       </td>
+                      <td   className="">
+                                <div  className="my-2 content-td" >
+                                    <div className="text-center">
+                                    <Image
+                                        style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
+                                        className="box-image-product-list"
+                                        width={40}
+                                        preview ={houseAuction?.media ? houseAuction?.media[0]?.exact_url : ''}
 
+                                        // src={houseAuction?.media ? houseAuction?.media[0]?.exact_url : ''}
+                                        src={houseAuction?.media && houseAuction?.media[0]?.exact_url || handleShowImage(houseAuction)}
+                                    />
+                                        {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
+                                    </div>
+                                </div>
+                            </td>
                       <td className="">
                         <div className="my-2 content-td">
                           <div className=" text-center">
