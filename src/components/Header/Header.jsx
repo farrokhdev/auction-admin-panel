@@ -14,9 +14,26 @@ import axios from '../../utils/request';
 import {BASE_URL} from '../../utils';
 // import logo from '../../images/logo1.png'
 import logo from '../../images/smartauction-72.png';
+import { AvatarUploadModal } from './AvatarUploadModal';
 
 
 function Header(props) {
+
+    // Modal handler 
+    const[modalOpen,setModalOpen]=useState(false)
+
+    const onClick=()=>{
+        setModalOpen(true)
+    }
+    const onOk=()=>{
+        setModalOpen(false)
+    }
+    const onCancel=()=>{
+        setModalOpen(false)
+    }
+    // Modal handler ends
+
+
 
 
     const [visibleChangePasswordModal, setVisibleChangePasswordModal] = useState(false);
@@ -98,6 +115,8 @@ function Header(props) {
                                         "avatar-disable": !props.auth.is_logged_in,
                                         "avatar-logged-in": props.auth.is_logged_in
                                         })} size={32} icon={<UserOutlined />} />
+
+                                     
                                     
                                 {props.auth.is_logged_in ? 
                                     <Dropdown className="mr-2" overlay={menu}>

@@ -45,16 +45,25 @@ function SingleViewAuctionPageLive(props) {
         console.log(error);
     };
     const changeProduct = (value) => {
+console.log(value)
         let list = [];
         // let onStage = [];
         let lot = 0;
-        list = productList.filter((t, i) => {
-            if (t.id === value)
+        list = productList?.filter((t, i) => {
+            
+            console.log(value)
+            console.log(t.id)
+            if (t.id  === value){
                 lot = i;
-            return t.id === value
+                return t.id === value
+            }
+
         })
+
+
         // onStage = productList.filter((t, i) => (t.product_status === "on_stage"))
         if (list.length > 0) {
+         
             setProductSelected(list[0])
             setLastPrice(list[0]?.bidding_details?.max_bid)
             if (lot > 0) {
@@ -110,6 +119,9 @@ function SingleViewAuctionPageLive(props) {
             setLoading(false)
         })
     }
+
+
+    console.log(productList)
     const sendBid = () => {
         setLoading(true)
         let payload = {
@@ -319,19 +331,19 @@ function SingleViewAuctionPageLive(props) {
                                                                 placeholder="اثر را انتخاب کنید"
                                                                 onChange={changeProduct}
                                                             >
-                                                                {/* {
+                                                                {
                                                                     productList.map((item, index) => (
                                                                         <Select.Option value={item.id}
                                                                                        key={index}>{item.latest_auction.lot_num}</Select.Option>
                                                                     ))
-                                                                } */}
+                                                                }
 
-                                                                {
+                                                                {/* {
                                                                      auctionInfo?.auction_product?.map((item, index) => (
                                                                         <Select.Option value={item.auction_id}
                                                                             key={index}>{item?.lot_num}</Select.Option>
                                                                     ))
-                                                                }
+                                                                } */}
                                                             </Select>
                                                         </Form.Item>
                                                     </div>
@@ -466,7 +478,8 @@ function SingleViewAuctionPageLive(props) {
                                                         </Form.Item>
                                                     </div>
                                                 </div>
-                                                {(productSelected?.product_status === "on_stage") &&
+                                                {/* {(productSelected?.product_status === "on_stage") && */}
+                                                {productSelected?.id &&
                                                     <>
                                                         <div className="d-block d-md-flex align-items-center ">
                                                             <div className="col-12 col-md-2 pb-md-4 mb-2 mb-md-0">

@@ -13,6 +13,7 @@ import '../node_modules/antd/dist/antd.css';
 // import  './assets/style/mainFront.scss'
 import  './assets/style/main.scss'
 import  './assets/style/antd.scss'
+import  './assets/style/custom.scss'
 ReactDOM.render(
   <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

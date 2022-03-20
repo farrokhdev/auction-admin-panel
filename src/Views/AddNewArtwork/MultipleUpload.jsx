@@ -18,6 +18,8 @@ function MultipleUpload(props) {
     listType: "picture",
 
     onChange(info) {
+
+      console.log(info)
       const { status } = info.file;
       if (status !== "uploading") {
 
@@ -86,6 +88,7 @@ function MultipleUpload(props) {
         {...propsUpload}
             className="upload-list-inline"
             customRequest={async (e) => {
+
           const { file, onSuccess, onError } = e;
 
           await axios
@@ -96,6 +99,7 @@ function MultipleUpload(props) {
               onSuccess({ status: "success" });
 
               let uploadImage;
+              
               uploadImage = {
                 file_key: res.data.data.result.file_key,
                 media_path: res.data.data.result.upload_url,

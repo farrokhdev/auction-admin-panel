@@ -190,7 +190,7 @@ function TableAuctonsList(props) {
 
                                     <td className="">
                                         <div className="my-2 content-td">
-                                            <div className=" text-center"> {auction?.title}</div>
+                                            <div className=" text-center"> {auction?.title.length > 18 ? auction?.title.slice(0,18) + "..." : auction?.title}</div>
 
                                         </div>
                                     </td>
