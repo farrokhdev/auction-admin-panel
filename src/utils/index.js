@@ -16,8 +16,8 @@ const dev = {
   }
   
   const prod = {
-    BASE_URL : "https://api.beta.smartauctionhouse.com/api",
-      WEB_SOCKET_BASE_URL: "ws://api.beta.smartauctionhouse.com/ws",
+    BASE_URL : "https://api.smartauctionhouse.com/api",
+      WEB_SOCKET_BASE_URL: "ws://api.smartauctionhouse.com/ws",
       // PARAMS:
     COOKIE_EXPIRES : 1 ,
   }
