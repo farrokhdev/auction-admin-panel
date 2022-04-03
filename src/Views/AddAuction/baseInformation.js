@@ -38,7 +38,9 @@ const BaseInformation = (props) => {
         let listDate = {}
         finalData?.start_time && (listDate["start_time"] = moment(finalData?.start_time))
         finalData?.gallery_start_date && (listDate["gallery_start_date"] = moment(finalData?.gallery_start_date || ''))
-        finalData?.end_time && (listDate["end_time"] = moment(finalData?.end_time))
+        finalData?.end_time && (listDate["end_time"] = moment(finalData?.end_time)) 
+
+        
         finalData?.gallery_end_date && (listDate["gallery_end_date"] = moment(finalData?.gallery_end_date))
         finalData?.start_clock && (listDate["start_clock"] = moment(finalData?.start_clock))
         finalData?.end_clock && (listDate["end_clock"] = moment(finalData?.end_clock))
@@ -46,6 +48,9 @@ const BaseInformation = (props) => {
         finalData?.gallery_end_clock && (listDate["gallery_end_clock"] = moment(finalData?.gallery_end_clock))
         finalData?.type && (setType(finalData?.type))
         setMedia(finalData?.media || null)
+
+
+        console.log( finalData?.end_time)
         setHas_gallery_state(finalData?.has_gallery || false)
 
         form.setFieldsValue({
@@ -64,8 +69,11 @@ const BaseInformation = (props) => {
     }, [finalData])
     // console.log((form.getFieldsValue()))
     const onFinish = (values) => {
-        // console.log(values)
+
+        const allvalues =values?.end_time ? values?.end_time : {...values,end_time:values.start_time}
+        console.log(allvalues)
         // setFinalData({...finalData, ...values})
+        
         if (media) {
             dispatch(setAUCTION({ ...values, media, has_gallery: has_gallery_state }))
             setSelectComponent(selectComponent + 1)
