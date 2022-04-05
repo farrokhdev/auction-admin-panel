@@ -286,9 +286,11 @@ function Index() {
           setLoading(false);
           console.error(err.response);
 
-          if (err.response?.data?.message === "ok")
+          if (err.response?.data?.message === "ok") {
             message.error(err.response?.data?.data?.error_message);
-          else message.error(err.response?.data?.message);
+          } else {
+            message.error(err.response?.data?.message);
+          }
         });
     }
   };

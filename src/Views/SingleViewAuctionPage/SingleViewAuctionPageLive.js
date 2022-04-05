@@ -28,6 +28,8 @@ import {
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
+const { Option } = Select;
+
 const layout = {
   labelCol: {
     span: 16,
@@ -57,30 +59,38 @@ function SingleViewAuctionPageLive(props) {
     console.log(error);
   };
   const changeProduct = (value) => {
-    console.log(value);
     let list = [];
     // let onStage = [];
-    let lot = 0;
-    list = productList?.filter((t, i) => {
-      console.log(value);
-      console.log(t.id);
-      if (t.id === value) {
-        lot = i;
-        return t.id === value;
-      }
+    let lot_indx = 0;
+
+    let list_of_lots = [];
+
+    list = productList?.filter((product, i) => {
+      product?.lot_numbers.map((lot_numb) => {
+        list_of_lots.push(lot_numb.lot_num);
+      });
+
+      // if (product.lot_numbers.filter((lot) => lot?.lot_num == value)) {
+      //   lot_indx = i;
+      //   console.log(lot_indx);
+      //   return product;
+      // }
+      return list_of_lots.includes(value);
     });
+    console.log(list_of_lots);
 
     // onStage = productList.filter((t, i) => (t.product_status === "on_stage"))
+
     if (list.length > 0) {
       setProductSelected(list[0]);
       setLastPrice(list[0]?.bidding_details?.max_bid);
-      if (lot > 0) {
-        setPrevProductSelected(productList[lot - 1]);
+      if (lot_indx > 0) {
+        setPrevProductSelected(productList[lot_indx - 1]);
       } else {
         setPrevProductSelected({});
       }
-      if (lot < productList.length - 1) {
-        setNextProductSelected(productList[lot + 1]);
+      if (lot_indx < productList.length - 1) {
+        setNextProductSelected(productList[lot_indx + 1]);
       } else {
         setNextProductSelected({});
       }
@@ -257,6 +267,19 @@ function SingleViewAuctionPageLive(props) {
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+  // FILTER AUCTIONS
+  const filterAuctions = (item) => {
+    // item?.lot_numbers?.filter((lot) => lot.auction_id == item.id);
+    let value = [];
+
+    item?.lot_numbers?.filter((lot) => {
+      if (lot?.auction_id == auctionInfo.id) {
+        value.push(lot.lot_num);
+      }
+    });
+    return value[0];
+  };
+
   return (
     <React.Fragment>
       <Spin indicator={antIcon} spinning={loading}>
@@ -362,17 +385,31 @@ function SingleViewAuctionPageLive(props) {
                                 onChange={changeProduct}
                               >
                                 {productList.map((item, index) => (
-                                  <Select.Option value={item.id} key={index}>
-                                    {item.latest_auction.lot_num}
-                                  </Select.Option>
+                                  <>
+                                    {/* {filterAuctions(item)} */}
+                                    <Option
+                                      key={index}
+                                      // value={item?.latest_auction?.lot_num}
+
+                                      value={filterAuctions(item)}
+                                      key={index}
+                                    >
+                                      {filterAuctions(item)}
+                                      {/* {item?.latest_auction?.lot_num} */}
+                                    </Option>
+                                  </>
                                 ))}
 
-                                {/* {
-                                                                     auctionInfo?.auction_product?.map((item, index) => (
-                                                                        <Select.Option value={item.auction_id}
-                                                                            key={index}>{item?.lot_num}</Select.Option>
-                                                                    ))
-                                                                } */}
+                                {/* {auctionInfo?.auction_product?.map(
+                                  (item, index) => (
+                                    <Select.Option
+                                      value={item.auction_id}
+                                      key={index}
+                                    >
+                                      {item?.lot_num}
+                                    </Select.Option>
+                                  )
+                                )} */}
                               </Select>
                             </Form.Item>
                           </div>
