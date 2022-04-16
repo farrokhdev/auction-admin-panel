@@ -285,7 +285,7 @@ function TableArtworkList(props) {
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {artwork?.artwork_title}</div>
+                                    <div className=" text-center"> {artwork?.artwork_title.length  > 15 ? artwork?.artwork_title?.slice(0,15) + "..." : artwork?.artwork_title }</div>
 
                                 </div>
                             </td>
@@ -294,7 +294,7 @@ function TableArtworkList(props) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {artwork?.persian_artist_name}
+                                        {artwork?.persian_artist_name?.length > 15 ? artwork?.persian_artist_name?.slice(0,15) + "..." : artwork?.persian_artist_name }
                                     </div>
                                     </div>
                                 </div>

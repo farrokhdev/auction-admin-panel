@@ -1,44 +1,56 @@
 import React, {useState} from 'react';
 import {CheckCircleTwoTone} from "@ant-design/icons";
 import axios from "../../utils/request";
+
+import ax from 'axios';
 import {BASE_URL} from "../../utils";
-import {Image} from "antd";
+import {Image, message} from "antd";
 
 const UploadImage = (props) => {
     const {handleResultUpload,initialImage=''} = props;
     const [CoreUpload, setCoreUpload] = useState("");
     const [Uploaded, setUploaded] = useState(false);
     const [Uploading, setUploading] = useState(false);
-    const handleUpload = (e) => {
+    const handleUpload = async(e) => {
         let payload = {"content_type": "image"}
-        axios.post(`${BASE_URL}/core/upload/`, payload)
-            .then(resp => {
+        setUploading(true)
+        await axios.post(`${BASE_URL}/core/upload/`, payload)
+            .then( async(resp) => {
                 if (resp.data.code === 200) {
+
+                    console.log(resp.data.data.result)
                     setCoreUpload(resp.data.data.result)
-                    setUploading(true)
-                    axios.put(resp.data.data.result.upload_url, e.target.files[0])
-                        .then(resp1 => {
-                            if (resp1.status === 200) {
-                                axios.post(`${BASE_URL}/core/media/photos/`, {
-                                    "media_path": resp.data.data.result.upload_url,
-                                    "type": "image",
-                                    "bucket_name": "image",
-                                    "file_key": resp.data.data.result.file_key
+                  await ax.put(resp.data.data.result.upload_url, e.target.files[0])
+                    .then(async(resp1) => {
+                        if (resp1.status === 200) {
+                            await axios.post(`${BASE_URL}/core/media/photos/`, {
+                                "media_path": resp.data.data.result.upload_url,
+                                "type": "image",
+                                "bucket_name": "image",
+                                "file_key": resp.data.data.result.file_key
+                            })
+                            .then((resp2) => {
+                                if (resp2.data.code === 201) {
+                                    
+                                    
+                                    setCoreUpload(resp2.data.data.result)
+                                    if (resp2.data.data.result){
+                                        
+                                        handleResultUpload(resp2.data.data.result)
+                                        // props.setIs_upload(true)
+                                        setUploaded(true)
+                                 
+                                        setUploading(false)
+                                        message.success("done")
+                                    }
+                                    }
                                 })
-                                    .then(resp2 => {
-                                        if (resp2.data.code === 201) {
-                                            setCoreUpload(resp2.data.data.result)
-                                            if (resp2.data.data.result)
-                                                handleResultUpload(resp2.data.data.result)
-                                            setUploaded(true)
-                                            setUploading(false)
-                                            props.setIs_upload(true)
-                                            console.log(resp2.data.data.result)
-                                        }
-                                    })
-                                    .catch(err => {
+                                .catch(err => {
+                                        message.error("note done")
                                         console.log("Error Message", err.response);
                                         setUploading(false)
+                             
+
                                     })
                             }
                         })

@@ -26,6 +26,8 @@ const Conditions = (props) => {
 
     const dispatch = useDispatch();
     const onFinish = (values) => {
+
+        console.log(values)
         // setFinalData({...finalData, ...values})
         dispatch(setAUCTION({ ...values}))
         // sendData(values)
@@ -38,6 +40,8 @@ const Conditions = (props) => {
         // setPayment_method(true)
     }, [finalData])
 
+
+    console.log(finalData)
     return (
         <Form onFinish={onFinish}
               form={form}
