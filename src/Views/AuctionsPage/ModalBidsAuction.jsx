@@ -13,7 +13,7 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
     const [bids, setBids] = useState([]);
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/bidding/?auction=${bidsAuction_id}`).then(res => {
+        axios.get(`${BASE_URL}/panel/bidding/?auction=${bidsAuction_id}`).then(res => {
             console.log(res.data);
             setBids(res.data.data.result)
        

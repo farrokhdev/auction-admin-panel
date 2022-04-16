@@ -7,6 +7,8 @@ import {toggleActiveNavDrawer} from '../../redux/reducers/panel/panel.actions';
 import {connect} from 'react-redux';
 import {MinusCircleOutlined , LoadingOutlined} from '@ant-design/icons';
 import { failNotification, successNotification } from '../../utils/notification';
+
+
 import MultipleUpload from './MultipleUpload';
 
 
@@ -121,6 +123,8 @@ function SingleViewArtworkPage(props) {
             "artwork_link": values.artwork_link,
             "min_price": values.price_min,
             "max_price": values.price_max,
+
+ 
         }
     
         
@@ -224,7 +228,7 @@ function SingleViewArtworkPage(props) {
                                 </div>
                             </div>
                             <div className="col">
-                                <MultipleUpload  
+                                <MultipleUpload
                                     formDataArtwork={artwork}
                                     setFormDataArtwork={setArtwork} 
                                 />
@@ -834,7 +838,7 @@ function SingleViewArtworkPage(props) {
 
                         <div  className="d-flex justify-content-end ">
                             <Form.Item>
-                                <Button disabled={artwork?.is_approve === "accept" ? true : false} className="btn-edit-link" htmlType="submit">
+                                <Button className="btn-edit-link" htmlType="submit">
                                  ویرایش اطلاعات
                                 </Button>
                             </Form.Item>

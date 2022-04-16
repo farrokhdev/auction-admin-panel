@@ -246,6 +246,10 @@ function TableArtworkList(props) {
                             <div className=" px-3 text-center"> قیمت فروش (تومان)</div>
                         </th>
 
+                        <th className="px-0 minWidth--price">
+                            <div className="px-3 text-center">وضعیت اثر</div>
+                        </th>
+
                         <th className="  px-0 minWidth-action">
                             <div className="px-3 text-center">عملیات</div>
                         </th>
@@ -281,7 +285,7 @@ function TableArtworkList(props) {
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {artwork?.artwork_title}</div>
+                                    <div className=" text-center"> {artwork?.artwork_title.length  > 15 ? artwork?.artwork_title?.slice(0,15) + "..." : artwork?.artwork_title }</div>
 
                                 </div>
                             </td>
@@ -290,7 +294,7 @@ function TableArtworkList(props) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {artwork?.persian_artist_name}
+                                        {artwork?.persian_artist_name?.length > 15 ? artwork?.persian_artist_name?.slice(0,15) + "..." : artwork?.persian_artist_name }
                                     </div>
                                     </div>
                                 </div>
@@ -328,6 +332,15 @@ function TableArtworkList(props) {
                                     <div className=" w-100 text-center"> 
                                     {artwork?.price ? separatorCurrency(artwork?.price) : 0}
                                     </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div className="my-2 content-td">
+                                    {artwork?.is_approve === "accept" && "تایید شده "}
+                                    {artwork?.is_approve === "waiting" && "در انتظار تایید "}
+                                    {artwork?.is_approve === "reject" && "رد شده"}
+                                    
                                 </div>
                             </td>
                      

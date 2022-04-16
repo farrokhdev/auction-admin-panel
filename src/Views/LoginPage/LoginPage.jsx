@@ -54,7 +54,7 @@ const LoginPage = (props) => {
 
         }
 
-        axios.post(`${BASE_URL}/account/login/`, payload).then(res => {
+        axios.post(`${BASE_URL}/panel/login/`, payload).then(res => {
             // console.log(res.data.data.result.access);
             // console.log(res.data.data.result);
 

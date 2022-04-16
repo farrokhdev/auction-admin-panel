@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Breadcrumb, Spin, Select } from "antd";
+import {
+  Form,
+  Input,
+  Breadcrumb,
+  Spin,
+  Select,
+  Upload,
+  message,
+  Button,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { LoadingOutlined } from "@ant-design/icons";
 import { fetcher } from "../../utils/common";
 import axios from "../../utils/request";
@@ -13,6 +23,7 @@ import {
   successNotification,
 } from "../../utils/notification";
 import TableBankInfo from "./TableBankInfo";
+import MultipleUpload from "../AddNewArtwork/MultipleUpload";
 
 const layout = {
   labelCol: {
@@ -25,13 +36,32 @@ const layout = {
 
 function ShowDetailHouseAuctionPage(props) {
   const [form] = Form.useForm();
-
   const [member, setMember] = useState();
   const [point, setPoint] = useState({});
   const [bankAccountInfo, setBankAccountInfo] = useState();
   const [activity_types, setActivity_types] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activites, setActivites] = useState([]);
+
+  // FOR UPLOAD HOUSE AUCTION IMGAE
+
+  const upload_props = {
+    name: "file",
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} فایل با موفقیت آپلود شد`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name}آپلود فایل با خطا مواجه شد `);
+      }
+    },
+  };
 
   useEffect(() => {
     getCategoryActivities();
@@ -58,24 +88,25 @@ function ShowDetailHouseAuctionPage(props) {
     setLoading(true);
 
     let payload = {
-      "first_name": values?.first_name,
-      "last_name": values?.last_name,
-      "first_name_en": values?.first_name_en,
-      "last_name_en": values?.last_name_en,
-      "postal_code": values?.postal_code,
-      "national_code": values?.national_code,
-      "home_auction_location": {
-        "point": {
-          "latitude": point?.latitude,
-          "longitude": point?.longitude,
+      first_name: values?.first_name,
+      last_name: values?.last_name,
+      first_name_en: values?.first_name_en,
+      last_name_en: values?.last_name_en,
+      postal_code: values?.postal_code,
+      national_code: values?.national_code,
+      home_auction_location: {
+        point: {
+          latitude: point?.latitude,
+          longitude: point?.longitude,
         },
-        "address": values?.address,
+        address: values?.address,
+        address_en: values?.address_en,
       },
-      "role": "home_auction",
-      "bankaccount": bankAccountInfo,
-      "home_auction_name": values?.home_auction_name,
-      "home_auction_type": values?.home_auction_type,
-      "activity_type_id": values?.activity_type_id,
+      role: "home_auction",
+      bankaccount: bankAccountInfo,
+      home_auction_name: values?.home_auction_name,
+      home_auction_type: values?.home_auction_type,
+      activity_type_id: values?.activity_type_id,
     };
 
     axios
@@ -92,7 +123,7 @@ function ShowDetailHouseAuctionPage(props) {
           );
 
           setTimeout(() => {
-              window.location.reload()
+            window.location.reload();
           }, 1200);
         } else {
           failNotification("خطا", res.data.data.error_message[0]);
@@ -143,6 +174,7 @@ function ShowDetailHouseAuctionPage(props) {
       email: member?.email,
       national_code: member?.national_code,
       address: member?.home_auction_location?.address,
+      address_en: member?.home_auction_location?.address_en,
       count: member?.count,
       postal_code: member?.postal_code,
       id: member?.id,
@@ -206,6 +238,32 @@ function ShowDetailHouseAuctionPage(props) {
                       <h3>اطلاعات کاربر</h3>
                     </div>
 
+                    <div className="d-block d-md-flex align-items-center ">
+                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                        <p className="text-right mb-0 h-100">تصویر خانه حراج</p>
+                      </div>
+                      <div className="col ">
+                        <div
+                          style={{ verticalAlign: "middle" }}
+                          className="d-flex h-100 align-items-center"
+                        >
+                          {/* <div className="col" style={{marginBottom:"24px"}}>
+                            <MultipleUpload
+                              formDataArtwork={artwork}
+                              setFormDataArtwork={setArtwork}
+                            />
+                          </div> */}
+                          <Upload {...upload_props}>
+                            <Button
+                              className="upload_houseAuction_img"
+                              icon={<PlusOutlined />}
+                            >
+                              برای ویرایش تصویر کلیک کنید
+                            </Button>
+                          </Upload>
+                        </div>
+                      </div>
+                    </div>
                     <div className="d-block d-md-flex align-items-center ">
                       <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                         <p className="text-right mb-0 h-100">نام فارسی </p>
@@ -522,6 +580,19 @@ function ShowDetailHouseAuctionPage(props) {
                       </div>
                       <div className="col">
                         <Form.Item name="address" rules={[]}>
+                          <Input />
+                        </Form.Item>
+                      </div>
+                    </div>
+
+                    <div className="d-block d-md-flex align-items-center">
+                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                        <div className="d-flex">
+                          <p className="mb-0">آدرس انگلیسی</p>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <Form.Item name="address_en" rules={[]}>
                           <Input />
                         </Form.Item>
                       </div>

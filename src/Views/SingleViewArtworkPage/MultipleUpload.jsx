@@ -5,6 +5,8 @@ import { BASE_URL } from '../../utils';
 import {PRE_UPLOAD} from '../../utils/constant';
 import axios from '../../utils/request';
 import UploadAxios from "../../utils/uploadRequest";
+import ax from "axios"
+
 
 const { Dragger } = Upload;
 
@@ -104,16 +106,18 @@ function MultipleUpload(props) {
         {...propsUpload}
         className="upload-list-inline"
         customRequest={async (e) => {
+          console.log(e)
           const { file, onSuccess, onError } = e;
 
           await axios
             .post(`${BASE_URL}${PRE_UPLOAD}`, {
               content_type: "image",
             })
-            .then((res) => {
+            .then(async(res) => {
               onSuccess({ status: "success" });
               
               file.file_key = res.data.data.result.file_key;
+
 
               // create object of data image(and add to list of images) for send to server backend
               let uploadImage;
@@ -133,12 +137,13 @@ function MultipleUpload(props) {
 
               if (res.data.data.result.upload_url && (file?.type.split("/")[0] === "image")) {
 
-                UploadAxios.put(res.data.data.result.upload_url , file)
-                  .then((res) => {
-
-                    // when upload done, object of image add to list of media for send to server backend
-                    setFormDataArtwork({...formDataArtwork, media : [...formDataArtwork?.media , uploadImage ]});
-                    message.success(` با موفقیت بازگذاری شد.`);
+                await ax.put(res.data.data.result.upload_url , file)
+                .then((res) => {
+                  
+                  // when upload done, object of image add to list of media for send to server backend
+                  // console.log(res.data.data.result.upload_url)
+                  message.success(` با موفقیت بازگذاری شد.`);
+                  setFormDataArtwork({...formDataArtwork, media : [...formDataArtwork?.media , uploadImage ]});
                   })
                   .catch((err) => {
                     console.error(err);
