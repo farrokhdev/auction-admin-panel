@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Upload } from 'antd';
-import ImgCrop from 'antd-img-crop';
 import { Form, Input, InputNumber, Button, Space, Breadcrumb, Select, notification, Alert, Spin } from 'antd';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { BASE_URL } from '../../utils';
 import axios from '../../utils/request';
 import { toggleActiveNavDrawer } from '../../redux/reducers/panel/panel.actions';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loading';
 import { Redirect } from 'react-router-dom'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import UploadImage from '../AddAuction/uploadImage';
+import { LoadingOutlined } from '@ant-design/icons';
 import classnames from 'classnames';
+import MultipleUpload from './MultipleUpload';
+import queryString from 'query-string';
+
 
 const layout = {
     labelCol: {
@@ -21,25 +20,56 @@ const layout = {
         span: 200,
     },
 };
-function AddNewArtwork(props) {
 
-    // let numeral = require('numeral');
+
+function AddNewArtwork(props) {
 
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
     const [auctionsList, setAuctionsList] = useState([])
     const [houseAuctionsList, setHouseAuctionsList] = useState([])
-
-    const [CoreUpload, setCoreUpload] = useState([]);
-    const [Uploaded, setUploaded] = useState(false);
-    const [Uploading, setUploading] = useState(false);
-    const [media, setMedia] = useState(null)
     const [is_upload, setIs_upload] = useState(true)
-
+    const [uploadList, setUploadList] = useState([])
     const [minPrice, setMinPrice] = useState()
 
+    const [memberList, setMemberList] = useState([]);
+    const [params, setParams] = useState({ search: '' })
+
+
+
     const { Option } = Select;
+
+
+    useEffect(() => {
+        // admin does not want to send message to user, api call service and set lists of member to select for send message   
+        if (!props?.user?.user_to_saleconsuler_response?.value) {
+            getMembers(params);
+        } else {
+            // admin wants reply and send message to user, selected this user instead of set list member to select  
+            setMemberList([{
+                label: props?.user?.user_to_saleconsuler_response?.label,
+                value: props?.user?.user_to_saleconsuler_response?.value
+            }])
+        }
+
+    }, [props?.user?.user_to_saleconsuler_response]);
+
+
+    // api call service for get list of member for set in select options
+    const getMembers = (params) => {
+        const queries = queryString.stringify(params);
+        axios.get(`${BASE_URL}/panel/users/?${queries}`).then(res => {
+
+            setTimeout(() => {
+                setMemberList([{ label: "همه کاربران", value: "allUsers" }, ...(res.data.data.result).map(item =>
+                    ({ label: `${item?.first_name} ${item?.last_name}${' '}(${item?.mobile})`, value: item?.id }))])
+            }, 200);
+
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
 
     useEffect(() => {
         setLoading(true)
@@ -81,37 +111,43 @@ function AddNewArtwork(props) {
 
 
     form.setFieldsValue({
-
         price_min: minPrice
-
     })
-
 
     const onFinish = (values) => {
         setLoading(true)
 
-        if (media === null) {
+        if (!uploadList.length) {
             setIs_upload(false)
         }
 
         let payload = {
+
             "artwork_title": values.artwork_title,
+            "artwork_title_en": values.artwork_title_en,
+
+
             "persian_artwork_name": values.persian_artwork_name,
             "english_artwork_name": values.english_artwork_name,
             "persian_artist_name": values.persian_artist_name,
             "english_artist_name": values.english_artist_name,
             "artwork_owner": values.artwork_owner,
-            "auction_owner_name": values.auction_owner_name,
+
+            // "auction_owner_name": values.auction_owner_name,
+
             "artwork_num": values.artwork_num,
             "artwork_length": values.artwork_length,
             "artwork_width": values.artwork_width,
             "artwork_height": values.artwork_height,
             "technique": values.technique,
+
+            "technique_en": values.technique_en,
+            
             "field_art": values.field_art,
             "category_id": values.category_id,
             "persion_description": values.persion_description,
             "english_description": values.english_description,
-            "media": media,
+            "media": uploadList,
             "price": values.price,
             "price_max": values.price_max,
             "price_min": values.price_min,
@@ -138,15 +174,10 @@ function AddNewArtwork(props) {
                 backgroundColor: '#f9faf5'
             }
         });
-        return <Redirect to='/artworks' />
+        // return <Redirect to='/artworks' />
     };
 
 
-    const handleResultUpload = (value) => {
-        if (value?.media_path)
-            setMedia(value)
-        // dispatch(setAUCTION({media:value}))
-    }
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -184,6 +215,14 @@ function AddNewArtwork(props) {
 
                                 <div className="col pt-5">
 
+                                    <div className="d-flex mb-4">
+                                        <div className="col">
+                                            <div className="d-flex">
+                                                بارگذاری تصاویر
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <Form
                                         {...layout}
                                         name="nest-messages"
@@ -198,40 +237,93 @@ function AddNewArtwork(props) {
                                             })} message="شما باید یک عکس بارگذاری کنید!" type="error" showIcon />
                                         </div>
 
-                                        <div className="d-block d-lg-flex justify-content-start my-3">
-                                            <div className="col-12 col-lg-2">
+                                        <MultipleUpload uploadList={uploadList} setUploadList={setUploadList} />
 
-                                                <p className="text-right mb-0 mb-4 mb-lg-0">بارگذاری تصاویر</p>
+                                        <div className="d-block d-lg-flex justify-content-start my-3">
+                                            <div className="col-12 col-lg-2"></div>
+                                            <div className="d-block"></div>
+                                        </div>
+
+
+
+
+                                        {/* <div className="d-block d-md-flex">
+                                            <div className="col-12 col-md-3">
+                                                <div className="d-flex">
+                                                    <p className="text-right mb-2 mb-md-0">مالک اثر</p>
+                                                </div>
                                             </div>
                                             <div className="col">
-
-                                                <div className="row mb-5">
-                                                    <UploadImage handleResultUpload={handleResultUpload} initialImage={media} setIs_upload={setIs_upload} />
+                                                <div className="d-flex  ml-lg-5 pl-lg-5">
+                                                    <Form.Item
+                                                        name="artwork_owner"
+                                                        className="w-100 "
+                                                        rules={[
+                                                            {
+                                                                required: true,
+                                                                message: "ورودی مالک اثر خالی است!"
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <Input />
+                                                    </Form.Item>
                                                 </div>
+                                            </div>
+                                        </div> */}
 
-                                                {/* <ImgCrop rotate>
-                                        <Upload
-                                            beforeUpload={(file, fileList) => {
-                                                handleUpload(file)
-                                                return false
-                                            }}
-                                            listType="picture-card"
-                                            onPreview={onPreview}
-                                            showUploadList={false}
-
-                                        >
-                                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> :
-                                                <div>
-                                                    {Uploading ? <LoadingOutlined /> : <PlusOutlined />}
-                                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                        <div className="d-block d-md-flex">
+                                            <div className="col-12 col-md-3">
+                                                <div className="d-flex">
+                                                    <p className="text-right mb-2 mb-md-0">مالک اثر</p>
                                                 </div>
-                                            }
-                                        </Upload>
-                                    </ImgCrop> */}
+                                            </div>
+
+                                            <div className="col">
+                                                <div className="d-flex  ml-lg-5 pl-lg-5">
+
+
+                                                    <Form.Item
+                                                        className="text-right w-100"
+                                                        name="artwork_owner"
+                                                        // label="مالک اثر"
+                                                        rules={[
+                                                            {
+                                                                required: !!props?.user?.user_to_saleconsuler_response?.value ? false : true,
+                                                                message: 'ورودی مالک اثر خالی است!',
+                                                                type: 'array',
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <Select
+                                                            className="text-right"
+                                                            mode="multiple"
+                                                            placeholder="مخاطب را انتخاب کنید"
+                                                            mode="multiple"
+                                                            optionFilterProp='label'
+                                                            onSearch={(e) => getMembers({ search: e })}
+                                                            maxTagCount='responsive'
+                                                            options={memberList}
+                                                            disabled={!!props?.user?.user_to_saleconsuler_response?.value}
+                                                            defaultValue={!!props?.user?.user_to_saleconsuler_response?.value ? props?.user?.user_to_saleconsuler_response?.value : []}
+                                                        >
+
+                                                        </Select>
+                                                    </Form.Item>
+
+
+
+
+
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div className="d-block d-md-flex">
+
+
+
+
+
+                                        {/* <div className="d-block d-md-flex">
                                             <div className="col-12 col-md-3 ">
                                                 <div className="d-flex">
                                                     <p className="text-right mb-2 mb-md-0">حراج دار</p>
@@ -303,7 +395,7 @@ function AddNewArtwork(props) {
                                                     </Form.Item>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className="d-block d-md-flex">
                                             <div className="col-12 col-md-3">
@@ -339,20 +431,6 @@ function AddNewArtwork(props) {
                                                         </Select>
                                                     </Form.Item>
 
-
-
-                                                    {/* <Form.Item
-                                            name="category_id"
-                                            className="w-100 "
-                                            rules={[{
-                                                required: false,
-                                                message: 'ورودی دسته‌بندی محصول خالی است!'
-                                            },
-                                  
-                                        ]}
-                                            >
-                                            <Input />
-                                    </Form.Item> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -447,7 +525,10 @@ function AddNewArtwork(props) {
                                             <div className="col">
                                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                                     <Form.Item
-                                                        name="persian_artwork_name"
+                                                        
+                                                        // name="persian_artwork_name"
+                                                        name="artwork_title"
+
                                                         className="w-100 "
                                                         rules={[
                                                             {
@@ -475,7 +556,8 @@ function AddNewArtwork(props) {
                                             <div className="col">
                                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                                     <Form.Item
-                                                        name="english_artwork_name"
+                                                        // name="english_artwork_name"
+                                                        name="artwork_title_en"
                                                         className="w-100 "
                                                         rules={[
                                                             {
@@ -495,29 +577,6 @@ function AddNewArtwork(props) {
                                             </div>
                                         </div>
 
-                                        <div className="d-block d-md-flex">
-                                            <div className="col-12 col-md-3">
-                                                <div className="d-flex">
-                                                    <p className="text-right mb-2 mb-md-0">مالک اثر</p>
-                                                </div>
-                                            </div>
-                                            <div className="col">
-                                                <div className="d-flex  ml-lg-5 pl-lg-5">
-                                                    <Form.Item
-                                                        name="artwork_owner"
-                                                        className="w-100 "
-                                                        rules={[
-                                                            {
-                                                                required: true,
-                                                                message: "ورودی مالک اثر خالی است!"
-                                                            },
-                                                        ]}
-                                                    >
-                                                        <Input />
-                                                    </Form.Item>
-                                                </div>
-                                            </div>
-                                        </div>
 
 
 
@@ -630,6 +689,30 @@ function AddNewArtwork(props) {
                                                 <div className="d-flex  ml-lg-5 pl-lg-5">
                                                     <Form.Item
                                                         name="technique"
+                                                        className="w-100 "
+                                                        rules={[
+                                                            {
+                                                                required: true,
+                                                                message: "ورودی تکنیک اثر خالی است!"
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <Input />
+                                                    </Form.Item>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="d-block d-md-flex">
+                                            <div className="col-12 col-md-3">
+                                                <div className="d-flex">
+                                                    <p className="text-right mb-2 mb-md-0">تکنیک انگلیسی</p>
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <div className="d-flex  ml-lg-5 pl-lg-5">
+                                                    <Form.Item
+                                                        name="technique_en"
                                                         className="w-100 "
                                                         rules={[
                                                             {
@@ -939,11 +1022,11 @@ function AddNewArtwork(props) {
                                                                                                 />
 
                                                                                                 {/* <ModalConfirmRemove 
-                                                                        handleRemove={()=>remove(field.name)}
-                                                                        field = {field.name}
-                                                                        setConfirmRemoveModal = {setConfirmRemoveModal}
-                                                                        confirmRemoveModal = {confirmRemoveModal}
-                                                                    /> */}
+                                                                                                    handleRemove={()=>remove(field.name)}
+                                                                                                    field = {field.name}
+                                                                                                    setConfirmRemoveModal = {setConfirmRemoveModal}
+                                                                                                    confirmRemoveModal = {confirmRemoveModal}
+                                                                                                /> */}
                                                                                             </div>
 
                                                                                         </div>

@@ -10,6 +10,7 @@ import ModalAcceptArtwork from './ModalAcceptArtwork';
 import ModalRejectArtwork from './ModalRejectArtwork';
 import { separatorCurrency } from '../../utils/separator';
 import EmptyComponent from '../../components/EmptyComponent';
+import {handleShowImage} from '../../utils/showImageProduct'
 
 function TableArtworkList(props) {
     
@@ -25,6 +26,8 @@ function TableArtworkList(props) {
         setSingleArtwork
     } = props
 
+
+    console.log("artworkList==>>" , artworkList)
     const { Search } = Input;
     const { Panel } = Collapse;
     const onSearch = value => console.log(value);
@@ -243,6 +246,10 @@ function TableArtworkList(props) {
                             <div className=" px-3 text-center"> قیمت فروش (تومان)</div>
                         </th>
 
+                        <th className="px-0 minWidth--price">
+                            <div className="px-3 text-center">وضعیت اثر</div>
+                        </th>
+
                         <th className="  px-0 minWidth-action">
                             <div className="px-3 text-center">عملیات</div>
                         </th>
@@ -251,7 +258,9 @@ function TableArtworkList(props) {
 
                 <tbody>
                     {artworkList?.length ? artworkList.map((artwork, index) =>
+                    
                         <React.Fragment key={artwork?.id}> 
+                        
                             <tr className="spaceRow row-messages">
 
                             <td   className="">
@@ -267,7 +276,7 @@ function TableArtworkList(props) {
                                         className="box-image-product-list"
                                         width={40}
                                         preview ={artwork?.media?.exact_url ? artwork?.media?.exact_url : ''}
-                                        src={artwork?.media?.exact_url}
+                                        src={handleShowImage(artwork)}
                                     />
                                         {/* <img  src={artwork?.media?.exact_url} alt="image_product" /> */}
                                     </div>
@@ -276,7 +285,7 @@ function TableArtworkList(props) {
 
                             <td   className="">
                                 <div   className="my-2 content-td">
-                                    <div className=" text-center"> {artwork?.artwork_title}</div>
+                                    <div className=" text-center"> {artwork?.artwork_title.length  > 15 ? artwork?.artwork_title?.slice(0,15) + "..." : artwork?.artwork_title }</div>
 
                                 </div>
                             </td>
@@ -285,7 +294,7 @@ function TableArtworkList(props) {
                                 <div   className=" ">
                                     <div className="my-2 content-td">
                                         <div className=" text-center"> 
-                                        {artwork?.persian_artist_name}
+                                        {artwork?.persian_artist_name?.length > 15 ? artwork?.persian_artist_name?.slice(0,15) + "..." : artwork?.persian_artist_name }
                                     </div>
                                     </div>
                                 </div>
@@ -304,7 +313,7 @@ function TableArtworkList(props) {
                                     <div
                                         className=" my-2 content-td">
                                         <div className=" w-100 text-center"> 
-                                        {momentJalaali(artwork?.date_joined).format(`HH:mm  -   jYYYY/jMM/jDD`)}
+                                        {momentJalaali(artwork?.latest_auction?.start_time).format(`HH:mm  -   jYYYY/jMM/jDD`)}
                                         </div>
                                     </div>
                                 </td>
@@ -323,6 +332,15 @@ function TableArtworkList(props) {
                                     <div className=" w-100 text-center"> 
                                     {artwork?.price ? separatorCurrency(artwork?.price) : 0}
                                     </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div className="my-2 content-td">
+                                    {artwork?.is_approve === "accept" && "تایید شده "}
+                                    {artwork?.is_approve === "waiting" && "در انتظار تایید "}
+                                    {artwork?.is_approve === "reject" && "رد شده"}
+                                    
                                 </div>
                             </td>
                      

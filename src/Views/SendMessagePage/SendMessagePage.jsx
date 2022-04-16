@@ -30,6 +30,7 @@ function SendMessagePage(props) {
     const [params, setParams] = useState({ search : '' })
 
 
+
     useEffect(() => {
         // admin does not want to send message to user, api call service and set lists of member to select for send message   
         if(!props?.user?.user_to_saleconsuler_response?.value){
@@ -68,20 +69,36 @@ function SendMessagePage(props) {
         }
         // check all users selected (for not send field 'users' of payload to backend)
         if (values.users.includes("allUsers")) {
+
+            const new_memberlist=memberList?.slice(1,memberList?.length)
+            
+let member_ids=[] ;
+
+new_memberlist.map((member)=>{
+    member_ids.push(member.value)
+})
+
+console.log(member_ids)
+            console.log(new_memberlist)
+        
+            
             let payload = {
-                "title": values.title,
-                "body": values.body
+                "users":member_ids, 
+               "message":{
+                "title": values?.title,
+                "body": values?.body
+               }
             }
 
-            axios.post(`${BASE_URL}/panel/message/`, payload).then(res => {
+            axios.post(`${BASE_URL}/panel/sendmessage/`, payload).then(res => {
                 setLoading(false)
                 if(res.data.data.statusCode !== 400){
                     messageSuccess('ارسال پیام با موفقیت انجام شد')
                 }
 
-                setTimeout(() => {
-                    props.history.push('/inbox-messages')
-                }, 1000);
+                // setTimeout(() => {
+                //     props.history.push('/inbox-messages')
+                // }, 1000);
 
             }).catch(err => {
                 console.log(err);
@@ -107,9 +124,9 @@ function SendMessagePage(props) {
                     messageSuccess('ارسال پیام با موفقیت انجام شد')
                 }
 
-                setTimeout(() => {
-                    props.history.push('/inbox-messages')
-                }, 1000);
+                // setTimeout(() => {
+                //     props.history.push('/inbox-messages')
+                // }, 1000);
 
             }).catch(err => {
                 console.log(err);
@@ -125,6 +142,7 @@ function SendMessagePage(props) {
 
     }
 
+    console.log(memberList)
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     return (
@@ -172,11 +190,11 @@ function SendMessagePage(props) {
                                                     },
                                                 ]}
                                             >
+                                                
                                                 <Select 
                                                     className="text-right" 
                                                     mode="multiple" 
                                                     placeholder="مخاطب را انتخاب کنید" 
-                                                    mode="multiple"
                                                     optionFilterProp='label'
                                                     onSearch={(e)=>getMembers({search : e})}
                                                     maxTagCount = 'responsive'

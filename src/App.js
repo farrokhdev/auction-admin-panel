@@ -45,6 +45,7 @@ import OrdersListPage from "./Views/OrdersListPage";
 import FrequentlyAskedQuestions from "./Views/FrequentlyAskedQuestions";
 import SingleFrequentlyAskedQuestions from "./Views/SingleFrequentlyAskedQuestions";
 import SingleViewAuctionPage from "./Views/SingleViewAuctionPage/SingleViewAuctionPage";
+import SingleViewAuctionPageLive from "./Views/SingleViewAuctionPage/SingleViewAuctionPageLive";
 import AuctionParticipantsListPage from "./Views/AuctionParticipantsListPage/AuctionParticipantsListPage";
 import AddNewQuestionCategory from "./Views/AddNewQuestionCategory";
 import HouseAuctionRequestPage from "./Views/HouseAuctionRequestPage";
@@ -94,6 +95,7 @@ function App(props) {
                             <Route exact path="/add-new-auction/:auctionId" render={props=><Main {...props}><AddNewAuctionPage {...props} /></Main>}/>
                             <Route exact path="/auctions" render={props=><Main {...props}><AuctionsPage {...props} /></Main>}/>
                             <Route exact path="/auctions/:id" render={props=><Main {...props}><SingleViewAuctionPage {...props} /></Main>}/>
+                            <Route exact path="/auctions/live/:id" render={props=><Main {...props}><SingleViewAuctionPageLive {...props} /></Main>}/>
                             <Route exact path="/auctions-participants/:id" render={props=><Main {...props} ><AuctionParticipantsListPage {...props}/></Main>}/>
                             <Route exact path="/inbox-messages" render={props=><Main {...props}><MessagesList {...props} /></Main>}/>
                             <Route exact path="/send-message" render={props=><Main {...props}><SendMessagePage {...props} /></Main>}/>

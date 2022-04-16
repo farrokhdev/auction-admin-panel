@@ -11,6 +11,8 @@ import { MinusCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import UploadImage from '../AddAuction/uploadImage';
 import classnames from 'classnames';
 import { useSelector } from "react-redux";
+import {handleShowImage} from '../../utils/showImageProduct'
+
 
 
 
@@ -146,7 +148,7 @@ function SingleViewOrderList(props) {
                                                         width={200}
                                                         height={200}
                                                         className="image-custom-back"
-                                                        src={artwork?.media ? artwork?.media?.exact_url : 'error'}
+                                                        src={handleShowImage(artwork)}
                                                     />
 
 

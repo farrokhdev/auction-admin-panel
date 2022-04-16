@@ -32,7 +32,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7a1f4641-45da-4d64-a517-17afd70120c1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Views/AddAuction/suggest.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/AddAuction/suggest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Views/SingleViewAuctionPage/SingleViewAuctionPageLive.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,8 +96,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start (1)" />
         <item itemvalue="npm.start" />
+        <item itemvalue="npm.start (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -151,6 +151,12 @@
       <workItem from="1630306402381" duration="3271000" />
       <workItem from="1630383676845" duration="57000" />
       <workItem from="1630383757100" duration="1020000" />
+      <workItem from="1639723880091" duration="14340000" />
+      <workItem from="1639806629157" duration="1064000" />
+      <workItem from="1639827933101" duration="1223000" />
+      <workItem from="1639833487161" duration="608000" />
+      <workItem from="1639890929283" duration="64000" />
+      <workItem from="1639896002786" duration="138000" />
     </task>
     <servers />
   </component>
@@ -174,7 +180,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Views/AddAuction/baseInformation.js</url>
-          <line>93</line>
+          <line>101</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

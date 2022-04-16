@@ -3,7 +3,8 @@ import { Result, Button, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { ShoppingOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import logo from '../../images/logo.svg'
+// import logo from '../../images/logo.svg'
+import logo from '../../images/smartauction-144.png';
 
 function Home(props) {
     return (
