@@ -1,7 +1,7 @@
 
 
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState } from 'draft-js';
 import axios from "../../utils/request";
@@ -10,6 +10,7 @@ import { Form, Input, notification } from 'antd';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { successNotification, failNotification } from '../../utils/notification';
 import { CheckCircleTwoTone, LoadingOutlined } from '@ant-design/icons';
+import CKEditor from '../../utils/CkEditor';
 
 
 const layout = {
@@ -37,11 +38,30 @@ function TextEditorDraft() {
     const [CoreUpload, setCoreUpload] = useState("");
     const [Uploaded, setUploaded] = useState(false);
     const [Uploading, setUploading] = useState(false);
-    const [uploadedImages, setUploadedImages] = useState([])
+    const [uploadedImages, setUploadedImages] = useState([]);
+    const [sourceClicked, setSourceClicked] = useState(false);
 
-    const onEditorStateChange = (editorState) => {
-        setEditorState(editorState)
-        setHtml(document.querySelector('.editorClassName').innerHTML)
+
+    // useEffect(() => {
+
+    //     let Element = document.querySelectorAll('.cke_button__source')
+
+    //     console.log(Element , "Element");
+    //     if(Element.length){
+    //         Element[0]?.addEventListener("click", (eventListener) => { setSourceClicked( state => !state ) })
+    //     }
+    //     // return () => document.querySelectorAll('.cke_button__source').removeEventLister
+    // }, [html]);
+
+
+    
+        // const onEditorStateChange = (editorState) => {
+        //     setEditorState(editorState)
+        //     setHtml(document.querySelector('.editorClassName').innerHTML)
+        // };
+    const onChangeFa = (evt) => {
+        console.log("test", evt.editor);
+        setHtml(evt.editor.getData());
     };
 
     const onFinish = (values) => {
@@ -55,12 +75,15 @@ function TextEditorDraft() {
             "title": data?.title,
             "body": html,
         }
+
+        console.log("createHtml", payload)
+
         axios.post(`${BASE_URL}/panel/contents/`, payload)
             .then(res => {
                 if (res.data.code === 201) {
                     successNotification("ایجاد محتوا", "محتوا با موفقیت ایجاد شد")
                     setTimeout(() => {
-                        window.location.reload()
+                        // window.location.reload()
                     }, 1200);
                 }
             }).catch(err => {
@@ -127,7 +150,7 @@ function TextEditorDraft() {
             }
         );
     }
-
+console.log(sourceClicked);
     return (
         <React.Fragment>
             <Form
@@ -176,15 +199,8 @@ function TextEditorDraft() {
                                 position: 'relative'
                             }}>
 
-                            <Form.Item
-                                name="body"
-                                rules={[{
-                                    required: true,
-                                    message: 'محتوایی ایجاد نکرده‌اید!'
-                                },
-
-                                ]}>
-                                <Editor
+                            <Form.Item name="body">
+                                {/* <Editor
 
 
                                     editorState={editorState}
@@ -202,13 +218,30 @@ function TextEditorDraft() {
                                         inputAccept: 'application/pdf,text/plain,application/vnd.openxmlformatsofficedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel'
                                     }}
                                 />
+ */}
+
+
+                                <CKEditor
+                                    config={{
+                                        allowedContent: true,
+                                    }}
+                                    content={html ? html : ""}
+                                    activeClass="mt-4 "
+                                    events={{
+                                        change: onChangeFa,
+                                        focus: (editor) => {
+                                            console.log('Editor is ready to use!', editor);
+                                            document.querySelector('.cke_button__source').addEventListener("click", (eventListener) => { setSourceClicked( state => !state ) })
+                                        }
+                                    }}
+                                />
                             </Form.Item>
                         </div>
                     </div>
                 </div>
 
                 <div className="d-flex justify-content-center">
-                    <button htmlType="submit" className="submitNewPass" >ایجاد محتوا</button>
+                    <button htmlType="submit" disabled={sourceClicked} className="submitNewPass" >ایجاد محتوا</button>
                 </div>
             </Form>
         </React.Fragment>

@@ -195,7 +195,6 @@ console.log(member_ids)
                                                     className="text-right" 
                                                     mode="multiple" 
                                                     placeholder="مخاطب را انتخاب کنید" 
-                                
                                                     optionFilterProp='label'
                                                     onSearch={(e)=>getMembers({search : e})}
                                                     maxTagCount = 'responsive'
