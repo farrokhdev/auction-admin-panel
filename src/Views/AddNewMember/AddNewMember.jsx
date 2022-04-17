@@ -105,6 +105,26 @@ function AddNewMember(props) {
                                 </div>
                               </div>
                               <div className="col-md-6">
+                                <div className="input-group w-100">
+                                  <label className="default-lable"> نام انگلیسی</label>
+                                  <Form.Item
+                                    className="w-100"
+                                    name="first_name_en"
+                                    rules={[
+                                      {
+                                        required: false,
+                                        message: "تکمیل این فیلد ضروری است",
+                                      },
+                                    ]}
+                                  >
+                                    <Input
+                                      className="default-input"
+                                      placeholder="نام انگلیسی خود را وارد نمایید."
+                                    />
+                                  </Form.Item>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
                                 <div className="input-group">
                                   <label className="default-lable">
                                     نام خانوادگی
@@ -122,6 +142,28 @@ function AddNewMember(props) {
                                     <Input
                                       className="default-input"
                                       placeholder="نام خانوادگی خود را وارد نمایید."
+                                    />
+                                  </Form.Item>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="input-group">
+                                  <label className="default-lable">
+                                    نام خانوادگی انگیسی
+                                  </label>
+                                  <Form.Item
+                                    className="w-100"
+                                    name="last_name_en"
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: "تکمیل این فیلد ضروری است",
+                                      },
+                                    ]}
+                                  >
+                                    <Input
+                                      className="default-input"
+                                      placeholder="نام خانوادگی انگلیسی خود را وارد نمایید."
                                     />
                                   </Form.Item>
                                 </div>
@@ -192,7 +234,7 @@ function AddNewMember(props) {
                                     name="postal_code"
                                     rules={[
                                       {
-                                        required: true,
+                                        required: false,
                                         message: "تکمیل این فیلد ضروری است",
                                       },
                                       {

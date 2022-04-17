@@ -105,9 +105,12 @@ function ShowDetailHouseAuctionPage(props) {
       role: "home_auction",
       bankaccount: bankAccountInfo,
       home_auction_name: values?.home_auction_name,
+      home_auction_name_en: values?.home_auction_name_en,
       home_auction_type: values?.home_auction_type,
       activity_type_id: values?.activity_type_id,
     };
+
+
 
     axios
       .put(`${BASE_URL}/panel/users/${props.match.params.id}/`, payload)
@@ -183,6 +186,7 @@ function ShowDetailHouseAuctionPage(props) {
       sheba_number: member?.bankaccount[0]?.sheba_number,
       bank_name: member?.bankaccount[0]?.bank_name,
       home_auction_name: member?.home_auction_name,
+      home_auction_name_en: member?.home_auction_name_en,
       activity_type_id: activity_types?.map((item) => item?.value),
       home_auction_type: member?.home_auction_type,
     });
@@ -447,7 +451,7 @@ function ShowDetailHouseAuctionPage(props) {
                           name="postal_code"
                           rules={[
                             {
-                              required: false,
+                              // required: false,
                               message: "ورودی کد پستی خالی است!",
                             },
                           ]}
@@ -480,6 +484,25 @@ function ShowDetailHouseAuctionPage(props) {
                       <div className="col">
                         <Form.Item
                           name="home_auction_name"
+                          rules={[
+                            {
+                              required: false,
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </div>
+                    </div>
+                    <div className="d-block d-md-flex align-items-center">
+                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 px-0">
+                        <div className="d-flex">
+                          <p className="mb-0">نام انگلیسی خانه حراج</p>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <Form.Item
+                          name="home_auction_name_en"
                           rules={[
                             {
                               required: false,
@@ -610,12 +633,12 @@ function ShowDetailHouseAuctionPage(props) {
                     </div>
 
                     <div className="d-flex justify-content-end">
-                      <button
+                      <Button
                         className="btn-edit-house-auction mt-5"
                         htmlType="submit"
                       >
                         ویرایش اطلاعات
-                      </button>
+                      </Button>
                     </div>
                   </Form>
                 </div>
