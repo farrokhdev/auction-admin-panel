@@ -298,7 +298,6 @@ function AddNewArtwork(props) {
                                                             className="text-right"
                                                             mode="multiple"
                                                             placeholder="مخاطب را انتخاب کنید"
-                                                            mode="multiple"
                                                             optionFilterProp='label'
                                                             onSearch={(e) => getMembers({ search: e })}
                                                             maxTagCount='responsive'
