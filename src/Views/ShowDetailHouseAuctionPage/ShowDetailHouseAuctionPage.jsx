@@ -23,7 +23,9 @@ import {
   successNotification,
 } from "../../utils/notification";
 import TableBankInfo from "./TableBankInfo";
-import MultipleUpload from "../AddNewArtwork/MultipleUpload";
+
+import { PRE_UPLOAD } from "../../utils/constant";
+import UploadAxios from "../../utils/uploadRequest";
 
 const layout = {
   labelCol: {
@@ -44,24 +46,11 @@ function ShowDetailHouseAuctionPage(props) {
   const [activites, setActivites] = useState([]);
 
   // FOR UPLOAD HOUSE AUCTION IMGAE
-
-  const upload_props = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} فایل با موفقیت آپلود شد`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name}آپلود فایل با خطا مواجه شد `);
-      }
-    },
-  };
+  const [url_image_Key, setUrl_image_Key] = useState("");
+  const [uploadFileName, setUploadFileName] = useState({
+    media_name_image: "",
+  });
+  const [url_image, setUrl_image] = useState(" ");
 
   useEffect(() => {
     getCategoryActivities();
@@ -82,6 +71,8 @@ function ShowDetailHouseAuctionPage(props) {
         console.error(err);
       });
   };
+
+  console.log(member);
 
   const onFinish = (values) => {
     console.log(values);
@@ -110,7 +101,31 @@ function ShowDetailHouseAuctionPage(props) {
       activity_type_id: values?.activity_type_id,
     };
 
+    let uploadPeylad = {
+      home_auction_name: member?.home_auction_name,
+      home_auction_type: member?.home_auction_type,
+      activity_type: member?.activity_type,
+      home_auction_location: {
+        address: ""
+          ? ""
+          : "",
+      },
 
+      info_link:[],
+      media: [
+        {
+          media_path: url_image ? url_image : "",
+          bucket_name: "image",
+          file_key: url_image_Key ? url_image_Key : "",
+          type: "profile_image",
+          file_name: uploadFileName?.media_name_image
+            ? uploadFileName?.media_name_image
+            : "",
+        },
+      ],
+
+      phone: member?.mobile ? member?.mobiles : "",
+    };
 
     axios
       .put(`${BASE_URL}/panel/users/${props.match.params.id}/`, payload)
@@ -124,10 +139,13 @@ function ShowDetailHouseAuctionPage(props) {
             "ویرایش اطلاعات",
             "ویرایش اطلاعات با موفقیت انجام شد"
           );
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 1200);
+          axios
+            .put(`${BASE_URL}/account/request/me/`, uploadPeylad)
+            .then((respps) => message.success("upload shod"))
+            .catch((err) => console.log(err));
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 1200);
         } else {
           failNotification("خطا", res.data.data.error_message[0]);
         }
@@ -242,32 +260,7 @@ function ShowDetailHouseAuctionPage(props) {
                       <h3>اطلاعات کاربر</h3>
                     </div>
 
-                    <div className="d-block d-md-flex align-items-center ">
-                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
-                        <p className="text-right mb-0 h-100">تصویر خانه حراج</p>
-                      </div>
-                      <div className="col ">
-                        <div
-                          style={{ verticalAlign: "middle" }}
-                          className="d-flex h-100 align-items-center"
-                        >
-                          {/* <div className="col" style={{marginBottom:"24px"}}>
-                            <MultipleUpload
-                              formDataArtwork={artwork}
-                              setFormDataArtwork={setArtwork}
-                            />
-                          </div> */}
-                          <Upload {...upload_props}>
-                            <Button
-                              className="upload_houseAuction_img"
-                              icon={<PlusOutlined />}
-                            >
-                              برای ویرایش تصویر کلیک کنید
-                            </Button>
-                          </Upload>
-                        </div>
-                      </div>
-                    </div>
+             
                     <div className="d-block d-md-flex align-items-center ">
                       <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
                         <p className="text-right mb-0 h-100">نام فارسی </p>
@@ -473,6 +466,73 @@ function ShowDetailHouseAuctionPage(props) {
 
                     <div className="d-flex my-4">
                       <h3>اطلاعات خانه حراج</h3>
+                    </div>
+                    <div className="d-block d-md-flex align-items-center ">
+                      <div className="col-12 col-md-3 pb-md-4 mb-2 mb-md-0 pl-0">
+                        <p className="text-right mb-0 h-100">تصویر خانه حراج</p>
+                      </div>
+                      <div className="col ">
+                        <div
+                          style={{ verticalAlign: "middle" }}
+                          className="d-flex h-100 align-items-center"
+                        >
+                          {/* <div className="col" style={{marginBottom:"24px"}}>
+                            <MultipleUpload
+                              formDataArtwork={artwork}
+                              setFormDataArtwork={setArtwork}
+                            />
+                          </div> */}
+                          <Upload
+                            // {...upload_props}
+                            onRemove={()=>setUrl_image('')}
+                            maxCount={1}
+                            customRequest={async (e) => {
+                              const { file, onSuccess, onError } = e;
+
+                              await axios
+                                .post(`${BASE_URL}${PRE_UPLOAD}`, {
+                                  content_type: "image",
+                                })
+                                .then((res) => {
+                                  onSuccess({ status: "success" });
+                                  // setUrl_image_Key(res.data.data.result.file_key);
+                                  // setUploadFileName({...uploadFileName , media_name_image : file?.name });
+
+                                  if (
+                                    res?.data?.data?.result?.upload_url &&
+                                    file?.type.split("/")[0] === "image"
+                                  ) {
+                                    UploadAxios.put(
+                                      res.data.data.result.upload_url,
+                                      file
+                                    ).then((res) => {
+                                        setUrl_image(res.config.url);
+                                        message.success(
+                                          "upload ba movafaghiat"
+                                        );
+                                      })
+                                      .catch((err) => {
+                                        console.error(err);
+                                      });
+                                  } else {
+                                    setUrl_image("");
+                                  }
+                                })
+                                .catch((err) => {
+                                  console.error(err);
+                                  onError({ status: "error" });
+                                });
+                            }}
+                          >
+                            <Button
+                              className="upload_houseAuction_img"
+                              icon={<PlusOutlined />}
+                            >
+                              برای ویرایش تصویر کلیک کنید
+                            </Button>
+                          </Upload>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="d-block d-md-flex align-items-center">
