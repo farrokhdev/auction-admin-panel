@@ -90,7 +90,10 @@ function ModalBidsAuction({setVisibleBidsAuction , visibleBidsAuction , bidsAuct
                                     <td className="">
                                         <div   className="my-2 content-td">
                                             <div className=" text-center"> 
-                                                <Link to={`/artworks/${bid?.product_auction?.product?.id}`}>{bid?.product_auction?.product?.artwork_title}</Link>
+                                                <Link to={`/artworks/${bid?.product_auction?.product?.id}`}>
+                                                    {bid?.product_auction?.lot_num}
+                                                    {/* {bid?.product_auction?.product?.artwork_title} */}
+                                                    </Link>
                                             </div>
                                         </div>
                                     </td>
