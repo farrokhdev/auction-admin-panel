@@ -14,10 +14,10 @@ instance.interceptors.request.use(config => {
     config.headers["Accept"] = "*/*";
     if (!config.headers.Authorization) {
         let token = getTokenObject()
-        if (token) {
-            config.headers.Authorization = `Bearer ${token.Authorization}`;
+        // if (token) {
+        //     config.headers.Authorization = `Bearer ${token.Authorization}`;
 
-        }
+        // }
     }
 
     // refreshToken()
