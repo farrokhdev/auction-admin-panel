@@ -9,6 +9,7 @@ import TextEditorDraft from './TextEditorDraft';
 
 function CreateContentPage(props) {
 
+
     const editorRef = useRef(null);
     const log = () => {
       if (editorRef.current) {
@@ -52,9 +53,10 @@ function CreateContentPage(props) {
                                     </div>
                                     <div className="row  mx-0">
                                         <div className="col content-page p-4  ">
+                                            
 
                                             {/*  form create html of content  */}
-                                            <TextEditorDraft/>
+                                            <TextEditorDraft id={props.match.params.id} setloading={setloading}/>
                                             
                                         </div>
                                     </div>
