@@ -99,19 +99,6 @@ function ShowDetailHouseAuctionPage(props) {
       home_auction_name_en: values?.home_auction_name_en,
       home_auction_type: values?.home_auction_type,
       activity_type_id: values?.activity_type_id,
-    };
-
-    let uploadPeylad = {
-      home_auction_name: member?.home_auction_name,
-      home_auction_type: member?.home_auction_type,
-      activity_type: member?.activity_type,
-      home_auction_location: {
-        address: ""
-          ? ""
-          : "",
-      },
-
-      info_link:[],
       media: [
         {
           media_path: url_image ? url_image : "",
@@ -121,11 +108,13 @@ function ShowDetailHouseAuctionPage(props) {
           file_name: uploadFileName?.media_name_image
             ? uploadFileName?.media_name_image
             : "",
-        },
-      ],
-
-      phone: member?.mobile ? member?.mobiles : "",
+            is_default:true,
+          
+        }
+      ]
     };
+
+
 
     axios
       .put(`${BASE_URL}/panel/users/${props.match.params.id}/`, payload)
@@ -139,13 +128,7 @@ function ShowDetailHouseAuctionPage(props) {
             "ویرایش اطلاعات",
             "ویرایش اطلاعات با موفقیت انجام شد"
           );
-          axios
-            .put(`${BASE_URL}/account/request/me/`, uploadPeylad)
-            .then((respps) => message.success("upload shod"))
-            .catch((err) => console.log(err));
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 1200);
+         
         } else {
           failNotification("خطا", res.data.data.error_message[0]);
         }
@@ -212,6 +195,7 @@ function ShowDetailHouseAuctionPage(props) {
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+  console.log(point)
   return (
     <React.Fragment>
       <Spin indicator={antIcon} spinning={loading}>
@@ -495,7 +479,7 @@ function ShowDetailHouseAuctionPage(props) {
                                 })
                                 .then((res) => {
                                   onSuccess({ status: "success" });
-                                  // setUrl_image_Key(res.data.data.result.file_key);
+                                  setUrl_image_Key(res.data.data.result.file_key);
                                   // setUploadFileName({...uploadFileName , media_name_image : file?.name });
 
                                   if (

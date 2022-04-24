@@ -41,6 +41,7 @@ function HouseAuctionsPage(props) {
             page : 1 , 
             page_size : 10 , 
             search : '' , 
+            _preview:""
         });
 
 
@@ -49,6 +50,8 @@ function HouseAuctionsPage(props) {
             const queries = queryString.stringify(params);
             axios.get(`${BASE_URL}/account/home-auction/?${queries}`).then(res => {
                 setLoading(false)
+
+                console.log(res.data.data.result)
                 setHouseAuctionsList(res.data.data.result)
                 setCountHouseAuction(res.data.data.count)
             }).catch(err => {
@@ -74,6 +77,8 @@ function HouseAuctionsPage(props) {
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+
+    console.log(houseAuctionsList)
 
     return (
 
@@ -127,9 +132,12 @@ function HouseAuctionsPage(props) {
                                             </div>
                                             
                                             <div className="row px-0 mx-0">
+                                                {houseAuctionsList && houseAuctionsList.length && (
+
                                                 <TableHouseAuctionList 
                                                     houseAuctionsList={houseAuctionsList}
                                                 />
+                                                )}
                                             </div>
 
                                             <PaginationComponent count={countHouseAuction} handeSelectPage={handeSelectPage}/>
