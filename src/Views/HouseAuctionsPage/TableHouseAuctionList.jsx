@@ -135,7 +135,7 @@ function TableHouseAuctionList({ houseAuctionsList }) {
                                         style={{width : '40px' , height : '30px' , cursor : 'pointer'}}
                                         className="box-image-product-list"
                                         width={40}
-                                        preview ={houseAuction?.media ? houseAuction?.media[0]?.exact_url : ''}
+                                        // preview ={houseAuction?.media ? houseAuction?.media[0]?.exact_url : ''}
 
                                         // src={houseAuction?.media ? houseAuction?.media[0]?.exact_url : ''}
                                         src={houseAuction?.media && houseAuction?.media[0]?.exact_url || handleShowImage(houseAuction)}
