@@ -28,7 +28,7 @@ const tailLayout = {
     }
 };
 
-function TextEditorDraft() {
+function TextEditorDraft({ id, setloading }) {
 
     const inputRef = useRef(null);
     const [form] = Form.useForm();
@@ -40,7 +40,7 @@ function TextEditorDraft() {
     const [Uploading, setUploading] = useState(false);
     const [uploadedImages, setUploadedImages] = useState([]);
     const [sourceClicked, setSourceClicked] = useState(false);
-
+    const [contentValue, setContentValue] = useState("")
 
     // useEffect(() => {
 
@@ -54,44 +54,103 @@ function TextEditorDraft() {
     // }, [html]);
 
 
-    
-        // const onEditorStateChange = (editorState) => {
-        //     setEditorState(editorState)
-        //     setHtml(document.querySelector('.editorClassName').innerHTML)
-        // };
+
+    // const onEditorStateChange = (editorState) => {
+    //     setEditorState(editorState)
+    //     setHtml(document.querySelector('.editorClassName').innerHTML)
+    // };
     const onChangeFa = (evt) => {
-        console.log("test", evt.editor);
         setHtml(evt.editor.getData());
     };
 
     const onFinish = (values) => {
-        console.log('Success:', values);
-        createHtml(values)
+        if (id) {
+            updateHtml(values)
+        } else {
+            createHtml(values)
+        }
     }
 
     // Handle create content html
     const createHtml = (data) => {
+        setloading(true)
         let payload = {
             "title": data?.title,
             "body": html,
         }
 
-        console.log("createHtml", payload)
-
         axios.post(`${BASE_URL}/panel/contents/`, payload)
             .then(res => {
+                setloading(false)
                 if (res.data.code === 201) {
                     successNotification("ایجاد محتوا", "محتوا با موفقیت ایجاد شد")
                     setTimeout(() => {
-                        // window.location.reload()
+                        window.location.href = "#/show-content"
                     }, 1200);
                 }
             }).catch(err => {
+                setloading(false)
                 console.log(err);
                 failNotification("خطا در ایجاد محتوا", "")
             })
     }
 
+
+    // Handle Update content html
+    const updateHtml = (data) => {
+        setloading(true)
+        let payload = {
+            "title": data?.title,
+            "body": html,
+        }
+        axios.patch(`${BASE_URL}/panel/contents/${id}/`, payload)
+            .then(res => {
+                setloading(false)
+                if (res.data.data.statusCode !== 400 && res.data.data.statusCode !== 403) {
+                    successNotification("ویرایش اطلاعات", "ویرایش اطلاعات با موفقیت انجام شد")
+                    setTimeout(() => {
+                        window.location.href = "#/show-content"
+                    }, 1200);
+                } else {
+                    failNotification("خطا", res.data.data.error_message[0])
+                }
+            })
+            .catch(err => {
+                setloading(false)
+                console.error(err)
+                failNotification("خطا", err.response.data.data.error_message[0])
+            })
+    }
+
+
+    const getContetnList = () => {
+        setloading(true)
+        axios.get(`${BASE_URL}/panel/contents/${id}/`)
+            .then(resp => {
+                setloading(false)
+                if (resp.data.code === 200) {
+
+                    setContentValue(resp.data.data.result)
+                }
+
+            })
+            .catch(err => {
+                setloading(false)
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        if (id) {
+            getContetnList()
+        }
+    }, [id]);
+
+    useEffect(() => {
+        form.setFieldsValue({
+            "title": contentValue?.title,
+        })
+    }, [id, contentValue]);
 
     const uploadImageCallBack = (file) => {
         let uploadedImage = uploadedImages;
@@ -114,7 +173,7 @@ function TextEditorDraft() {
                             axios.put(resp.data.data.result.upload_url, file)
                                 .then(resp1 => {
                                     if (resp1.status === 200) {
-                                        console.log("---->", resp1)
+                                        // console.log("---->", resp1)
                                         axios.post(`${BASE_URL}/core/media/photos/`, {
                                             "media_path": resp.data.data.result.upload_url,
                                             "type": "image",
@@ -126,7 +185,7 @@ function TextEditorDraft() {
                                                     setCoreUpload(resp2.data.data.result)
                                                     setUploaded(true)
                                                     setUploading(false)
-                                                    console.log(resp2.data.data.result)
+                                                    // console.log(resp2.data.data.result)
                                                     // resolve(resp2.data.data.result.exact_url);
                                                     resolve({ data: { link: resp2.data.data.result.exact_url } });
                                                 }
@@ -150,7 +209,7 @@ function TextEditorDraft() {
             }
         );
     }
-console.log(sourceClicked);
+    // console.log(sourceClicked);
     return (
         <React.Fragment>
             <Form
@@ -225,13 +284,13 @@ console.log(sourceClicked);
                                     config={{
                                         allowedContent: true,
                                     }}
-                                    content={html ? html : ""}
+                                    content={html ? html : contentValue?.body}
                                     activeClass="mt-4 "
                                     events={{
                                         change: onChangeFa,
                                         focus: (editor) => {
-                                            console.log('Editor is ready to use!', editor);
-                                            document.querySelector('.cke_button__source').addEventListener("click", (eventListener) => { setSourceClicked( state => !state ) })
+                                            // console.log('Editor is ready to use!', editor);
+                                            document.querySelector('.cke_button__source').addEventListener("click", (eventListener) => { setSourceClicked(state => !state) })
                                         }
                                     }}
                                 />
