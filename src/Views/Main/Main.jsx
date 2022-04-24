@@ -367,7 +367,7 @@ function Main(props) {
                             >
                           <NavLink 
                               id={13}
-                              to={"/create-content"} 
+                              to={"/show-content"} 
                               className="mr-2" 
                               onClick={ e=> toggleActiveNavDrawer(e.currentTarget.id) }
                           >
